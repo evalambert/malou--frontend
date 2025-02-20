@@ -7,8 +7,8 @@
 
 @font-face {
 	font-family: "BradfordLL-Bold";
-	src: url("../../../public/fonts/BradfordLL-Bold.otf") format("woff2"),
-		url("../../../public/fonts/BradfordLL-Bold.otf") format("woff");
+	src: url("../../../fonts/BradfordLL-Bold.woff2") format("woff2"),
+		url("../../../fonts/BradfordLL-Bold.woff") format("woff");
     font-weight: 700;
     font-style: normal;
 }
