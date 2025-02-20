@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+
+/* -------------------------------------------------------------------- */
+/* TYPOGRAPHY */
+/* -------------------------------------------------------------------- */
+
+@font-face {
+	font-family: "BradfordLL-Bold";
+	src: url("../../../public/fonts/BradfordLL-Bold.otf") format("woff2"),
+		url("../../../public/fonts/BradfordLL-Bold.otf") format("woff");
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+
+/* -------------------------------------------------------------------- */
+/* TAILWIND */
+/* -------------------------------------------------------------------- */
+@theme{
+
+    /* Typography */
+    --font-bradford: "BradfordLL-Bold", "serif";
+    --text-base: 32px;
+    
+}
