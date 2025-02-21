@@ -3,24 +3,31 @@ import fetchApi from '../../lib/strapi';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
+  console.log("Début getStaticPaths");
   const actus = await fetchApi({
     endpoint: 'actus?populate=*',
     wrappedByKey: 'data',
   });
-
-  return actus.map((actu) => ({
-    params: { slug: actu.slug },
-    props: actu,
-  }));
+  
+  console.log("Données récupérées:", JSON.stringify(actus, null, 2));
+  
+  return actus.map((actu) => {
+    console.log("Mapping actu:", JSON.stringify(actu, null, 2));
+    return {
+      params: { slug: actu.slug },
+      props: { ...actu }
+    };
+  });
 }
 
-const actu = Astro.props;
+const { ...actu } = Astro.props;
+console.log("Props reçues:", JSON.stringify(actu, null, 2));
+
 ---
+
 <Layout title="Actu">
-
-    <h1>{actu.title}</h1>
-
-    <!-- Render plain text -->
-    <p>{actu.structure}</p>
+    <pre>{JSON.stringify(actu, null, 2)}</pre>
+    <h1>{actu?.title || 'Titre non disponible'}</h1>
+    <p>{actu?.structure || 'Structure non disponible'}</p>
 </Layout>
 
