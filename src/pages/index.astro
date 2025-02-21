@@ -28,7 +28,9 @@ export const prerender = true;
 		<h2 class="font-bradford text-base">weavings</h2>
 		{
 			weavings.map((weaving) => (
-				<li>{weaving.title}</li>
+				<li>
+					<a href={`/weaving/${weaving.slug}/`}>{weaving.title}</a>
+				</li>
 			))
 		}
 	</main>
