@@ -23,6 +23,8 @@ export async function getStaticPaths() {
 const { ...actu } = Astro.props;
 console.log("Props reçues:", JSON.stringify(actu, null, 2));
 
+export const prerender = true;
+
 ---
 
 <Layout title="Actu">
