@@ -3,7 +3,7 @@ import vercel from '@astrojs/vercel';
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  output: 'static',  // Changez 'server' en 'static'
+  output: 'server',  // Changez 'server' en 'static'
   adapter: vercel({
     imageService: true,
     webAnalytics: {
