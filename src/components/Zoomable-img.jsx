@@ -53,7 +53,15 @@ export default function ZoomableImg({ url}) {
 
     return (
         <div>
-            <div ref={viewerRef} id="openseadragon-viewer" className='w-[80vw] h-[80vh] border border-amber-600'></div>
+            <div 
+                ref={viewerRef} 
+                id="openseadragon-viewer" 
+                style={{
+                    width: '80vw',
+                    height: '80vh',
+                    border: '1px solid #99b333'
+                }}
+            ></div>
         </div>
     );
 }
