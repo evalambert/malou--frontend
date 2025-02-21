@@ -1,13 +1,30 @@
 ---
+import fetchApi from '../lib/strapi';
 import Layout from '../layouts/Layout.astro';
 import "../assets/styles/global.css";
 
+const actus = await fetchApi({
+  endpoint: 'actus?populate=*', // the content type to fetch
+  wrappedByKey: 'data', // the key to unwrap the response
+});
 
 export const prerender = true;
 ---
 
 <Layout title="Home">
 	<main>
-		<h1>Hello World</h1>
+		<h1 class="font-bradford">Hello World</h1>
+		{
+			actus.map((actu) => (
+			  <li>
+				<a href={`/actu/${actu.slug}/`}>
+				  {actu.title}
+				</a>
+			  </li>
+			))
+		  }
 	</main>
 </Layout>
+
+
+
