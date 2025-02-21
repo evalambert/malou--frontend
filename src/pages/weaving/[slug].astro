@@ -1,0 +1,31 @@
+---
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+import ZoomableImg from '../../components/Zoomable-img.jsx';
+
+export async function getStaticPaths() {
+    const weavings = await fetchApi({
+        endpoint: "weavings?populate=*",
+        wrappedByKey: "data",
+    });
+
+    return weavings.map((weaving) => {
+        return {
+            params: { slug: weaving.slug },
+            props: { ...weaving },
+        };
+    });
+}
+
+const { ...weaving } = Astro.props;
+
+export const prerender = true;
+---
+
+<Layout title="Weaving">
+    <h1 class="font-bradford text-base">
+        {weaving?.title || "Titre non disponible"}
+    </h1>
+    <ZoomableImg name={weaving.medias[0].url} />
+    {weaving.medias.map((media) => <img src={media.url} alt={media.name} />)}
+</Layout>
