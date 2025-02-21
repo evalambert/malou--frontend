@@ -1,11 +1,14 @@
 ---
-import fetchApi from '../lib/strapi';
-import Layout from '../layouts/Layout.astro';
-import "../assets/styles/global.css";
+import fetchApi from "../lib/strapi";
+import Layout from "../layouts/Layout.astro";
 
 const actus = await fetchApi({
-  endpoint: 'actus?populate=*', // the content type to fetch
-  wrappedByKey: 'data', // the key to unwrap the response
+	endpoint: "actus?populate=*", // the content type to fetch
+	wrappedByKey: "data", // the key to unwrap the response
+});
+const weavings = await fetchApi({
+	endpoint: "weavings?populate=*", // the content type to fetch
+	wrappedByKey: "data", // the key to unwrap the response
 });
 
 export const prerender = true;
@@ -13,18 +16,20 @@ export const prerender = true;
 
 <Layout title="Home">
 	<main>
-		<h1 class="font-bradford">Hello World</h1>
+		<h1 class="font-bradford text-base">malou raulin</h1>
+		<h2 class="font-bradford text-base">actualités</h2>
 		{
 			actus.map((actu) => (
-			  <li>
-				<a href={`/actu/${actu.slug}/`}>
-				  {actu.title}
-				</a>
-			  </li>
+				<li>
+					<a href={`/actu/${actu.slug}/`}>{actu.title}</a>
+				</li>
 			))
-		  }
+		}
+		<h2 class="font-bradford text-base">weavings</h2>
+		{
+			weavings.map((weaving) => (
+				<li>{weaving.title}</li>
+			))
+		}
 	</main>
 </Layout>
-
-
-
