@@ -25,7 +25,7 @@ export default async function fetchApi({
     Object.entries(query).forEach(([key, value]) => {
       url.searchParams.append(key, value);
     });
-  }
+  } 
   
   try {
     const res = await fetch(url.toString());
