@@ -1,0 +1,26 @@
+---
+import fetchApi from '../../lib/strapi';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const actus = await fetchApi({
+    endpoint: 'actus?populate=*',
+    wrappedByKey: 'data',
+  });
+
+  return actus.map((actu) => ({
+    params: { slug: actu.slug },
+    props: actu,
+  }));
+}
+
+const actu = Astro.props;
+---
+<Layout title="Actu">
+
+    <h1>{actu.title}</h1>
+
+    <!-- Render plain text -->
+    <p>{actu.structure}</p>
+</Layout>
+
