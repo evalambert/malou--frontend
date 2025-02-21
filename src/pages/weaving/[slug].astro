@@ -26,6 +26,7 @@ export const prerender = true;
     <h1 class="font-bradford text-base">
         {weaving?.title || "Titre non disponible"}
     </h1>
-    <ZoomableImg name={weaving.medias[0].url} />
-    {weaving.medias.map((media) => <img src={media.url} alt={media.name} />)}
+    {weaving.medias.map((media) => 
+        <ZoomableImg url={media.url} client:only />
+    )}
 </Layout>
