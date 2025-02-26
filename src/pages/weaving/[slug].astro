@@ -4,22 +4,29 @@ import Layout from "../../layouts/Layout.astro";
 import ZoomableImg from '../../components/Zoomable-img.jsx';
 
 export async function getStaticPaths() {
-    const weavings = await fetchApi({
-        endpoint: "weavings?populate=*",
-        wrappedByKey: "data",
-    });
+    try {
+        const weavings = await fetchApi({
+            endpoint: "weavings?populate=*",
+            wrappedByKey: "data",
+        });
 
-    console.log("Static paths:", weavings);
-
-    return weavings.map((weaving) => {
-        return {
-            params: { slug: weaving.slug },
-            props: { ...weaving },
-        };
-    });
+        // Vérification et filtrage des données valides 
+        return weavings
+            .filter(weaving => weaving && weaving.slug) // Filtrer les entrées sans slug
+            .map((weaving) => {
+                console.log("Generating path for slug:", weaving.slug); // Debug
+                return {
+                    params: { slug: weaving.slug },
+                    props: { weaving } // Passer l'objet complet comme prop
+                };
+            });
+    } catch (error) {
+        console.error("Erreur dans getStaticPaths:", error);
+        throw error; // Propager l'erreur pour la voir dans les logs
+    }
 }
 
-const { ...weaving } = Astro.props;
+const { weaving } = Astro.props; // Destructurer directement weaving
 console.log("Page props:", weaving); 
 
 export const prerender = true;
@@ -29,7 +36,7 @@ export const prerender = true;
     <h1 class="font-bradford text-base">
         {weaving?.title || "Titre non disponible"}
     </h1>
-    {weaving.medias.map((media) => 
+    {weaving?.medias?.map((media) => 
         <ZoomableImg url={media.url} client:only />
     )}
 </Layout>
