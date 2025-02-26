@@ -9,6 +9,8 @@ export async function getStaticPaths() {
         wrappedByKey: "data",
     });
 
+    console.log("Static paths:", weavings);
+
     return weavings.map((weaving) => {
         return {
             params: { slug: weaving.slug },
@@ -18,6 +20,7 @@ export async function getStaticPaths() {
 }
 
 const { ...weaving } = Astro.props;
+console.log("Page props:", weaving); 
 
 export const prerender = true;
 ---

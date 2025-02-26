@@ -6,7 +6,7 @@ import react from '@astrojs/react';
 
 export default defineConfig({
   // Changez 'server' en 'static'
-  output: 'server',
+  output: 'static',
 
   adapter: vercel({
     imageService: true,
