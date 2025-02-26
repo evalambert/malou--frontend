@@ -7,6 +7,15 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "astro",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build"
+    }
+  ],
   "dependencies": {
     "@astrojs/react": "^4.2.0",
     "@astrojs/vercel": "8.0.1",
