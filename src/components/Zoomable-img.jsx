@@ -1,14 +1,13 @@
 import { useEffect, useRef } from 'react';
 import OpenSeadragon from 'openseadragon';
 
-
-export default function ZoomableImg({ url}) {
-
+export default function ZoomableImg({ url, disabled }) {
     const viewerRef = useRef(null);
+    const viewerInstanceRef = useRef(null);
 
     useEffect(() => {
-        if (viewerRef.current) {
-            const viewer = new OpenSeadragon({
+        if (viewerRef.current && !viewerInstanceRef.current) {
+            viewerInstanceRef.current = new OpenSeadragon({
                 element: viewerRef.current,
                 tileSources: {
                     type: 'image',
@@ -19,18 +18,12 @@ export default function ZoomableImg({ url}) {
                     ajaxHeaders: {
                         'Access-Control-Allow-Origin': '*'
                     },
-                    success: function(event) {
-                        console.log("Image loaded successfully");
-                    },
-                    error: function(event) {
-                        console.error("Error loading image:", event);
-                    },
                     rendererSettings: {
                         preserveImageSizeOnResize: true,
                         willReadFrequently: true
                     }
                 },
-                debugMode: false,
+                debugMode: true,
                 showNavigator: false,
                 showZoomControl: false,
                 showHomeControl: false,
@@ -42,14 +35,51 @@ export default function ZoomableImg({ url}) {
                 constrainDuringPan: true,
                 visibilityRatio: 1,
                 homeFillsViewer: true,
+                gestureSettingsTouch: {
+                    clickToZoom: false
+                },
+                gestureSettingsMouse: {
+                    clickToZoom: false
+                }
             });
 
             return () => {
-                viewer.destroy();
+                if (viewerInstanceRef.current) {
+                    viewerInstanceRef.current.destroy();
+                    viewerInstanceRef.current = null;
+                }
             };
         }
     }, [url]);
 
+    useEffect(() => {
+        if (viewerInstanceRef.current) {
+            console.log('isZoomableImgDisabled', disabled);
+            
+            const zoomToCenter = (viewer, zoomLevel) => {
+                const centerPoint = new OpenSeadragon.Point(0.5, 0.5);
+                viewer.viewport.zoomTo(zoomLevel, centerPoint, false);
+            };
+
+            const centerView = (viewer) => {
+                viewer.viewport.panTo(new OpenSeadragon.Point(0.5, 0.5), false);
+            };
+
+            if (disabled) {
+                zoomToCenter(viewerInstanceRef.current, 2);
+            } else {
+                centerView(viewerInstanceRef.current);
+                const center = viewerInstanceRef.current.viewport.getCenter();
+                console.log('Coordonnées OpenSeadragon:', {
+                    x: center.x,
+                    y: center.y
+                });
+                setTimeout(() => {
+                    zoomToCenter(viewerInstanceRef.current, 1);
+                }, 100);
+            }
+        }
+    }, [disabled]);
 
     return (
         <div>
@@ -57,8 +87,8 @@ export default function ZoomableImg({ url}) {
                 ref={viewerRef} 
                 id="openseadragon-viewer" 
                 style={{
-                    width: '80vw',
-                    height: '80vh',
+                    width: '100vw',
+                    height: '100vh',
                     border: '1px solid #99b333'
                 }}
             ></div>
