@@ -1,0 +1,27 @@
+---
+//pages/volume.astro
+
+import fetchApi from "../lib/strapi";
+import Layout from "../layouts/Layout.astro";
+
+
+const volumes = await fetchApi({
+	endpoint: "volumes?populate=*",
+	wrappedByKey: "data",
+});
+
+export const prerender = true;
+---
+
+<Layout title="poetry">
+	<main>
+		<h2 class="font-bradford text-base">volume</h2>
+		{
+			volumes.map((volume) => (
+				<li>
+					<a href={`/volume/${volume.slug}`}>{volume.title}</a>
+				</li>
+			))
+		}
+	</main>
+</Layout>
