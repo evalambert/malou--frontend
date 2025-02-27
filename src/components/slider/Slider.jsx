@@ -97,7 +97,7 @@ export default function Slider({ medias = [] }) {
                 {medias.map((media, index) => (
                     <SwiperSlide
                         key={index}
-                        className="bg-red-500"
+                        className="bg-red-800"
                     >
                         <ZoomableImg url={media.url} />
                     </SwiperSlide>
