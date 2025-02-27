@@ -17,7 +17,8 @@
     "openseadragon": "^5.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "swiper": "^11.2.4"
+    "swiper": "^11.2.4",
+    "zwitch": "^2.0.4"
   },
   "type": "module"
 }
