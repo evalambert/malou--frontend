@@ -4,7 +4,7 @@ const ZoomableImg = ({ url }) => {
     // Render
     return (
         <div className="swiper-zoom-container">
-            <img src={url} className=''/>
+            <img src={url} loading="lazy"/>
         </div>
     );
 };

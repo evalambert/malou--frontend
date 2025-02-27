@@ -81,12 +81,12 @@ export default function Slider({ medias = [] }) {
             </style>
             <Swiper
                 ref={swiperRef}
+                loop={true}
                 zoom={{
                     maxRatio: 3,
                     panOnMouseMove : true,
                     limitToOriginalSize: true
                 }}
-                loop={true}
                 keyboard={{
                     enabled: true,
                 }}
@@ -97,7 +97,7 @@ export default function Slider({ medias = [] }) {
                 {medias.map((media, index) => (
                     <SwiperSlide
                         key={index}
-                        style={{ cursor: 'pointer' }}
+                        className="bg-red-500"
                     >
                         <ZoomableImg url={media.url} />
                     </SwiperSlide>
