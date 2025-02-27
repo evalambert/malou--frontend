@@ -83,7 +83,7 @@ export default function Slider({ medias = [] }) {
                 ref={swiperRef}
                 zoom={{
                     maxRatio: 3,
-                    // panOnMouseMove : true,
+                    panOnMouseMove : true,
                     limitToOriginalSize: true
                 }}
                 loop={true}
