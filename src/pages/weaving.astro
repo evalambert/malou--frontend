@@ -1,0 +1,27 @@
+---
+//pages/weaving.astro
+
+import fetchApi from "../lib/strapi";
+import Layout from "../layouts/Layout.astro";
+
+
+const weavings = await fetchApi({
+	endpoint: "weavings?populate=*", // the content type to fetch
+	wrappedByKey: "data", // the key to unwrap the response
+});
+
+export const prerender = true;
+---
+
+<Layout title="Painting">
+	<main>
+		<h2 class="font-bradford text-base">weaving</h2>
+		{
+			weavings.map((weaving) => (
+				<li>
+					<a href={`/weaving/${weaving.slug}`}>{weaving.title}</a>
+				</li>
+			))
+		}
+	</main>
+</Layout>

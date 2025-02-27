@@ -1,24 +1,4 @@
-//Actu.jsx
-
-/* const Actu = ({ actus }) => {
-    return (
-      <div>
-        <button>Actualités :</button>
-        <ul>
-          {actus.map((actu) => (
-            <li key={actu.id}>
-              <a href={`/actu/${actu.slug}/`}>{actu.title}</a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-  
-export default Actu;
-  
-
- */
+//layouts/Actu.jsx
 
 const Actu = ({ actus }) => {
   const currentDate = new Date(); // Récupérer la date actuelle

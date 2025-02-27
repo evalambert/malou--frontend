@@ -1,10 +1,9 @@
 ---
-import "../assets/styles/global.css";
-export interface Props {
-	title: string;
-}
+//layouts/Layout.astro
 
-const { title } = Astro.props as Props;
+import "../assets/styles/global.css";
+
+const { title } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -20,7 +19,3 @@ const { title } = Astro.props as Props;
 		<slot />
 	</body>
 </html>
-
-<style>
-
-</style>
