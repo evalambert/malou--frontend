@@ -1,9 +1,14 @@
 ---
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-import ZoomableImg from '../../components/Zoomable-img.jsx';
+import Slider from '../../components/slider/Slider.jsx';
+// import SliderOsd from '../../components/slider/Slider-osd.jsx';
+
 
 export async function getStaticPaths() {
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
+    // Récupérer les données des tissages
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
     try {
         const weavings = await fetchApi({
             endpoint: "weavings?populate=*",
@@ -24,6 +29,7 @@ export async function getStaticPaths() {
         console.error("Erreur dans getStaticPaths:", error);
         throw error; // Propager l'erreur pour la voir dans les logs
     }
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
 }
 
 const { weaving } = Astro.props; // Destructurer directement weaving
@@ -33,10 +39,13 @@ export const prerender = true;
 ---
 
 <Layout title="Weaving">
-    <h1 class="font-bradford text-base">
+    
+    <h1 class="font-bradford text-base fixed top-[20px] left-[20px] z-10">
         {weaving?.title || "Titre non disponible"}
     </h1>
-    {weaving?.medias?.map((media) => 
-        <ZoomableImg url={media.url} client:only />
-    )}
+
+    <Slider client:only medias={weaving?.medias || []} />
+    
+    <!-- <SliderOsd client:only medias={weaving?.medias || []} /> -->
+    
 </Layout>

@@ -1,67 +1,12 @@
-import { useEffect, useRef } from 'react';
-import OpenSeadragon from 'openseadragon';
 
+const ZoomableImg = ({ url }) => {
 
-export default function ZoomableImg({ url}) {
-
-    const viewerRef = useRef(null);
-
-    useEffect(() => {
-        if (viewerRef.current) {
-            const viewer = new OpenSeadragon({
-                element: viewerRef.current,
-                tileSources: {
-                    type: 'image',
-                    url: url,
-                    crossOriginPolicy: 'Anonymous',
-                    ajaxWithCredentials: false,
-                    loadTilesWithAjax: true,
-                    ajaxHeaders: {
-                        'Access-Control-Allow-Origin': '*'
-                    },
-                    success: function(event) {
-                        console.log("Image loaded successfully");
-                    },
-                    error: function(event) {
-                        console.error("Error loading image:", event);
-                    },
-                    rendererSettings: {
-                        preserveImageSizeOnResize: true,
-                        willReadFrequently: true
-                    }
-                },
-                debugMode: false,
-                showNavigator: false,
-                showZoomControl: false,
-                showHomeControl: false,
-                showFullPageControl: false,
-                defaultZoomLevel: 1,
-                minZoomLevel: 1,
-                maxZoomLevel: 2,
-                preserveImageSizeOnResize: true,
-                constrainDuringPan: true,
-                visibilityRatio: 1,
-                homeFillsViewer: true,
-            });
-
-            return () => {
-                viewer.destroy();
-            };
-        }
-    }, [url]);
-
-
+    // Render
     return (
-        <div>
-            <div 
-                ref={viewerRef} 
-                id="openseadragon-viewer" 
-                style={{
-                    width: '80vw',
-                    height: '80vh',
-                    border: '1px solid #99b333'
-                }}
-            ></div>
+        <div className="swiper-zoom-container h-full w-full">
+            <img src={url} className='w-full h-full object-cover'/>
         </div>
     );
-}
+};
+
+export default ZoomableImg;
