@@ -14,6 +14,7 @@ export default function Slider({ medias = [] }) {
     const [mouseDownTime, setMouseDownTime] = useState(null);
 
 
+
     const handleMouseDown = () => {
         setMouseDownTime(Date.now());
     };
@@ -33,7 +34,7 @@ export default function Slider({ medias = [] }) {
                         }, 200)
                     );
                 } else {
-                // Double clic
+                    // Double clic
                     clearTimeout(clickTimeout);
                     setClickTimeout(null);
                 }
@@ -51,31 +52,58 @@ export default function Slider({ medias = [] }) {
 
 
     return (
-        <Swiper
-            ref={swiperRef}
-            zoom={{
-                maxRatio : 2,
-                panOnMouseMove : true,
-                limitToOriginalSize : true
-            }}
-            loop={true}
-            keyboard={{
-                enabled: true,
-            }}
-            modules={[Zoom, Keyboard]}
-            onTouchStart={handleMouseDown}
-            onTouchEnd={handleMouseUp}
-            className='w-screen h-screen'
-        >
-            {medias.map((media, index) => (
-                <SwiperSlide
-                    key={index}
-                    style={{ cursor: 'pointer' }}
-                    className="h-screen w-screen"
-                >
-                    <ZoomableImg url={media.url} />
-                </SwiperSlide>
-            ))}
-        </Swiper>
+        <>
+            <style>
+            {`
+                .swiper{
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    height: 100vh;
+                    width: 100vw;
+                }
+                .swiper-slide,
+                .swiper-zoom-container{
+                    height: 100vh;
+                    width: 100vw;
+                }
+                .swiper-zoom-container{
+                  display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .swiper-zoom-container img{
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+
+            `}
+            </style>
+            <Swiper
+                ref={swiperRef}
+                zoom={{
+                    maxRatio: 3,
+                    // panOnMouseMove : true,
+                    limitToOriginalSize: true
+                }}
+                loop={true}
+                keyboard={{
+                    enabled: true,
+                }}
+                modules={[Zoom, Keyboard]}
+                onTouchStart={handleMouseDown}
+                onTouchEnd={handleMouseUp}
+            >
+                {medias.map((media, index) => (
+                    <SwiperSlide
+                        key={index}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <ZoomableImg url={media.url} />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+        </>
+
     );
 };
