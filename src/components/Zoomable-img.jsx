@@ -10,3 +10,4 @@ const ZoomableImg = ({ url }) => {
 };
 
 export default ZoomableImg;
+ 
