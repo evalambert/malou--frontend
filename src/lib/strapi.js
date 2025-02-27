@@ -1,3 +1,5 @@
+/* lib/strapi.js */
+
 /**
  * Fetches data from the Strapi API
  * @param {Object} options - The options object

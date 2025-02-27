@@ -1,4 +1,4 @@
-//Actu.jsx
+//layout/Actu.jsx
 
 /* const Actu = ({ actus }) => {
     return (
