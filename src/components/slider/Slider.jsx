@@ -15,24 +15,38 @@ export default function Slider({ medias = [] }) {
 
 
 
-    const handleMouseDown = () => {
+    const handleMouseDown = (event) => {
         setMouseDownTime(Date.now());
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (event) => {
         if (mouseDownTime) {
             const duration = (Date.now() - mouseDownTime) / 1000;
             setMouseDownTime(null);
 
             if (duration < 0.15) {
+                // Capture coordinates immediately
+                const x = event.touches?.startX;
+                const viewportMiddle = window.innerWidth / 2;
+
                 // Click simple
                 if (clickTimeout === null) {
-                    setClickTimeout(
-                        setTimeout(() => {
-                            handleSingleClick();
-                            setClickTimeout(null);
-                        }, 200)
-                    );
+                    if (x < viewportMiddle ){
+                        setClickTimeout(
+                            setTimeout(() => {  
+                                handleSingleClickLeft();
+                                setClickTimeout(null);
+                            }, 200)
+                        );
+                    } else {
+                        setClickTimeout(
+                            setTimeout(() => {  
+                                handleSingleClickRight();
+                                setClickTimeout(null);
+                            }, 200)
+                        );
+                    }
+   
                 } else {
                     // Double clic
                     clearTimeout(clickTimeout);
@@ -42,10 +56,15 @@ export default function Slider({ medias = [] }) {
         }
     };
 
-    // Gestion du clic simple : change de slide
-    const handleSingleClick = () => {
+    // Gestion du clic simple : change de slide 
+    const handleSingleClickRight = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             swiperRef.current.swiper.slideNext();
+        }
+    };
+    const handleSingleClickLeft = () => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+            swiperRef.current.swiper.slidePrev();
         }
     };
 
@@ -68,15 +87,14 @@ export default function Slider({ medias = [] }) {
                     width: 100vw;
                 }
                 .swiper-zoom-container{
-                  display: flex;
+                    display: flex;
                     justify-content: center;
                     align-items: center;
                 }
-                .swiper-zoom-container img{
-                    max-width: 100%;
-                    max-height: 100%;
-                }
-
+                // .swiper-zoom-container img{
+                //     max-width: 100%;
+                //     max-height: 100%;
+                // }
             `}
             </style>
             <Swiper
@@ -93,6 +111,8 @@ export default function Slider({ medias = [] }) {
                 modules={[Zoom, Keyboard]}
                 onTouchStart={handleMouseDown}
                 onTouchEnd={handleMouseUp}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
             >
                 {medias.map((media, index) => (
                     <SwiperSlide
@@ -107,4 +127,3 @@ export default function Slider({ medias = [] }) {
 
     );
 };
-
