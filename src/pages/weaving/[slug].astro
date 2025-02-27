@@ -15,7 +15,7 @@ export async function getStaticPaths() {
             wrappedByKey: "data",
         });
 
-        // Vérification et filtrage des données valides 
+        // Vérification et filtrage des données valide s 
         return weavings
             .filter(weaving => weaving && weaving.slug) // Filtrer les entrées sans slug
             .map((weaving) => {
