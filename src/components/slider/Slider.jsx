@@ -81,30 +81,49 @@ export default function Slider({ medias = [] }) {
                     height: 100vh;
                     width: 100vw;
                 }
-                .swiper-slide,
-                .swiper-zoom-container{
-                    height: 100vh;
-                    width: 100vw;
+                .swiper-slide{
+                    width: 50%;
+                    overflow: hidden;
                 }
+                .swiper-slide:last-child{
+                    width: 100%;
+                    background-color: #fcfcfc;
+                }
+                .swiper-slide:last-child img{
+                    object-fit: initial;
+                    height: initial;
+                    width: initial;
+                    max-height: 100%;
+                    max-width: 100%;
+                }
+                // .swiper-slide,
+                // .swiper-zoom-container{
+                //     height: 100vh;
+                //     width: 100vw;
+                // }
                 .swiper-zoom-container{
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    height: 100%;
+                    width: 100%;
                 }
-                // .swiper-zoom-container img{
-                //     max-width: 100%;
-                //     max-height: 100%;
-                // }
+                .swiper-zoom-container img{
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                }
             `}
             </style>
             <Swiper
                 ref={swiperRef}
+                slidesPerView={'auto'}
                 zoom={{
                     maxRatio: 3,
                     panOnMouseMove : true,
                     limitToOriginalSize: true
                 }}
-                loop={true}
+                // loop={true}
                 keyboard={{
                     enabled: true,
                 }}
@@ -117,7 +136,6 @@ export default function Slider({ medias = [] }) {
                 {medias.map((media, index) => (
                     <SwiperSlide
                         key={index}
-                        className="bg-blue-500"
                     >
                         <ZoomableImg url={media.url} />
                     </SwiperSlide>
