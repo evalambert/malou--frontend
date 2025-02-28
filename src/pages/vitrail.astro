@@ -3,7 +3,7 @@
 
 import fetchApi from "../lib/strapi";
 import Layout from "../layouts/Layout.astro";
-
+import VitrailList from "../layouts/Vitrail-list.jsx";
 
 const vitraux = await fetchApi({
 	endpoint: "vitrails?populate=*",
@@ -15,13 +15,6 @@ export const prerender = true;
 
 <Layout title="Vitrail">
 	<main>
-		<h2 class="font-bradford text-base">vitrail</h2>
-		{
-			vitraux.map((vitrail) => (
-				<li>
-					<a href={`/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
-				</li>
-			))
-		}
+		<VitrailList dataVitrails={vitraux} client:only/>
 	</main>
 </Layout>
