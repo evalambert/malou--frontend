@@ -1,0 +1,27 @@
+---
+//pages/vitrail.astro
+
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+
+
+const vitraux = await fetchApi({
+	endpoint: "vitrails?populate=*",
+	wrappedByKey: "data",
+});
+
+export const prerender = true;
+---
+
+<Layout title="Vitrail">
+	<main>
+		<h2 class="font-bradford text-base">vitrail</h2>
+		{
+			vitraux.map((vitrail) => (
+				<li>
+					<a href={`/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
+				</li>
+			))
+		}
+	</main>
+</Layout>

@@ -15,6 +15,7 @@ export default async function fetchApi({
   query,
   wrappedByKey,
   wrappedByList,
+  locale
 }) {
   if (endpoint.startsWith('/')) {
     endpoint = endpoint.slice(1);

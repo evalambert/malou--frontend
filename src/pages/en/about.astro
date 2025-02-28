@@ -1,0 +1,23 @@
+---
+//pages/about.astro
+
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+import Actu from "../../layouts/Actu.jsx";
+
+const actus = await fetchApi({
+  endpoint: "actus?populate=*",
+  wrappedByKey: "data",
+});
+
+export const prerender = true;
+---
+
+<Layout title="About">
+  <main>
+    <h1>malou raulin</h1>
+    <Actu actus={actus} />
+  </main>
+</Layout>
+
+

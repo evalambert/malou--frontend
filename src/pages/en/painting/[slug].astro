@@ -1,0 +1,36 @@
+---
+//pages/painting/[slug].astro
+
+import fetchApi from "../../../lib/strapi";
+import Layout from "../../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  try {
+    const paintings = await fetchApi({
+      endpoint: "paintings?populate=*",
+      wrappedByKey: "data",
+    });
+
+    if (!Array.isArray(paintings)) {
+      return [];
+    }
+    return paintings.map((painting) => {
+      return {
+        params: { slug: painting.slug },
+        props: { painting },
+      };
+    });
+  } catch (error) {
+    console.error("Error fetching paintings:", error);
+    return [];
+  }
+}
+
+const { painting } = Astro.props;
+export const prerender = true;
+---
+
+<Layout title="Painting">
+  <h1>'hello'{painting?.title || "Titre non disponible"}</h1>
+  <p>{painting?.description || "Description non disponible"}</p>
+</Layout>
