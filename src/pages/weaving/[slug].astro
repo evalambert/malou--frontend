@@ -33,7 +33,7 @@ const { weaving } = Astro.props; // Destructurer directement weaving
 export const prerender = true;
 ---
 
-<Layout title="Weaving">
+<Layout title="Weaving"showReturn returnTo="">
     
     <h1 class="font-bradford text-base fixed top-[20px] left-[20px] z-10">
         {weaving?.title || "Titre non disponible"}

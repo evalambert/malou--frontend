@@ -8,7 +8,6 @@ import Layout from "../layouts/Layout.astro";
 const paintings = await fetchApi({
 	endpoint: "paintings?populate=*", // the content type to fetch
 	wrappedByKey: "data", // the key to unwrap the response
-	locale: "fr"
 });
 
 export const prerender = true;

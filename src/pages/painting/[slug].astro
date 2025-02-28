@@ -30,7 +30,7 @@ const { painting } = Astro.props;
 export const prerender = true;
 ---
 
-<Layout title="Painting">
+<Layout title="Painting" showReturn returnTo="">
   <h1>{painting?.title || "Titre non disponible"}</h1>
   <p>{painting?.description || "Description non disponible"}</p>
 </Layout>
