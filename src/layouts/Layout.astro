@@ -17,6 +17,7 @@ const currentLocale = Astro.currentLocale || 'fr';
 		<title>{title}</title>
 	</head>
 	<body class="font-bradford text-base">
+		
 		{showReturn && <ButtonReturn to={returnTo} />}
 		<slot />
 	</body>
