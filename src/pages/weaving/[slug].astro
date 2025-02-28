@@ -4,8 +4,6 @@
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 import Slider from '../../components/slider/Slider.jsx';
-// import SliderOsd from '../../components/slider/Slider-osd.jsx';
-
 
 export async function getStaticPaths() {
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
@@ -16,17 +14,13 @@ export async function getStaticPaths() {
             endpoint: "weavings?populate=*",
             wrappedByKey: "data",
         });
-
         // Vérification et filtrage des données valides 
-        return weavings
-            .filter(weaving => weaving && weaving.slug) // Filtrer les entrées sans slug
-            .map((weaving) => {
-                console.log("Generating path for slug:", weaving.slug); // Debug
-                return {
-                    params: { slug: weaving.slug },
-                    props: { weaving } // Passer l'objet complet comme prop
-                };
-            });
+        return weavings.map((weaving) => {
+            return {
+                params: { slug: weaving.slug },
+                props: { weaving }
+            };
+        });
     } catch (error) {
         console.error("Erreur dans getStaticPaths:", error);
         throw error; // Propager l'erreur pour la voir dans les logs
@@ -35,8 +29,7 @@ export async function getStaticPaths() {
 }
 
 const { weaving } = Astro.props; // Destructurer directement weaving
-console.log("Page props:", weaving); 
-
+//console.log("Page props:", weaving); 
 export const prerender = true;
 ---
 
