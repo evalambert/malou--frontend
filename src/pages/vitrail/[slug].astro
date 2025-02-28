@@ -1,9 +1,36 @@
 ---
 //pages/vitrail/[slug].astro
 
-export function getStaticPaths() {
-  return [
-    { params: { slug: 'placeholder' } }
-  ];
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  try {
+    const vitraux = await fetchApi({
+      endpoint: "vitrails?populate=*",
+      wrappedByKey: "data",
+    });
+
+    if (!Array.isArray(vitraux)) {
+      return [];
+    }
+    return vitraux.map((vitrail) => {
+      return {
+        params: { slug: vitrail.slug },
+        props: { vitrail },
+      };
+    });
+  } catch (error) {
+    console.error("Error fetching vitrails:", error);
+    return [];
+  }
 }
+
+const { vitrail } = Astro.props;
+export const prerender = true;
 ---
+
+<Layout title="Vitrail">
+  <h1>{vitrail?.title || "Titre non disponible"}</h1>
+  <p>{vitrail?.description || "Structure non disponible"}</p>
+</Layout>
