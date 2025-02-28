@@ -1,6 +1,6 @@
 ---
-//pages/vitrail.astro
-
+//pages/en/vitrail.astro
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 
@@ -9,6 +9,8 @@ const vitraux = await fetchApi({
 	endpoint: "vitrails?populate=*",
 	wrappedByKey: "data",
 });
+
+const vitrailURL = getRelativeLocaleUrl("en", "vitrail");
 
 export const prerender = true;
 ---
@@ -19,7 +21,7 @@ export const prerender = true;
 		{
 			vitraux.map((vitrail) => (
 				<li>
-					<a href={`/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
+					<a href={`${vitrailURL}${vitrail.slug}`}>{vitrail.title}</a>
 				</li>
 			))
 		}

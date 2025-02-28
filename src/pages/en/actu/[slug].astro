@@ -1,6 +1,5 @@
 ---
-//pages/actu/[slug].astro
-
+//pages/en/actu/[slug].astro
 import fetchApi from "../../../lib/strapi";
 import Layout from "../../../layouts/Layout.astro";
 
@@ -10,6 +9,7 @@ export async function getStaticPaths() {
     const actus = await fetchApi({
       endpoint: "actus?populate=*",
       wrappedByKey: "data",
+      locale: "en"
     });
 
     console.log("Données récupérées:", JSON.stringify(actus, null, 2));

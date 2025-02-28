@@ -1,6 +1,7 @@
 ---
-//pages/poetry.astro
+//pages/en/poetry.astro
 
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 
@@ -10,6 +11,7 @@ const poetries = await fetchApi({
 	wrappedByKey: "data",
 });
 
+const poetryURL = getRelativeLocaleUrl("en", "poetry");
 export const prerender = true;
 ---
 
@@ -19,7 +21,7 @@ export const prerender = true;
 		{
 			poetries.map((poetry) => (
 				<li>
-					<a href={`/poetry/${poetry.slug}`}>{poetry.title}</a>
+					<a href={`${poetryURL}${poetry.slug}`}>{poetry.title}</a>
 				</li>
 			))
 		}

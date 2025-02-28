@@ -1,15 +1,15 @@
 ---
-//pages/weaving.astro
-
+//pages/en/weaving.astro
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-
 
 const weavings = await fetchApi({
 	endpoint: "weavings?populate=*", // the content type to fetch
 	wrappedByKey: "data", // the key to unwrap the response
 });
 
+const weavingURL = getRelativeLocaleUrl("en", "weaving");
 export const prerender = true;
 ---
 
@@ -19,7 +19,7 @@ export const prerender = true;
 		{
 			weavings.map((weaving) => (
 				<li>
-					<a href={`/weaving/${weaving.slug}`}>{weaving.title}</a>
+					<a href={`${weavingURL}${weaving.slug}`}>{weaving.title}</a>
 				</li>
 			))
 		}

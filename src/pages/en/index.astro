@@ -1,6 +1,6 @@
 ---
-//pages/index.astro
-
+//pages/en/index.astro
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 import Nav from "../../layouts/Nav.astro";
@@ -11,6 +11,7 @@ const weavings = await fetchApi({
 	wrappedByKey: "data", // the key to unwrap the response
 });
 
+const indexURL = getRelativeLocaleUrl("en", "index");
 export const prerender = true;
 ---
 
