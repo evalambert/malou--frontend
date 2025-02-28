@@ -1,6 +1,5 @@
 ---
-//pages/enpainting.astro
-
+//pages/en/painting.astro
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
@@ -9,7 +8,6 @@ const paintings = await fetchApi({
 	endpoint: "paintings?populate=*", 
 	wrappedByKey: "data", 
 });
-
 
 const paintingURL = getRelativeLocaleUrl("en", "painting");
 

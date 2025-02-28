@@ -7,10 +7,11 @@
  * @param {Object} [options.query] - The query parameters to add to the url
  * @param {string} [options.wrappedByKey] - The key to unwrap the response from
  * @param {boolean} [options.wrappedByList] - If the response is a list, unwrap it
+ * @param {string} [options.locale] - The locale for the content
  * @returns {Promise}
  */
 
-export default async function fetchApi({
+export default async function fetchApi ({
   endpoint,
   query,
   wrappedByKey,
@@ -18,33 +19,38 @@ export default async function fetchApi({
   locale
 }) {
   if (endpoint.startsWith('/')) {
-    endpoint = endpoint.slice(1);
+    endpoint = endpoint.slice(1)
   }
 
-  const API_URL = "https://railwayapp-strapi-production-a8e8.up.railway.app"; // URL de base de votre API
-  const url = new URL(`${API_URL}/api/${endpoint}`);
+  const API_URL = 'https://railwayapp-strapi-production-a8e8.up.railway.app' // URL de base de votre API
+  const url = new URL(`${API_URL}/api/${endpoint}`)
 
   if (query) {
     Object.entries(query).forEach(([key, value]) => {
-      url.searchParams.append(key, value);
-    });
-  } 
-  
+      url.searchParams.append(key, value)
+    })
+  }
+
+  // Ajout du paramètre locale à l'URL si spécifié
+  if (locale) {
+    url.searchParams.append('locale', locale)
+  }
+
   try {
-    const res = await fetch(url.toString());
-    let data = await res.json();
+    const res = await fetch(url.toString())
+    let data = await res.json()
 
     if (wrappedByKey) {
-      data = data[wrappedByKey];
+      data = data[wrappedByKey]
     }
 
     if (wrappedByList) {
-      data = data[0];
+      data = data[0]
     }
 
-    return data;
+    return data
   } catch (error) {
-    console.error("Erreur lors de la récupération des données:", error);
-    throw error;
+    console.error('Erreur lors de la récupération des données:', error)
+    throw error
   }
 }

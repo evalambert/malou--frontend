@@ -1,6 +1,5 @@
 ---
 //pages/painting/[slug].astro
-
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 
@@ -8,7 +7,7 @@ export async function getStaticPaths() {
   try {
     const paintings = await fetchApi({
       endpoint: "paintings?populate=*",
-      wrappedByKey: "data",
+      wrappedByKey: "data"
     });
 
     if (!Array.isArray(paintings)) {

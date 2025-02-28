@@ -1,6 +1,6 @@
 ---
-//pages/about.astro
-
+//pages/en/about.astro
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 import Actu from "../../layouts/Actu.jsx";
@@ -10,12 +10,13 @@ const actus = await fetchApi({
   wrappedByKey: "data",
 });
 
+const aboutURL = getRelativeLocaleUrl("en", "about");
+
 export const prerender = true;
 ---
 
 <Layout title="About">
   <main>
-    <h1>malou raulin</h1>
     <Actu actus={actus} />
   </main>
 </Layout>

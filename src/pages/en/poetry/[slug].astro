@@ -1,6 +1,5 @@
 ---
-//pages/poetry/[slug].astro
-
+//pages/en/poetry/[slug].astro
 import fetchApi from "../../../lib/strapi";
 import Layout from "../../../layouts/Layout.astro";
 
@@ -9,6 +8,7 @@ export async function getStaticPaths() {
     const poetries = await fetchApi({
       endpoint: "poetries?populate=*",
       wrappedByKey: "data",
+      locale: "en"
     });
 
     if (!Array.isArray(poetries)) {
