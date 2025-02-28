@@ -1,9 +1,36 @@
 ---
 //pages/volume/[slug].astro
 
-export function getStaticPaths() {
-  return [
-    { params: { slug: 'placeholder' } }
-  ];
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  try {
+    const volumes = await fetchApi({
+      endpoint: "volumes?populate=*",
+      wrappedByKey: "data",
+    });
+
+    if (!Array.isArray(volumes)) {
+      return [];
+    }
+    return volumes.map((volume) => {
+      return {
+        params: { slug: volume.slug },
+        props: { volume },
+      };
+    });
+  } catch (error) {
+    console.error("Error fetching volumes:", error);
+    return [];
+  }
 }
+
+const { volume } = Astro.props;
+export const prerender = true;
 ---
+
+<Layout title="Volume">
+  <h1>{volume?.title || "Titre non disponible"}</h1>
+  <p>{volume?.description || "Description non disponible"}</p>
+</Layout>
