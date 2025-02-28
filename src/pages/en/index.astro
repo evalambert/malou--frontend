@@ -1,10 +1,9 @@
 ---
 //pages/index.astro
 
-import fetchApi from "../lib/strapi";
-import Layout from "../layouts/Layout.astro";
-import Nav from "../layouts/Nav.astro";
-
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../layouts/Nav.astro";
 
 
 const weavings = await fetchApi({

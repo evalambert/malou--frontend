@@ -1,0 +1,27 @@
+---
+//pages/poetry.astro
+
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+
+
+const poetries = await fetchApi({
+	endpoint: "poetries?populate=*",
+	wrappedByKey: "data",
+});
+
+export const prerender = true;
+---
+
+<Layout title="Poetry">
+	<main>
+		<h2 class="font-bradford text-base">poetry</h2>
+		{
+			poetries.map((poetry) => (
+				<li>
+					<a href={`/poetry/${poetry.slug}`}>{poetry.title}</a>
+				</li>
+			))
+		}
+	</main>
+</Layout>
