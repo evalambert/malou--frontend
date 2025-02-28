@@ -8,6 +8,7 @@ export async function getStaticPaths() {
     const vitraux = await fetchApi({
       endpoint: "vitrails?populate=*",
       wrappedByKey: "data",
+      locale: "en"
     });
 
     if (!Array.isArray(vitraux)) {
@@ -29,7 +30,7 @@ const { vitrail } = Astro.props;
 export const prerender = true;
 ---
 
-<Layout title="Vitrail">
+<Layout title="Vitrail" showReturn returnTo="">
   <h1>{vitrail?.title || "Titre non disponible"}</h1>
   <p>{vitrail?.description || "Structure non disponible"}</p>
 </Layout>

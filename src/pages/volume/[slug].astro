@@ -8,6 +8,7 @@ export async function getStaticPaths() {
     const volumes = await fetchApi({
       endpoint: "volumes?populate=*",
       wrappedByKey: "data",
+      locale: "fr"
     });
 
     if (!Array.isArray(volumes)) {

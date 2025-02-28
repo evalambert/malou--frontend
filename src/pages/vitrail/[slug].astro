@@ -8,6 +8,7 @@ export async function getStaticPaths() {
     const vitraux = await fetchApi({
       endpoint: "vitrails?populate=*",
       wrappedByKey: "data",
+      locale: "fr"
     });
 
     if (!Array.isArray(vitraux)) {

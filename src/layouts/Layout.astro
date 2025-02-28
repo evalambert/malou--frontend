@@ -2,12 +2,13 @@
 //layouts/Layout.astro
 
 import "../assets/styles/global.css";
-
-const { title } = Astro.props;
+import ButtonReturn from "../components/ButtonReturn.astro";
+const { title, showReturn = false, returnTo = '' } = Astro.props;
+const currentLocale = Astro.currentLocale || 'fr';
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={currentLocale}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -16,6 +17,7 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body class="font-bradford text-base">
+		{showReturn && <ButtonReturn to={returnTo} />}
 		<slot />
 	</body>
 </html>

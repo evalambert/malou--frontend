@@ -8,6 +8,7 @@ import Layout from "../../layouts/Layout.astro";
 const vitraux = await fetchApi({
 	endpoint: "vitrails?populate=*",
 	wrappedByKey: "data",
+	locale: "en"
 });
 
 const vitrailURL = getRelativeLocaleUrl("en", "vitrail");
@@ -15,7 +16,7 @@ const vitrailURL = getRelativeLocaleUrl("en", "vitrail");
 export const prerender = true;
 ---
 
-<Layout title="Vitrail">
+<Layout title="Vitrail" showReturn returnTo="">
 	<main>
 		<h2 class="font-bradford text-base">vitrail</h2>
 		{

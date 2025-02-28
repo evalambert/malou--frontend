@@ -37,7 +37,7 @@ console.log("Props reçues:", JSON.stringify(actu, null, 2));
 export const prerender = true;
 ---
 
-<Layout title="Actu">
+<Layout title="Actu" showReturn returnTo="">
   <!-- <pre>{JSON.stringify(actu, null, 2)}</pre> -->
   <h1>{actu?.title || "Titre non disponible"}</h1>
   <p>{actu?.structure || "Structure non disponible"}</p>

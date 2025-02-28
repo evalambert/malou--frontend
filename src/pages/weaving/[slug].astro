@@ -12,6 +12,7 @@ export async function getStaticPaths() {
         const weavings = await fetchApi({
             endpoint: "weavings?populate=*",
             wrappedByKey: "data",
+            locale: "fr"
         });
         // Vérification et filtrage des données valides 
         return weavings.map((weaving) => {

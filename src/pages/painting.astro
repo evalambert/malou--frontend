@@ -8,12 +8,13 @@ import Layout from "../layouts/Layout.astro";
 const paintings = await fetchApi({
 	endpoint: "paintings?populate=*", // the content type to fetch
 	wrappedByKey: "data", // the key to unwrap the response
+	locale: "fr"
 });
 
 export const prerender = true;
 ---
 
-<Layout title="Painting">
+<Layout title="Painting" showReturn returnTo="">
 	<main>
 		<h2 class="font-bradford text-base">painting</h2>
 		{

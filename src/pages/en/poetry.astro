@@ -9,13 +9,14 @@ import Layout from "../../layouts/Layout.astro";
 const poetries = await fetchApi({
 	endpoint: "poetries?populate=*",
 	wrappedByKey: "data",
+	locale: "en"
 });
 
 const poetryURL = getRelativeLocaleUrl("en", "poetry");
 export const prerender = true;
 ---
 
-<Layout title="Poetry">
+<Layout title="Poetry" showReturn returnTo="">
 	<main>
 		<h2 class="font-bradford text-base">poetry</h2>
 		{
