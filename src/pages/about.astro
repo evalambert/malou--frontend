@@ -8,15 +8,16 @@ import Actu from "../layouts/Actu.jsx";
 const actus = await fetchApi({
   endpoint: "actus?populate=*",
   wrappedByKey: "data",
+  locale: "fr"
 });
 
 export const prerender = true;
 ---
 
-<Layout title="About">
+<Layout title="About" showReturn returnTo="">
   <main>
     <Actu actus={actus} />
   </main>
 </Layout>
 
-
+x

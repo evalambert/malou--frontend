@@ -1,0 +1,11 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const { to = '' } = Astro.props;
+const locale = Astro.currentLocale || 'fr';
+const url = getRelativeLocaleUrl(locale, to);
+---
+
+<a href={url} class="fixed top-5 right-5 font-bradford hover:opacity-50 transition">
+    ← {locale === 'fr' ? 'Retour' : 'Back'}
+</a>

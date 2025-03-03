@@ -8,6 +8,7 @@ import Actu from "../../layouts/Actu.jsx";
 const actus = await fetchApi({
   endpoint: "actus?populate=*",
   wrappedByKey: "data",
+  locale: "en"
 });
 
 const aboutURL = getRelativeLocaleUrl("en", "about");
@@ -15,7 +16,7 @@ const aboutURL = getRelativeLocaleUrl("en", "about");
 export const prerender = true;
 ---
 
-<Layout title="About">
+<Layout title="About" showReturn returnTo="">
   <main>
     <Actu actus={actus} />
   </main>

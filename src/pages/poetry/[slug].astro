@@ -8,9 +8,11 @@ export async function getStaticPaths() {
     const poetries = await fetchApi({
       endpoint: "poetries?populate=*",
       wrappedByKey: "data",
+      locale: "fr"
     });
 
     if (!Array.isArray(poetries)) {
+      console.error("Les données reçues ne sont pas un tableau:", poetries);
       return [];
     }
     return poetries.map((poetry) => {
