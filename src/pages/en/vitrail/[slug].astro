@@ -12,6 +12,7 @@ export async function getStaticPaths() {
     });
 
     if (!Array.isArray(vitraux)) {
+      console.error("Les données reçues ne sont pas un tableau:", vitraux);
       return [];
     }
     return vitraux.map((vitrail) => {

@@ -12,6 +12,7 @@ export async function getStaticPaths() {
     });
 
     if (!Array.isArray(paintings)) {
+      console.error("Les données reçues ne sont pas un tableau:", paintings);
       return [];
     }
     return paintings.map((painting) => {
@@ -30,7 +31,8 @@ const { painting } = Astro.props;
 export const prerender = true;
 ---
 
-<Layout title="Painting" showReturn returnTo="">
+
+<Layout title={painting?.title || "Painting"} showReturn returnTo=""></Layout>
   <h1>{painting?.title || "Titre non disponible"}</h1>
   <p>{painting?.description || "Description non disponible"}</p>
 </Layout>

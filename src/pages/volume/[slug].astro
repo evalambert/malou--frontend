@@ -12,6 +12,7 @@ export async function getStaticPaths() {
     });
 
     if (!Array.isArray(volumes)) {
+      console.error("Les données reçues ne sont pas un tableau:", volumes);
       return [];
     }
     return volumes.map((volume) => {

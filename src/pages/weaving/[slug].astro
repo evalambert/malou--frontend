@@ -14,6 +14,10 @@ export async function getStaticPaths() {
             wrappedByKey: "data",
             locale: "fr"
         });
+        if (!Array.isArray(weavings)) {
+            console.error("Les données reçues ne sont pas un tableau:", weavings);
+            return [];
+        }
         // Vérification et filtrage des données valides 
         return weavings.map((weaving) => {
             return {
