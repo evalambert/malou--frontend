@@ -1,5 +1,5 @@
 ---
-//layouts/Layout.astro
+import { ClientRouter } from 'astro:transitions';
 
 import "../assets/styles/global.css";
 import ButtonReturn from "../components/ButtonReturn.astro";
@@ -15,6 +15,7 @@ const currentLocale = Astro.currentLocale || 'fr';
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<ClientRouter />
 	</head>
 	<body class="font-bradford text-base">
 		

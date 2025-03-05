@@ -3,7 +3,7 @@
 
 import fetchApi from "../lib/strapi";
 import Layout from "../layouts/Layout.astro";
-
+import WeavingList from "../layouts/Weaving-list.jsx";
 
 const weavings = await fetchApi({
 	endpoint: "weavings?populate=*", // the content type to fetch
@@ -11,18 +11,14 @@ const weavings = await fetchApi({
 	locale: "fr"
 });
 
+
+
 export const prerender = true;
 ---
 
+
 <Layout title="Weaving" showReturn returnTo="">
 	<main>
-		<h2 class="font-bradford text-base">weaving</h2>
-		{
-			weavings.map((weaving) => (
-				<li>
-					<a href={`/weaving/${weaving.slug}`}>{weaving.title}</a>
-				</li>
-			))
-		}
+		<WeavingList dataWeaving={weavings} client:only/>
 	</main>
 </Layout>
