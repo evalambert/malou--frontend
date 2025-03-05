@@ -2,7 +2,7 @@
 //pages/weaving/[slug].astro
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-import Slider from '../../components/slider/Slider.jsx';
+import Slider from "../../components/slider/Slider.jsx";
 
 export async function getStaticPaths() {
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
@@ -13,11 +13,11 @@ export async function getStaticPaths() {
             endpoint: "weavings?populate=*",
             wrappedByKey: "data",
         });
-        // Vérification et filtrage des données valides 
+        // Vérification et filtrage des données valides
         return weavings.map((weaving) => {
             return {
                 params: { slug: weaving.slug },
-                props: { weaving }
+                props: { weaving },
             };
         });
     } catch (error) {
@@ -27,19 +27,20 @@ export async function getStaticPaths() {
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
 }
 
+
 const { weaving } = Astro.props; // Destructurer directement weaving
-//console.log("Page props:", weaving); 
+//console.log("Page props:", weaving);
 export const prerender = true;
 ---
 
 <Layout title="Weaving">
-    
-    <h1 class="font-bradford text-base fixed top-[20px] left-[20px] z-10">
-        {weaving?.title || "Titre non disponible"}
+    <h1
+        class="font-bradford text-base"
+    >
+        {weaving.title.split("").map((letter, index) => (
+            <span>{letter}</span>
+        ))}
     </h1>
 
     <Slider client:only medias={weaving?.medias || []} />
-    
-    <!-- <SliderOsd client:only medias={weaving?.medias || []} /> -->
-    
 </Layout>
