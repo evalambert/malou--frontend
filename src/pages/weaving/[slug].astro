@@ -12,8 +12,14 @@ export async function getStaticPaths() {
         const weavings = await fetchApi({
             endpoint: "weavings?populate=*",
             wrappedByKey: "data",
+            locale: "fr"
         });
-        // Vérification et filtrage des données valides
+
+        if (!Array.isArray(weavings)) {
+            console.error("Les données reçues ne sont pas un tableau:", weavings);
+            return [];
+        }
+        // Vérification et filtrage des données valides 
         return weavings.map((weaving) => {
             return {
                 params: { slug: weaving.slug },
@@ -33,11 +39,12 @@ const { weaving } = Astro.props; // Destructurer directement weaving
 export const prerender = true;
 ---
 
-<Layout title="Weaving">
+
+<Layout title="Weaving" showReturn returnTo="">
     <h1
         class="font-bradford text-base"
     >
-        {weaving.title.split("").map((letter, index) => (
+        {weaving?.title.split("").map((letter, index) => (
             <span>{letter}</span>
         ))}
     </h1>

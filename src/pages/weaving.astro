@@ -8,6 +8,7 @@ import WeavingList from "../layouts/Weaving-list.jsx";
 const weavings = await fetchApi({
 	endpoint: "weavings?populate=*", // the content type to fetch
 	wrappedByKey: "data", // the key to unwrap the response
+	locale: "fr"
 });
 
 
@@ -15,7 +16,8 @@ const weavings = await fetchApi({
 export const prerender = true;
 ---
 
-<Layout title="Painting">
+
+<Layout title="Weaving" showReturn returnTo="">
 	<main>
 		<WeavingList dataWeaving={weavings} client:only/>
 	</main>

@@ -7,13 +7,14 @@ import Layout from "../../layouts/Layout.astro";
 const weavings = await fetchApi({
 	endpoint: "weavings?populate=*", // the content type to fetch
 	wrappedByKey: "data", // the key to unwrap the response
+	locale: "en"
 });
 
 const weavingURL = getRelativeLocaleUrl("en", "weaving");
 export const prerender = true;
 ---
 
-<Layout title="Weaving">
+<Layout title="Weaving" showReturn returnTo="">
 	<main>
 		<h2 class="font-bradford text-base">weaving</h2>
 		{

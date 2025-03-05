@@ -10,14 +10,14 @@ import Nav from "../layouts/Nav.astro";
 const weavings = await fetchApi({
 	endpoint: "weavings?populate=*", // the content type to fetch
 	wrappedByKey: "data", // the key to unwrap the response
+	locale: "fr"
 });
 
 export const prerender = true;
 ---
 
 <Layout title="Home">
-	<main> 
-		<h1 class="font-bradford text-base">malou raulin</h1>
+	<main>		
 		<Nav />
 	</main>
 </Layout>

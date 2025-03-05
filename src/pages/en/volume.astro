@@ -8,13 +8,14 @@ import Layout from "../../layouts/Layout.astro";
 const volumes = await fetchApi({
 	endpoint: "volumes?populate=*",
 	wrappedByKey: "data",
+	locale: "en"
 });
 
 const volumeURL = getRelativeLocaleUrl("en", "volume");
 export const prerender = true;
 ---
 
-<Layout title="Volume">
+<Layout title="Volume" showReturn returnTo="">
 	<main>
 		<h2 class="font-bradford text-base">volume</h2>
 		{

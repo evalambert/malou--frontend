@@ -8,9 +8,11 @@ export async function getStaticPaths() {
     const volumes = await fetchApi({
       endpoint: "volumes?populate=*",
       wrappedByKey: "data",
+      locale: "fr"
     });
 
     if (!Array.isArray(volumes)) {
+      console.error("Les données reçues ne sont pas un tableau:", volumes);
       return [];
     }
     return volumes.map((volume) => {
@@ -29,7 +31,7 @@ const { volume } = Astro.props;
 export const prerender = true;
 ---
 
-<Layout title="Volume">
+<Layout title="Volume" showReturn returnTo="">
   <h1>{volume?.title || "Titre non disponible"}</h1>
   <p>{volume?.description || "Description non disponible"}</p>
 </Layout>
