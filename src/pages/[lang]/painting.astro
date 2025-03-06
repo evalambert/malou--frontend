@@ -1,0 +1,35 @@
+---
+//pages/[lang]/painting.astro
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+import PaintingsList from "../../layouts/projects-lists/Paintings-list.jsx";
+import Nav from "../../layouts/Nav.astro";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+
+const paintings = await fetchApi({
+  endpoint: "paintings?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
+
+export const prerender = true;
+---
+
+<Layout title="Painting" showReturn returnTo="">
+  <main>
+    <PaintingsList
+      targetHref="/"
+      dataPaintings={paintings}
+      lang={lang}
+      client:load
+      isOnPaintingPage={true}
+      transition:name="paintingslist"
+      transition:persist
+    />
+  </main>
+</Layout>

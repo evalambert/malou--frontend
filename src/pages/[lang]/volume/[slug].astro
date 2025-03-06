@@ -1,0 +1,49 @@
+---
+//pages/[lang]/volume/[slug].astro
+import fetchApi from "../../../lib/strapi";
+import Layout from "../../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const languages = ["fr", "en"];
+  const paths = [];
+
+  for (const lang of languages) {
+    try {
+      const volumes = await fetchApi({
+        endpoint: "volumes?populate=*",
+        wrappedByKey: "data",
+        locale: lang,
+      });
+
+      if (!Array.isArray(volumes)) {
+        console.error("Les données reçues ne sont pas un tableau:", volumes);
+        continue;
+      }
+
+      const langPaths = volumes.map((volume) => ({
+        params: {
+          lang,
+          slug: volume.slug,
+        },
+        props: { volume },
+      }));
+
+      paths.push(...langPaths);
+    } catch (error) {
+      console.error(`Error fetching volumes for ${lang}:`, error);
+    }
+  }
+
+  return paths;
+}
+
+const { volume } = Astro.props;
+const { lang } = Astro.params;
+export const prerender = true;
+---
+
+
+<Layout title="Volume" showReturn returnTo={`/volume`}>
+  <h1>{volume?.title || "Titre non disponible"}</h1>
+  <p>{volume?.description || "Description non disponible"}</p>
+</Layout>

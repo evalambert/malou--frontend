@@ -1,0 +1,35 @@
+---
+//pages/poetry.astro
+
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+
+const poetries = await fetchApi({
+  endpoint: "poetries?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
+
+export const prerender = true;
+---
+
+<Layout title="Poetry" showReturn returnTo="">
+  <main>
+    <h2 class="font-bradford text-base">poetry</h2>
+    <ul>
+      {
+        poetries.map((poetry) => (
+          <li>
+            <a href={`/${lang}/poetry/${poetry.slug}`}>{poetry.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Layout>

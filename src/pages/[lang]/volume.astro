@@ -1,0 +1,31 @@
+---
+//pages/[lang]/volume.astro
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+const { lang } = Astro.params;
+
+const volumes = await fetchApi({
+  endpoint: "volumes?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
+
+export const prerender = true;
+---
+
+<Layout title="Volume" showReturn returnTo="">
+  <main>
+    <h2 class="font-bradford text-base">volume</h2>
+    {
+      volumes.map((volume) => (
+        <li>
+          <a href={`/${lang}/volume/${volume.slug}`}>{volume.title}</a>
+        </li>
+      ))
+    }
+  </main>
+</Layout>

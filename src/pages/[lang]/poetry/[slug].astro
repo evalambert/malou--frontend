@@ -1,0 +1,48 @@
+---
+//pages/[lang]/poetry/[slug].astro
+import fetchApi from "../../../lib/strapi";
+import Layout from "../../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const languages = ["fr", "en"];
+  const paths = [];
+
+  for (const lang of languages) {
+    try {
+      const poetries = await fetchApi({
+        endpoint: "poetries?populate=*",
+        wrappedByKey: "data",
+        locale: lang,
+      });
+
+      if (!Array.isArray(poetries)) {
+        console.error("Les données reçues ne sont pas un tableau:", poetries);
+        continue;
+      }
+
+      const langPaths = poetries.map((poetry) => ({
+        params: {
+          lang,
+          slug: poetry.slug,
+        },
+        props: { poetry },
+      }));
+
+      paths.push(...langPaths);
+    } catch (error) {
+      console.error(`Error fetching poetries for ${lang}:`, error);
+    }
+  }
+
+  return paths;
+}
+
+const { poetry } = Astro.props;
+const { lang } = Astro.params;
+export const prerender = true;
+---
+
+<Layout title="Poetry" showReturn returnTo={`/poetry`}>
+  <h1>{poetry?.title || "Titre non disponible"}</h1>
+  <p>{poetry?.description || "Description non disponible"}</p>
+</Layout>

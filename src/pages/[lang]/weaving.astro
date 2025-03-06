@@ -1,0 +1,27 @@
+---
+//pages/weaving.astro
+
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+import WeavingList from "../../layouts/projects-lists/Weaving-list.jsx";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+
+const weavings = await fetchApi({
+  endpoint: "weavings?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
+
+export const prerender = true;
+---
+
+<Layout title="Weaving" showReturn returnTo="">
+  <main>
+    <WeavingList dataWeaving={weavings} lang={lang} client:only />
+  </main>
+</Layout>

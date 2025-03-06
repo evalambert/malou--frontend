@@ -1,8 +1,12 @@
 import { useEffect } from "react";
 import { navigate } from "astro:transitions/client";
 
-const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref }) => {
-    useEffect(() => { }, [dataVitrails]);
+const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
+
+
+    useEffect(() => {
+
+    }, [dataVitrails]);
 
     console.log(dataVitrails);
 
@@ -27,7 +31,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref }) => {
                         {
                             dataVitrails.slice(0, 2).map((vitrail) => (
                                 <li className="text-right" key={vitrail.id}>
-                                    <a href={`/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
+                                    <a href={`${lang}/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
                                 </li>
                             ))
                         }

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { navigate } from "astro:transitions/client";
 
-const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref }) => {
+const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) => {
     useEffect(() => {
         const calculateLayout = () => {
             const liTitle = document.querySelectorAll("li.painting-title");
@@ -22,8 +22,8 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref }) => {
             });
         };
 
-        // Initial calculation
-        setTimeout(calculateLayout, 100);
+    // Initial calculation
+    setTimeout(calculateLayout, 100);
 
         // Add resize event listener
         window.addEventListener("resize", calculateLayout);
@@ -53,7 +53,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref }) => {
                     <ul className="painting-list-compact">
                         {dataPaintings.slice(0, 4).map((painting) => (
                             <li className="painting-title w-fit" key={painting.id}>
-                                <a href={`/painting/${painting.slug}`} className="block whitespace-nowrap">{painting.title}</a>
+                                <a href={`${lang}/painting/${painting.slug}`} className="block whitespace-nowrap">{painting.title}</a>
                             </li>
                         ))}
                     </ul>
@@ -70,7 +70,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref }) => {
                                     key={painting.id}
                                 >
                                     <a
-                                        href={`/painting/${painting.slug}`}
+                                        href={`${lang}/painting/${painting.slug}`}
                                         className="block whitespace-nowrap"
                                     >
                                         {painting.title}
