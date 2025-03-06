@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import { navigate } from "astro:transitions/client";
 
