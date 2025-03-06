@@ -14,11 +14,11 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
     return (
         <>
             <div
-                className={`fixed top-0 right-0 flex flex-col items-end border border-amber-400 ${!isOnVitrailPage ? "cursor-pointer" : ""
+                className={`flex flex-col items-end border border-amber-400 ${!isOnVitrailPage ? "cursor-pointer" : ""
                     }`}
                 onClick={
                     !isOnVitrailPage
-                        ? () => navigate(targetHref, { history: "push" })
+                        ? () => navigate(`/${lang}${targetHref}`, { history: "push" })
                         : undefined
                 }
             >
