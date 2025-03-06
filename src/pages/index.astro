@@ -4,15 +4,17 @@
 import fetchApi from "../lib/strapi";
 import Layout from "../layouts/Layout.astro";
 import Nav from "../layouts/Nav.astro";
-import Homepage from "../layouts/Homepage.jsx";
 import PaintingsList from "../layouts/projects-lists/Paintings-list.jsx";
 import VitrailList from "../layouts/projects-lists/Vitrail-list.jsx";
 
 const paintings = await fetchApi({
-  endpoint: "paintings?populate=*", // the content type to fetch
-  wrappedByKey: "data", // the key to unwrap the response
+  endpoint: "paintings?populate=*",
+  wrappedByKey: "data",
 });
-
+const vitraux = await fetchApi({
+  endpoint: "vitrails?populate=*",
+  wrappedByKey: "data",
+});
 
 export const prerender = true;
 ---
@@ -20,8 +22,15 @@ export const prerender = true;
 <Layout title="Home">
   <main>
     <Nav />
-    <!-- <Homepage dataVitrails={vitraux} dataPaintings={paintings} client:only/> -->
 
+    <VitrailList
+      targetHref="/vitrail"
+      dataVitrails={vitraux}
+      isOnVitrailPage={false}
+      client:load
+      transition:name="vitrailist"
+      transition:persist
+    />
     <PaintingsList
       targetHref="/painting"
       dataPaintings={paintings}
