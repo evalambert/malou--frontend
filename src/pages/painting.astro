@@ -16,6 +16,7 @@ export const prerender = true;
 <Layout title="Painting" showReturn returnTo="">
 	<main>
 		<PaintingsList
+			targetHref="/"
 			dataPaintings={paintings}
 			client:load
 			isOnPaintingPage={true}

@@ -24,7 +24,8 @@
     /* Typography */
     --font-bradford: "BradfordLL-Bold", "serif";
     --text-base: 25px;
-    --spacing-main: 30px;
+    --spacing-main: 0px;
+    --spacing-main-x-mobile: 15px; /* ! change value in Paintings-list.jsx */
 
 }
 
