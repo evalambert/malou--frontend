@@ -22,8 +22,8 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
             });
         };
 
-    // Initial calculation
-    setTimeout(calculateLayout, 100);
+        // Initial calculation
+        setTimeout(calculateLayout, 100);
 
         // Add resize event listener
         window.addEventListener("resize", calculateLayout);
@@ -41,7 +41,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
                     }`}
                 onClick={
                     !isOnPaintingPage
-                        ? () => navigate(targetHref, { history: "push" })
+                        ? () => navigate(`/${lang}${targetHref}`, { history: "push" })
                         : undefined
                 }
             >

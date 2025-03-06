@@ -18,7 +18,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
                     }`}
                 onClick={
                     !isOnVitrailPage
-                        ? () => navigate(targetHref, { history: "push" })
+                        ? () => navigate(`/${lang}${targetHref}`, { history: "push" })
                         : undefined
                 }
             >
