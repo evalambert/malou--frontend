@@ -9,35 +9,32 @@ import PaintingsList from "../layouts/projects-lists/Paintings-list.jsx";
 import VitrailList from "../layouts/projects-lists/Vitrail-list.jsx";
 
 const paintings = await fetchApi({
-	endpoint: "paintings?populate=*", // the content type to fetch
-	wrappedByKey: "data", // the key to unwrap the response
+  endpoint: "paintings?populate=*", // the content type to fetch
+  wrappedByKey: "data", // the key to unwrap the response
 });
-const vitraux = await fetchApi({
-	endpoint: "vitrails?populate=*",
-	wrappedByKey: "data",
-	locale: "fr",
-});
+
 
 export const prerender = true;
 ---
 
 <Layout title="Home">
-	<main>
-		<Nav />
-		<!-- <Homepage dataVitrails={vitraux} dataPaintings={paintings} client:only/> -->
+  <main>
+    <Nav />
+    <!-- <Homepage dataVitrails={vitraux} dataPaintings={paintings} client:only/> -->
 
-		<PaintingsList
-			dataPaintings={paintings}
-			isOnPaintingPage={false}
-			client:load
-			transition:name="paintingslist"
-			transition:persist
-		/>
-	</main>
+    <PaintingsList
+      targetHref="/painting"
+      dataPaintings={paintings}
+      isOnPaintingPage={false}
+      client:load
+      transition:name="paintingslist"
+      transition:persist
+    />
+  </main>
 
-	<script is:inline>
-		document.addEventListener("astro:before-preparation", (env) => {
-			console.log("Page cible:", env.to.pathname);
-		});
-	</script> 
+  <script is:inline>
+    document.addEventListener("astro:before-preparation", (env) => {
+      console.log("Page cible:", env.to.pathname);
+    });
+  </script>
 </Layout>
