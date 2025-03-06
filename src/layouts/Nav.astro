@@ -1,18 +1,42 @@
 ---
 //layouts/Nav.astro
 
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const { currentPage } = Astro.props;
+
 ---
-<div>
-  <h1><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'about')}>malou raulin</a></h1>
-  <nav>
-      <ul>
-        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'poetry')}>poetry</a></li>
-        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'painting')}>painting</a></li>
-        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'vitrail')}>vitrail</a></li>
-        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'volume')}>volume</a></li>
-        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'weaving')}>weaving</a></li>
-      </ul>
+
+<div class="flex gap-[10px]">
+  <h1>
+    <a
+      class="text-base leading-base"
+      href={getRelativeLocaleUrl(Astro.currentLocale || "fr", "about")}
+      >malou raulin</a>
+  </h1>
+  <nav class="pt-[6px]">
+    <ul>
+      <li>
+        <a href={getRelativeLocaleUrl(Astro.currentLocale || "fr", "poetry")}
+          >poetry,</a>
+      </li>
+      <li>
+        <a href={getRelativeLocaleUrl(Astro.currentLocale || "fr", "painting")}
+          >painting,</a>
+      </li>
+      <li>
+        <a href={getRelativeLocaleUrl(Astro.currentLocale || "fr", "vitrail")}
+          >vitrail,</a>
+      </li>
+      <li>
+        <a href={getRelativeLocaleUrl(Astro.currentLocale || "fr", "volume")}
+          >volume,</a>
+      </li>
+      <li>
+        <a href={getRelativeLocaleUrl(Astro.currentLocale || "fr", "weaving")}
+          >weaving,</a>
+      </li>
+    </ul>
   </nav>
 </div>
 

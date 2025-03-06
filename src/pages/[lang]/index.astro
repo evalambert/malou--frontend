@@ -3,7 +3,7 @@
 
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-import Nav from "../../layouts/Nav.astro";
+import Nav from "../../layouts/Nav.jsx";
 import PaintingsList from "../../layouts/projects-lists/Paintings-list.jsx";
 import VitrailList from "../../layouts/projects-lists/Vitrail-list.jsx";
 import VolumesList from "../../layouts/projects-lists/Volumes-list.jsx";
@@ -34,8 +34,8 @@ export const prerender = true;
 
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
-    <div class="fixed top-0 w-full flex justify-between">
-      <Nav />
+    <div class="fixed top-0 w-[calc(100%-(var(--spacing-main-x)*2))] flex justify-between">
+      <Nav lang={lang} />
       <VolumesList
         targetHref="/volume"
         lang={lang}
@@ -67,9 +67,10 @@ export const prerender = true;
     />
   </main>
 
-  <script is:inline>
+  <!-- <script is:inline>
+    // Ce script n'est plus nécessaire si nous utilisons directement Astro.url.pathname
     document.addEventListener("astro:before-preparation", (env) => {
       console.log("Page cible:", env.to.pathname);
     });
-  </script>
+  </script> -->
 </Layout>

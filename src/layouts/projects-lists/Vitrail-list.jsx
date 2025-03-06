@@ -8,7 +8,6 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
 
     }, [dataVitrails]);
 
-    console.log(dataVitrails);
 
     // Render
     return (
@@ -31,7 +30,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
                         {
                             dataVitrails.slice(0, 2).map((vitrail) => (
                                 <li className="text-right" key={vitrail.id}>
-                                    <a href={`${lang}/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
+                                    <a href={`/${lang}/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
                                 </li>
                             ))
                         }
@@ -45,7 +44,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
                         <ul className="border border-amber-600">
                             {dataVitrails.slice(2).map((vitrail) => (
                                 <li className="text-right w-fit block ml-auto" key={vitrail.id}>
-                                    <a href={`/vitrail/${vitrail.slug}`} className="block whitespace-nowrap">
+                                    <a href={`/${lang}/vitrail/${vitrail.slug}`} className="block whitespace-nowrap">
                                         {vitrail.title}
                                     </a>
                                 </li>
