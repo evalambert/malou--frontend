@@ -3,15 +3,16 @@
 
 import { getRelativeLocaleUrl } from 'astro:i18n';
 ---
-
-<h1><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'about')}>malou raulin</a></h1>
-<nav>
-    <ul>
-      <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'poetry')}>poetry</a></li>
-      <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'painting')}>painting</a></li>
-      <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'vitrail')}>vitrail</a></li>
-      <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'volume')}>volume</a></li>
-      <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'weaving')}>weaving</a></li>
-    </ul>
-</nav>
+<div>
+  <h1><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'about')}>malou raulin</a></h1>
+  <nav>
+      <ul>
+        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'poetry')}>poetry</a></li>
+        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'painting')}>painting</a></li>
+        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'vitrail')}>vitrail</a></li>
+        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'volume')}>volume</a></li>
+        <li><a href={getRelativeLocaleUrl(Astro.currentLocale || 'fr', 'weaving')}>weaving</a></li>
+      </ul>
+  </nav>
+</div>
 

@@ -2,6 +2,7 @@
 //pages/[lang]/volume.astro
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
+import VolumesList from "../../layouts/projects-lists/Volumes-list.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -19,13 +20,14 @@ export const prerender = true;
 
 <Layout title="Volume" showReturn returnTo="">
   <main>
-    <h2 class="font-bradford text-base">volume</h2>
-    {
-      volumes.map((volume) => (
-        <li>
-          <a href={`/${lang}/volume/${volume.slug}`}>{volume.title}</a>
-        </li>
-      ))
-    }
+    <VolumesList
+      targetHref="/"
+      dataVolumes={volumes}
+      lang={lang}
+      client:load
+      isOnVolumePage={true}
+      transition:name="volumeslist"
+      transition:persist
+    />
   </main>
 </Layout>
