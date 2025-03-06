@@ -33,7 +33,8 @@
     /* Typography */
     --font-bradford: "BradfordLL-Bold", "serif";
     --text-base: 25px;
-    --spacing-main: 0px;
+    --leading-base: 25px;
+    --spacing-main-x: 15px;
     --spacing-main-x-mobile: 15px; /* ! change value in Paintings-list.jsx */
 
 }
@@ -41,10 +42,14 @@
 /* -------------------------------------------------------------------- */
 /* RESET */
 /* -------------------------------------------------------------------- */
-
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 li {
     @apply list-none leading-none;
 }
+
 
 
 /* -------------------------------------------------------------------- */

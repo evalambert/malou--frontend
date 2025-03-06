@@ -17,12 +17,14 @@ const paintings = await fetchApi({
   locale: lang,
 });
 
+console.log("pathname in painting:", Astro.url.pathname);
+
 export const prerender = true;
 ---
 
 <Layout title="Painting" showReturn returnTo="">
   <main>
-    <Nav />
+    <Nav currentPage={Astro.url.pathname} />
     <PaintingsList
       targetHref="/"
       dataPaintings={paintings}
