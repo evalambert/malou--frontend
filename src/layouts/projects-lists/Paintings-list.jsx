@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { navigate } from "astro:transitions/client";
 
 const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) => {

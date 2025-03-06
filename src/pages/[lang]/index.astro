@@ -6,14 +6,15 @@ import Layout from "../../layouts/Layout.astro";
 import Nav from "../../layouts/Nav.astro";
 import PaintingsList from "../../layouts/projects-lists/Paintings-list.jsx";
 import VitrailList from "../../layouts/projects-lists/Vitrail-list.jsx";
+import VolumesList from "../../layouts/projects-lists/Volumes-list.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
 }
 const { lang } = Astro.params;
 
-const paintings = await fetchApi({
-  endpoint: "paintings?populate=*",
+const volumes = await fetchApi({
+  endpoint: "volumes?populate=*",
   wrappedByKey: "data",
   locale: lang,
 });
@@ -22,32 +23,47 @@ const vitraux = await fetchApi({
   wrappedByKey: "data",
   locale: lang,
 });
-
+const paintings = await fetchApi({
+  endpoint: "paintings?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
 
 export const prerender = true;
 ---
 
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
-    <Nav />
+    <div class="fixed top-0 w-full flex justify-between">
+      <Nav />
+      <VolumesList
+        targetHref="/volume"
+        lang={lang}
+        dataVolumes={volumes}
+        isOnVolumePage={false}
+        transition:name="volumeslist"
+        transition:persist
+        client:load
+      />
+      <VitrailList
+        targetHref={`/vitrail`}
+        lang={lang}
+        dataVitrails={vitraux}
+        isOnVitrailPage={false}
+        transition:name="vitrailist"
+        transition:persist
+        client:load
+      />
+    </div>
 
-    <VitrailList
-      targetHref={`/vitrail`}
-      lang={lang}
-      dataVitrails={vitraux}
-      isOnVitrailPage={false}
-      client:load
-      transition:name="vitrailist"
-      transition:persist
-    />
     <PaintingsList
       targetHref={`/painting`}
       lang={lang}
       dataPaintings={paintings}
       isOnPaintingPage={false}
-      client:load
       transition:name="paintingslist"
       transition:persist
+      client:load
     />
   </main>
 
