@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const VitrailList = ({ dataVitrails }) => {
+const VitrailListCompact = ({ dataVitrails }) => {
 
 
     useEffect(() => {
@@ -17,10 +17,10 @@ const VitrailList = ({ dataVitrails }) => {
                 //
             `}
             </style>
-            <ul>
+            <ul className="vitrail-list-compact">
                 {
-                    dataVitrails.map((vitrail) => (
-                        <li>
+                    dataVitrails.slice(0, 2).map((vitrail) => (
+                        <li className="text-right" key={vitrail.id}>
                             <a href={`/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
                         </li>
                     ))
@@ -30,4 +30,4 @@ const VitrailList = ({ dataVitrails }) => {
     );
 };
 
-export default VitrailList;
+export default VitrailListCompact;

@@ -1,21 +1,26 @@
 ---
 //pages/painting.astro
-
 import fetchApi from "../lib/strapi";
 import Layout from "../layouts/Layout.astro";
-import PaintingsList from "../layouts/Paintings-list.jsx";
+import PaintingsList from "../layouts/projects-lists/Paintings-list.jsx";
+import Nav from "../layouts/Nav.astro";
 
 const paintings = await fetchApi({
-    endpoint: "paintings?populate=*", // the content type to fetch
-    wrappedByKey: "data", // the key to unwrap the response
+	endpoint: "paintings?populate=*", // the content type to fetch
+	wrappedByKey: "data", // the key to unwrap the response
 });
-
 
 export const prerender = true;
 ---
 
 <Layout title="Painting" showReturn returnTo="">
 	<main>
-		<PaintingsList dataPaintings={paintings} client:only/>
+		<PaintingsList
+			dataPaintings={paintings}
+			client:load
+			isOnPaintingPage={true}
+			transition:name="paintingslist"
+			transition:persist
+		/>
 	</main>
 </Layout>

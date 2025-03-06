@@ -3,7 +3,7 @@
 
 import fetchApi from "../lib/strapi";
 import Layout from "../layouts/Layout.astro";
-import VitrailList from "../layouts/Vitrail-list.jsx";
+import VitrailList from "../layouts/projects-lists/Vitrail-list.jsx";
 
 
 const vitraux = await fetchApi({
@@ -17,6 +17,6 @@ export const prerender = true;
 
 <Layout title="Vitrail" showReturn returnTo="">
 	<main>
-		<VitrailList dataVitrails={vitraux} client:only/>
+		<VitrailList dataVitrails={vitraux} isOnVitrailPage={true} transition:name="vitraillist" client:only/>
 	</main>
 </Layout>

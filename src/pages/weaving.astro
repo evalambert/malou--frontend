@@ -3,7 +3,7 @@
 
 import fetchApi from "../lib/strapi";
 import Layout from "../layouts/Layout.astro";
-import WeavingList from "../layouts/Weaving-list.jsx";
+import WeavingList from "../layouts/projects-lists/Weaving-list.jsx";
 
 const weavings = await fetchApi({
 	endpoint: "weavings?populate=*", // the content type to fetch
