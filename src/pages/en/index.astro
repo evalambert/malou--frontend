@@ -6,11 +6,6 @@ import Layout from "../../layouts/Layout.astro";
 import Nav from "../../layouts/Nav.astro";
 
 
-const weavings = await fetchApi({
-	endpoint: "weavings?populate=*", // the content type to fetch
-	wrappedByKey: "data", // the key to unwrap the response
-	locale: "en"
-});
 
 const indexURL = getRelativeLocaleUrl("en", "index");
 export const prerender = true;

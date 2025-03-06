@@ -1,7 +1,6 @@
 ---
-import { ClientRouter } from 'astro:transitions';
-
 import "../assets/styles/global.css";
+import { ClientRouter } from 'astro:transitions';
 import ButtonReturn from "../components/ButtonReturn.astro";
 const { title, showReturn = false, returnTo = '' } = Astro.props;
 const currentLocale = Astro.currentLocale || 'fr';
@@ -9,7 +8,7 @@ const currentLocale = Astro.currentLocale || 'fr';
 
 <!DOCTYPE html>
 <html lang={currentLocale}>
-	<head>
+	<head transition:name="root" transition:animate="none">
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -17,8 +16,7 @@ const currentLocale = Astro.currentLocale || 'fr';
 		<title>{title}</title>
 		<ClientRouter />
 	</head>
-	<body class="font-bradford text-base">
-		
+	<body class="font-bradford text-base">	
 		{showReturn && <ButtonReturn to={returnTo} />}
 		<slot />
 	</body>
