@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import VitrailListCompact from "./Vitrail-list-compact.jsx";
 
-const VitrailList = ({ dataVitrails, isOnVitrailPage }) => {
-
+const VitrailList = ({ dataVitrails, lang, isOnVitrailPage }) => {
 
     useEffect(() => {
 
@@ -21,7 +20,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage }) => {
                             {
                                 dataVitrails.slice(2).map((vitrail) => (
                                     <li className="text-right" key={vitrail.id}>
-                                        <a href={`/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
+                                        <a href={`/${lang}/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
                                     </li>
                                 ))
                             }

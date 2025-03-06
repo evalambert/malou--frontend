@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const PaintingsListCompact = ({ dataPaintings }) => {
+const PaintingsListCompact = ({ dataPaintings, lang }) => {
 
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const PaintingsListCompact = ({ dataPaintings }) => {
             <ul className="painting-list-compact">
                 {dataPaintings.slice(0, 4).map((painting) => (
                     <li className="painting-title w-fit" key={painting.id}>
-                        <a href={`/painting/${painting.slug}`} className="block whitespace-nowrap">{painting.title}</a>
+                        <a href={`/${lang}/painting/${painting.slug}`} className="block whitespace-nowrap">{painting.title}</a>
                     </li>
                 ))}
             </ul>

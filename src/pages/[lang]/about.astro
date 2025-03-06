@@ -1,17 +1,21 @@
 ---
-//pages/en/about.astro
-import { getRelativeLocaleUrl } from 'astro:i18n';
+//pages/[lang]/about.astro
+
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 import Actu from "../../layouts/Actu.jsx";
 
+export async function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+
 const actus = await fetchApi({
   endpoint: "actus?populate=*",
   wrappedByKey: "data",
-  locale: "en"
+  locale: lang,
 });
-
-const aboutURL = getRelativeLocaleUrl("en", "about");
 
 export const prerender = true;
 ---
@@ -21,5 +25,3 @@ export const prerender = true;
     <Actu actus={actus} />
   </main>
 </Layout>
-
-

@@ -1,0 +1,32 @@
+---
+//pages/[lang]/vitrail.astro
+import fetchApi from "../../lib/strapi";
+import Layout from "../../layouts/Layout.astro";
+import VitrailList from "../../layouts/projects-lists/Vitrail-list.jsx";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+
+const vitraux = await fetchApi({
+  endpoint: "vitrails?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
+
+export const prerender = true;
+---
+
+<Layout title="Vitrail" showReturn returnTo="">
+  <main>
+    <VitrailList
+      dataVitrails={vitraux}
+      lang={lang}
+      isOnVitrailPage={true}
+      transition:name="vitraillist"
+      client:only
+    />
+  </main>
+</Layout>

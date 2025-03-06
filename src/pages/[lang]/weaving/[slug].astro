@@ -1,0 +1,61 @@
+---
+//pages/[lang]/weaving/[slug].astro
+import fetchApi from "../../../lib/strapi";
+import Layout from "../../../layouts/Layout.astro";
+import Slider from "../../../components/slider/Slider.jsx";
+
+
+export async function getStaticPaths() {
+  const languages = ["fr", "en"];
+  const paths = [];
+
+  for (const lang of languages) {
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
+    // Récupérer les données des tissages
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
+    try {
+      const weavings = await fetchApi({
+        endpoint: "weavings?populate=*",
+        wrappedByKey: "data",
+        locale: lang,
+      });
+
+      if (!Array.isArray(weavings)) {
+        console.error("Les données reçues ne sont pas un tableau:", weavings);
+        continue;
+      }
+
+      const langPaths = weavings.map((weaving) => ({
+        params: {
+          lang,
+          slug: weaving.slug,
+        },
+        props: { weaving },
+      }));
+
+      paths.push(...langPaths);
+    } catch (error) {
+      console.error(`Error fetching weavings for ${lang}:`, error);
+    }
+  }
+  return paths;
+}
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
+
+const { weaving } = Astro.props; // Destructurer directement weaving
+const { lang } = Astro.params;
+export const prerender = true;
+//console.log("Page props:", weaving);
+---
+
+<Layout title="Weaving" showReturn returnTo={`/weaving`}>
+    <h1
+        class="font-bradford text-base"
+    >
+        {weaving?.title.split("").map((letter, index) => (
+            <span>{letter}</span>
+        ))}
+    </h1>
+
+    <Slider client:only medias={weaving?.medias || []} />
+</Layout>
