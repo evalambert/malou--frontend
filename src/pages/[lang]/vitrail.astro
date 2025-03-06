@@ -22,11 +22,13 @@ export const prerender = true;
 <Layout title="Vitrail" showReturn returnTo="">
   <main>
     <VitrailList
+      targetHref="/"
       dataVitrails={vitraux}
       lang={lang}
       isOnVitrailPage={true}
-      transition:name="vitraillist"
-      client:only
+      transition:name="vitrailist"
+      transition:persist
+      client:load
     />
   </main>
 </Layout>
