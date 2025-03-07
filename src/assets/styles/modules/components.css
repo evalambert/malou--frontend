@@ -10,6 +10,15 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Nav */
 /* Ajoutez ces styles dans la section ANIMATIONS */
+@media (min-width: 768px) {
+    .nav-wrapper:hover .nav-off {
+        height: 25px;
+    }
+    .nav-wrapper:hover .nav-off a {
+        opacity: 1;
+    }
+}
+
 .nav-wrapper:hover .nav-off{
     transition: height 0.3s ease;
     height: 25px;
