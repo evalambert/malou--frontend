@@ -24,6 +24,7 @@ export const prerender = true;
 
 <Layout title="Painting" showReturn returnTo="">
   <main>
+    <p>Chemin actuel : {Astro.url.pathname}</p>
     <Nav
       lang={lang}
       currentPath={Astro.url.pathname}
