@@ -35,10 +35,9 @@ export const prerender = true;
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
     <div class="fixed top-0 w-[calc(100%-(var(--spacing-main-x)*2))] flex justify-between">
-      <p>Chemin actuel : {Astro.url.pathname}</p>
       <Nav
         lang={lang}
-        currentPath="currentPath"
+        currentPath={Astro.url.pathname}
         transition:name="nav"
         transition:persist
         client:load

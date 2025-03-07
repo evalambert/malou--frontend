@@ -9,6 +9,7 @@
 /* ANIMATIONS 
 /* -------------------------------------------------------------------- */
 @import "tailwindcss";
+@import "./modules/components.css";
 
 
 /* -------------------------------------------------------------------- */
@@ -46,57 +47,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+body {
+    @apply overflow-hidden;
+}
 li {
     @apply list-none leading-none;
 }
 
 
 
-/* -------------------------------------------------------------------- */
-/* STYLES */
-/* -------------------------------------------------------------------- */
-.volume-list-compact > li:nth-child(odd) {
-    @apply pt-[25px];
-}
 
 
 
 
 
-
-
-
-/* -------------------------------------------------------------------- */
-/* ANIMATIONS */
-/* -------------------------------------------------------------------- */
-body {
-    @apply overflow-hidden;
-}
-
-a.compact-list {
-    @apply block transition-all duration-3000;
-}
-
-body.hide-lists #vitrail-compact-list a:not(.clicked) {
-    @apply right-[-100%];
-}
-
-body.hide-lists #painting-compact-list a:not(.clicked) {
-    @apply bottom-[-100%];
-}
-
-
-#painting-list-appear {
-    overflow: hidden;
-    animation: height-appear 1s ease-in-out forwards;
-}
-
-@keyframes height-appear {
-    0% {
-        height: 0px;
-    }
-
-    100% {
-        height: 100%;
-    }
-}

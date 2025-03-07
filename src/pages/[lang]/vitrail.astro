@@ -3,6 +3,7 @@
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 import VitrailList from "../../layouts/projects-lists/Vitrail-list.jsx";
+import Nav from "../../layouts/Nav.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -21,15 +22,23 @@ export const prerender = true;
 
 <Layout title="Vitrail" showReturn returnTo="">
   <main>
-    <div class="fixed top-0 w-full flex justify-between">
-      <VitrailList
-      targetHref="/"
-      dataVitrails={vitraux}
+    <Nav
       lang={lang}
-      isOnVitrailPage={true}
-      transition:name="vitrailist"
+      currentPath={Astro.url.pathname}
+      transition:name="nav"
       transition:persist
       client:load
     />
+    <div class="fixed top-0 w-full flex justify-between">
+      <VitrailList
+        targetHref="/"
+        dataVitrails={vitraux}
+        lang={lang}
+        isOnVitrailPage={true}
+        transition:name="vitrailist"
+        transition:persist
+        client:load
+      />
+    </div>
   </main>
 </Layout>
