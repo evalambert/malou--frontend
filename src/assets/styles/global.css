@@ -37,7 +37,7 @@
     --leading-base: 25px;
     --spacing-main-x: 15px;
     --spacing-main-x-mobile: 15px; /* ! change value in Paintings-list.jsx */
-
+    --spacing-list-p-top: 6px;
 }
 
 /* -------------------------------------------------------------------- */

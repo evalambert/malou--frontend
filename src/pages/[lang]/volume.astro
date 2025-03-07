@@ -21,21 +21,28 @@ export const prerender = true;
 
 <Layout title="Volume" showReturn returnTo="">
   <main>
-    <Nav
-      lang={lang}
-      currentPath={Astro.url.pathname}
-      transition:name="nav"
-      transition:persist
-      client:load
-    />
-    <VolumesList
-      targetHref="/"
-      dataVolumes={volumes}
-      lang={lang}
-      client:load
-      isOnVolumePage={true}
-      transition:name="volumeslist"
-      transition:persist
-    />
+    <div class="header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]">
+      <div class="flex-1">
+        <Nav
+          lang={lang}
+          currentPath={Astro.url.pathname}
+          transition:name="nav"
+          transition:persist
+          client:load
+        />
+      </div>
+      <div class="flex-3">
+        <VolumesList
+          targetHref="/"
+          dataVolumes={volumes}
+          lang={lang}
+          client:load
+          isOnVolumePage={true}
+          transition:name="volumeslist"
+          transition:persist
+        />
+      </div>
+      <div class="flex-1"></div>
+    </div>
   </main>
 </Layout>
