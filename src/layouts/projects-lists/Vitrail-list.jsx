@@ -30,7 +30,11 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
                         {
                             dataVitrails.slice(0, 2).map((vitrail) => (
                                 <li className="text-right" key={vitrail.id}>
-                                    <a href={`/${lang}/vitrail/${vitrail.slug}`}>{vitrail.title}</a>
+                                    <a href={`/${lang}/vitrail/${vitrail.slug}`} className="flex flex-col">
+                                        {vitrail.title.split(' ').map((word, i) => (
+                                            <div key={i} className="inline-block">{word} </div>
+                                        ))}
+                                    </a>
                                 </li>
                             ))
                         }
@@ -39,17 +43,21 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
                     <div
                         className={`max-w-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnVitrailPage ? "max-w-[100vw]" : "max-w-0"
                             }`}
-                    >
+                    >                        
                         {/* Liste Hidden */}
-                        <ul className="">
-                            {dataVitrails.slice(2).map((vitrail) => (
-                                <li className="text-right w-fit block ml-auto" key={vitrail.id}>
-                                    <a href={`/${lang}/vitrail/${vitrail.slug}`} className="block whitespace-nowrap">
-                                        {vitrail.title}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
+                        {isOnVitrailPage && (
+                            <ul className="">
+                                {dataVitrails.slice(2).map((vitrail) => (
+                                    <li className="text-right w-fit block ml-auto" key={vitrail.id}>
+                                        <a href={`/${lang}/vitrail/${vitrail.slug}`} className="flex flex-col">
+                                            {vitrail.title.split(' ').map((word, i) => (
+                                                <div key={i} className="inline-block">{word} </div>
+                                            ))}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                         {/* (END) Liste Hidden */}
                     </div>
                 </div>

@@ -38,7 +38,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`fixed md:left-[100px] bottom-0 border border-amber-400 ${!isOnPaintingPage ? "cursor-pointer" : ""
+                className={`fixed md:left-[100px] bottom-0 ${!isOnPaintingPage ? "cursor-pointer" : ""
                     }`}
                 onClick={
                     !isOnPaintingPage
@@ -47,7 +47,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
                 }
             >
                 <div
-                    className={`border border-violet-400  ${!isOnPaintingPage ? "pointer-events-none" : ""
+                    className={`${!isOnPaintingPage ? "pointer-events-none" : ""
                         }`}
                 >
                     {/* Liste Homepage */}
@@ -60,25 +60,27 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
                     </ul>
                     {/* (END) Liste Homepage */}
                     <div
-                        className={`border border-green-400 max-h-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnPaintingPage ? "max-h-[100vh]" : "max-h-0"
+                        className={`max-h-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnPaintingPage ? "max-h-[100vh]" : "max-h-0"
                             }`}
                     >
                         {/* Liste Hidden */}
-                        <ul>
-                            {dataPaintings.slice(4).map((painting) => (
-                                <li
-                                    className="border border-pink-400 painting-title w-fit block"
-                                    key={painting.id}
-                                >
-                                    <a
-                                        href={`/${lang}/painting/${painting.slug}`}
-                                        className="block whitespace-nowrap"
+                        {isOnPaintingPage && (
+                            <ul>
+                                {dataPaintings.slice(4).map((painting) => (
+                                    <li
+                                        className="painting-title w-fit block"
+                                        key={painting.id}
                                     >
-                                        {painting.title}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
+                                        <a
+                                            href={`/${lang}/painting/${painting.slug}`}
+                                            className="block whitespace-nowrap"
+                                        >
+                                            {painting.title}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                         {/* (END) Liste Hidden */}
                     </div>
                 </div>

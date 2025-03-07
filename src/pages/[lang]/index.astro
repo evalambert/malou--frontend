@@ -7,6 +7,7 @@ import Nav from "../../layouts/Nav.jsx";
 import PaintingsList from "../../layouts/projects-lists/Paintings-list.jsx";
 import VitrailList from "../../layouts/projects-lists/Vitrail-list.jsx";
 import VolumesList from "../../layouts/projects-lists/Volumes-list.jsx";
+import PoetryList from "../../layouts/projects-lists/Poetry-list.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -28,45 +29,62 @@ const paintings = await fetchApi({
   wrappedByKey: "data",
   locale: lang,
 });
+const poetries = await fetchApi({
+  endpoint: "poetries?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
 
 export const prerender = true;
 ---
 
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
-    <div class="header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]">
+    <div
+      class="header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]"
+    >
       <div class="flex-1">
         <Nav
-        lang={lang}
-        currentPath={Astro.url.pathname}
-        transition:name="nav"
-        transition:persist
-        client:load
-      />
+          lang={lang}
+          currentPath={Astro.url.pathname}
+          transition:name="nav"
+          transition:persist
+          client:load
+        />
       </div>
       <div class="flex-3">
         <VolumesList
-        targetHref="/volume/"
-        lang={lang}
-        dataVolumes={volumes}
-        isOnVolumePage={false}
-        transition:name="volumeslist"
-        transition:persist
-        client:load
-      />
+          targetHref="/volume/"
+          lang={lang}
+          dataVolumes={volumes}
+          isOnVolumePage={false}
+          transition:name="volumeslist"
+          transition:persist
+          client:load
+        />
       </div>
       <div class="flex-1">
         <VitrailList
-        targetHref={`/vitrail/`}
-        lang={lang}
-        dataVitrails={vitraux}
-        isOnVitrailPage={false}
-        transition:name="vitrailist"
-        transition:persist
-        client:load
-      />
+          targetHref={`/vitrail/`}
+          lang={lang}
+          dataVitrails={vitraux}
+          isOnVitrailPage={false}
+          transition:name="vitrailist"
+          transition:persist
+          client:load
+        />
       </div>
     </div>
+
+    <PoetryList
+      targetHref={`/poetry/`}
+      lang={lang}
+      dataPoetry={poetries}
+      isOnPoetryPage={false}
+      transition:name="poetrylist"
+      transition:persist
+      client:load
+    />
 
     <PaintingsList
       targetHref={`/painting/`}

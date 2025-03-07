@@ -4,6 +4,7 @@
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 import Nav from "../../layouts/Nav.jsx";
+import PoetryList from "../../layouts/projects-lists/Poetry-list.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -29,14 +30,15 @@ export const prerender = true;
       transition:persist
       client:load
     />
-    <ul>
-      {
-        poetries.map((poetry) => (
-          <li>
-            <a href={`/${lang}/poetry/${poetry.slug}`}>{poetry.title}</a>
-          </li>
-        ))
-      }
-    </ul>
+    <PoetryList
+      targetHref={`/poetry/`}
+      lang={lang}
+      dataPoetry={poetries}
+      isOnPoetryPage={true}
+      transition:name="poetrylist"
+      transition:persist
+      client:load
+    />
+
   </main>
 </Layout>
