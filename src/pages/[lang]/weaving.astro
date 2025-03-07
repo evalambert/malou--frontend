@@ -30,6 +30,14 @@ export const prerender = true;
       transition:persist
       client:load
     />
-    <WeavingList dataWeaving={weavings} lang={lang} client:only />
+    <WeavingList
+      targetHref={`/weaving/`}
+      lang={lang}
+      dataWeaving={weavings}
+      isOnWeavingPage={true}
+      transition:name="weavinglist"
+      transition:persist
+      client:load
+    />
   </main>
 </Layout>
