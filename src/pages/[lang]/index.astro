@@ -42,8 +42,9 @@ export const prerender = true;
         transition:persist
         client:load
       />
+      <h3>is on page : {Astro.url.pathname}</h3>
       <VolumesList
-        targetHref="/volume"
+        targetHref="/volume/"
         lang={lang}
         dataVolumes={volumes}
         isOnVolumePage={false}
@@ -52,7 +53,7 @@ export const prerender = true;
         client:load
       />
       <VitrailList
-        targetHref={`/vitrail`}
+        targetHref={`/vitrail/`}
         lang={lang}
         dataVitrails={vitraux}
         isOnVitrailPage={false}
@@ -63,7 +64,7 @@ export const prerender = true;
     </div>
 
     <PaintingsList
-      targetHref={`/painting`}
+      targetHref={`/painting/`}
       lang={lang}
       dataPaintings={paintings}
       isOnPaintingPage={false}
