@@ -2,7 +2,6 @@
 //pages/[lang]/vitrail.astro
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-import Nav from "../../layouts/Nav.astro";
 import VitrailList from "../../layouts/projects-lists/Vitrail-list.jsx";
 
 export async function getStaticPaths() {
@@ -23,7 +22,6 @@ export const prerender = true;
 <Layout title="Vitrail" showReturn returnTo="">
   <main>
     <div class="fixed top-0 w-full flex justify-between">
-      <Nav />
       <VitrailList
       targetHref="/"
       dataVitrails={vitraux}
