@@ -22,23 +22,27 @@ export const prerender = true;
 
 <Layout title="Vitrail" showReturn returnTo="">
   <main>
-    <Nav
-      lang={lang}
-      currentPath={Astro.url.pathname}
-      transition:name="nav"
-      transition:persist
-      client:load
-    />
-    <div class="fixed top-0 w-full flex justify-between">
-      <VitrailList
-        targetHref="/"
-        dataVitrails={vitraux}
-        lang={lang}
-        isOnVitrailPage={true}
+    <div class="header-wrapperfixed top-0 w-full flex justify-between">
+      <div class="flex-1">
+        <Nav
+          lang={lang}
+          currentPath={Astro.url.pathname}
+          transition:name="nav"
+          transition:persist
+          client:load
+        />
+      </div>
+      <div class="flex-1">
+        <VitrailList
+          targetHref="/"
+          dataVitrails={vitraux}
+          lang={lang}
+          isOnVitrailPage={true}
         transition:name="vitrailist"
         transition:persist
-        client:load
-      />
+          client:load
+        />
+      </div>
     </div>
   </main>
 </Layout>

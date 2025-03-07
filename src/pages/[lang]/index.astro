@@ -34,16 +34,18 @@ export const prerender = true;
 
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
-    <div class="fixed top-0 w-[calc(100%-(var(--spacing-main-x)*2))] flex justify-between">
-      <Nav
+    <div class="header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]">
+      <div class="flex-1">
+        <Nav
         lang={lang}
         currentPath={Astro.url.pathname}
         transition:name="nav"
         transition:persist
         client:load
       />
-      <h3>is on page : {Astro.url.pathname}</h3>
-      <VolumesList
+      </div>
+      <div class="flex-3">
+        <VolumesList
         targetHref="/volume/"
         lang={lang}
         dataVolumes={volumes}
@@ -52,7 +54,9 @@ export const prerender = true;
         transition:persist
         client:load
       />
-      <VitrailList
+      </div>
+      <div class="flex-1">
+        <VitrailList
         targetHref={`/vitrail/`}
         lang={lang}
         dataVitrails={vitraux}
@@ -61,6 +65,7 @@ export const prerender = true;
         transition:persist
         client:load
       />
+      </div>
     </div>
 
     <PaintingsList

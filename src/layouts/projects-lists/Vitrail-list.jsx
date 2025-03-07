@@ -13,7 +13,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
     return (
         <>
             <div
-                className={`flex flex-col items-end border border-amber-400 ${!isOnVitrailPage ? "cursor-pointer" : ""
+                className={`pt-list-p-top flex flex-col items-end ${!isOnVitrailPage ? "cursor-pointer" : ""
                     }`}
                 onClick={
                     !isOnVitrailPage
@@ -22,7 +22,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
                 }
             >
                 <div
-                    className={`border border-violet-400 flex flex-col items-end  ${!isOnVitrailPage ? "pointer-events-none" : ""
+                    className={`flex flex-col items-end  ${!isOnVitrailPage ? "pointer-events-none" : ""
                         }`}
                 >
                     {/* Liste Homepage */}
@@ -37,11 +37,11 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, lang }) => {
                     </ul>
                     {/* (END) Liste Homepage */}
                     <div
-                        className={`border border-blue-500 max-w-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnVitrailPage ? "max-w-[100vw]" : "max-w-0"
+                        className={`max-w-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnVitrailPage ? "max-w-[100vw]" : "max-w-0"
                             }`}
                     >
                         {/* Liste Hidden */}
-                        <ul className="border border-amber-600">
+                        <ul className="">
                             {dataVitrails.slice(2).map((vitrail) => (
                                 <li className="text-right w-fit block ml-auto" key={vitrail.id}>
                                     <a href={`/${lang}/vitrail/${vitrail.slug}`} className="block whitespace-nowrap">
