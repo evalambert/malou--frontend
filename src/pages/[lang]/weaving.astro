@@ -4,6 +4,7 @@
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 import WeavingList from "../../layouts/projects-lists/Weaving-list.jsx";
+import Nav from "../../layouts/Nav.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -22,6 +23,13 @@ export const prerender = true;
 
 <Layout title="Weaving" showReturn returnTo="">
   <main>
+    <Nav
+      lang={lang}
+      currentPath={Astro.url.pathname}
+      transition:name="nav"
+      transition:persist
+      client:load
+    />
     <WeavingList dataWeaving={weavings} lang={lang} client:only />
   </main>
 </Layout>

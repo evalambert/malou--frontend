@@ -3,6 +3,7 @@
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 import VolumesList from "../../layouts/projects-lists/Volumes-list.jsx";
+import Nav from "../../layouts/Nav.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -20,6 +21,13 @@ export const prerender = true;
 
 <Layout title="Volume" showReturn returnTo="">
   <main>
+    <Nav
+      lang={lang}
+      currentPath={Astro.url.pathname}
+      transition:name="nav"
+      transition:persist
+      client:load
+    />
     <VolumesList
       targetHref="/"
       dataVolumes={volumes}

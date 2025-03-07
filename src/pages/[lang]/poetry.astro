@@ -3,6 +3,7 @@
 
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
+import Nav from "../../layouts/Nav.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -21,7 +22,13 @@ export const prerender = true;
 
 <Layout title="Poetry" showReturn returnTo="">
   <main>
-    <h2 class="font-bradford text-base">poetry</h2>
+    <Nav
+      lang={lang}
+      currentPath={Astro.url.pathname}
+      transition:name="nav"
+      transition:persist
+      client:load
+    />
     <ul>
       {
         poetries.map((poetry) => (
