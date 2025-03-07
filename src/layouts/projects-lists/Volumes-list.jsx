@@ -34,7 +34,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, lang }) => {
                                     key={volume.id}
                                 >
                                     <a
-                                        href={`${lang}/volume/${volume.slug}`}
+                                        href={`/${lang}/volume/${volume.slug}`}
                                         className="block whitespace-nowrap"
                                     >
                                         {volume.title}

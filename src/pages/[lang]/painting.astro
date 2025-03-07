@@ -2,6 +2,7 @@
 //pages/[lang]/painting.astro
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
+import Nav from "../../layouts/Nav.jsx";
 import PaintingsList from "../../layouts/projects-lists/Paintings-list.jsx";
 
 export async function getStaticPaths() {
@@ -23,6 +24,14 @@ export const prerender = true;
 
 <Layout title="Painting" showReturn returnTo="">
   <main>
+    <Nav
+      lang={lang}
+      currentPath={Astro.url.pathname}
+      transition:name="nav"
+      transition:persist
+      client:load
+    />
+    
     <PaintingsList
       targetHref="/"
       dataPaintings={paintings}

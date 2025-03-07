@@ -35,7 +35,13 @@ export const prerender = true;
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
     <div class="fixed top-0 w-[calc(100%-(var(--spacing-main-x)*2))] flex justify-between">
-      <Nav lang={lang} />
+      <Nav
+        lang={lang}
+        currentPath="/"
+        transition:name="nav"
+        transition:persist
+        client:load
+      />
       <VolumesList
         targetHref="/volume"
         lang={lang}

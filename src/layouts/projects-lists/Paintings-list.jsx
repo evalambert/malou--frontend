@@ -54,7 +54,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
                     <ul className="painting-list-compact">
                         {dataPaintings.slice(0, 4).map((painting) => (
                             <li className="painting-title w-fit" key={painting.id}>
-                                <a href={`${lang}/painting/${painting.slug}`} className="block whitespace-nowrap">{painting.title}</a>
+                                <a href={`/${lang}/painting/${painting.slug}`} className="block whitespace-nowrap">{painting.title}</a>
                             </li>
                         ))}
                     </ul>
@@ -71,7 +71,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
                                     key={painting.id}
                                 >
                                     <a
-                                        href={`${lang}/painting/${painting.slug}`}
+                                        href={`/${lang}/painting/${painting.slug}`}
                                         className="block whitespace-nowrap"
                                     >
                                         {painting.title}
