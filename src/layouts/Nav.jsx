@@ -1,5 +1,5 @@
 const Nav = ({ lang, currentPath }) => {
-    const isHome = currentPath === `/${lang}/`;
+    const isHome = currentPath === `/${lang}/` || currentPath === `/${lang}/about`;
 
     const getLinkClass = (path) => {
         if (isHome) return "nav-li nav-home";

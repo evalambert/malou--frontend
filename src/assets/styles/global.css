@@ -9,7 +9,6 @@
 /* ANIMATIONS 
 /* -------------------------------------------------------------------- */
 @import "tailwindcss";
-@import "./modules/components.css";
 
 
 /* -------------------------------------------------------------------- */
@@ -58,6 +57,79 @@ li {
 
 
 
+/* -------------------------------------------------------------------- */
+/* COMPONENTS */
+
+/* Layout */
+/* Nav */
+/* Lists */
+/* -------------------------------------------------------------------- */
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/* Layout */
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/* Nav */
+/* Ajoutez ces styles dans la section ANIMATIONS */
+@media (min-width: 768px) {
+    .nav-wrapper:hover .nav-off {
+        height: 25px;
+    }
+    .nav-wrapper:hover .nav-off a {
+        opacity: 1;
+    }
+}
+
+.nav-wrapper:hover .nav-off{
+    transition: height 0.3s ease;
+    height: 25px;
+}
+.nav-wrapper:hover .nav-off a{
+    transition: opacity 0.8s ease;
+    opacity: 1;
+}
+li {
+    @apply overflow-hidden;
+}
+.nav-li.nav-off {
+    transition: height 0.8s ease;
+}
+.nav-li.nav-off a{
+    transition: opacity 0.3s ease;
+}
+.nav-li.nav-home {
+    transition: height 0.3s ease;
+}
+.nav-li.nav-home a{
+    transition: opacity 0.8s ease;
+}
+.nav-off {height: 0;}
+.nav-off a{opacity: 0;}
+.nav-on {height: 25px;}
+.nav-on a{opacity: 1;}
+.nav-home {height: 25px;}
+.nav-home a{opacity: 1;}
 
 
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/* Lists */
+.volume-list-compact > li:nth-child(odd) {
+    @apply pt-[25px];
+}
+.painting-title{
+    transition: all 0.3s ease-in-out;
+}
+.painting-title a{
+    display: flex;
+    align-items: flex-end;
+    transition: height 0.3s ease-in-out;
+}
+.painting-title a span{
+    @apply min-w-[5px];
+}
+
+.painting-title.active a span{
+    @apply min-w-[13px] flex items-center justify-center;
+}
