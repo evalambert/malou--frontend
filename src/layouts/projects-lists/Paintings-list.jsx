@@ -7,13 +7,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
          const titleLayout = () => {
             const title = document.querySelectorAll("li.painting-title a");
             title.forEach((title) => {
-                if (!targetHref || targetHref === `/${lang}/painting` || targetHref === `/${lang}/paintings`) {
-                    title.parentElement.classList.remove('active');
-                    title.style.height = '32px';
-                    title.querySelectorAll('span').forEach(span => {
-                        span.style.transform = 'translateY(0)';
-                    });
-                } else if (title.getAttribute('href') === targetHref) {
+                if (title.getAttribute('href') === targetHref) {
                     title.parentElement.classList.add('active');
                     const spansLenght = title.querySelectorAll('span').length;
                     const firstSpanTranslateY = (spansLenght - 1) * 10;
@@ -91,7 +85,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                             <li className="painting-title w-fit" key={painting.id}>
                                 <a href={`/${lang}/painting/${painting.slug}`} className="block whitespace-nowrap">
                                     {painting.title.split('').map((letter, index) => (
-                                        <span className="inline-block transition-all duration-500 ease-in-out" key={index}>{letter}</span>
+                                        <span className="inline-block" key={index}>{letter}</span>
                                     ))}
                                 </a>
                             </li>
@@ -115,7 +109,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                                         className="block whitespace-nowrap"
                                     >
                                         {painting.title.split('').map((letter, index) => (
-                                            <span className="inline-block transition-all duration-500 ease-in-out" key={index}>{letter}</span>
+                                            <span className="inline-block" key={index}>{letter}</span>
                                         ))}
                                     </a>
                                 </li>

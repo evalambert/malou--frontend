@@ -115,9 +115,26 @@ li {
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Lists */
+
 .volume-list-compact > li:nth-child(odd) {
     @apply pt-[25px];
 }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/* Titles */
+.painting-title a span,
+.volume-title a span{
+    @apply min-w-[5px] transition-all duration-300 ease-in-out;
+}
+.volume-title.active a span{
+    @apply min-w-[30px];
+}
+
+
+.painting-title.active a span{
+    @apply min-w-[13px] flex items-center justify-center;
+}
+
 .painting-title{
     transition: all 0.3s ease-in-out;
 }
@@ -126,10 +143,4 @@ li {
     align-items: flex-end;
     transition: height 0.3s ease-in-out;
 }
-.painting-title a span{
-    @apply min-w-[5px];
-}
 
-.painting-title.active a span{
-    @apply min-w-[13px] flex items-center justify-center;
-}

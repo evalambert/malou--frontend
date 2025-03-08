@@ -3,7 +3,19 @@ import { navigate } from "astro:transitions/client";
 
 const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) => {
     useEffect(() => {
+        // Title animation  
+        const titleLayout = () => {
+            const title = document.querySelectorAll("li.volume-title a");
+            title.forEach((title) => {
+                if (title.getAttribute('href') === targetHref) {
+                    title.parentElement.classList.add('active');
+                } else {
+                    title.parentElement.classList.remove('active');
+                }
+            });
 
+        }
+        titleLayout();
     })
 
     // Render
@@ -28,21 +40,23 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
                     >
                         {/* Liste Hidden */}
                         {/* {isOnVolumePage && ( */}
-                            <ul className="volume-list-compact flex flex-wrap gap-y-[25px] pb-[25px]">
-                                {dataVolumes.slice(3).map((volume) => (
-                                    <li
-                                        className="volume-title w-fit block"
-                                        key={volume.id}
+                        <ul className="volume-list-compact flex flex-wrap gap-y-[25px] pb-[25px]">
+                            {dataVolumes.slice(3).map((volume) => (
+                                <li
+                                    className="volume-title w-fit block"
+                                    key={volume.id}
+                                >
+                                    <a
+                                        href={`/${lang}/volume/${volume.slug}`}
+                                        className="block whitespace-nowrap"
                                     >
-                                        <a
-                                            href={`/${lang}/volume/${volume.slug}`}
-                                            className="block whitespace-nowrap"
-                                        >
-                                            {volume.title}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
+                                        {volume.title.split('').map((letter, index) => (
+                                            <span className="inline-block" key={index}>{letter}</span>
+                                        ))}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
                         {/* )} */}
                         {/* (END) Liste Hidden */}
                     </div>
@@ -51,7 +65,10 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
                     <ul className="volume-list-compact flex flex-wrap gap-y-[25px]">
                         {dataVolumes.slice(0, 3).map((volume) => (
                             <li className="volume-title w-fit" key={volume.id}>
-                                <a href={`${lang}/volume/${volume.slug}`} className="block whitespace-nowrap">{volume.title}</a>
+                                <a href={`/${lang}/volume/${volume.slug}`} className="block whitespace-nowrap">
+                                    {volume.title.split('').map((letter, index) => (
+                                        <span className="inline-block" key={index}>{letter}</span>
+                                    ))}</a>
                             </li>
                         ))}
                     </ul>
