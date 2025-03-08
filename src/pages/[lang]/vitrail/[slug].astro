@@ -3,6 +3,7 @@
 
 import fetchApi from "../../../lib/strapi";
 import Layout from "../../../layouts/Layout.astro";
+import VitrailList from "../../../layouts/projects-lists/Vitrail-list.jsx";
 
 export async function getStaticPaths() {
   const languages = ["fr", "en"];
@@ -37,12 +38,30 @@ export async function getStaticPaths() {
   return paths;
 }
 
+const vitraux = await fetchApi({
+  endpoint: "vitrails?populate=*",
+  wrappedByKey: "data",
+});
+
 const { vitrail } = Astro.props;
 const { lang } = Astro.params;
 export const prerender = true;
 ---
 
 <Layout title="Vitrail" showReturn returnTo={`/vitrail`}>
-  <h1>{vitrail?.title || "Titre non disponible"}</h1>
-  <p>{vitrail?.description || "Description non disponible"}</p>
+  <div class="flex-1"></div>
+  <div class="flex-1">
+    <VitrailList
+      targetHref={Astro.url.pathname}
+      hidden={false}
+      lang={lang}
+      dataVitrails={vitraux}
+      isOnVitrailPage={true}
+      transition:name="vitrailist"
+      transition:persist
+      client:load
+    />
+  </div>
 </Layout>
+<h1>{vitrail?.title || "Titre non disponible"}</h1>
+<p>{vitrail?.description || "Description non disponible"}</p>

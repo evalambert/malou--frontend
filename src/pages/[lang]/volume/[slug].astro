@@ -3,6 +3,7 @@
 
 import fetchApi from "../../../lib/strapi";
 import Layout from "../../../layouts/Layout.astro";
+import VolumesList from "../../../layouts/projects-lists/Volumes-list.jsx";
 
 export async function getStaticPaths() {
   const languages = ["fr", "en"];
@@ -37,14 +38,40 @@ export async function getStaticPaths() {
 
   return paths;
 }
+const volumes = await fetchApi({
+  endpoint: "volumes?populate=*",
+  wrappedByKey: "data",
+});
+
 
 const { volume } = Astro.props;
 const { lang } = Astro.params;
+
+
 export const prerender = true;
 ---
 
-
 <Layout title="Volume" showReturn returnTo={`/volume`}>
+  <div
+    class="header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]"
+  >
+    <div class="flex-1">
+    </div>
+    <div class="flex-3">
+      <VolumesList
+        targetHref={Astro.url.pathname}
+        hidden={false}
+        lang={lang}
+        dataVolumes={volumes}
+        isOnVolumePage={true}
+        transition:name="volumeslist"
+        transition:persist
+        client:load
+      />
+    </div>
+    <div class="flex-1">
+    </div>
+  </div>
   <h1>{volume?.title || "Titre non disponible"}</h1>
   <p>{volume?.description || "Description non disponible"}</p>
 </Layout>

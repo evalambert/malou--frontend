@@ -3,11 +3,12 @@
 
 import fetchApi from "../../../lib/strapi";
 import Layout from "../../../layouts/Layout.astro";
-import PaintingsList from "../../../layouts/projects-lists/Paintings-list";
+import PaintingsList from "../../../layouts/projects-lists/Paintings-list.jsx";
 
 export async function getStaticPaths() {
   const languages = ["fr", "en"];
   const paths = [];
+
 
   for (const lang of languages) {
     try {
@@ -41,10 +42,28 @@ export async function getStaticPaths() {
 
 const { painting } = Astro.props;
 const { lang } = Astro.params;
+
+// Récupérer tous les paintings pour la liste
+const paintings = await fetchApi({
+  endpoint: "paintings?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
+
 export const prerender = true;
 ---
 
 <Layout title="Painting" showReturn returnTo={`/painting`}>
   <h1>{painting?.title || "Titre non disponible"}</h1>
   <p>{painting?.description || "Description non disponible"}</p>
+  <PaintingsList
+  targetHref={Astro.url.pathname}
+  hidden={false}
+  lang={lang}
+  dataPaintings={paintings}
+  isOnPaintingPage={true}
+  transition:name="paintingslist"
+  transition:persist
+  client:load
+/>
 </Layout>
