@@ -3,14 +3,21 @@
 
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-import Actu from "../../layouts/Actu.jsx";
+/* import Actu from "../../layouts/Actu.jsx"; */
 import Nav from "../../layouts/Nav.jsx";
+import AboutComponent from "../../layouts/About.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
 }
 
 const { lang } = Astro.params;
+
+const about = await fetchApi({
+  endpoint: "about?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
 
 const actus = await fetchApi({
   endpoint: "actus?populate=*",
@@ -30,6 +37,7 @@ export const prerender = true;
       transition:persist
       client:load
     />
-    <Actu actus={actus} lang={lang} />
+    <AboutComponent about={about} lang={lang} />
+    <!-- <Actu actus={actus} lang={lang} /> -->
   </main>
 </Layout>
