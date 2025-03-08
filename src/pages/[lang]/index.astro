@@ -7,6 +7,8 @@ import Nav from "../../layouts/Nav.jsx";
 import PaintingsList from "../../layouts/projects-lists/Paintings-list.jsx";
 import VitrailList from "../../layouts/projects-lists/Vitrail-list.jsx";
 import VolumesList from "../../layouts/projects-lists/Volumes-list.jsx";
+import PoetryList from "../../layouts/projects-lists/Poetry-list.jsx";
+import WeavingList from "../../layouts/projects-lists/Weaving-list.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -28,48 +30,74 @@ const paintings = await fetchApi({
   wrappedByKey: "data",
   locale: lang,
 });
+const poetries = await fetchApi({
+  endpoint: "poetries?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
+const weavings = await fetchApi({
+  endpoint: "weavings?populate=*",
+  wrappedByKey: "data",
+  locale: lang,
+});
 
 export const prerender = true;
 ---
 
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
-    <div class="header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]">
+    <div
+      class="header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]"
+    >
       <div class="flex-1">
         <Nav
-        lang={lang}
-        currentPath={Astro.url.pathname}
-        transition:name="nav"
-        transition:persist
-        client:load
-      />
+          lang={lang}
+          currentPath={Astro.url.pathname}
+          transition:name="nav"
+          transition:persist
+          client:load
+        />
       </div>
       <div class="flex-3">
         <VolumesList
-        targetHref="/volume/"
-        lang={lang}
-        dataVolumes={volumes}
-        isOnVolumePage={false}
-        transition:name="volumeslist"
-        transition:persist
-        client:load
-      />
+          targetHref="/volume/"
+          hidden={false}
+          lang={lang}
+          dataVolumes={volumes}
+          isOnVolumePage={false}
+          transition:name="volumeslist"
+          transition:persist
+          client:load
+        />
       </div>
       <div class="flex-1">
         <VitrailList
-        targetHref={`/vitrail/`}
-        lang={lang}
-        dataVitrails={vitraux}
-        isOnVitrailPage={false}
-        transition:name="vitrailist"
-        transition:persist
-        client:load
-      />
+          targetHref={`/vitrail/`}
+          hidden={false}
+          lang={lang}
+          dataVitrails={vitraux}
+          isOnVitrailPage={false}
+          transition:name="vitrailist"
+          transition:persist
+          client:load
+        />
       </div>
     </div>
 
+    <PoetryList
+      targetHref={`/poetry/`}
+      hidden={false}
+      lang={lang}
+      dataPoetry={poetries}
+      isOnPoetryPage={false}
+      transition:name="poetrylist"
+      transition:persist
+      client:load
+    />
+
     <PaintingsList
       targetHref={`/painting/`}
+      hidden={false}
       lang={lang}
       dataPaintings={paintings}
       isOnPaintingPage={false}
@@ -77,12 +105,15 @@ export const prerender = true;
       transition:persist
       client:load
     />
+    <WeavingList
+      targetHref={`/weaving/`}
+      hidden={false}
+      lang={lang}
+      dataWeaving={weavings}
+      isOnWeavingPage={false}
+      transition:name="weavinglist"
+      transition:persist
+      client:load
+    />
   </main>
-
-  <!-- <script is:inline>
-    // Ce script n'est plus nécessaire si nous utilisons directement Astro.url.pathname
-    document.addEventListener("astro:before-preparation", (env) => {
-      console.log("Page cible:", env.to.pathname);
-    });
-  </script> -->
 </Layout>
