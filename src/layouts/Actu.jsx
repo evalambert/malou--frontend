@@ -1,47 +1,53 @@
-//layouts/Actu.jsx
+// Actu.jsx
+import EventItem from "../components/EventItem";
+import useEventManager from "../hooks/useEventManager";
+import useDateFormatter from "../hooks/useDateFormatter";
 
-const Actu = ({ actus }) => {
-  const currentDate = new Date(); // Récupérer la date actuelle
-
-  // Filtrer les actualités passées (date < aujourd'hui)
-  const pastEvents = actus.filter((actu) => {
-    const eventDate = new Date(actu.eventDate); // Utiliser eventDate pour la comparaison
-    return eventDate < currentDate;
-  });
-
-  // Filtrer les actualités en cours (date >= aujourd'hui)
-  const inProgressEvents = actus.filter((actu) => {
-    const eventDate = new Date(actu.eventDate); // Utiliser eventDate pour la comparaison
-    return eventDate >= currentDate;
-  });
+const Actu = ({ actus, lang }) => {
+  const { formatEventDate } = useDateFormatter();
+  const { inProgressEvents, pastEvents } = useEventManager(actus);
 
   return (
-    <div>
-      <button>actualités :</button>
-      <ul>
-        {inProgressEvents.length > 0 ? (
-          inProgressEvents.map((actu) => (
-            <li key={actu.id}>
-              <a href={`/actu/${actu.slug}/`}>{actu.title}</a>
-            </li>
-          ))
-        ) : (
-          <p>Aucune actualité en cours.</p>
+    <div className="wrapper-actu flex flex-col gap-10 text-center">
+      <section className="current-envents flex gap-10 flex-col">
+        <h2 className="inline-block -rotate-25 self-center">
+          {lang === "fr" ? "actualités" : "news"}
+        </h2>
+        {inProgressEvents.length > 0 && (
+          <ul className="current-events-list flex flex-col gap-4">
+            {inProgressEvents.map((actu) => (
+              <EventItem
+                key={actu.id}
+                actu={actu}
+                lang={lang}
+                formatEventDate={formatEventDate}
+              />
+            ))}
+          </ul>
         )}
-      </ul>
+      </section>
 
-      <h3>passées :</h3>
-      <ul>
-        {pastEvents.length > 0 ? (
-          pastEvents.map((actu) => (
-            <li key={actu.id}>
-              <a href={`/actu/${actu.slug}/`}>{actu.title}</a>
-            </li>
-          ))
-        ) : (
-          <p>Aucune actualité passée.</p>
+      <section className="past-events flex flex-col gap-10">
+        {pastEvents.length > 0 && (
+          <h2 className="inline-block rotate-25 self-center">
+            {lang === "fr" ? "passées" : "past"}
+          </h2>
         )}
-      </ul>
+        {pastEvents.length > 0 ? (
+          <ul className="past-events-list flex flex-col gap-4">
+            {pastEvents.map((actu) => (
+              <EventItem
+                key={actu.id}
+                actu={actu}
+                lang={lang}
+                formatEventDate={formatEventDate}
+              />
+            ))}
+          </ul>
+        ) : (
+          <p>{lang === "fr" ? "aucune actualité passée" : "no past events"}</p>
+        )}
+      </section>
     </div>
   );
 };
