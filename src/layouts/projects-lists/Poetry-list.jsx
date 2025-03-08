@@ -3,7 +3,7 @@ import { navigate } from "astro:transitions/client";
 import Matter from "matter-js";
 
 
-const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, lang }) => {
+const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) => {
 
 
     // useEffect(() => {
@@ -61,10 +61,10 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, lang }) => {
                         : undefined
                 }
             >
-                <div className={`flex gap-[20px] ${!isOnPoetryPage ? "pointer-events-none" : ""}`}>
+                <div className={`flex gap-[20px] transition-all duration-1000 ease-in-out ${!isOnPoetryPage ? "pointer-events-none" : ""} ${!hidden ? "" : "translate-x-[-50vw] "}`}>
                     <div className={`max-w-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnPoetryPage ? "max-w-[100vw]" : "max-w-0"}`}>
                         {/* Liste Hidden */}
-                        {isOnPoetryPage && (
+                        {/* {isOnPoetryPage && ( */}
                             <ul>
                                 {dataPoetry.slice(1).map((poetry) => (
                                     <li className="poetry-title w-fit" key={poetry.id}>
@@ -78,7 +78,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, lang }) => {
                                     </li>
                                 ))}
                             </ul>
-                        )}
+                        {/* )} */}
                         {/* (END) Liste Hidden */}
                     </div>
                     {/* Liste Homepage */}

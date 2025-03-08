@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { navigate } from "astro:transitions/client";
 
-const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) => {
+const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang }) => {
     useEffect(() => {
         const calculateLayout = () => {
             const liTitle = document.querySelectorAll("li.painting-title");
@@ -38,8 +38,8 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`fixed md:left-[100px] bottom-0 ${!isOnPaintingPage ? "cursor-pointer" : ""
-                    }`}
+                className={`fixed md:left-[100px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${!isOnPaintingPage ? "cursor-pointer" : ""
+                    } ${!hidden ? "" : "bottom-[-50vh]"}`}
                 onClick={
                     !isOnPaintingPage
                         ? () => navigate(`/${lang}${targetHref}`, { history: "push" })
@@ -64,7 +64,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
                             }`}
                     >
                         {/* Liste Hidden */}
-                        {isOnPaintingPage && (
+                        {/* {isOnPaintingPage && ( */}
                             <ul>
                                 {dataPaintings.slice(4).map((painting) => (
                                     <li
@@ -80,7 +80,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, lang }) =>
                                     </li>
                                 ))}
                             </ul>
-                        )}
+                        {/* )} */}
                         {/* (END) Liste Hidden */}
                     </div>
                 </div>

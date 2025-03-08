@@ -61,6 +61,7 @@ export const prerender = true;
       <div class="flex-3">
         <VolumesList
           targetHref="/volume/"
+          hidden={false}
           lang={lang}
           dataVolumes={volumes}
           isOnVolumePage={false}
@@ -72,6 +73,7 @@ export const prerender = true;
       <div class="flex-1">
         <VitrailList
           targetHref={`/vitrail/`}
+          hidden={false}
           lang={lang}
           dataVitrails={vitraux}
           isOnVitrailPage={false}
@@ -84,6 +86,7 @@ export const prerender = true;
 
     <PoetryList
       targetHref={`/poetry/`}
+      hidden={false}
       lang={lang}
       dataPoetry={poetries}
       isOnPoetryPage={false}
@@ -94,6 +97,7 @@ export const prerender = true;
 
     <PaintingsList
       targetHref={`/painting/`}
+      hidden={false}
       lang={lang}
       dataPaintings={paintings}
       isOnPaintingPage={false}
@@ -103,6 +107,7 @@ export const prerender = true;
     />
     <WeavingList
       targetHref={`/weaving/`}
+      hidden={false}
       lang={lang}
       dataWeaving={weavings}
       isOnWeavingPage={false}
@@ -111,11 +116,4 @@ export const prerender = true;
       client:load
     />
   </main>
-
-  <!-- <script is:inline>
-    // Ce script n'est plus nécessaire si nous utilisons directement Astro.url.pathname
-    document.addEventListener("astro:before-preparation", (env) => {
-      console.log("Page cible:", env.to.pathname);
-    });
-  </script> -->
 </Layout>

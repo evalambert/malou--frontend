@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { navigate } from "astro:transitions/client";
 
-const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, lang }) => {
+const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) => {
     useEffect(() => {
 
     })
@@ -10,8 +10,8 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, lang }) => {
     return (
         <>
             <div
-                className={`pt-list-p-top  ${!isOnVolumePage ? "cursor-pointer" : ""
-                    }`}
+                className={`pt-list-p-top transition-all duration-1000 ease-in-out ${!isOnVolumePage ? "cursor-pointer" : ""
+                    } ${!hidden ? "" : "translate-y-[-50vh]"}`}
                 onClick={
                     !isOnVolumePage
                         ? () => navigate(`/${lang}${targetHref}`, { history: "push" })
@@ -27,7 +27,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, lang }) => {
                             }`}
                     >
                         {/* Liste Hidden */}
-                        {isOnVolumePage && (
+                        {/* {isOnVolumePage && ( */}
                             <ul className="volume-list-compact flex flex-wrap gap-y-[25px] pb-[25px]">
                                 {dataVolumes.slice(3).map((volume) => (
                                     <li
@@ -43,7 +43,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, lang }) => {
                                     </li>
                                 ))}
                             </ul>
-                        )}
+                        {/* )} */}
                         {/* (END) Liste Hidden */}
                     </div>
                     {/* Liste Homepage */}
