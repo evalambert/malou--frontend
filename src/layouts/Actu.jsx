@@ -1,4 +1,5 @@
 // Actu.jsx
+
 import EventItem from "../components/EventItem";
 import useEventManager from "../hooks/useEventManager";
 import useDateFormatter from "../hooks/useDateFormatter";

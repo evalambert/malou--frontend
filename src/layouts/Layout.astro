@@ -21,12 +21,12 @@ const currentPath = Astro.url.pathname;
   </head>
   <body class="font-bradford text-base px-main-x-mobile md:px-main-x">
     <div class="fixed top-[20vh] right-[20vw]">
-		<LanguageSwitch
-		  client:load
-		  currentLang={currentLocale}
-		  currentPath={currentPath}
-		/>
-	</div>
+      <LanguageSwitch
+        client:load
+        currentLang={currentLocale}
+        currentPath={currentPath}
+      />
+    </div>
     {showReturn && <ButtonReturn to={returnTo} />}
     <slot />
   </body>
