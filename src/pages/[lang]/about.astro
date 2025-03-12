@@ -3,7 +3,7 @@
 
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-/* import Actu from "../../layouts/Actu.jsx"; */
+import Actu from "../../layouts/Actu.jsx";
 import Nav from "../../layouts/Nav.jsx";
 import AboutComponent from "../../layouts/About.jsx";
 
@@ -31,13 +31,14 @@ export const prerender = true;
 <Layout title="About" showReturn returnTo="">
   <main>
     <Nav
+      className="relative"
       lang={lang}
       currentPath={Astro.url.pathname}
       transition:name="nav"
       transition:persist
       client:load
     />
-    <AboutComponent about={about} lang={lang} />
-    <!-- <Actu actus={actus} lang={lang} /> -->
+    <AboutComponent about={about} lang={lang} client:load />
+    <Actu actus={actus} lang={lang} client:load />
   </main>
 </Layout>

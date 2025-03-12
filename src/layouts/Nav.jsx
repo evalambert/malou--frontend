@@ -1,4 +1,4 @@
-const Nav = ({ lang, currentPath }) => {
+const Nav = ({ lang, currentPath, className }) => {
 const isHome = currentPath === `/${lang}` || currentPath === `/${lang}/` || currentPath === `/${lang}/about/`;
 
   const getLinkClass = (path) => {
