@@ -95,7 +95,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
                             <ul className="vitrail-list-compact">
                                 {dataVitrails.slice(2).map((vitrail) => (
                                     <li className="vitrail-title text-right w-fit block ml-auto transition-all duration-300" key={vitrail.id}>
-                                        <a href={`/${lang}/vitrail/${vitrail.slug}`} className="flex flex-col items-end">
+                                        <a href={`/${lang}/vitrail/${vitrail.slug}/`} className="flex flex-col items-end">
                                             {vitrail.title.split(' ').map((word, i, words) => (
                                                 <div key={i} className="volume-word-wrapper inline-block transition-all duration-300 ">
                                                     <div className="inline-block transition-all duration-300 h-[25px]">
@@ -117,7 +117,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
                         {
                             dataVitrails.slice(0, 2).map((vitrail) => (
                                 <li className="vitrail-title  text-right w-fit block ml-auto transition-all duration-300" key={vitrail.id}>
-                                    <a href={`/${lang}/vitrail/${vitrail.slug}`} className="flex flex-col items-end">
+                                    <a href={`/${lang}/vitrail/${vitrail.slug}/`} className="flex flex-col items-end">
                                         {vitrail.title.split(' ').map((word, i, words) => (
                                             <div key={i} className="volume-word-wrapper inline-block transition-all duration-300">
                                                 <div className="inline-block transition-all duration-300 h-[25px]">

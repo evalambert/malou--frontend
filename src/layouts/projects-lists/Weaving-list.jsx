@@ -34,7 +34,7 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang })
           <ul className="w-fit flex flex-col items-end">
             {dataWeaving.slice(0, 5).map((weaving) => (
               <li className="weaving-title w-fit" key={weaving.id}>
-                <a href={`/${lang}/weaving/${weaving.slug}`} className="pr-1">
+                <a href={`/${lang}/weaving/${weaving.slug}/`} className="pr-1">
                   {weaving.title}
                 </a>
               </li>
@@ -47,7 +47,7 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang })
               <ul className="w-fit flex flex-col items-end">
                 {dataWeaving.slice(5).map((weaving) => (
                   <li className="weaving-title w-fit" key={weaving.id}>
-                    <a href={`/${lang}/weaving/${weaving.slug}`} className="pr-1">
+                    <a href={`/${lang}/weaving/${weaving.slug}/`} className="pr-1">
                       {weaving.title}
                     </a>
                   </li>

@@ -47,7 +47,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
                                     key={volume.id}
                                 >
                                     <a
-                                        href={`/${lang}/volume/${volume.slug}`}
+                                        href={`/${lang}/volume/${volume.slug}/`}
                                         className="block whitespace-nowrap"
                                     >
                                         {volume.title.split('').map((letter, index) => (
@@ -65,7 +65,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
                     <ul className="volume-list-compact flex flex-wrap gap-y-[25px]">
                         {dataVolumes.slice(0, 3).map((volume) => (
                             <li className="volume-title w-fit" key={volume.id}>
-                                <a href={`/${lang}/volume/${volume.slug}`} className="block whitespace-nowrap">
+                                <a href={`/${lang}/volume/${volume.slug}/`} className="block whitespace-nowrap">
                                     {volume.title.split('').map((letter, index) => (
                                         <span className="inline-block" key={index}>{letter}</span>
                                     ))}</a>

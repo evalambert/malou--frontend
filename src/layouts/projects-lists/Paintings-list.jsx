@@ -83,7 +83,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                     <ul className="painting-list-compact transition-all duration-500 ease-in-out">
                         {dataPaintings.slice(0, 4).map((painting) => (
                             <li className="painting-title w-fit" key={painting.id}>
-                                <a href={`/${lang}/painting/${painting.slug}`} className="block whitespace-nowrap">
+                                <a href={`/${lang}/painting/${painting.slug}/`} className="block whitespace-nowrap">
                                     {painting.title.split('').map((letter, index) => (
                                         <span className="inline-block" key={index}>{letter}</span>
                                     ))}
@@ -105,7 +105,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                                     key={painting.id}
                                 >
                                     <a
-                                        href={`/${lang}/painting/${painting.slug}`}
+                                        href={`/${lang}/painting/${painting.slug}/`}
                                         className="block whitespace-nowrap"
                                     >
                                         {painting.title.split('').map((letter, index) => (

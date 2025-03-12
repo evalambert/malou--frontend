@@ -6,6 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   // Changez 'server' en 'static'
   output: 'static',
+  trailingSlash: 'always',
+  build: {
+    format: 'directory'
+  },
   adapter: vercel({
     imageService: true,
     webAnalytics: {
