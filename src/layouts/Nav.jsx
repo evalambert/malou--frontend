@@ -1,5 +1,5 @@
 const Nav = ({ lang, currentPath }) => {
-const isHome = currentPath === `/${lang}` || currentPath === `/${lang}/about`;
+const isHome = currentPath === `/${lang}` || currentPath === `/${lang}/` || currentPath === `/${lang}/about/`;
 
   const getLinkClass = (path) => {
     if (isHome) return "nav-li nav-home";
@@ -11,7 +11,7 @@ const isHome = currentPath === `/${lang}` || currentPath === `/${lang}/about`;
     <>
       <div className="nav-wrapper flex gap-[10px]">
         <h1>
-          <a className="text-base leading-base" href={`/${lang}/about`}>
+          <a className="text-base leading-base" href={`/${lang}/about/`}>
             malou raulin
           </a>
         </h1>

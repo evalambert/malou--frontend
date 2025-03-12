@@ -68,7 +68,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
                             <ul>
                                 {dataPoetry.slice(1).map((poetry) => (
                                     <li className="poetry-title w-fit" key={poetry.id}>
-                                        <a href={`/${lang}/poetry/${poetry.slug}`} className="pr-1">
+                                        <a href={`/${lang}/poetry/${poetry.slug}/`} className="pr-1">
                                             <div className="flex flex-col gap-[3px]">
                                                 {poetry.title.split('').map((letter, index) => (
                                                     <span key={index}>{letter}</span>
@@ -85,7 +85,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
                     <ul>
                         {dataPoetry.slice(0, 1).map((poetry) => (
                             <li className="poetry-title w-fit" key={poetry.id}>
-                                <a href={`/${lang}/poetry/${poetry.slug}`} className="pr-1">
+                                <a href={`/${lang}/poetry/${poetry.slug}/`} className="pr-1">
                                     <div className="flex flex-col gap-[3px]">
                                         {poetry.title.split('').map((letter, index) => (
                                             <span key={index}>{letter}</span>
