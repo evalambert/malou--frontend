@@ -1,54 +1,254 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { navigate } from "astro:transitions/client";
 import Matter from "matter-js";
-
+import "../../assets/styles/matterPoems.css";
+import 'pathseg';
+import decomp from 'poly-decomp';
 
 const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) => {
 
+    const [letterPositions, setLetterPositions] = useState({});
+    const [letterOffsets, setLetterOffsets] = useState({});
 
-    // useEffect(() => {
-    //     // module aliases
-    //     var Engine = Matter.Engine,
-    //         Render = Matter.Render,
-    //         Runner = Matter.Runner,
-    //         Bodies = Matter.Bodies,
-    //         Composite = Matter.Composite;
+    useEffect(() => {
+        window.decomp = decomp;
+        var matterContainer = document.getElementById('matter-container');
+        var thiccness = 80;
 
-    //     // create an engine
-    //     var engine = Engine.create();
+        // Générer les offsets une seule fois au chargement
+        const initialOffsets = {};
+        dataPoetry.forEach(poetry => {
+            poetry.title.split('').forEach((_, index) => {
+                initialOffsets[`${poetry.id}-${index}`] = Math.random() * 20 - 10;
+            });
+        });
+        setLetterOffsets(initialOffsets);
 
-    //     // create a renderer
-    //     var render = Render.create({
-    //         element: document.body,
-    //         engine: engine
-    //     });
+        // Créer un tableau des titres avec leurs lettres
+        const poetryTitlesLetters = dataPoetry.map(poetry => ({
+            id: poetry.id,
+            title: poetry.title,
+            letters: poetry.title.split('')
+        }));
 
-    //     // create two boxes and a ground
-    //     var boxA = Bodies.rectangle(400, 200, 80, 80);
-    //     var boxB = Bodies.rectangle(450, 50, 80, 80);
-    //     var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+        console.log(poetryTitlesLetters);
 
-    //     // add all of the bodies to the world
-    //     Composite.add(engine.world, [boxA, boxB, ground]);
+        // module aliases
+        var Engine = Matter.Engine,
+            Render = Matter.Render,
+            Runner = Matter.Runner,
+            Body = Matter.Body,
+            Bodies = Matter.Bodies,
+            Composite = Matter.Composite,
+            Composites = Matter.Composites,
+            Constraint = Matter.Constraint,
+            Bodies = Matter.Bodies,
+            Svg = Matter.Svg,
+            Vector = Matter.Vector,
+            Vertices = Matter.Vertices;
 
-    //     // run the renderer
-    //     Render.run(render);
+        // create an engine
+        var engine = Engine.create(),
+            world = engine.world;
 
-    //     // create runner
-    //     var runner = Runner.create();
+        // create a renderer
+        var render = Render.create({
+            element: matterContainer,
+            engine: engine,
+            options: {
+                width: matterContainer.clientWidth,
+                height: matterContainer.clientHeight,
+                wireframes: false,
+                // showAxes: true,
+                // showPositions: true,
+                // showAngleIndicator: true,
+                // showCollisions: true,
+                // showVelocity: true
+            }
+        });
 
-    //     // run the engine
-    //     Runner.run(runner, engine);
-    // }, []);
+
+        // Création des chaînes pour chaque titre
+        const ropes = poetryTitlesLetters.map((poetry, index) => {
+            const group = Body.nextGroup(true);
+
+            const rope = Composites.stack(
+                30 + (index * 80),
+                100 - (index * 80),
+                poetry.letters.length,
+                1,
+                10,
+                10,
+                function (x, y) {
+                    const body = Bodies.rectangle(x - 20, y, 40, 50, {
+                        collisionFilter: { group: group },
+                        chamfer: 5,
+                        render: {
+                            fillStyle: 'transparent',
+                            strokeStyle: 'transparent',
+                            lineWidth: 1,
+                            visualCenterOfMass: true
+                        },
+                        density: 1,
+                        frictionAir: 0.02
+                    });
+                    console.log('Rectangle body:', body); // Ajout du console.log
+                    return body;
+                }
+            );
+
+            // Modifier les contraintes de la chaîne pour correspondre à ropeC
+            Composites.chain(rope, 0.3, 0, -0.3, 0, {
+                stiffness: 1,  // Augmenté de 0.8 à 1
+                length: 0,     // Réduit à 0 pour des connexions plus serrées
+                render: { type: 'line' }
+            });
+
+            // Modifier le point d'ancrage comme dans ropeC
+            Composite.add(rope, Constraint.create({
+                bodyB: rope.bodies[0],
+                pointB: { x: -20, y: 0 },
+                pointA: { x: rope.bodies[0].position.x, y: rope.bodies[0].position.y },
+                stiffness: 1  // Réduit à 0.5 comme dans l'exemple
+            }));
+
+            return rope;
+        });
+
+        // Sélectionne l'élément SVG avec l'ID 'matterflor'
+        const path = document.getElementById('matterflor');
+        // Convertit le chemin SVG en vertices (points) pour Matter.js
+        // Le paramètre 30 définit la précision de la conversion
+        const vertices = Svg.pathToVertices(path, 30);
+        // Obtient les dimensions du path SVG
+
+
+        // Crée une forme physique à partir des vertices
+        // La position est calculée pour centrer la forme horizontalement
+        // et la placer en bas du conteneur
+        const groundShape = Bodies.fromVertices(
+            matterContainer.clientWidth / 2,
+            matterContainer.clientHeight - 424 / 5,
+            vertices,
+            {
+                isStatic: true,
+                render: {
+                    fillStyle: 'transparent',
+                    strokeStyle: 'transparent',
+                    visible: true
+                },
+                // Ajout des propriétés de collision
+                friction: 0.1,
+                restitution: 0.5,
+                slop: 0.5,
+                chamfer: { radius: 5 },
+                collisionFilter: {
+                    category: 0x0001,
+                    mask: 0xFFFFFFFF
+                }
+            }
+        );
+
+
+        // Wall and Ground Variables
+        let leftWall = Bodies.rectangle(0 - thiccness / 2, matterContainer.clientHeight / 2, thiccness, matterContainer.clientHeight * 5, { isStatic: true });
+        let rightWall = Bodies.rectangle(matterContainer.clientWidth + thiccness / 2, matterContainer.clientHeight / 2, thiccness, matterContainer.clientHeight * 5, { isStatic: true });
+
+        // Ajouter toutes les chaînes au monde
+        Composite.add(world, [
+            ...ropes,
+            leftWall,
+            // rightWall,
+            groundShape,
+        ]);
+
+
+        // run the renderer
+        Render.run(render);
+
+        // create runner
+        var runner = Runner.create();
+
+        // run the engine
+        Runner.run(runner, engine);
+
+
+        // resize the canvas
+        function handleResize(matterContainer) {
+            render.canvas.width = matterContainer.clientWidth;
+            render.canvas.height = matterContainer.clientHeight;
+
+            // Recalculer l'échelle des vertices
+            const scaleX = matterContainer.clientWidth / 1921;
+            const scaleY = matterContainer.clientHeight / 424;
+
+            const scaledVertices = vertices.map(vertex => ({
+                x: vertex.x * scaleX,
+                y: vertex.y * scaleY
+            }));
+
+            // Appliquer les nouvelles vertices et repositionner le groundShape
+            Matter.Body.setVertices(groundShape, scaledVertices);
+            Matter.Body.setPosition(groundShape, {
+                x: matterContainer.clientWidth / 2,
+                y: matterContainer.clientHeight - 424 / 5
+            });
+
+            // Repositionner les murs
+            Matter.Body.setPosition(rightWall, {
+                x: matterContainer.clientWidth + thiccness / 2,
+                y: matterContainer.clientHeight / 2
+            });
+
+        }
+        Matter.Events.on(engine, "afterUpdate", function () {
+            const newPositions = {};
+
+            poetryTitlesLetters.forEach((poetry, poetryIndex) => {
+                poetry.letters.forEach((letter, letterIndex) => {
+                    const body = ropes[poetryIndex].bodies[letterIndex];
+                    if (body) {
+                        newPositions[`${poetry.id}-${letterIndex}`] = {
+                            x: body.position.x,
+                            y: body.position.y,
+                        };
+                    }
+                });
+            });
+
+            setLetterPositions(newPositions);
+        });
+        window.addEventListener('resize', () => {
+            handleResize(matterContainer);
+        });
+    }, []);
 
 
     // Render
     return (
         <>
-
-            <div className="hidden border border-blue-600 h-[95vh]">
-                <svg width="145" height="100%" viewBox="0 0 145 1009" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" >
-                    <path d="M0.5 1C10.8333 29.5 35.7 91.6 52.5 112C73.5 137.5 102 225 106.5 270.5C111 316 112.5 359.5 119.5 403.5C126.5 447.5 101.5 468 119.5 511.5C137.5 555 132.5 638.5 119.5 655.5C106.5 672.5 93.5 768 106.5 796C119.5 824 132.5 903 119.5 941.5C109.1 972.3 131.833 998.667 144.5 1008" stroke="black" />
+            <div className="hidden">
+                <svg
+                    id="matterflor-svg"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 1921 424"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-full h-auto"
+                >
+                    <g clipPath="url(#clip0_572_47)">
+                        <path
+                            id="matterflor"
+                            d="M0.5 1.95996V423.5H1920.5V28.79C1706 492 318 585 0.5 1.95996Z"
+                            fill="black"
+                            stroke="white"
+                            strokeMiterlimit="10"
+                        />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_572_47">
+                            <rect width="1921" height="424" fill="white" />
+                        </clipPath>
+                    </defs>
                 </svg>
             </div>
 
@@ -61,43 +261,39 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
                         : undefined
                 }
             >
-                <div className={`flex gap-[20px] transition-all duration-1000 ease-in-out ${!isOnPoetryPage ? "pointer-events-none" : ""} ${!hidden ? "" : "translate-x-[-50vw] "}`}>
-                    <div className={`max-w-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnPoetryPage ? "max-w-[100vw]" : "max-w-0"}`}>
-                        {/* Liste Hidden */}
-                        {/* {isOnPoetryPage && ( */}
-                            <ul>
-                                {dataPoetry.slice(1).map((poetry) => (
-                                    <li className="poetry-title w-fit" key={poetry.id}>
-                                        <a href={`/${lang}/poetry/${poetry.slug}/`} className="pr-1">
-                                            <div className="flex flex-col gap-[3px]">
-                                                {poetry.title.split('').map((letter, index) => (
-                                                    <span key={index}>{letter}</span>
-                                                ))}
-                                            </div>
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        {/* )} */}
-                        {/* (END) Liste Hidden */}
-                    </div>
-                    {/* Liste Homepage */}
-                    <ul>
-                        {dataPoetry.slice(0, 1).map((poetry) => (
-                            <li className="poetry-title w-fit" key={poetry.id}>
-                                <a href={`/${lang}/poetry/${poetry.slug}/`} className="pr-1">
-                                    <div className="flex flex-col gap-[3px]">
-                                        {poetry.title.split('').map((letter, index) => (
-                                            <span key={index}>{letter}</span>
-                                        ))}
-                                    </div>
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                    {/* (END) Liste Homepage */}
+                <div className="flex w-screen h-screen fixed top-[20h] left-0">
+                    <div id="matter-container" className="h-[80vh] w-[20vw]"></div>
 
+
+
+                    <div className="bg-red-500">
+                        {dataPoetry.map((poetry) => (
+                            <div key={poetry.id}>
+                                {poetry.title.split('').map((letter, index) => {
+                                    const position = letterPositions[`${poetry.id}-${index}`] || { x: 0, y: 0 };
+                                    const offset = letterOffsets[`${poetry.id}-${index}`] || 0;
+
+                                    return (
+                                        <a
+                                            href={`/${lang}/poetry/${poetry.slug}/`}
+                                            className="pr-1 absolute"
+                                            key={index}
+                                            style={{
+                                                left: `${position.x + offset}px`,
+                                                top: `${position.y}px`,
+                                                transform: "translate(-50%, -50%)",
+                                            }}
+                                        >
+                                            <div className="p-5px">{letter}</div>
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        ))}
+                    </div>
                 </div>
+
+
             </div>
 
         </>
@@ -105,3 +301,4 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
 };
 
 export default PoetryList;
+export const client = 'only';
