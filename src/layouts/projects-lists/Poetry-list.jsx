@@ -31,7 +31,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
             letters: poetry.title.split('')
         }));
 
-        console.log(poetryTitlesLetters);
+        console.log(poetryTitlesLetters); 
 
         // module aliases
         var Engine = Matter.Engine,
