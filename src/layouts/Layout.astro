@@ -8,6 +8,7 @@ import LanguageSwitch from "../components/LanguageSwitch.jsx";
 const { title, showReturn = false, returnTo = "" } = Astro.props;
 const currentLocale = Astro.currentLocale || "fr";
 const currentPath = Astro.url.pathname;
+const isAboutPage = currentPath.includes("/about");
 ---
 
 <!doctype html>
@@ -20,7 +21,10 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
     <ClientRouter />
   </head>
-  <body class="font-bradford text-base px-main-x-mobile md:px-main-x">
+  <body
+    class="font-bradford text-base px-main-x-mobile md:px-main-x"
+    data-page={isAboutPage ? "about" : undefined}
+  >
     <div class="fixed top-[20vh] right-[20vw]">
       <LanguageSwitch
         client:load
