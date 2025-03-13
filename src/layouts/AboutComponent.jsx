@@ -7,7 +7,7 @@ export default function AboutComponent({ about, lang }) {
 
   return (
     <section
-      className={`wrapper-about absolute left-0 md:fixed md:right-0 w-full flex flex-col gap-3 border-2 border-red-300
+      className={`section--about absolute left-0 md:fixed md:right-0 w-full flex flex-col gap-3 border-2 border-red-300
         ${
           active === "actu"
             ? "md:h-0 md:top-[calc(-100vh)]"

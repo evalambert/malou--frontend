@@ -21,16 +21,17 @@ export default function ActuComponent({ actus, lang }) {
       className={`section--actu absolute right-0 flex flex-col gap-10 w-full border-2 border-blue-300 bg-white
        ${
          active === "actu"
-           ? "h-full md:top-[30vh] overflow-y-auto"
+           ? "h-auto md:top-[30vh] overflow-y-auto"
            : "md:h-[70px] md:top-[calc(100vh-70px)] overflow-hidden"
-       }  text-center transition-all duration-500 ease-in-out`}
+       } text-center transition-all duration-500 ease-in-out`}
     >
       <button
-        className="button-actu--desktop md:rotate-[-25deg] md:p-4"
+        className="button-actu--desktop md:rotate-[-25deg] md:p-4 hidden md:block"
         onClick={toggleComponent}
       >
         {lang === "fr" ? "actualités" : "news"}
       </button>
+
       <div className="events-wrapper flex flex-col gap-10">
         <div className="current-events flex flex-col gap-10">
           <ul className="current-events-list flex flex-col gap-4">
