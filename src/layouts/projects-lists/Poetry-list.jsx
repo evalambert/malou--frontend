@@ -253,7 +253,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
             </div>
 
             <div
-                className={`w-fit ${!isOnPoetryPage ? "cursor-pointer" : ""
+                className={`w-fit ${!isOnPoetryPage ? "cursor-pointer" : "" 
                     }`}
                 onClick={
                     !isOnPoetryPage
