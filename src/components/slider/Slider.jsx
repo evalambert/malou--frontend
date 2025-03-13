@@ -75,9 +75,6 @@ export default function Slider({ medias = [] }) {
             <style>
             {`
                 .swiper{
-                    position: fixed;
-                    top: 0;
-                    left: 0;
                     height: 100vh;
                     width: 100vw;
                 }

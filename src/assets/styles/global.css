@@ -36,6 +36,8 @@
     --leading-base: 25px;
     --spacing-main-x: 15px;
     --spacing-main-x-mobile: 15px;
+    --spacing-preview-w: 350px;
+    --spacing-preview-h: 300px;
     /* ! change value in Paintings-list.jsx */
     --spacing-list-p-top: 6px;
 }
@@ -184,4 +186,8 @@ li {
 .active .volume-word-wrapper span{
     display: inline-block;
     text-align: center;
+}
+
+.vitrail-title.active span{
+    @apply !text-white;
 }

@@ -3,7 +3,9 @@
 
 import fetchApi from "../../../lib/strapi";
 import Layout from "../../../layouts/Layout.astro";
+import Nav from "../../../layouts/Nav.jsx";
 import VitrailList from "../../../layouts/projects-lists/Vitrail-list.jsx";
+import Slider from "../../../components/slider/Slider.jsx";
 
 export async function getStaticPaths() {
   const languages = ["fr", "en"];
@@ -49,8 +51,16 @@ export const prerender = true;
 ---
 
 <Layout title="Vitrail" showReturn returnTo={`/vitrail`}>
-  <div class="flex-1"></div>
-  <div class="flex-1">
+  <div class="fixed top-[10px] left-main-x z-20">
+    <Nav
+      lang={lang}
+      currentPath={Astro.url.pathname}
+      transition:name="nav"
+      transition:persist
+      client:load
+    />
+  </div>
+  <div class="fixed top-[10px] right-main-x z-20">
     <VitrailList
       targetHref={Astro.url.pathname}
       hidden={false}
@@ -62,6 +72,9 @@ export const prerender = true;
       client:load
     />
   </div>
+  <div class="border-2 border-violet-300 fixed top-0 left-0 z-10">
+    <Slider client:only medias={vitrail?.medias || []} />
+  </div>
+  <h1>{vitrail?.title || "Titre non disponible"}</h1>
+  <p>{vitrail?.description || "Description non disponible"}</p>
 </Layout>
-<h1>{vitrail?.title || "Titre non disponible"}</h1>
-<p>{vitrail?.description || "Description non disponible"}</p>
