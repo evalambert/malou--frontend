@@ -25,7 +25,8 @@
     "react-dom": "^19.0.0",
     "react-p5": "^1.4.1",
     "swiper": "^11.2.4",
-    "tailwindcss": "^4.0.9"
+    "tailwindcss": "^4.0.9",
+    "zwitch": "^2.0.4"
   },
   "type": "module"
 }
