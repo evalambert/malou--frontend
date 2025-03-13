@@ -5,17 +5,24 @@ import "../../assets/styles/matterPoems.css";
 import 'pathseg';
 import decomp from 'poly-decomp';
 
-window.decomp = decomp;
-
 const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) => {
 
     const [letterPositions, setLetterPositions] = useState({});
-
+    const [letterOffsets, setLetterOffsets] = useState({});
 
     useEffect(() => {
+        window.decomp = decomp;
         var matterContainer = document.getElementById('matter-container');
         var thiccness = 80;
 
+        // Générer les offsets une seule fois au chargement
+        const initialOffsets = {};
+        dataPoetry.forEach(poetry => {
+            poetry.title.split('').forEach((_, index) => {
+                initialOffsets[`${poetry.id}-${index}`] = Math.random() * 20 - 10;
+            });
+        });
+        setLetterOffsets(initialOffsets);
 
         // Créer un tableau des titres avec leurs lettres
         const poetryTitlesLetters = dataPoetry.map(poetry => ({
@@ -44,7 +51,6 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
         var engine = Engine.create(),
             world = engine.world;
 
-
         // create a renderer
         var render = Render.create({
             element: matterContainer,
@@ -53,6 +59,8 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
                 width: matterContainer.clientWidth,
                 height: matterContainer.clientHeight,
                 wireframes: false,
+                // showAxes: true,
+                // showPositions: true,
                 // showAngleIndicator: true,
                 // showCollisions: true,
                 // showVelocity: true
@@ -64,60 +72,94 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
         const ropes = poetryTitlesLetters.map((poetry, index) => {
             const group = Body.nextGroup(true);
 
-            // Créer une pile de cercles pour chaque lettre
             const rope = Composites.stack(
-                30 + (index * 50), // Position X décalée pour chaque mot
-                100 - (index * 50),
-                poetry.letters.length, // Nombre de bodies basé sur le nombre de lettres
+                30 + (index * 80),
+                100 - (index * 80),
+                poetry.letters.length,
                 1,
                 10,
                 10,
                 function (x, y) {
-                    return Bodies.circle(x, y, 12, {
-                        // render: {
-                        //     fillStyle: "transparent", // Remplit le cercle en blanc
-                        //     strokeStyle: "transparent", // Supprime le contour
-                        //     lineWidth: 0 // S'assure qu'il n'y a pas de contour
-                        // },
+                    const body = Bodies.rectangle(x - 20, y, 40, 50, {
                         collisionFilter: { group: group },
-                        restitution: 0.5, // Ajoute du rebond
-                        friction: 0.2,    // Réduit la friction
-                        density: 0.02,    // Réduit la densité
-                        frictionAir: 0.1 // Ajoute une légère résistance à l'air
+                        chamfer: 5,
+                        render: {
+                            fillStyle: 'transparent',
+                            strokeStyle: 'transparent',
+                            lineWidth: 1,
+                            visualCenterOfMass: true
+                        },
+                        density: 1,
+                        frictionAir: 0.02
                     });
+                    console.log('Rectangle body:', body); // Ajout du console.log
+                    return body;
                 }
             );
 
-            // Créer la chaîne entre les cercles
-            Composites.chain(rope, 0.5, 0, -0.5, 0, {
-                stiffness: 0.8,
-                length: 0,
+            // Modifier les contraintes de la chaîne pour correspondre à ropeC
+            Composites.chain(rope, 0.3, 0, -0.3, 0, {
+                stiffness: 1,  // Augmenté de 0.8 à 1
+                length: 0,     // Réduit à 0 pour des connexions plus serrées
                 render: { type: 'line' }
             });
 
-            // Ajouter le point d'ancrage pour le premier cercle
+            // Modifier le point d'ancrage comme dans ropeC
             Composite.add(rope, Constraint.create({
                 bodyB: rope.bodies[0],
-                pointB: { x: 0, y: 0 },
+                pointB: { x: -20, y: 0 },
                 pointA: { x: rope.bodies[0].position.x, y: rope.bodies[0].position.y },
-                stiffness: 0.8
+                stiffness: 1  // Réduit à 0.5 comme dans l'exemple
             }));
 
             return rope;
         });
 
+        // Sélectionne l'élément SVG avec l'ID 'matterflor'
+        const path = document.getElementById('matterflor');
+        // Convertit le chemin SVG en vertices (points) pour Matter.js
+        // Le paramètre 30 définit la précision de la conversion
+        const vertices = Svg.pathToVertices(path, 30);
+        // Obtient les dimensions du path SVG
+
+
+        // Crée une forme physique à partir des vertices
+        // La position est calculée pour centrer la forme horizontalement
+        // et la placer en bas du conteneur
+        const groundShape = Bodies.fromVertices(
+            matterContainer.clientWidth / 2,
+            matterContainer.clientHeight - 424 / 5,
+            vertices,
+            {
+                isStatic: true,
+                render: {
+                    fillStyle: 'transparent',
+                    strokeStyle: 'transparent',
+                    visible: true
+                },
+                // Ajout des propriétés de collision
+                friction: 0.1,
+                restitution: 0.5,
+                slop: 0.5,
+                chamfer: { radius: 5 },
+                collisionFilter: {
+                    category: 0x0001,
+                    mask: 0xFFFFFFFF
+                }
+            }
+        );
+
 
         // Wall and Ground Variables
-        var ground = Bodies.rectangle(matterContainer.clientWidth / 2, matterContainer.clientHeight + thiccness / 2, matterContainer.clientWidth, thiccness, { isStatic: true });
         let leftWall = Bodies.rectangle(0 - thiccness / 2, matterContainer.clientHeight / 2, thiccness, matterContainer.clientHeight * 5, { isStatic: true });
         let rightWall = Bodies.rectangle(matterContainer.clientWidth + thiccness / 2, matterContainer.clientHeight / 2, thiccness, matterContainer.clientHeight * 5, { isStatic: true });
 
         // Ajouter toutes les chaînes au monde
         Composite.add(world, [
             ...ropes,
-            ground,
             leftWall,
-            // rightWall
+            // rightWall,
+            groundShape,
         ]);
 
 
@@ -136,20 +178,27 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
             render.canvas.width = matterContainer.clientWidth;
             render.canvas.height = matterContainer.clientHeight;
 
-            Matter.Body.setPosition(
-                ground,
-                Matter.Vector.create(
-                    matterContainer.clientWidth / 2,
-                    matterContainer.clientHeight + thiccness / 2
-                )
-            );
-            Matter.Body.setPosition(
-                rightWall,
-                Matter.Vector.create(
-                    matterContainer.clientWidth + thiccness / 2,
-                    matterContainer.clientHeight / 2
-                )
-            );
+            // Recalculer l'échelle des vertices
+            const scaleX = matterContainer.clientWidth / 1921;
+            const scaleY = matterContainer.clientHeight / 424;
+
+            const scaledVertices = vertices.map(vertex => ({
+                x: vertex.x * scaleX,
+                y: vertex.y * scaleY
+            }));
+
+            // Appliquer les nouvelles vertices et repositionner le groundShape
+            Matter.Body.setVertices(groundShape, scaledVertices);
+            Matter.Body.setPosition(groundShape, {
+                x: matterContainer.clientWidth / 2,
+                y: matterContainer.clientHeight - 424 / 5
+            });
+
+            // Repositionner les murs
+            Matter.Body.setPosition(rightWall, {
+                x: matterContainer.clientWidth + thiccness / 2,
+                y: matterContainer.clientHeight / 2
+            });
 
         }
         Matter.Events.on(engine, "afterUpdate", function () {
@@ -178,7 +227,30 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
     // Render
     return (
         <>
-
+            <div className="hidden">
+                <svg
+                    id="matterflor-svg"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 1921 424"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-full h-auto"
+                >
+                    <g clipPath="url(#clip0_572_47)">
+                        <path
+                            id="matterflor"
+                            d="M0.5 1.95996V423.5H1920.5V28.79C1706 492 318 585 0.5 1.95996Z"
+                            fill="black"
+                            stroke="white"
+                            strokeMiterlimit="10"
+                        />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_572_47">
+                            <rect width="1921" height="424" fill="white" />
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
 
             <div
                 className={`w-fit ${!isOnPoetryPage ? "cursor-pointer" : ""
@@ -189,37 +261,30 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
                         : undefined
                 }
             >
-                <div className="flex w-screen h-screen fixed top-0 left-0">
-                    <div id="matter-container" className="h-screen w-[80vw]"></div>
+                <div className="flex w-screen h-screen fixed top-[20h] left-0">
+                    <div id="matter-container" className="h-[80vh] w-[20vw]"></div>
 
-                    <svg id="matterflor" width="1921" height="424" viewBox="0 0 1921 424" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_572_47)">
-                            <path d="M0.5 1.95996V423.5H1920.5V28.79C1706 492 318 585 0.5 1.95996Z" fill="black" stroke="white" stroke-miterlimit="10" />
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_572_47">
-                                <rect width="1921" height="424" fill="white" />
-                            </clipPath>
-                        </defs>
-                    </svg>
 
-                    <div className="h-screen w-[20vw] bg-red-500">
+
+                    <div className="bg-red-500">
                         {dataPoetry.map((poetry) => (
                             <div key={poetry.id}>
                                 {poetry.title.split('').map((letter, index) => {
                                     const position = letterPositions[`${poetry.id}-${index}`] || { x: 0, y: 0 };
+                                    const offset = letterOffsets[`${poetry.id}-${index}`] || 0;
+
                                     return (
                                         <a
                                             href={`/${lang}/poetry/${poetry.slug}/`}
                                             className="pr-1 absolute"
                                             key={index}
                                             style={{
-                                                left: `${position.x}px`,
+                                                left: `${position.x + offset}px`,
                                                 top: `${position.y}px`,
                                                 transform: "translate(-50%, -50%)",
                                             }}
                                         >
-                                            <span>{letter}</span>
+                                            <div className="p-5px">{letter}</div>
                                         </a>
                                     );
                                 })}
@@ -236,3 +301,4 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
 };
 
 export default PoetryList;
+export const client = 'only';
