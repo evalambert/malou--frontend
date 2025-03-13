@@ -1,11 +1,10 @@
 ---
 //pages/[lang]/about.astro
-
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-import Actu from "../../layouts/Actu.jsx";
 import Nav from "../../layouts/Nav.jsx";
 import AboutComponent from "../../layouts/About.jsx";
+import ActuComponent from "../../layouts/Actu.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -31,7 +30,6 @@ export const prerender = true;
 <Layout title="About" showReturn returnTo="">
   <main>
     <Nav
-      className="relative"
       lang={lang}
       currentPath={Astro.url.pathname}
       transition:name="nav"
@@ -39,6 +37,6 @@ export const prerender = true;
       client:load
     />
     <AboutComponent about={about} lang={lang} client:load />
-    <Actu actus={actus} lang={lang} client:load />
+    <ActuComponent actus={actus} lang={lang} client:load />
   </main>
 </Layout>
