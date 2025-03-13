@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { navigate } from "astro:transitions/client";
 import Matter from "matter-js";
-import "../../assets/styles/matterPoems.css";
 import 'pathseg';
 import decomp from 'poly-decomp';
+
 
 const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) => {
 
@@ -31,7 +31,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
             letters: poetry.title.split('')
         }));
 
-        console.log(poetryTitlesLetters);
+        // console.log(poetryTitlesLetters);
 
         // module aliases
         var Engine = Matter.Engine,
@@ -92,7 +92,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
                         density: 1,
                         frictionAir: 0.02
                     });
-                    console.log('Rectangle body:', body); // Ajout du console.log
+                    // console.log('Rectangle body:', body); // Ajout du console.log
                     return body;
                 }
             );
@@ -227,6 +227,14 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
     // Render
     return (
         <>
+            <style>
+                {`
+                #matter-container canvas{
+                    background-color: white !important;
+
+                }
+            `}
+            </style>
             <div className="hidden">
                 <svg
                     id="matterflor-svg"
@@ -261,7 +269,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
                         : undefined
                 }
             >
-                <div className={`flex w-screen h-screen fixed top-[20h] left-0 ${!hidden ? "" : "translate-x-[-50vw]"}`}>
+                <div className={`flex w-screen h-screen fixed top-[20vh] left-0 ${!hidden ? "" : "left-[-50vw]"}`}>
                     <div id="matter-container" className="h-[80vh] w-[20vw]"></div>
 
 

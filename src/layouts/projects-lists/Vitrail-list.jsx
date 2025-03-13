@@ -3,6 +3,24 @@ import { navigate } from "astro:transitions/client";
 
 const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }) => {
 
+    // Fonction pour gérer le survol et changer l'image
+    const handleMouseEnter = (imageUrl) => {
+        const imageElement = document.querySelector('.dynamic-image');
+        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        if (imageElement) {
+            imageElement.src = imageUrl;
+        }
+        if (wrapperElement) {
+            wrapperElement.style.opacity = '1';
+        }
+    };
+
+    const handleMouseLeave = () => {
+        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        if (wrapperElement) {
+            wrapperElement.style.opacity = '0';
+        }
+    };
 
     useEffect(() => {
         // Title animation  
@@ -16,14 +34,14 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
                     wordWrappers.forEach((wrapper, wrapperIndex) => {
                         const wordWrapperSpan = wrapper.querySelectorAll('span');
                         const wordWrapSpanLength = wordWrapperSpan.length;
-                        
+
                         wrapper.style.transition = 'height 0.5s ease-in-out';
                         wrapper.style.transitionDelay = `${wrapperIndex * 0.3}s`;
                         wrapper.style.height = `${wordWrapSpanLength * 25}px`;
-                        
+
                         const firstSpan = wordWrapperSpan[0];
                         const firstWidth = firstSpan.offsetWidth;
-                        
+
                         wrapper.parentElement.style.width = `${firstWidth * wordWrapSpanLength + 10}px`;
 
                         wordWrapperSpan.forEach((span, index) => {
@@ -38,12 +56,12 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
                     const wordWrappers = title.querySelectorAll('.volume-word-wrapper > div');
                     wordWrappers.forEach((wrapper, wrapperIndex) => {
                         const wordWrapperSpan = wrapper.querySelectorAll('span');
-                        
+
                         // Animation inverse
                         wrapper.style.transition = 'height 0.5s ease-in-out';
                         wrapper.style.transitionDelay = `${wrapperIndex * 0.3}s`;
                         wrapper.style.height = '0px';
-                        
+
                         wordWrapperSpan.forEach((span) => {
                             span.style.transition = 'transform 0.5s ease-in-out';
                             span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
@@ -73,6 +91,8 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
     // Render
     return (
         <>
+
+            
             <div
                 className={`pt-list-p-top flex flex-col items-end  ${!isOnVitrailPage ? "cursor-pointer" : ""
                     } `}
@@ -95,7 +115,18 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
                             <ul className="vitrail-list-compact">
                                 {dataVitrails.slice(2).map((vitrail) => (
                                     <li className="vitrail-title text-right w-fit block ml-auto transition-all duration-300" key={vitrail.id}>
-                                        <a href={`/${lang}/vitrail/${vitrail.slug}/`} className="flex flex-col items-end">
+                                        <a
+                                            href={`/${lang}/vitrail/${vitrail.slug}/`}
+                                            className="flex flex-col items-end"
+                                            onMouseEnter={() => {
+                                                const mediaUrl = vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url;
+                                                if (mediaUrl) {
+                                                    handleMouseEnter(mediaUrl);
+                                                }
+                                            }}
+                                            onMouseLeave={handleMouseLeave}
+                                            data-image-preview={vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url}
+                                        >
                                             {vitrail.title.split(' ').map((word, i, words) => (
                                                 <div key={i} className="volume-word-wrapper inline-block transition-all duration-300 ">
                                                     <div className="inline-block transition-all duration-300 h-[25px]">
@@ -117,7 +148,18 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
                         {
                             dataVitrails.slice(0, 2).map((vitrail) => (
                                 <li className="vitrail-title  text-right w-fit block ml-auto transition-all duration-300" key={vitrail.id}>
-                                    <a href={`/${lang}/vitrail/${vitrail.slug}/`} className="flex flex-col items-end">
+                                    <a
+                                        href={`/${lang}/vitrail/${vitrail.slug}/`}
+                                        className="flex flex-col items-end"
+                                        onMouseEnter={() => {
+                                            const mediaUrl = vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url;
+                                            if (mediaUrl) {
+                                                handleMouseEnter(mediaUrl);
+                                            }
+                                        }}
+                                        onMouseLeave={handleMouseLeave}
+                                        data-image-preview={vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url}
+                                    >
                                         {vitrail.title.split(' ').map((word, i, words) => (
                                             <div key={i} className="volume-word-wrapper inline-block transition-all duration-300">
                                                 <div className="inline-block transition-all duration-300 h-[25px]">
@@ -134,6 +176,11 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
                     </ul>
                     {/* (END) Liste Homepage */}
 
+                </div>
+            </div>
+            <div class="fixed top-0 left-0 h-screen w-screen z-[-1] flex justify-center items-center pointer-events-none">
+                <div class="dynamic-image--wrapper w-[80vw] max-w-[350px] aspect-[350/300] transition-all opacity-0 duration-300 ease-in-out">
+                    <img class="w-full h-full object-cover dynamic-image" src="https://res.cloudinary.com/dbfkv6zgf/image/upload/v1740733159/DSC_4802_068fca2c07.jpg" alt="preview image"></img>
                 </div>
             </div>
         </>

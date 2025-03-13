@@ -46,6 +46,9 @@ export const prerender = true;
 
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
+
+
+    
     <div
       class="border border-red-500 fixed top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none"
     >
@@ -58,6 +61,7 @@ export const prerender = true;
         <Nav
           lang={lang}
           currentPath={Astro.url.pathname}
+          className=""
           transition:name="nav"
           transition:persist
           client:load

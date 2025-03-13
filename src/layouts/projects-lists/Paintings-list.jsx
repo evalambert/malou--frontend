@@ -2,9 +2,29 @@ import { useEffect } from 'react';
 import { navigate } from "astro:transitions/client";
 
 const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang }) => {
+
+    // Fonction pour gérer le survol et changer l'image
+    const handleMouseEnter = (imageUrl) => {
+        const imageElement = document.querySelector('.dynamic-image');
+        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        if (imageElement) {
+            imageElement.src = imageUrl;
+        }
+        if (wrapperElement) {
+            wrapperElement.style.opacity = '1';
+        }
+    };
+
+    const handleMouseLeave = () => {
+        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        if (wrapperElement) {
+            wrapperElement.style.opacity = '0';
+        }
+    };
+
     useEffect(() => {
-         // Title animation
-         const titleLayout = () => {
+        // Title animation
+        const titleLayout = () => {
             const title = document.querySelectorAll("li.painting-title a");
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
@@ -73,17 +93,25 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                         : undefined
                 }
             >
-                
+
                 <div
                     className={`${!isOnPaintingPage ? "pointer-events-none" : ""
                         }`}
                 >
-                    
+
                     {/* Liste Homepage */}
                     <ul className="painting-list-compact transition-all duration-500 ease-in-out">
                         {dataPaintings.slice(0, 4).map((painting) => (
                             <li className="painting-title w-fit" key={painting.id}>
-                                <a href={`/${lang}/painting/${painting.slug}/`} className="block whitespace-nowrap">
+                                <a href={`/${lang}/painting/${painting.slug}/`} className="block whitespace-nowrap"
+                                    onMouseEnter={() => {
+                                        const mediaUrl = painting.medias && painting.medias[0] && painting.medias[0].url;
+                                        if (mediaUrl) {
+                                            handleMouseEnter(mediaUrl);
+                                        }
+                                    }}
+                                    onMouseLeave={handleMouseLeave}
+                                    data-image-preview={painting.medias && painting.medias[0] && painting.medias[0].url}>
                                     {painting.title.split('').map((letter, index) => (
                                         <span className="inline-block" key={index}>{letter}</span>
                                     ))}
@@ -107,6 +135,14 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                                     <a
                                         href={`/${lang}/painting/${painting.slug}/`}
                                         className="block whitespace-nowrap"
+                                        onMouseEnter={() => {
+                                            const mediaUrl = painting.medias && painting.medias[0] && painting.medias[0].url;
+                                            if (mediaUrl) {
+                                                handleMouseEnter(mediaUrl);
+                                            }
+                                        }}
+                                        onMouseLeave={handleMouseLeave}
+                                        data-image-preview={painting.medias && painting.medias[0] && painting.medias[0].url}
                                     >
                                         {painting.title.split('').map((letter, index) => (
                                             <span className="inline-block" key={index}>{letter}</span>
@@ -118,6 +154,11 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                         {/* )} */}
                         {/* (END) Liste Hidden */}
                     </div>
+                </div>
+            </div>
+            <div className="fixed top-0 left-0 h-screen w-screen z-[-1] flex justify-center items-center pointer-events-none">
+                <div className="dynamic-image--wrapper w-[80vw] max-w-[350px] aspect-[350/300] transition-all opacity-0 duration-300 ease-in-out">
+                    <img className="w-full h-full object-cover dynamic-image" src="https://res.cloudinary.com/dbfkv6zgf/image/upload/v1740733159/DSC_4802_068fca2c07.jpg" alt="preview image"></img>
                 </div>
             </div>
         </>
