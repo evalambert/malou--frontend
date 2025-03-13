@@ -65,7 +65,7 @@ export default function ActuComponent({ actus, lang }) {
             </ul>
           ) : (
             <p>
-              {lang === "fr" ? "aucune actualité passée" : "no past events"}
+              {lang === "fr" ? "aucune actualité passée" : "no past events"} 
             </p>
           )}
         </div>
