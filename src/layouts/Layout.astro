@@ -4,6 +4,7 @@ import { ClientRouter } from "astro:transitions";
 import ButtonReturn from "../components/ButtonReturn.astro";
 import LanguageSwitch from "../components/LanguageSwitch.jsx";
 
+
 const { title, showReturn = false, returnTo = "" } = Astro.props;
 const currentLocale = Astro.currentLocale || "fr";
 const currentPath = Astro.url.pathname;
