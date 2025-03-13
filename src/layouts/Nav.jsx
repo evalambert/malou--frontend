@@ -1,4 +1,4 @@
-const Nav = ({ lang, currentPath }) => {
+const Nav = ({ lang, currentPath, className }) => {
   const isHome =
     currentPath === `/${lang}` ||
     currentPath === `/${lang}/` ||
@@ -9,12 +9,16 @@ const Nav = ({ lang, currentPath }) => {
     return `nav-li ${currentPath === path ? "nav-on" : "nav-off"}`;
   };
 
+  const isAboutPage = currentPath === `/${lang}/about/`;
+
   // Render
   return (
     <>
-      <div className="nav-wrapper flex gap-[10px] pt-[6px]">
+      <div className={`nav-wrapper ${className} flex gap-[10px] pt-[6px]`}>
         <h1>
-          <a href={`/${lang}/about/`}>malou raulin</a>
+          <a href={isAboutPage ? `/${lang}/` : `/${lang}/about/`}>
+            malou raulin
+          </a>
         </h1>
         <nav>
           <ul className="flex flex-col">

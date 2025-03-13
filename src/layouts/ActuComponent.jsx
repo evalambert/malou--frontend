@@ -3,11 +3,11 @@ import { useStore } from "@nanostores/react";
 import { useMemo } from "react";
 
 import { activeComponent, toggleComponent } from "../lib/store.js";
-import EventItem from "../components/EventItem";
-import useEventManager from "../hooks/useEventManager";
-import useDateFormatter from "../hooks/useDateFormatter";
+import EventItem from "../components/EventItem.jsx";
+import useEventManager from "../hooks/useEventManager.js";
+import useDateFormatter from "../hooks/useDateFormatter.js";
 
-export default function Actu({ actus, lang }) {
+export default function ActuComponent({ actus, lang }) {
   const { formatEventDate } = useDateFormatter();
   const { inProgressEvents, pastEvents } = useMemo(
     () => useEventManager(actus),
@@ -18,12 +18,12 @@ export default function Actu({ actus, lang }) {
 
   return (
     <section
-      className={`section--actu w-full absolute right-0 transition-all duration-500 ease-in-out overflow-y-auto
+      className={`section--actu absolute right-0 flex flex-col gap-10 w-full
        ${
          active === "actu"
-           ? "h-full top-[calc(100vh-70vh)]"
-           : "h-[80px] top-[calc(100vh-80px)]"
-       } flex flex-col gap-10 text-center`}
+           ? "h-full top-[calc(100vh-70vh)] overflow-y-auto"
+           : "h-[80px] top-[calc(100vh-80px)] overflow-hidden"
+       }  text-center transition-all duration-500 ease-in-out`}
     >
       <button className="rotate-[-25deg] p-4" onClick={toggleComponent}>
         {lang === "fr" ? "actualités" : "news"}

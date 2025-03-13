@@ -25,7 +25,9 @@ const isAboutPage = currentPath.includes("/about");
     class="font-bradford text-base leading-base px-main-x-mobile md:px-main-x"
     data-page={isAboutPage ? "about" : undefined}
   >
-    <div class="fixed top-[20vh] right-[20vw]">
+    <div
+      class="language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] border-1 bg-white z-[999]"
+    >
       <LanguageSwitch
         client:load
         currentLang={currentLocale}

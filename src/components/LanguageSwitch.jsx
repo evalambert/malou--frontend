@@ -10,12 +10,11 @@ const LanguageSwitch = ({ currentLang, currentPath }) => {
   return (
     <button
       onClick={handleLanguageChange}
-      className="rotate-30 font-bradford hover:opacity-50 transition"
+      className="rotate-[35deg] hover:opacity-50 transition"
     >
-      {currentLang === "fr" ? "Fr," : "En,"}
+      {currentLang === "fr" ? "fr," : "en,"}
     </button>
   );
 };
 
 export default LanguageSwitch;
-

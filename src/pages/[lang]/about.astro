@@ -3,8 +3,8 @@
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
 import Nav from "../../layouts/Nav.jsx";
-import AboutComponent from "../../layouts/About.jsx";
-import ActuComponent from "../../layouts/Actu.jsx";
+import AboutComponent from "../../layouts/AboutComponent.jsx";
+import ActuComponent from "../../layouts/ActuComponent.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -30,6 +30,7 @@ export const prerender = true;
 <Layout title="About" showReturn returnTo="">
   <main>
     <Nav
+      className="fixed top-0 left-[15px] rounded-[4px] border-1 bg-white z-[999]"
       lang={lang}
       currentPath={Astro.url.pathname}
       transition:name="nav"

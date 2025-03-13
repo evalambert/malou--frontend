@@ -1,4 +1,4 @@
-//src/lib/store.js
+//
 import { atom } from 'nanostores'
 
 // Stocke l'état actif ("about" ou "actu")
