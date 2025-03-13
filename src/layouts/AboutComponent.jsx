@@ -7,12 +7,12 @@ export default function AboutComponent({ about, lang }) {
 
   return (
     <section
-      className={`section--about absolute left-0 md:fixed md:right-0 w-full flex flex-col gap-3 border-2 border-red-300
+      className={`section--about absolute left-0 md:fixed md:right-0 w-full flex flex-col gap-3 
         ${
           active === "actu"
-            ? "md:h-0 md:top-[calc(-100vh)]"
-            : "md:h-full md:top-0"
-        } transition-all duration-500 ease-in-out overflow-hidden`}
+            ? "md:h-0 md:top-[calc(-100vh)] top-[100vh] h-0"
+            : "md:h-full md:top-0 top-[333px] h-auto"
+        } transition-all duration-500 ease-in-out overflow-hidden bg-white`}
     >
       <button
         className={`button-about md:fixed md:top-0 md:left-[270px] md:p-6 md:rotate-[27.28deg] rotate-[19deg] transition-opacity duration-300 hidden md:block
@@ -28,7 +28,7 @@ export default function AboutComponent({ about, lang }) {
       <div className="wrapper--email md:order-1 flex">
         <div className="fake-nav hidden md:block flex-none w-[270px] h-[131px] "></div>
         <div className="email flex flex-1 justify-center items-center">
-          <p className="rotate-[-16deg] md:rotate-[10.87deg] py-9 px-4 md:text-red-500 md:py-0 md:px-0">
+          <p className="rotate-[-16deg] md:rotate-[10.87deg] py-9 px-4 md:py-0 md:px-0">
             {about.email}
           </p>
         </div>

@@ -9,6 +9,9 @@ const Nav = ({ lang, currentPath, className }) => {
     return `nav-li ${currentPath === path ? "nav-on" : "nav-off"}`;
   };
 
+
+  
+
   const isAboutPage = currentPath === `/${lang}/about/`;
 
   // Render
