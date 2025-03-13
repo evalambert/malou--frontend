@@ -10,55 +10,51 @@
 /* -------------------------------------------------------------------- */
 @import "tailwindcss";
 
-
 /* -------------------------------------------------------------------- */
 /* TYPOGRAPHY */
 /* -------------------------------------------------------------------- */
 
 @font-face {
-    font-family: "BradfordLL-Bold";
-    src: url("../../../fonts/BradfordLL-Bold.woff2") format("woff2"),
-        url("../../../fonts/BradfordLL-Bold.woff") format("woff");
-    font-weight: 700;
-    font-style: normal;
+  font-family: "BradfordLL-Bold";
+  src: url("../../../fonts/BradfordLL-Bold.woff2") format("woff2"),
+    url("../../../fonts/BradfordLL-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
 }
-
-
 
 /* -------------------------------------------------------------------- */
 /* TAILWIND */
 /* -------------------------------------------------------------------- */
 @theme {
-
-    /* Typography */
-    --font-bradford: "BradfordLL-Bold", "serif";
-    --text-base: 25px;
-    --leading-base: 25px;
-    --spacing-main-x: 15px;
-    --spacing-main-x-mobile: 15px;
-    /* ! change value in Paintings-list.jsx */
-    --spacing-list-p-top: 6px;
+  /* Typography */
+  --font-bradford: "BradfordLL-Bold", "serif";
+  --text-base: 25px;
+  --leading-base: 25px;
+  --spacing-main-x: 15px;
+  --spacing-main-x-mobile: 15px;
+  /* ! change value in Paintings-list.jsx */
+  --spacing-list-p-top: 6px;
 }
 
 /* -------------------------------------------------------------------- */
 /* RESET */
 /* -------------------------------------------------------------------- */
 * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    @apply overflow-hidden;
+  @apply overflow-hidden;
+}
+
+body[data-page="about"] {
+  @apply overflow-visible;
 }
 
 li {
-    @apply list-none leading-none;
+  @apply list-none leading-none;
 }
-
-
-
-
 
 /* -------------------------------------------------------------------- */
 /* COMPONENTS */
@@ -71,107 +67,103 @@ li {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Layout */
 
-
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Nav */
 /* Ajoutez ces styles dans la section ANIMATIONS */
 @media (min-width: 768px) {
-    .nav-wrapper:hover .nav-off {
-        height: 25px;
-    }
+  .nav-wrapper:hover .nav-off {
+    height: 25px;
+  }
 
-    .nav-wrapper:hover .nav-off a {
-        opacity: 1;
-    }
+  .nav-wrapper:hover .nav-off a {
+    opacity: 1;
+  }
 }
 
 .nav-wrapper:hover .nav-off {
-    transition: height 0.3s ease;
-    height: 25px;
+  transition: height 0.3s ease;
+  height: 25px;
 }
 
 .nav-wrapper:hover .nav-off a {
-    transition: opacity 0.8s ease;
-    opacity: 1;
+  transition: opacity 0.8s ease;
+  opacity: 1;
 }
 
 li {
-    @apply overflow-hidden;
+  @apply overflow-hidden;
 }
 
 .nav-li.nav-off {
-    transition: height 0.8s ease;
+  transition: height 0.8s ease;
 }
 
 .nav-li.nav-off a {
-    transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .nav-li.nav-home {
-    transition: height 0.3s ease;
+  transition: height 0.3s ease;
 }
 
 .nav-li.nav-home a {
-    transition: opacity 0.8s ease;
+  transition: opacity 0.8s ease;
 }
 
 .nav-off {
-    height: 0;
+  height: 0;
 }
 
 .nav-off a {
-    opacity: 0;
+  opacity: 0;
 }
 
 .nav-on {
-    height: 25px;
+  height: 25px;
 }
 
 .nav-on a {
-    opacity: 1;
+  opacity: 1;
 }
 
 .nav-home {
-    height: 25px;
+  height: 25px;
 }
 
 .nav-home a {
-    opacity: 1;
+  opacity: 1;
 }
-
-
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Lists */
 
-.volume-list-compact>li:nth-child(odd) {
-    @apply pt-[25px];
+.volume-list-compact > li:nth-child(odd) {
+  @apply pt-[25px];
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Titles */
 .painting-title a span,
 .volume-title a span {
-    @apply min-w-[5px] transition-all duration-300 ease-in-out;
+  @apply min-w-[5px] transition-all duration-300 ease-in-out;
 }
 
 .volume-title.active a span {
-    @apply min-w-[30px];
+  @apply min-w-[30px];
 }
 
-
 .painting-title.active a span {
-    @apply min-w-[13px] flex items-center justify-center;
+  @apply min-w-[13px] flex items-center justify-center;
 }
 
 .painting-title {
-    transition: all 0.1s;
+  transition: all 0.1s;
 }
 
 .painting-title a {
-    display: flex;
-    align-items: flex-end;
-    transition: height 0.1s 0.3s ease-in-out;
+  display: flex;
+  align-items: flex-end;
+  transition: height 0.1s 0.3s ease-in-out;
 }
 
 /* .active .volume-word-wrapper>div {
@@ -181,7 +173,7 @@ li {
     width: fit-content;
 
 } */
-.active .volume-word-wrapper span{
-    display: inline-block;
-    text-align: center;
+.active .volume-word-wrapper span {
+  display: inline-block;
+  text-align: center;
 }

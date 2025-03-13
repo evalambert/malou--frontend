@@ -1,21 +1,26 @@
-const Nav = ({ lang, currentPath }) => {
-const isHome = currentPath === `/${lang}` || currentPath === `/${lang}/` || currentPath === `/${lang}/about/`;
+const Nav = ({ lang, currentPath, className }) => {
+  const isHome =
+    currentPath === `/${lang}` ||
+    currentPath === `/${lang}/` ||
+    currentPath === `/${lang}/about/`;
 
   const getLinkClass = (path) => {
     if (isHome) return "nav-li nav-home";
     return `nav-li ${currentPath === path ? "nav-on" : "nav-off"}`;
   };
 
+  const isAboutPage = currentPath === `/${lang}/about/`;
+
   // Render
   return (
     <>
-      <div className="nav-wrapper flex gap-[10px]">
+      <div className={`nav-wrapper ${className} flex gap-[10px] pt-[6px]`}>
         <h1>
-          <a className="text-base leading-base" href={`/${lang}/about/`}>
+          <a href={isAboutPage ? `/${lang}/` : `/${lang}/about/`}>
             malou raulin
           </a>
         </h1>
-        <nav className="pt-[6px]">
+        <nav>
           <ul className="flex flex-col">
             <li className={getLinkClass(`/${lang}/weaving/`)}>
               <a href={`/${lang}/weaving/`}>

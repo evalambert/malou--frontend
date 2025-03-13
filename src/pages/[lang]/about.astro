@@ -1,11 +1,11 @@
 ---
 //pages/[lang]/about.astro
-
 import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-/* import Actu from "../../layouts/Actu.jsx"; */
 import Nav from "../../layouts/Nav.jsx";
-import AboutComponent from "../../layouts/About.jsx";
+import AboutComponent from "../../layouts/AboutComponent.jsx";
+import ActuComponent from "../../layouts/ActuComponent.jsx";
+import MobileButtons from "../../components/MobileButtons.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -31,13 +31,17 @@ export const prerender = true;
 <Layout title="About" showReturn returnTo="">
   <main>
     <Nav
+      className="md:fixed md:top-0 md:left-[15px] rounded-[4px] border-1 bg-white z-[999]"
       lang={lang}
       currentPath={Astro.url.pathname}
       transition:name="nav"
       transition:persist
       client:load
     />
-    <AboutComponent about={about} lang={lang} />
-    <!-- <Actu actus={actus} lang={lang} /> -->
+    <MobileButtons lang={lang} client:load />
+    <div class="wrapper-about-actus">
+      <AboutComponent about={about} lang={lang} client:load />
+      <ActuComponent actus={actus} lang={lang} client:load />
+    </div>
   </main>
 </Layout>
