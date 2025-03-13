@@ -7,44 +7,40 @@ export default function AboutComponent({ about, lang }) {
 
   return (
     <section
-      className={`wrapper-about md:fixed right-0 flex flex-col gap-3 w-full 
+      className={`wrapper-about absolute left-0 md:fixed md:right-0 w-full flex flex-col gap-3 border-2 border-red-300
         ${
-        active === "actu"
-        ? "h-0 top-[calc(-100vh)]"
-        : "h-full top-0"
-        } transition-all duration-500 ease-in-out overflow-hidden `}
+          active === "actu"
+            ? "md:h-0 md:top-[calc(-100vh)]"
+            : "md:h-full md:top-0"
+        } transition-all duration-500 ease-in-out overflow-hidden`}
     >
+      <button
+        className={`button-about md:fixed md:top-0 md:left-[270px] md:p-6 md:rotate-[27.28deg] rotate-[19deg] transition-opacity duration-300 hidden md:block
+          ${active === "about" ? "opacity-0" : "opacity-100"}`}
+        onClick={toggleComponent}
+      >
+        {lang === "fr" ? "à propos" : "about"}
+      </button>
       <div className="wrapper--bio md:order-2 flex">
         <div className="fake-nav hidden md:block flex-none w-[170px]"></div>
         <p className="bio">{about.bio}</p>
       </div>
       <div className="wrapper--email md:order-1 flex">
         <div className="fake-nav hidden md:block flex-none w-[270px] h-[131px] "></div>
-        <button
-          className={`fixed top-0 left-[270px] p-6 rotate-[27.28deg] transition-opacity duration-300 
-          ${
-            active === "about"
-              ? "opacity-0 pointer-events-none"
-              : "opacity-100 pointer-events-auto"
-          }`}
-          onClick={toggleComponent}
-        >
-          {lang === "fr" ? "à propos" : "about"}
-        </button>
         <div className="email flex flex-1 justify-center items-center">
-          <p className="h-fit rotate-[-16deg] md:rotate-[10.87deg] py-7 px-4 md:px-0">
+          <p className="rotate-[-16deg] md:rotate-[10.87deg] py-9 px-4 md:text-red-500 md:py-0 md:px-0">
             {about.email}
           </p>
         </div>
       </div>
       <div className="wrappper--phone flex md:order-3 justify-end md:justify-start ">
         {/*  <p>{about.studio}, {about.city}</p> */}
-        <p className="pt-[31px] ps-[47px] rotate-[15.72deg] md:rotate-45">
+        <p className="md:pt-[31px] md:ps-[47px] pb-[24px] pt-[8px] rotate-[15.72deg] md:rotate-45">
           {about.phone}
         </p>
       </div>
       <div className="wrapper--credits md:order-4 flex flex-col flex-1 items-center md:items-end justify-end md:pe-20 text-center">
-        <div className="flex flex-col justify-center items-center h-fit rotate-[-16deg] md:py-12 md:px-4">
+        <div className="flex flex-col justify-center items-center h-fit rotate-[-16deg] md:py-12 md:px-4 pb-[50px] pt-[5px]">
           <p>©{about.update}</p>
           <p>
             {lang === "fr" ? (
