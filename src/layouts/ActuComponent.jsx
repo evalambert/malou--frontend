@@ -18,15 +18,15 @@ export default function ActuComponent({ actus, lang }) {
 
   return (
     <section
-      className={`section--actu absolute right-0 flex flex-col gap-10 w-full border-2 border-blue-300 bg-white
+      className={`section--actu absolute right-0 flex flex-col gap-10 w-full bg-white md:bg-transparent
        ${
          active === "actu"
-           ? "h-auto md:top-[30vh] overflow-y-auto"
-           : "md:h-[70px] md:top-[calc(100vh-70px)] overflow-hidden"
+           ? "h-full top-[333px] md:top-[30vh] overflow-y-auto"
+           : "h-0 top-[100vh] md:h-[70px] md:top-[calc(100vh-70px)] overflow-hidden"
        } text-center transition-all duration-500 ease-in-out`}
     >
       <button
-        className="button-actu--desktop md:rotate-[-25deg] md:p-4 hidden md:block"
+        className="button-actu--desktop hidden md:block md:rotate-[-25deg] md:p-4"
         onClick={toggleComponent}
       >
         {lang === "fr" ? "actualités" : "news"}
