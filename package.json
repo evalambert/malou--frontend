@@ -10,6 +10,7 @@
   "dependencies": {
     "@astrojs/react": "^4.2.0",
     "@astrojs/vercel": "8.0.1",
+    "@nanostores/react": "^0.8.4",
     "@tailwindcss/vite": "^4.0.9",
     "@types/openseadragon": "^3.0.10",
     "@types/react": "^19.0.10",
