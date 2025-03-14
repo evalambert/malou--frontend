@@ -17,6 +17,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
             const title = document.querySelectorAll("li.volume-title a");
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
+                    document.body.classList.add('on-slug-page');
                     title.parentElement.classList.add('active');
                 } else {
                     title.parentElement.classList.remove('active');
@@ -31,7 +32,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
     return (
         <>
             <div
-                className={`pt-list-p-top transition-all duration-1000 ease-in-out ${!isOnVolumePage ? "cursor-pointer" : ""
+                className={`work-list pt-list-p-top transition-all duration-1000 ease-in-out mix-blend-difference ${!isOnVolumePage ? "cursor-pointer" : ""
                     } ${!hidden ? "" : "translate-y-[-50vh]"}`}
                 onClick={
                     !isOnVolumePage

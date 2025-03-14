@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { navigate } from "astro:transitions/client";
+
+import { useStore } from "@nanostores/react";
+import { textWhite } from "../../lib/store.js";
+
 import VitrailTitle from "../../components/title/VitrailTitle.jsx";
 import PreviewImg from "../../components/PreviewImg.jsx";
-const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }) => {
+
+
+const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang, className }) => {
+    const isTextWhite = useStore(textWhite);
+
 
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
 
@@ -80,7 +88,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
 
     // Render
     return (
-        <>
+        <div className={`work-list ${className} ${isTextWhite ? '' : 'mix-blend-difference '}`}>
 
 
             <div
@@ -93,7 +101,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
                 }
             >
                 <div
-                    className={`flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? "pointer-events-none" : ""
+                    className={`flex flex-col items-end transition-all duration-1000 ease-in-out  ${!isOnVitrailPage ? "pointer-events-none" : ""
                         } ${!hidden ? "" : "translate-y-[-50vh]"}`} style={isOnVitrailPage ? { transform: `translateY(0px)` } : { transform: `translateY(-${hiddenListHeightVitrail}px)` }}
                 >
                     <div
@@ -126,7 +134,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
                 </div>
             </div>
             <PreviewImg />
-        </>
+        </div>
     );
 };
 

@@ -1,4 +1,11 @@
+import { useStore } from "@nanostores/react";
+import { textWhite } from "../lib/store.js";
+
 const Nav = ({ lang, currentPath, className }) => {
+  const isTextWhite = useStore(textWhite);
+
+  // Assurez-vous que la valeur par défaut est définie de manière cohérente
+
   const isHome =
     currentPath === `/${lang}` ||
     currentPath === `/${lang}/` ||
@@ -17,7 +24,7 @@ const Nav = ({ lang, currentPath, className }) => {
   // Render
   return (
     <>
-      <div className={`nav-wrapper ${className} flex gap-[10px] pt-[6px]`}>
+      <div className={`nav-wrapper ${className} flex gap-[10px] pt-[6px] ${isTextWhite ? '' : 'mix-blend-difference '}`}>
 
         <a href={isAboutPage ? `/${lang}/` : `/${lang}/about/`}>
           malou raulin

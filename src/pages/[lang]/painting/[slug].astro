@@ -2,8 +2,11 @@
 //pages/[lang]/painting/[slug].astro
 
 import fetchApi from "../../../lib/strapi";
+
 import Layout from "../../../layouts/Layout.astro";
+import Nav from "../../../layouts/Nav.jsx";
 import PaintingsList from "../../../layouts/projects-lists/Paintings-list.jsx";
+import Slider from "../../../components/slider/Slider.jsx";
 
 export async function getStaticPaths() {
   const languages = ["fr", "en"];
@@ -54,16 +57,26 @@ export const prerender = true;
 ---
 
 <Layout title="Painting" showReturn returnTo={`/painting`}>
-  <h1>{painting?.title || "Titre non disponible"}</h1>
+    <Nav
+    lang={lang}
+    currentPath={Astro.url.pathname}
+    transition:name="nav"
+    transition:persist
+    client:load
+    className="fixed top-0 left-main-x z-50"
+  />
+  
   <p>{painting?.description || "Description non disponible"}</p>
   <PaintingsList
   targetHref={Astro.url.pathname}
   hidden={false}
   lang={lang}
   dataPaintings={paintings}
+  className="fixed bottom-0 right-main-x z-50 pointer-events-none"
   isOnPaintingPage={true}
   transition:name="paintingslist"
   transition:persist
   client:load
 />
+<Slider client:only medias={painting?.medias || []} />
 </Layout>

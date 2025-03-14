@@ -261,12 +261,12 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
                         : undefined
                 }
             >
-                <div className={`flex w-screen h-screen fixed top-[20h] left-0 ${!hidden ? "" : "left-[-50vh]"}`}>
+                <div className={`work-list flex w-screen h-screen fixed top-[20h] left-0 ${!hidden ? "" : "left-[-50vh]"}`}>
                     <div id="matter-container" className="h-[80vh] w-[20vw]"></div>
 
 
 
-                    <div className="bg-red-500">
+                    <div className="mix-blend-difference">
                         {dataPoetry.map((poetry) => (
                             <div key={poetry.id}>
                                 {poetry.title.split('').map((letter, index) => {

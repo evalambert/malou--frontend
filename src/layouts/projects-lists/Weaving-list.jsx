@@ -32,7 +32,7 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang })
   // Render
   return (
     <>
-      <div className={`fixed right-0 bottom-0 transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? "cursor-pointer" : ""
+      <div className={`fixed right-0 bottom-0 transition-all duration-1000 ease-in-out mix-blend-difference ${!isOnWeavingPage ? "cursor-pointer" : ""
         } ${!hidden ? "" : "translate-y-full translate-x-full"}`}
         onClick={
           !isOnWeavingPage
