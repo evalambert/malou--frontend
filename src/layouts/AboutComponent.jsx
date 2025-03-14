@@ -45,7 +45,7 @@ export default function AboutComponent({ about, lang }) {
   return (
     <section
       ref={aboutRef}
-      className={`section--about absolute left-0 w-full md:fixed md:right-0 flex flex-col gap-3
+      className={`section--about absolute left-0 w-full md:fixed md:right-0 flex flex-col gap-3 mix-blend-difference
         ${
           active === "about"
             ? "md:h-full md:top-0"
