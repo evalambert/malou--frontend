@@ -2,9 +2,11 @@
 //pages/[lang]/weaving/[slug].astro
 
 import fetchApi from "../../../lib/strapi";
-import Layout from "../../../layouts/Layout.astro";
-import Slider from "../../../components/slider/Slider.jsx";
 
+import Layout from "../../../layouts/Layout.astro";
+import Nav from "../../../layouts/Nav.jsx";
+import WeavingList from "../../../layouts/projects-lists/Weaving-list.jsx";
+import Slider from "../../../components/slider/Slider.jsx";
 
 export async function getStaticPaths() {
   const languages = ["fr", "en"];
@@ -41,7 +43,11 @@ export async function getStaticPaths() {
   }
   return paths;
 }
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
+// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
+const weavings = await fetchApi({
+  endpoint: "weavings?populate=*",
+  wrappedByKey: "data",
+});
 
 const { weaving } = Astro.props; // Destructurer directement weaving
 const { lang } = Astro.params;
@@ -50,11 +56,24 @@ export const prerender = true;
 ---
 
 <Layout title="Weaving" showReturn returnTo={`/weaving`}>
-    <h1>
-        {weaving?.title.split("").map((letter, index) => (
-            <span>{letter}</span>
-        ))}
-    </h1>
-
-    <Slider client:only medias={weaving?.medias || []} />
+  <Nav
+    lang={lang}
+    currentPath={Astro.url.pathname}
+    transition:name="nav"
+    transition:persist
+    client:load
+    className="fixed top-0 left-main-x z-50"
+  />
+  <WeavingList
+    targetHref={`/weaving/`}
+    hidden={false}
+    lang={lang}
+    dataWeaving={weavings}
+    isOnWeavingPage={true}
+    transition:name="weavinglist"
+    className="fixed bottom-0 right-main-x z-50 pointer-events-none"
+    transition:persist
+    client:load
+  />
+  <Slider client:only medias={weaving?.medias || []} />
 </Layout>

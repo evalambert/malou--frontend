@@ -3,7 +3,7 @@ import { navigate } from "astro:transitions/client";
 import PreviewImg from "../../components/PreviewImg.jsx";
 import VolumeTitle from "../../components/title/VolumeTitle.jsx";
 
-const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) => {
+const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang, className }) => {
 
     const [hiddenListHeightVolume, setHiddenListHeightVolume] = useState(0);
 
@@ -32,7 +32,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
     return (
         <>
             <div
-                className={`work-list pt-list-p-top transition-all duration-1000 ease-in-out mix-blend-difference ${!isOnVolumePage ? "cursor-pointer" : ""
+                className={`work-list pt-list-p-top transition-all duration-1000 ease-in-out mix-blend-difference ${className} ${!isOnVolumePage ? "cursor-pointer" : ""
                     } ${!hidden ? "" : "translate-y-[-50vh]"}`}
                 onClick={
                     !isOnVolumePage

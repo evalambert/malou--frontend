@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { navigate } from "astro:transitions/client";
+
+import { useStore } from "@nanostores/react";
+import { textWhite } from "../../lib/store.js";
+
 import PreviewImg from "../../components/PreviewImg.jsx";
 import WeavingTitle from "../../components/title/WeavingTitle.jsx";
 
-const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang }) => {
+const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang, className }) => {
+  const isTextWhite = useStore(textWhite);
 
   const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
   const [hiddenListWidthWeaving, setHiddenListWidthWeaving] = useState(0);
@@ -32,7 +37,7 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang })
   // Render
   return (
     <>
-      <div className={`fixed right-0 bottom-0 transition-all duration-1000 ease-in-out mix-blend-difference ${!isOnWeavingPage ? "cursor-pointer" : ""
+      <div className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${isTextWhite ? '' : 'mix-blend-difference '} ${className} ${!isOnWeavingPage ? "cursor-pointer" : ""
         } ${!hidden ? "" : "translate-y-full translate-x-full"}`}
         onClick={
           !isOnWeavingPage

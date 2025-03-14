@@ -56,6 +56,7 @@ export const prerender = true;
           transition:name="nav"
           transition:persist
           client:load
+          className=""
         />
       </div>
       <div class="flex-3">
@@ -80,6 +81,7 @@ export const prerender = true;
           transition:name="vitrailist"
           transition:persist
           client:load
+          className=""
         />
       </div>
     </div>
@@ -102,6 +104,7 @@ export const prerender = true;
       dataPaintings={paintings}
       isOnPaintingPage={false}
       transition:name="paintingslist"
+      className=""
       transition:persist
       client:load
     />
@@ -112,8 +115,14 @@ export const prerender = true;
       dataWeaving={weavings}
       isOnWeavingPage={true}
       transition:name="weavinglist"
+      className=""
       transition:persist
       client:load
     />
   </main>
 </Layout>
+<script>
+  import { setupBlackTextPage } from "../../lib/pageColorUtils.js";
+  // Utiliser la fonction utilitaire
+  setupBlackTextPage();
+</script>

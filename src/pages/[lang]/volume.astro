@@ -56,6 +56,7 @@ export const prerender = true;
           transition:name="nav"
           transition:persist
           client:load
+          className=""
         />
       </div>
       <div class="flex-3">
@@ -68,6 +69,7 @@ export const prerender = true;
           transition:name="volumeslist"
           transition:persist
           client:load
+          className=""
         />
       </div>
       <div class="flex-1">
@@ -80,6 +82,7 @@ export const prerender = true;
           transition:name="vitrailist"
           transition:persist
           client:load
+          className=""
         />
       </div>
     </div>
@@ -104,6 +107,7 @@ export const prerender = true;
       transition:name="paintingslist"
       transition:persist
       client:load
+      className=""
     />
     <WeavingList
       targetHref={`/weaving/`}
@@ -114,6 +118,12 @@ export const prerender = true;
       transition:name="weavinglist"
       transition:persist
       client:load
+      className=""
     />
   </main>
 </Layout>
+<script>
+  import { setupBlackTextPage } from "../../lib/pageColorUtils.js";
+  // Utiliser la fonction utilitaire
+  setupBlackTextPage();
+</script>
