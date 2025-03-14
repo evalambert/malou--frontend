@@ -1,18 +1,59 @@
 //src/layouts/About.jsx
+import { useEffect, useRef, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { activeComponent, toggleComponent } from "../lib/store.js";
+import {
+  activeComponent,
+  toggleComponent,
+  heightAbout,
+  heightActu,
+} from "../lib/store.js";
 
 export default function AboutComponent({ about, lang }) {
   const active = useStore(activeComponent);
+  const aboutRef = useRef(null);
+  const actuHeight = useStore(heightActu);
+  const [isMobile, setIsMobile] = useState(false);
+
+  /* ------actuHeight ------ */
+  // Fonction pour recalculer la hauteur et vérifier la taille de l'écran
+  const updateHeight = () => {
+    if (aboutRef.current) {
+      heightAbout.set(aboutRef.current.scrollHeight);
+    }
+  };
+
+  // Mettre à jour la hauteur lors du montage et du resize
+  useEffect(() => {
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+
+  /* ------ isMobile ------ */
+  useEffect(() => {
+    // Vérifie si window est accessible et met à jour isMobile
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile(); // Exécute au montage
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   return (
     <section
-      className={`section--about absolute left-0 md:fixed md:right-0 w-full flex flex-col gap-3 
+      ref={aboutRef}
+      className={`section--about absolute left-0 w-full md:fixed md:right-0 flex flex-col gap-3
         ${
-          active === "actu"
-            ? "md:h-0 md:top-[calc(-100vh)] top-[100vh] h-0"
-            : "md:h-full md:top-0 top-[333px] h-auto"
-        } transition-all duration-500 ease-in-out overflow-hidden bg-white`}
+          active === "about"
+            ? "md:h-full md:top-0"
+            : "md:h-0 md:top-[calc(-100vh)]"
+        } transition-all duration-500 ease-in-out overflow-hidden`}
+      style={
+        isMobile ? { top: active === "about" ? "0px" : `${actuHeight}px` } : {}
+      }
     >
       <button
         className={`button-about md:fixed md:top-0 md:left-[270px] md:p-6 md:rotate-[27.28deg] rotate-[19deg] transition-opacity duration-300 hidden md:block

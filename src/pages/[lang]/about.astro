@@ -6,6 +6,7 @@ import Nav from "../../layouts/Nav.jsx";
 import AboutComponent from "../../layouts/AboutComponent.jsx";
 import ActuComponent from "../../layouts/ActuComponent.jsx";
 import MobileButtons from "../../components/MobileButtons.jsx";
+import WrapperHeight from "../../components/WrapperHeight.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -39,7 +40,10 @@ export const prerender = true;
       client:load
     />
     <MobileButtons lang={lang} client:load />
-    <div class="wrapper-about-actus">
+    <WrapperHeight client:load />
+    <div
+      class="wrapper-about-actus relative md:static overflow-hidden md:overflow-visible"
+    >
       <AboutComponent about={about} lang={lang} client:load />
       <ActuComponent actus={actus} lang={lang} client:load />
     </div>
