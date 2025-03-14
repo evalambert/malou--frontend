@@ -1,27 +1,10 @@
 import { useEffect } from 'react';
 import { navigate } from "astro:transitions/client";
 import PreviewImg from "../../components/PreviewImg.jsx";
+import VolumeTitle from "../../components/title/VolumeTitle.jsx";
 
 const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) => {
 
-    // Fonction pour gérer le survol et changer l'image
-    const handleMouseEnter = (imageUrl) => {
-        const imageElement = document.querySelector('.dynamic-image');
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-        if (imageElement) {
-            imageElement.src = imageUrl;
-        }
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '1';
-        }
-    };
-
-    const handleMouseLeave = () => {
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '0';
-        }
-    };
 
 
     useEffect(() => {
@@ -67,22 +50,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
                                     className="volume-title w-fit block"
                                     key={volume.id}
                                 >
-                                    <a
-                                        href={`/${lang}/volume/${volume.slug}/`}
-                                        className="block whitespace-nowrap"
-                                        onMouseEnter={() => {
-                                            const mediaUrl = volume.medias && volume.medias[0] && volume.medias[0].url;
-                                            if (mediaUrl) {
-                                                handleMouseEnter(mediaUrl);
-                                            }
-                                        }}
-                                        onMouseLeave={handleMouseLeave}
-                                        data-image-preview={volume.medias && volume.medias[0] && volume.medias[0].url}
-                                    >
-                                        {volume.title.split('').map((letter, index) => (
-                                            <span className="inline-block" key={index}>{letter}</span>
-                                        ))}
-                                    </a>
+                                    <VolumeTitle volume={volume} lang={lang} />
                                 </li>
                             ))}
                         </ul>
@@ -93,22 +61,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
                     <ul className="volume-list-compact flex flex-wrap gap-y-[25px]">
                         {dataVolumes.slice(0, 3).map((volume) => (
                             <li className="volume-title w-fit" key={volume.id}>
-                                <a
-                                    href={`/${lang}/volume/${volume.slug}/`}
-                                    className="block whitespace-nowrap"
-                                    onMouseEnter={() => {
-                                        const mediaUrl = volume.medias && volume.medias[0] && volume.medias[0].url;
-                                        if (mediaUrl) {
-                                            handleMouseEnter(mediaUrl);
-                                        }
-                                    }}
-                                    onMouseLeave={handleMouseLeave}
-                                    data-image-preview={volume.medias && volume.medias[0] && volume.medias[0].url}
-                                >
-                                    {volume.title.split('').map((letter, index) => (
-                                        <span className="inline-block" key={index}>{letter}</span>
-                                    ))}
-                                </a>
+                                <VolumeTitle volume={volume} lang={lang} />
                             </li>
                         ))}
                     </ul>

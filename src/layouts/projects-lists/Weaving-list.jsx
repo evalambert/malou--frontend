@@ -1,26 +1,9 @@
 import { useEffect } from "react";
 import { navigate } from "astro:transitions/client";
 import PreviewImg from "../../components/PreviewImg.jsx";
+import WeavingTitle from "../../components/title/WeavingTitle.jsx";
 
 const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang }) => {
-  // Fonction pour gérer le survol et changer l'image
-  const handleMouseEnter = (imageUrl) => {
-    const imageElement = document.querySelector('.dynamic-image');
-    const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-    if (imageElement) {
-      imageElement.src = imageUrl;
-    }
-    if (wrapperElement) {
-      wrapperElement.style.opacity = '1';
-    }
-  };
-
-  const handleMouseLeave = () => {
-    const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-    if (wrapperElement) {
-      wrapperElement.style.opacity = '0';
-    }
-  };
 
   useEffect(() => {
     const liTitle = document.querySelectorAll("li.weaving-title");
@@ -54,16 +37,7 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang })
           <ul className="w-fit flex flex-col items-end">
             {dataWeaving.slice(0, 5).map((weaving) => (
               <li className="weaving-title w-fit" key={weaving.id}>
-                <a href={`/${lang}/weaving/${weaving.slug}/`} className="pr-1" onMouseEnter={() => {
-                  const mediaUrl = weaving.medias && weaving.medias[0] && weaving.medias[0].url;
-                  if (mediaUrl) {
-                    handleMouseEnter(mediaUrl);
-                  }
-                }}
-                  onMouseLeave={handleMouseLeave}
-                  data-image-preview={weaving.medias && weaving.medias[0] && weaving.medias[0].url}>
-                  {weaving.title}
-                </a>
+                <WeavingTitle weaving={weaving} lang={lang} />
               </li>
             ))}
           </ul>
@@ -74,16 +48,7 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang })
             <ul className="w-fit flex flex-col items-end">
               {dataWeaving.slice(5).map((weaving) => (
                 <li className="weaving-title w-fit" key={weaving.id}>
-                  <a href={`/${lang}/weaving/${weaving.slug}/`} className="pr-1" onMouseEnter={() => {
-                    const mediaUrl = weaving.medias && weaving.medias[0] && weaving.medias[0].url;
-                    if (mediaUrl) {
-                      handleMouseEnter(mediaUrl);
-                    }
-                  }}
-                    onMouseLeave={handleMouseLeave}
-                    data-image-preview={weaving.medias && weaving.medias[0] && weaving.medias[0].url}>
-                    {weaving.title}
-                  </a>
+                  <WeavingTitle weaving={weaving} lang={lang} />
                 </li>
               ))}
             </ul>
