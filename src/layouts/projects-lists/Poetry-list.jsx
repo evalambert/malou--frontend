@@ -5,7 +5,7 @@ import "../../assets/styles/matterPoems.css";
 import 'pathseg';
 import decomp from 'poly-decomp';
 
-const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) => {
+const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, className }) => {
 
     const [letterPositions, setLetterPositions] = useState({});
     const [letterOffsets, setLetterOffsets] = useState({});
@@ -227,7 +227,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
     // Render
     return (
         <>
-            <div className="hidden">
+            <div className="hidden ${className}">
                 <svg
                     id="matterflor-svg"
                     preserveAspectRatio="xMidYMid meet"
