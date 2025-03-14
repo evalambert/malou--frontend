@@ -27,6 +27,7 @@ export default function MobileButtons({ lang }) {
         onClick={handleActuClick}
       >
         {lang === "fr" ? "actualités" : "news"}
+        
       </button>
     </div>
   );
