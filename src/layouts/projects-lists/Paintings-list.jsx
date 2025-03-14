@@ -1,27 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { navigate } from "astro:transitions/client";
+import PreviewImg from "../../components/PreviewImg.jsx";
+import PaintingTitle from "../../components/title/PaintingTitle.jsx";
 
 const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang }) => {
-    // Fonction pour gérer le survol et changer l'image
-    const handleMouseEnter = (imageUrl) => {
-        const imageElement = document.querySelector('.dynamic-image');
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-        if (imageElement) {
-            imageElement.src = imageUrl;
-        }
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '1';
-        }
-    };
-
-    const handleMouseLeave = () => {
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '0';
-        }
-    };
+    
+    const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
 
     useEffect(() => {
+        // Afficher la hauteur de la liste cachée
+        const hiddenListHeightPaintingValue = document.querySelector('.hidden-list-painting').clientHeight;
+        setHiddenListHeightPainting(hiddenListHeightPaintingValue);
+
         // Title animation
         const titleLayout = () => {
             const title = document.querySelectorAll("li.painting-title a");
@@ -94,66 +84,40 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
             >
 
                 <div
-                    className={`${!isOnPaintingPage ? "pointer-events-none" : ""
+                    className={`transition-all duration-500 ease-in-out ${!isOnPaintingPage ? "pointer-events-none" : ""
                         }`}
+                    style={isOnPaintingPage ? { transform: `translateY(0px)` } : { transform: `translateY(${hiddenListHeightPainting}px)` }}
                 >
 
                     {/* Liste Homepage */}
                     <ul className="painting-list-compact transition-all duration-500 ease-in-out">
                         {dataPaintings.slice(0, 4).map((painting) => (
                             <li className="painting-title w-fit" key={painting.id}>
-                                <a href={`/${lang}/painting/${painting.slug}/`} className="block whitespace-nowrap" onMouseEnter={() => {
-                                    const mediaUrl = painting.medias && painting.medias[0] && painting.medias[0].url;
-                                    if (mediaUrl) {
-                                        handleMouseEnter(mediaUrl);
-                                    }
-                                }}
-                                    onMouseLeave={handleMouseLeave}
-                                    data-image-preview={painting.medias && painting.medias[0] && painting.medias[0].url}>
-                                    {painting.title.split('').map((letter, index) => (
-                                        <span className="inline-block" key={index}>{letter}</span>
-                                    ))}
-                                </a>
+                                <PaintingTitle painting={painting} lang={lang} />
                             </li>
                         ))}
                     </ul>
                     {/* (END) Liste Homepage */}
                     <div
-                        className={`max-h-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnPaintingPage ? "max-h-[100vh]" : "max-h-0"
-                            }`}
+                        className={`hidden-list-painting overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] `}
                     >
                         {/* Liste Hidden */}
-                        {/* {isOnPaintingPage && ( */}
+       
                         <ul>
                             {dataPaintings.slice(4).map((painting) => (
                                 <li
                                     className="painting-title w-fit block"
                                     key={painting.id}
                                 >
-                                    <a href={`/${lang}/painting/${painting.slug}/`} className="block whitespace-nowrap" onMouseEnter={() => {
-                                        const mediaUrl = painting.medias && painting.medias[0] && painting.medias[0].url;
-                                        if (mediaUrl) {
-                                            handleMouseEnter(mediaUrl);
-                                        }
-                                    }}
-                                        onMouseLeave={handleMouseLeave}
-                                        data-image-preview={painting.medias && painting.medias[0] && painting.medias[0].url}>
-                                        {painting.title.split('').map((letter, index) => (
-                                            <span className="inline-block" key={index}>{letter}</span>
-                                        ))}
-                                    </a>
+                                    <PaintingTitle painting={painting} lang={lang} />
                                 </li>
                             ))}
                         </ul>
-                        {/* )} */}
+
                         {/* (END) Liste Hidden */}
                     </div>
                 </div>
-                <div class="fixed top-0 left-0 h-screen w-screen z-[-1] flex justify-center items-center pointer-events-none">
-                    <div class="dynamic-image--wrapper w-[80vw] max-w-[350px] aspect-[350/300] transition-all opacity-0 duration-300 ease-in-out">
-                        <img class="w-full h-full object-cover dynamic-image" src="https://res.cloudinary.com/dbfkv6zgf/image/upload/v1740733159/DSC_4802_068fca2c07.jpg" alt="preview image"></img>
-                    </div>
-                </div>
+                <PreviewImg />
             </div>
         </>
     );

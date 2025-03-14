@@ -31,7 +31,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
             letters: poetry.title.split('')
         }));
 
-        console.log(poetryTitlesLetters); 
+        // console.log(poetryTitlesLetters); 
 
         // module aliases
         var Engine = Matter.Engine,
@@ -92,7 +92,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
                         density: 1,
                         frictionAir: 0.02
                     });
-                    console.log('Rectangle body:', body); // Ajout du console.log
+                    // console.log('Rectangle body:', body); // Ajout du console.log
                     return body;
                 }
             );
