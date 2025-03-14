@@ -1,13 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { navigate } from "astro:transitions/client";
 import PreviewImg from "../../components/PreviewImg.jsx";
 import VolumeTitle from "../../components/title/VolumeTitle.jsx";
 
 const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) => {
 
-
+    const [hiddenListHeight, setHiddenListHeight] = useState(0);
 
     useEffect(() => {
+        // Afficher la hauteur de la liste cachée
+        const hiddenListHeightValue = document.querySelector('.hidden-list').clientHeight;
+        setHiddenListHeight(hiddenListHeightValue);
+
         // Title animation  
         const titleLayout = () => {
             const title = document.querySelectorAll("li.volume-title a");
@@ -36,12 +40,12 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
                 }
             >
                 <div
-                    className={`${!isOnVolumePage ? "pointer-events-none" : ""
+                    className={`transition-all duration-500 ease-in-out ${!isOnVolumePage ? "pointer-events-none" : ""
                         }`}
+                        style={isOnVolumePage ? { transform: `translateY(0px)` } : { transform: `translateY(-${hiddenListHeight}px)` }}
                 >
                     <div
-                        className={`max-h-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnVolumePage ? "max-h-[100vh]" : "max-h-0"
-                            }`}
+                        className={`overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s]`}
                     >
                         {/* Liste Hidden */}
                         <ul className="volume-list-compact flex flex-wrap gap-y-[25px] pb-[25px]">
