@@ -1,7 +1,12 @@
 //src/layouts/Actu.jsx
 import { useStore } from "@nanostores/react";
-import { useMemo, useRef, useEffect } from "react";
-import { activeComponent, toggleComponent, heightActu } from "../lib/store.js";
+import { useMemo, useRef, useEffect, useState } from "react";
+import {
+  activeComponent,
+  toggleComponent,
+  heightActu,
+  heightAbout,
+} from "../lib/store.js";
 import EventItem from "../components/EventItem.jsx";
 import useEventManager from "../hooks/useEventManager.js";
 import useDateFormatter from "../hooks/useDateFormatter.js";
@@ -9,11 +14,22 @@ import useDateFormatter from "../hooks/useDateFormatter.js";
 export default function ActuComponent({ actus, lang }) {
   const active = useStore(activeComponent); // On récupère l'état global
   const actuRef = useRef(null);
+  const aboutHeight = useStore(heightAbout);
+  const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
+    /* ------ aboutHeight ------ */
+  // Fonction pour recalculer la hauteur
+  const updateHeight = () => {
     if (actuRef.current) {
       heightActu.set(actuRef.current.scrollHeight);
     }
+  };
+
+  // Mettre à jour la hauteur lors du montage et du resize
+  useEffect(() => {
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
   const { formatEventDate } = useDateFormatter();
@@ -21,6 +37,19 @@ export default function ActuComponent({ actus, lang }) {
     () => useEventManager(actus),
     [actus]
   );
+
+  /* ------ isMobile ------ */
+  useEffect(() => {
+    // Vérifie si window est accessible et met à jour isMobile
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile(); // Exécute au montage
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   return (
     <section
@@ -31,6 +60,9 @@ export default function ActuComponent({ actus, lang }) {
            ? "md:top-[30vh] overflow-y-auto"
            : "md:h-[70px] md:top-[calc(100vh-70px)] overflow-hidden"
        } transition-all duration-500 ease-in-out`}
+      style={
+        isMobile ? { top: active === "actu" ? "0px" : `${aboutHeight}px` } : {}
+      }
     >
       <button
         className="button-actu--desktop hidden md:block md:rotate-[-25deg] md:p-4"

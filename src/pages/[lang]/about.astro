@@ -41,7 +41,9 @@ export const prerender = true;
     />
     <MobileButtons lang={lang} client:load />
     <WrapperHeight client:load />
-    <div class="wrapper-about-actus relative border-2 border-green-300">
+    <div
+      class="wrapper-about-actus relative overflow-hidden md:overflow-visible border-2 border-green-300"
+    >
       <AboutComponent about={about} lang={lang} client:load />
       <ActuComponent actus={actus} lang={lang} client:load />
     </div>
