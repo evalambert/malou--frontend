@@ -10,8 +10,8 @@ export default function AboutComponent({ about, lang }) {
       className={`section--about absolute left-0 md:fixed md:right-0 w-full flex flex-col gap-3 
         ${
           active === "actu"
-            ? "md:h-0 md:top-[calc(-100vh)] top-[100vh] h-0"
-            : "md:h-full md:top-0 top-[333px] h-auto"
+            ? "h-0 top-[100vh] md:h-0 md:top-[calc(-100vh)]"
+            : "h-full top-[333px] md:h-full md:top-0  "
         } transition-all duration-500 ease-in-out overflow-hidden bg-white`}
     >
       <button
