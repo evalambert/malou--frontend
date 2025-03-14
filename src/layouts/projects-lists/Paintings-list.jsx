@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { navigate } from "astro:transitions/client";
+import PreviewImg from "../../components/PreviewImg.jsx";
 
 const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang }) => {
     // Fonction pour gérer le survol et changer l'image
@@ -149,11 +150,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                         {/* (END) Liste Hidden */}
                     </div>
                 </div>
-                <div class="fixed top-0 left-0 h-screen w-screen z-[-1] flex justify-center items-center pointer-events-none">
-                    <div class="dynamic-image--wrapper w-[80vw] max-w-[350px] aspect-[350/300] transition-all opacity-0 duration-300 ease-in-out">
-                        <img class="w-full h-full object-cover dynamic-image" src="https://res.cloudinary.com/dbfkv6zgf/image/upload/v1740733159/DSC_4802_068fca2c07.jpg" alt="preview image"></img>
-                    </div>
-                </div>
+                <PreviewImg />
             </div>
         </>
     );

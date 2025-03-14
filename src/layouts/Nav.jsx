@@ -6,11 +6,11 @@ const Nav = ({ lang, currentPath, className }) => {
 
   const getLinkClass = (path) => {
     if (isHome) return "nav-li nav-home";
-    return `nav-li ${currentPath === path ? "nav-on" : "nav-off"}`;
+    return `nav-li ${currentPath.startsWith(path) ? "nav-on" : "nav-off"}`;
   };
 
 
-  
+
 
   const isAboutPage = currentPath === `/${lang}/about/`;
 
@@ -18,11 +18,11 @@ const Nav = ({ lang, currentPath, className }) => {
   return (
     <>
       <div className={`nav-wrapper ${className} flex gap-[10px] pt-[6px]`}>
-        <h1>
-          <a href={isAboutPage ? `/${lang}/` : `/${lang}/about/`}>
-            malou raulin
-          </a>
-        </h1>
+
+        <a href={isAboutPage ? `/${lang}/` : `/${lang}/about/`}>
+          malou raulin
+        </a>
+
         <nav>
           <ul className="flex flex-col">
             <li className={getLinkClass(`/${lang}/weaving/`)}>

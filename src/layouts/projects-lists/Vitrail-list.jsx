@@ -1,34 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { navigate } from "astro:transitions/client";
-
+import VitrailTitle from "../../components/title/VitrailTitle.jsx";
+import PreviewImg from "../../components/PreviewImg.jsx";
 const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }) => {
 
-    // Fonction pour gérer le survol et changer l'image
-    const handleMouseEnter = (imageUrl) => {
-        const imageElement = document.querySelector('.dynamic-image');
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-        if (imageElement) {
-            imageElement.src = imageUrl;
-        }
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '1';
-        }
-    };
-
-    const handleMouseLeave = () => {
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '0';
-        }
-    };
+    const [hiddenListHeight, setHiddenListHeight] = useState(0);
 
     useEffect(() => {
+        // Afficher la hauteur de la liste cachée
+        const hiddenListHeightValue = document.querySelector('.hidden-list').clientHeight;
+        setHiddenListHeight(hiddenListHeightValue);
+
         // Title animation  
         const titleLayout = () => {
             const title = document.querySelectorAll("li.vitrail-title a");
 
+            // Title animation
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
+                    document.body.classList.add('on-slug-page');
                     title.parentElement.classList.add('active');
                     const wordWrappers = title.querySelectorAll('.volume-word-wrapper > div');
                     wordWrappers.forEach((wrapper, wrapperIndex) => {
@@ -92,7 +82,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
     return (
         <>
 
-            
+
             <div
                 className={`pt-list-p-top flex flex-col items-end  ${!isOnVitrailPage ? "cursor-pointer" : ""
                     } `}
@@ -104,72 +94,29 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
             >
                 <div
                     className={`flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? "pointer-events-none" : ""
-                        } ${!hidden ? "" : "translate-y-[-50vh]"}`}
+                        } ${!hidden ? "" : "translate-y-[-50vh]"}`} style={isOnVitrailPage ? { transform: `translateY(0px)` } : { transform: `translateY(-${hiddenListHeight}px)` }}
                 >
                     <div
-                        className={`max-h-0 overflow-hidden transition-all duration-1000 ease-in-out delay-[0.2s] ${isOnVitrailPage ? "max-h-[100vh]" : "max-h-0"
-                            }`}
+                        className={`hidden-list transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? "opacity-100" : "opacity-0"} `}
                     >
                         {/* Liste Hidden */}
-                        {isOnVitrailPage && (
-                            <ul className="vitrail-list-compact">
-                                {dataVitrails.slice(2).map((vitrail) => (
-                                    <li className="vitrail-title text-right w-fit block ml-auto transition-all duration-300" key={vitrail.id}>
-                                        <a
-                                            href={`/${lang}/vitrail/${vitrail.slug}/`}
-                                            className="flex flex-col items-end"
-                                            onMouseEnter={() => {
-                                                const mediaUrl = vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url;
-                                                if (mediaUrl) {
-                                                    handleMouseEnter(mediaUrl);
-                                                }
-                                            }}
-                                            onMouseLeave={handleMouseLeave}
-                                            data-image-preview={vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url}
-                                        >
-                                            {vitrail.title.split(' ').map((word, i, words) => (
-                                                <div key={i} className="volume-word-wrapper inline-block transition-all duration-300 ">
-                                                    <div className="inline-block transition-all duration-300 h-[25px]">
-                                                        {word.split('').map((letter, j) => (
-                                                            <span key={j} className="">{letter}</span>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+
+                        <ul className="vitrail-list-compact overflow-visible">
+                            {dataVitrails.slice(2).map((vitrail) => (
+                                <li className="vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-100" key={vitrail.id}>
+                                    <VitrailTitle vitrail={vitrail} lang={lang} />
+                                </li>
+                            ))}
+                        </ul>
+
                         {/* (END) Liste Hidden */}
                     </div>
                     {/* Liste Homepage */}
                     <ul className="vitrail-list-compact">
                         {
                             dataVitrails.slice(0, 2).map((vitrail) => (
-                                <li className="vitrail-title  text-right w-fit block ml-auto transition-all duration-300" key={vitrail.id}>
-                                    <a
-                                        href={`/${lang}/vitrail/${vitrail.slug}/`}
-                                        className="flex flex-col items-end"
-                                        onMouseEnter={() => {
-                                            const mediaUrl = vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url;
-                                            if (mediaUrl) {
-                                                handleMouseEnter(mediaUrl);
-                                            }
-                                        }}
-                                        onMouseLeave={handleMouseLeave}
-                                        data-image-preview={vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url}
-                                    >
-                                        {vitrail.title.split(' ').map((word, i, words) => (
-                                            <div key={i} className="volume-word-wrapper inline-block transition-all duration-300">
-                                                <div className="inline-block transition-all duration-300 h-[25px]">
-                                                    {word.split('').map((letter, j) => (
-                                                        <span key={j}>{letter}</span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </a>
+                                <li className="vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-300" key={vitrail.id}>
+                                    <VitrailTitle vitrail={vitrail} lang={lang} />
                                 </li>
                             ))
                         }
@@ -178,11 +125,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
 
                 </div>
             </div>
-            <div class="fixed top-0 left-0 h-screen w-screen z-[-1] flex justify-center items-center pointer-events-none">
-                <div class="dynamic-image--wrapper w-[80vw] max-w-[350px] aspect-[350/300] transition-all opacity-0 duration-300 ease-in-out">
-                    <img class="w-full h-full object-cover dynamic-image" src="https://res.cloudinary.com/dbfkv6zgf/image/upload/v1740733159/DSC_4802_068fca2c07.jpg" alt="preview image"></img>
-                </div>
-            </div>
+            <PreviewImg />
         </>
     );
 };
