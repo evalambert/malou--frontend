@@ -5,12 +5,12 @@ import PaintingTitle from "../../components/title/PaintingTitle.jsx";
 
 const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang }) => {
     
-    const [hiddenListHeight, setHiddenListHeight] = useState(0);
+    const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
 
     useEffect(() => {
         // Afficher la hauteur de la liste cachée
-        const hiddenListHeightValue = document.querySelector('.hidden-list').clientHeight;
-        setHiddenListHeight(hiddenListHeightValue);
+        const hiddenListHeightPaintingValue = document.querySelector('.hidden-list-painting').clientHeight;
+        setHiddenListHeightPainting(hiddenListHeightPaintingValue);
 
         // Title animation
         const titleLayout = () => {
@@ -86,7 +86,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                 <div
                     className={`transition-all duration-500 ease-in-out ${!isOnPaintingPage ? "pointer-events-none" : ""
                         }`}
-                    style={isOnPaintingPage ? { transform: `translateY(0px)` } : { transform: `translateY(${hiddenListHeight}px)` }}
+                    style={isOnPaintingPage ? { transform: `translateY(0px)` } : { transform: `translateY(${hiddenListHeightPainting}px)` }}
                 >
 
                     {/* Liste Homepage */}
@@ -99,7 +99,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                     </ul>
                     {/* (END) Liste Homepage */}
                     <div
-                        className={`hidden-list overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] `}
+                        className={`hidden-list-painting overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] `}
                     >
                         {/* Liste Hidden */}
        

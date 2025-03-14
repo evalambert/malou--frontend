@@ -4,12 +4,12 @@ import VitrailTitle from "../../components/title/VitrailTitle.jsx";
 import PreviewImg from "../../components/PreviewImg.jsx";
 const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }) => {
 
-    const [hiddenListHeight, setHiddenListHeight] = useState(0);
+    const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
 
     useEffect(() => {
         // Afficher la hauteur de la liste cachée
-        const hiddenListHeightValue = document.querySelector('.hidden-list').clientHeight;
-        setHiddenListHeight(hiddenListHeightValue);
+        const hiddenListHeightVitrailValue = document.querySelector('.hidden-list-vitrail').clientHeight;
+        setHiddenListHeightVitrail(hiddenListHeightVitrailValue);
 
         // Title animation  
         const titleLayout = () => {
@@ -94,10 +94,10 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang }
             >
                 <div
                     className={`flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? "pointer-events-none" : ""
-                        } ${!hidden ? "" : "translate-y-[-50vh]"}`} style={isOnVitrailPage ? { transform: `translateY(0px)` } : { transform: `translateY(-${hiddenListHeight}px)` }}
+                        } ${!hidden ? "" : "translate-y-[-50vh]"}`} style={isOnVitrailPage ? { transform: `translateY(0px)` } : { transform: `translateY(-${hiddenListHeightVitrail}px)` }}
                 >
                     <div
-                        className={`hidden-list transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? "opacity-100" : "opacity-0"} `}
+                        className={`hidden-list-vitrail transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? "opacity-100" : "opacity-0"} `}
                     >
                         {/* Liste Hidden */}
 

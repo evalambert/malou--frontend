@@ -5,12 +5,12 @@ import VolumeTitle from "../../components/title/VolumeTitle.jsx";
 
 const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) => {
 
-    const [hiddenListHeight, setHiddenListHeight] = useState(0);
+    const [hiddenListHeightVolume, setHiddenListHeightVolume] = useState(0);
 
     useEffect(() => {
         // Afficher la hauteur de la liste cachée
-        const hiddenListHeightValue = document.querySelector('.hidden-list').clientHeight;
-        setHiddenListHeight(hiddenListHeightValue);
+        const hiddenListHeightVolumeValue = document.querySelector('.hidden-list-volume').clientHeight;
+        setHiddenListHeightVolume(hiddenListHeightVolumeValue);
 
         // Title animation  
         const titleLayout = () => {
@@ -42,10 +42,10 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
                 <div
                     className={`transition-all duration-500 ease-in-out ${!isOnVolumePage ? "pointer-events-none" : ""
                         }`}
-                        style={isOnVolumePage ? { transform: `translateY(0px)` } : { transform: `translateY(-${hiddenListHeight}px)` }}
+                        style={isOnVolumePage ? { transform: `translateY(0px)` } : { transform: `translateY(-${hiddenListHeightVolume}px)` }}
                 >
                     <div
-                        className={`overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s]`}
+                        className={`hidden-list-volume overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s]`}
                     >
                         {/* Liste Hidden */}
                         <ul className="volume-list-compact flex flex-wrap gap-y-[25px] pb-[25px]">
