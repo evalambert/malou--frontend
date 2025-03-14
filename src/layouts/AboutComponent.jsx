@@ -1,18 +1,27 @@
 //src/layouts/About.jsx
 import { useStore } from "@nanostores/react";
-import { activeComponent, toggleComponent } from "../lib/store.js";
+import { activeComponent, toggleComponent, heightAbout } from "../lib/store.js";
+import { useEffect, useRef } from "react";
 
 export default function AboutComponent({ about, lang }) {
   const active = useStore(activeComponent);
+  const aboutRef = useRef(null);
+
+  useEffect(() => {
+    if (aboutRef.current) {
+      heightAbout.set(aboutRef.current.scrollHeight);
+    }
+  }, []);
 
   return (
     <section
-      className={`section--about absolute left-0 md:fixed md:right-0 w-full flex flex-col gap-3 
+      ref={aboutRef}
+      className={`section--about absolute left-0 w-full md:fixed md:right-0 flex flex-col gap-3 border-2 border-blue-300
         ${
           active === "actu"
-            ? "md:h-0 md:top-[calc(-100vh)] top-[100vh] h-0"
-            : "md:h-full md:top-0 top-[333px] h-auto"
-        } transition-all duration-500 ease-in-out overflow-hidden bg-white`}
+            ? "md:h-0 md:top-[calc(-100vh)]"
+            : "md:h-full md:top-0"
+        } transition-all duration-500 ease-in-out overflow-hidden`}
     >
       <button
         className={`button-about md:fixed md:top-0 md:left-[270px] md:p-6 md:rotate-[27.28deg] rotate-[19deg] transition-opacity duration-300 hidden md:block
