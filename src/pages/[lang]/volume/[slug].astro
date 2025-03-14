@@ -2,8 +2,11 @@
 //pages/[lang]/volume/[slug].astro
 
 import fetchApi from "../../../lib/strapi";
+
 import Layout from "../../../layouts/Layout.astro";
 import VolumesList from "../../../layouts/projects-lists/Volumes-list.jsx";
+import Nav from "../../../layouts/Nav.jsx";
+import Slider from "../../../components/slider/Slider.jsx";
 
 export async function getStaticPaths() {
   const languages = ["fr", "en"];
@@ -43,35 +46,33 @@ const volumes = await fetchApi({
   wrappedByKey: "data",
 });
 
-
 const { volume } = Astro.props;
 const { lang } = Astro.params;
-
 
 export const prerender = true;
 ---
 
 <Layout title="Volume" showReturn returnTo={`/volume/`}>
-  <div
-    class="header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]"
-  >
-    <div class="flex-1">
-    </div>
-    <div class="flex-3">
-      <VolumesList
-        targetHref={Astro.url.pathname}
-        hidden={false}
-        lang={lang}
-        dataVolumes={volumes}
-        isOnVolumePage={true}
-        transition:name="volumeslist"
-        transition:persist
-        client:load
-      />
-    </div>
-    <div class="flex-1">
-    </div>
-  </div>
-  <h1>{volume?.title || "Titre non disponible"}</h1>
+  <Nav
+    lang={lang}
+    currentPath={Astro.url.pathname}
+    transition:name="nav"
+    transition:persist
+    client:load
+    className="fixed top-0 left-main-x z-50"
+  />
+  <VolumesList
+    targetHref={Astro.url.pathname}
+    hidden={false}
+    lang={lang}
+    dataVolumes={volumes}
+    isOnVolumePage={true}
+    transition:name="volumeslist"
+    transition:persist
+    client:load
+    className="fixed top-0 right-main-x z-50 pointer-events-none"
+  />
+
+  <Slider client:only medias={volume?.medias || []} />
   <p>{volume?.description || "Description non disponible"}</p>
 </Layout>
