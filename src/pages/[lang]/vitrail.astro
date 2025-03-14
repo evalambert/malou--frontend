@@ -108,6 +108,7 @@ export const prerender = true;
       transition:name="paintingslist"
       transition:persist
       client:load
+      className=""
     />
     <WeavingList
       targetHref={`/weaving/`}
@@ -122,15 +123,7 @@ export const prerender = true;
   </main>
 </Layout>
 <script>
-  import { toggleToBlack } from "../../lib/store.js";
-
-  // Exécuter au chargement initial
-  document.addEventListener('DOMContentLoaded', () => {
-    toggleToBlack();
-  });
-  
-  // Exécuter à chaque navigation vers cette page
-  document.addEventListener('astro:page-load', () => {
-    toggleToBlack();
-  });
+  import { setupBlackTextPage } from "../../lib/pageColorUtils.js";
+  // Utiliser la fonction utilitaire
+  setupBlackTextPage();
 </script>

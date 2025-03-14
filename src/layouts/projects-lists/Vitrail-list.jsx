@@ -6,6 +6,8 @@ import { textWhite } from "../../lib/store.js";
 
 import VitrailTitle from "../../components/title/VitrailTitle.jsx";
 import PreviewImg from "../../components/PreviewImg.jsx";
+
+
 const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang, className }) => {
     const isTextWhite = useStore(textWhite);
 

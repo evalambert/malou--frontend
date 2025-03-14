@@ -23,7 +23,7 @@ const PaintingTitle = ({ painting, lang }) => {
 
     // Render
     return (
-        <>
+        <div>
             <a href={`/${lang}/painting/${painting.slug}/`} className="block whitespace-nowrap" onMouseEnter={() => {
                 const mediaUrl = painting.medias && painting.medias[0] && painting.medias[0].url;
                 if (mediaUrl) {
@@ -36,7 +36,7 @@ const PaintingTitle = ({ painting, lang }) => {
                     <span className="inline-block" key={index}>{letter}</span>
                 ))}
             </a>
-        </>
+        </div>
     );
 };
 

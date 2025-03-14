@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { navigate } from "astro:transitions/client";
+
+import { useStore } from "@nanostores/react";
+import { textWhite } from "../../lib/store.js";
+
 import PreviewImg from "../../components/PreviewImg.jsx";
 import PaintingTitle from "../../components/title/PaintingTitle.jsx";
 
-const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang }) => {
-    
+
+const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang, className }) => {
+
     const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
+    const isTextWhite = useStore(textWhite);
 
     useEffect(() => {
         // Afficher la hauteur de la liste cachée
@@ -17,6 +23,8 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
             const title = document.querySelectorAll("li.painting-title a");
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
+
+                    document.body.classList.add('on-slug-page');
                     title.parentElement.classList.add('active');
                     const spansLenght = title.querySelectorAll('span').length;
                     const firstSpanTranslateY = (spansLenght - 1) * 10;
@@ -74,7 +82,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`fixed md:left-[100px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] mix-blend-difference ${!isOnPaintingPage ? "cursor-pointer" : ""
+                className={`work-list fixed md:left-[100px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${isTextWhite ? '' : 'mix-blend-difference '} ${className} ${!isOnPaintingPage ? "cursor-pointer" : ""
                     } ${!hidden ? "" : "bottom-[-50vh]"}`}
                 onClick={
                     !isOnPaintingPage
@@ -102,7 +110,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                         className={`hidden-list-painting overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] `}
                     >
                         {/* Liste Hidden */}
-       
+
                         <ul>
                             {dataPaintings.slice(4).map((painting) => (
                                 <li
