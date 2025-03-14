@@ -1,7 +1,7 @@
 ---
 //pages/[lang]/vitrail/[slug].astro
-
 import fetchApi from "../../../lib/strapi";
+
 import Layout from "../../../layouts/Layout.astro";
 import VitrailList from "../../../layouts/projects-lists/Vitrail-list.jsx";
 import Nav from "../../../layouts/Nav.jsx";
@@ -51,28 +51,26 @@ export const prerender = true;
 ---
 
 <Layout title="Vitrail" showReturn returnTo={`/vitrail`}>
-  <div class="fixed top-0 left-main-x">
-    <Nav
+  <Nav
     lang={lang}
     currentPath={Astro.url.pathname}
     transition:name="nav"
     transition:persist
     client:load
-    className=""
+    className="fixed top-0 left-main-x z-50"
   />
-  </div>
-  <div class="fixed top-0 right-main-x">
-    <VitrailList
-      targetHref={Astro.url.pathname}
-      hidden={false}
-      lang={lang}
-      dataVitrails={vitraux}
-      isOnVitrailPage={true}
-      transition:name="vitrailist"
-      transition:persist
-      client:load
-    />
-  </div>
-  <!-- <Slider client:only medias={vitrail?.medias || []} /> -->
+  <VitrailList
+    targetHref={Astro.url.pathname}
+    hidden={false}
+    lang={lang}
+    dataVitrails={vitraux}
+    isOnVitrailPage={true}
+    className="fixed top-0 right-main-x z-50"
+    transition:name="vitrailist"
+    transition:persist
+    client:load
+  />
+
+  <Slider client:only medias={vitrail?.medias || []} />
 </Layout>
 <p>{vitrail?.description || "Description non disponible"}</p>

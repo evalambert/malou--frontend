@@ -31,7 +31,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang }) 
     return (
         <>
             <div
-                className={`pt-list-p-top transition-all duration-1000 ease-in-out ${!isOnVolumePage ? "cursor-pointer" : ""
+                className={`pt-list-p-top transition-all duration-1000 ease-in-out mix-blend-difference ${!isOnVolumePage ? "cursor-pointer" : ""
                     } ${!hidden ? "" : "translate-y-[-50vh]"}`}
                 onClick={
                     !isOnVolumePage

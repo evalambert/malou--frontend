@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+
+
 const VitrailTitle = ({ vitrail, lang }) => {
 
     // Fonction pour gérer le survol et changer l'image
@@ -26,7 +28,7 @@ const VitrailTitle = ({ vitrail, lang }) => {
         <div>
             <a
                 href={`/${lang}/vitrail/${vitrail.slug}/`}
-                className="flex flex-col items-end"
+                className={`flex flex-col items-end`}
                 onMouseEnter={() => {
                     const mediaUrl = vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url;
                     if (mediaUrl) {

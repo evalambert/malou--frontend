@@ -74,7 +74,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`fixed md:left-[100px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${!isOnPaintingPage ? "cursor-pointer" : ""
+                className={`fixed md:left-[100px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] mix-blend-difference ${!isOnPaintingPage ? "cursor-pointer" : ""
                     } ${!hidden ? "" : "bottom-[-50vh]"}`}
                 onClick={
                     !isOnPaintingPage

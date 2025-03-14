@@ -42,10 +42,11 @@
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: white;
 }
 
 body {
-  @apply overflow-hidden;
+  @apply overflow-hidden bg-white;
 }
 
 body[data-page="about"] {
@@ -178,3 +179,12 @@ li {
   text-align: center;
 }
 
+
+
+
+body.on-slug-page .work-list li > div{
+  pointer-events: none;
+}
+body.on-slug-page .work-list li > div:not(.active) {
+  opacity: 0;
+} 

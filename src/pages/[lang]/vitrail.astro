@@ -2,6 +2,8 @@
 //pages/[lang]/vitrail.astro
 
 import fetchApi from "../../lib/strapi";
+
+
 import Layout from "../../layouts/Layout.astro";
 import Nav from "../../layouts/Nav.jsx";
 import PaintingsList from "../../layouts/projects-lists/Paintings-list.jsx";
@@ -78,6 +80,7 @@ export const prerender = true;
           lang={lang}
           dataVitrails={vitraux}
           isOnVitrailPage={true}
+          className=""
           transition:name="vitrailist"
           transition:persist
           client:load
@@ -118,3 +121,16 @@ export const prerender = true;
     />
   </main>
 </Layout>
+<script>
+  import { toggleToBlack } from "../../lib/store.js";
+
+  // Exécuter au chargement initial
+  document.addEventListener('DOMContentLoaded', () => {
+    toggleToBlack();
+  });
+  
+  // Exécuter à chaque navigation vers cette page
+  document.addEventListener('astro:page-load', () => {
+    toggleToBlack();
+  });
+</script>

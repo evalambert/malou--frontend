@@ -266,7 +266,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang }) =>
 
 
 
-                    <div className="bg-red-500">
+                    <div className="mix-blend-difference">
                         {dataPoetry.map((poetry) => (
                             <div key={poetry.id}>
                                 {poetry.title.split('').map((letter, index) => {

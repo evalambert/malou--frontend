@@ -1,5 +1,9 @@
 // Import Swiper React components
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect  } from "react";
+
+import { useStore } from "@nanostores/react";
+import { textWhite, toggleTextColor, toggleToWhite } from "../../lib/store.js";
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Zoom, Keyboard } from 'swiper/modules';
 import ZoomableImg from '../Zoomable-img';
@@ -7,13 +11,29 @@ import ZoomableImg from '../Zoomable-img';
 // Import Swiper styles
 import 'swiper/css';
 
-export default function Slider({ medias = [] }) {
 
+export default function Slider({ medias = [] }) {
     const swiperRef = useRef(null);
     const [clickTimeout, setClickTimeout] = useState(null);
     const [mouseDownTime, setMouseDownTime] = useState(null);
 
+    // Utilisez useStore pour obtenir la valeur réactive de textWhite
+    const isTextWhite = useStore(textWhite);
 
+    useEffect(() => {
+        toggleToWhite();
+    }, []);
+    const handleSlideChange = () => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+            const swiper = swiperRef.current.swiper;
+            const isLastSlide = swiper.activeIndex === swiper.slides.length - 1;
+            const wasLastSlide = swiper.previousIndex === swiper.slides.length - 1;
+
+            if (isLastSlide || wasLastSlide) {
+                toggleTextColor();
+            }
+        }
+    };
 
     const handleMouseDown = (event) => {
         setMouseDownTime(Date.now());
@@ -31,22 +51,22 @@ export default function Slider({ medias = [] }) {
 
                 // Click simple
                 if (clickTimeout === null) {
-                    if (x < viewportMiddle ){
+                    if (x < viewportMiddle) {
                         setClickTimeout(
-                            setTimeout(() => {  
+                            setTimeout(() => {
                                 handleSingleClickLeft();
                                 setClickTimeout(null);
                             }, 200)
                         );
                     } else {
                         setClickTimeout(
-                            setTimeout(() => {  
+                            setTimeout(() => {
                                 handleSingleClickRight();
                                 setClickTimeout(null);
                             }, 200)
                         );
                     }
-   
+
                 } else {
                     // Double clic
                     clearTimeout(clickTimeout);
@@ -62,6 +82,8 @@ export default function Slider({ medias = [] }) {
             swiperRef.current.swiper.slideNext();
         }
     };
+
+
     const handleSingleClickLeft = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             swiperRef.current.swiper.slidePrev();
@@ -70,16 +92,19 @@ export default function Slider({ medias = [] }) {
 
 
 
+
+
     return (
         <>
             <style>
-            {`
+                {`
                 .swiper{
                     position: fixed;
                     top: 0;
                     left: 0;
                     height: 100vh;
                     width: 100vw;
+                    z-index: 1;
                 }
                 .swiper-slide{
                     width: 50%;
@@ -115,32 +140,36 @@ export default function Slider({ medias = [] }) {
                 }
             `}
             </style>
-            <Swiper
-                ref={swiperRef}
-                slidesPerView={'auto'}
-                zoom={{
-                    maxRatio: 3,
-                    panOnMouseMove : true,
-                    limitToOriginalSize: true
-                }}
-                // loop={true}
-                keyboard={{
-                    enabled: true,
-                }}
-                modules={[Zoom, Keyboard]}
-                onTouchStart={handleMouseDown}
-                onTouchEnd={handleMouseUp}
-                onMouseDown={handleMouseDown}
-                onMouseUp={handleMouseUp}
-            >
-                {medias.map((media, index) => (
-                    <SwiperSlide
-                        key={index}
-                    >
-                        <ZoomableImg url={media.url} />
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+            <div>
+                <Swiper
+                    ref={swiperRef}
+                    slidesPerView={'auto'}
+                    zoom={{
+                        maxRatio: 3,
+                        panOnMouseMove: true,
+                        limitToOriginalSize: true
+                    }}
+                    // loop={true}
+                    keyboard={{
+                        enabled: true,
+                    }}
+                    modules={[Zoom, Keyboard]}
+                    onTouchStart={handleMouseDown}
+                    onTouchEnd={handleMouseUp}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={handleMouseUp}
+                    onSlideChange={handleSlideChange}
+                >
+                    {medias.map((media, index) => (
+                        <SwiperSlide
+                            key={index}
+                        >
+                            <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
+                            <ZoomableImg url={media.url} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
         </>
 
     );
