@@ -17,7 +17,7 @@ export default function ActuComponent({ actus, lang }) {
   const aboutHeight = useStore(heightAbout);
   const [isMobile, setIsMobile] = useState(false);
 
-    /* ------ aboutHeight ------ */
+  /* ------ aboutHeight ------ */
   // Fonction pour recalculer la hauteur
   const updateHeight = () => {
     if (actuRef.current) {
@@ -57,7 +57,7 @@ export default function ActuComponent({ actus, lang }) {
       className={`section--actu absolute right-0 flex flex-col gap-10 w-full text-center
        ${
          active === "actu"
-           ? "md:top-[30vh] overflow-y-auto"
+           ? "md:h-full md:top-[30vh] overflow-y-auto"
            : "md:h-[70px] md:top-[calc(100vh-70px)] overflow-hidden"
        } transition-all duration-500 ease-in-out`}
       style={
