@@ -54,7 +54,7 @@ export default function ActuComponent({ actus, lang }) {
   return (
     <section
       ref={actuRef}
-      className={`section--actu absolute right-0 flex flex-col gap-10 w-full text-center border-2 border-fuchsia-300
+      className={`section--actu absolute right-0 flex flex-col gap-10 w-full text-center
        ${
          active === "actu"
            ? "md:top-[30vh] overflow-y-auto"

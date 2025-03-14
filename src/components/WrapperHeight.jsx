@@ -12,9 +12,11 @@ export default function WrapperHeight() {
   return (
     <style>
       {`
-        .wrapper-about-actus {
-          height: ${computedHeight}px;
-          transition: height 0.5s ease-in-out;
+        @media (max-width: 768px) {
+          .wrapper-about-actus {
+            height: ${computedHeight}px;
+            transition: height 0.5s ease-in-out;
+          }
         }
       `}
     </style>
