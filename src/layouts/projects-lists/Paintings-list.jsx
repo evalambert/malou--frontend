@@ -1,11 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { navigate } from "astro:transitions/client";
 import PreviewImg from "../../components/PreviewImg.jsx";
 import PaintingTitle from "../../components/title/PaintingTitle.jsx";
 
 const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang }) => {
+    
+    const [hiddenListHeight, setHiddenListHeight] = useState(0);
 
     useEffect(() => {
+        // Afficher la hauteur de la liste cachée
+        const hiddenListHeightValue = document.querySelector('.hidden-list').clientHeight;
+        setHiddenListHeight(hiddenListHeightValue);
+
         // Title animation
         const titleLayout = () => {
             const title = document.querySelectorAll("li.painting-title a");
@@ -78,8 +84,9 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
             >
 
                 <div
-                    className={`${!isOnPaintingPage ? "pointer-events-none" : ""
+                    className={`transition-all duration-500 ease-in-out ${!isOnPaintingPage ? "pointer-events-none" : ""
                         }`}
+                    style={isOnPaintingPage ? { transform: `translateY(0px)` } : { transform: `translateY(${hiddenListHeight}px)` }}
                 >
 
                     {/* Liste Homepage */}
@@ -92,11 +99,10 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                     </ul>
                     {/* (END) Liste Homepage */}
                     <div
-                        className={`max-h-0 overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] ${isOnPaintingPage ? "max-h-[100vh]" : "max-h-0"
-                            }`}
+                        className={`hidden-list overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] `}
                     >
                         {/* Liste Hidden */}
-                        {/* {isOnPaintingPage && ( */}
+       
                         <ul>
                             {dataPaintings.slice(4).map((painting) => (
                                 <li
@@ -107,7 +113,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                                 </li>
                             ))}
                         </ul>
-                        {/* )} */}
+
                         {/* (END) Liste Hidden */}
                     </div>
                 </div>
