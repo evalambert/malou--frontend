@@ -48,7 +48,14 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
             Vertices = Matter.Vertices;
 
         // create an engine
-        var engine = Engine.create(),
+        var engine = Engine.create({
+            enableSleeping: false,
+            timing: {
+                timeScale: 1,
+                delta: 1000 / 60,
+                iterations: 8
+            }
+        }),
             world = engine.world;
 
         // create a renderer
@@ -73,8 +80,9 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
             const group = Body.nextGroup(true);
 
             const rope = Composites.stack(
-                30 + (index * 80),
-                100 - (index * 80),
+                // 30 + (index * 80),
+                0,
+                100 + (index * 100),
                 poetry.letters.length,
                 1,
                 10,
@@ -89,8 +97,8 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
                             lineWidth: 1,
                             visualCenterOfMass: true
                         },
-                        density: 1,
-                        frictionAir: 0.02
+                        density: 0.5,
+                        frictionAir: 0.03
                     });
                     // console.log('Rectangle body:', body); // Ajout du console.log
                     return body;
@@ -99,8 +107,8 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
 
             // Modifier les contraintes de la chaîne pour correspondre à ropeC
             Composites.chain(rope, 0.3, 0, -0.3, 0, {
-                stiffness: 1,  // Augmenté de 0.8 à 1
-                length: 0,     // Réduit à 0 pour des connexions plus serrées
+                stiffness: 0.8,  // Augmenté de 0.8 à 1
+                length: 0.5,     // Réduit à 0 pour des connexions plus serrées
                 render: { type: 'line' }
             });
 
@@ -208,10 +216,20 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
                 poetry.letters.forEach((letter, letterIndex) => {
                     const body = ropes[poetryIndex].bodies[letterIndex];
                     if (body) {
-                        newPositions[`${poetry.id}-${letterIndex}`] = {
-                            x: body.position.x,
-                            y: body.position.y,
-                        };
+                        const key = `${poetry.id}-${letterIndex}`;
+                        const oldPosition = letterPositions[key] || { x: 0, y: 0 };
+                        const dx = body.position.x - oldPosition.x;
+                        const dy = body.position.y - oldPosition.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance > 3) {
+                            newPositions[key] = {
+                                x: body.position.x,
+                                y: body.position.y,
+                            };
+                        } else {
+                            newPositions[key] = oldPosition;
+                        }
                     }
                 });
             });
@@ -227,7 +245,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
     // Render
     return (
         <>
-            <div className="hidden ${className}">
+            {/* <div className="hidden">
                 <svg
                     id="matterflor-svg"
                     preserveAspectRatio="xMidYMid meet"
@@ -261,7 +279,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
                         : undefined
                 }
             >
-                <div className={`work-list flex w-screen h-screen fixed top-[20h] left-0 ${!hidden ? "" : "left-[-50vh]"}`}>
+                <div className={`work-list flex w-screen h-screen fixed top-[100px] left-0 ${className} ${!hidden ? "" : "left-[-50vh]"}`}>
                     <div id="matter-container" className="h-[80vh] w-[20vw]"></div>
 
 
@@ -294,7 +312,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
                 </div>
 
 
-            </div>
+            </div> */}
 
         </>
     );

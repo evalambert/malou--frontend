@@ -82,8 +82,8 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list fixed md:left-[100px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${isTextWhite ? '' : 'mix-blend-difference '} ${className} ${!isOnPaintingPage ? "cursor-pointer" : ""
-                    } ${!hidden ? "" : "bottom-[-50vh]"}`}
+                className={`work-list fixed left-[150px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${isTextWhite ? '' : 'mix-blend-difference '} ${className} ${!isOnPaintingPage ? "cursor-pointer" : ""
+                    } ${!hidden ? "" : "translate-y-[100vh]"}`}
                 onClick={
                     !isOnPaintingPage
                         ? () => navigate(`/${lang}${targetHref}`, { history: "push" })
