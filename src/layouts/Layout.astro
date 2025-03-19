@@ -1,40 +1,46 @@
 ---
-import "../assets/styles/global.css";
-import { ClientRouter } from "astro:transitions";
-import ButtonReturn from "../components/ButtonReturn.astro";
-import LanguageSwitch from "../components/LanguageSwitch.jsx";
+// src/layouts/Layout.astro
+import '../assets/styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import ButtonReturn from '../components/ButtonReturn.astro';
+import LanguageSwitch from '../components/LanguageSwitch.jsx';
 
-
-const { title, showReturn = false, returnTo = "" } = Astro.props;
-const currentLocale = Astro.currentLocale || "fr";
+const { title, showReturn = false, returnTo = '' } = Astro.props;
+const currentLocale = Astro.currentLocale || 'fr';
 const currentPath = Astro.url.pathname;
-const isAboutPage = currentPath.includes("/about");
+const isAboutPage = currentPath.includes('/about');
 ---
 
 <!doctype html>
 <html lang={currentLocale}>
-  <head transition:name="root" transition:animate="none">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <ClientRouter />
-  </head>
-  <body
-    class="font-bradford text-base leading-base px-main-x-mobile md:px-main-x"
-    data-page={isAboutPage ? "about" : undefined}
-  >
-    <!-- <div
-      class="language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] bg-white z-[999]"
+    <head transition:name='root' transition:animate='none'>
+        <meta charset='UTF-8' />
+        <meta name='viewport' content='width=device-width' />
+        <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+        <meta name='generator' content={Astro.generator} />
+        <title>{title}</title>
+        <ClientRouter />
+    </head>
+    <body
+        class={`font-bradford text-base leading-base px-main-x-mobile md:px-main-x ${
+            Astro.url.pathname.match(
+                /^\/(painting|volume|poetry|weaving)\/[^\/]+$/
+            )
+                ? 'on-slug-page'
+                : ''
+        }`}
+        data-page={isAboutPage ? 'about' : undefined}
     >
-      <LanguageSwitch
-        client:load
-        currentLang={currentLocale}
-        currentPath={currentPath}
-      />
-    </div> -->
-    <!-- {showReturn && <ButtonReturn to={returnTo} />} -->
-    <slot />
-  </body>
-</html>
+        <div
+            class='language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] bg-white z-[999]'
+        >
+            <LanguageSwitch
+                client:load
+                currentLang={currentLocale}
+                currentPath={currentPath}
+            />
+        </div>
+        {showReturn && <ButtonReturn to={returnTo} />}
+        <slot />
+    </body></html
+>

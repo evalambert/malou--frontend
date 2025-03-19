@@ -1,46 +1,48 @@
 ---
 //pages/[lang]/painting/[slug].astro
 
-import fetchApi from "../../../lib/strapi";
-
-import Layout from "../../../layouts/Layout.astro";
-import Nav from "../../../layouts/Nav.jsx";
-import PaintingsList from "../../../layouts/projects-lists/Paintings-list.jsx";
-import Slider from "../../../components/slider/Slider.jsx";
+import fetchApi from '../../../lib/strapi';
+import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
+import Layout from '../../../layouts/Layout.astro';
+import Nav from '../../../layouts/Nav.jsx';
+import PaintingsList from '../../../layouts/projects-lists/Paintings-list.jsx';
+import Slider from '../../../components/slider/Slider.jsx';
 
 export async function getStaticPaths() {
-  const languages = ["fr", "en"];
-  const paths = [];
+    const languages = ['fr', 'en'];
+    const paths = [];
 
+    for (const lang of languages) {
+        try {
+            const paintings = await fetchApi({
+                endpoint: 'paintings?populate=*',
+                wrappedByKey: 'data',
+                locale: lang,
+            });
 
-  for (const lang of languages) {
-    try {
-      const paintings = await fetchApi({
-        endpoint: "paintings?populate=*",
-        wrappedByKey: "data",
-        locale: lang,
-      });
+            if (!Array.isArray(paintings)) {
+                console.error(
+                    'Les données reçues ne sont pas un tableau:',
+                    paintings
+                );
+                continue;
+            }
 
-      if (!Array.isArray(paintings)) {
-        console.error("Les données reçues ne sont pas un tableau:", paintings);
-        continue;
-      }
+            const langPaths = paintings.map((painting) => ({
+                params: {
+                    lang,
+                    slug: painting.slug,
+                },
+                props: { painting },
+            }));
 
-      const langPaths = paintings.map((painting) => ({
-        params: {
-          lang,
-          slug: painting.slug,
-        },
-        props: { painting },
-      }));
-
-      paths.push(...langPaths);
-    } catch (error) {
-      console.error(`Error fetching paintings for ${lang}:`, error);
+            paths.push(...langPaths);
+        } catch (error) {
+            console.error(`Error fetching paintings for ${lang}:`, error);
+        }
     }
-  }
 
-  return paths;
+    return paths;
 }
 
 const { painting } = Astro.props;
@@ -48,35 +50,43 @@ const { lang } = Astro.params;
 
 // Récupérer tous les paintings pour la liste
 const paintings = await fetchApi({
-  endpoint: "paintings?populate=*",
-  wrappedByKey: "data",
-  locale: lang,
+    endpoint: 'paintings?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
 });
 
 export const prerender = true;
 ---
 
-<Layout title="Painting" showReturn returnTo={`/painting`}>
+<Layout title='Painting' showReturn returnTo={`/painting`}>
     <Nav
-    lang={lang}
-    currentPath={Astro.url.pathname}
-    transition:name="nav"
-    transition:persist
-    client:load
-    className="fixed top-0 left-main-x z-50"
-  />
-  
-  <p>{painting?.description || "Description non disponible"}</p>
-  <PaintingsList
-  targetHref={Astro.url.pathname}
-  hidden={false}
-  lang={lang}
-  dataPaintings={paintings}
-  className="fixed bottom-0 right-main-x z-50 pointer-events-none"
-  isOnPaintingPage={true}
-  transition:name="paintingslist"
-  transition:persist
-  client:load
-/>
-<Slider client:only medias={painting?.medias || []} />
+        lang={lang}
+        currentPath={Astro.url.pathname}
+        transition:name='nav'
+        transition:persist
+        client:load
+        className='fixed top-0 left-main-x z-50'
+    />
+    <PaintingsList
+        targetHref={Astro.url.pathname}
+        hidden={false}
+        lang={lang}
+        dataPaintings={paintings}
+        className='fixed bottom-0 right-main-x z-50 pointer-events-none'
+        isOnPaintingPage={true}
+        transition:name='paintingslist'
+        transition:persist
+        client:load
+    />
+    <Slider client:only medias={painting?.medias || []} />
+    <AccordionReadProject
+        description={painting?.description || 'Description non disponible'}
+        technique={painting?.technique || 'Technique non disponible'}
+        materials={painting?.materials || 'Matériaux non disponibles'}
+        width={painting?.width || 'Largeur non disponible'}
+        height={painting?.height || 'Hauteur non disponible'}
+        year={painting?.year || 'Année non disponible'}
+        lang={lang}
+        client:load
+    />
 </Layout>
