@@ -1,4 +1,5 @@
 ---
+// src/layouts/Layout.astro
 import '../assets/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import ButtonReturn from '../components/ButtonReturn.astro';
@@ -21,7 +22,13 @@ const isAboutPage = currentPath.includes('/about');
         <ClientRouter />
     </head>
     <body
-        class='font-bradford text-base leading-base px-main-x-mobile md:px-main-x'
+        class={`font-bradford text-base leading-base px-main-x-mobile md:px-main-x ${
+            Astro.url.pathname.match(
+                /^\/(painting|volume|poetry|weaving)\/[^\/]+$/
+            )
+                ? 'on-slug-page'
+                : ''
+        }`}
         data-page={isAboutPage ? 'about' : undefined}
     >
         <div
