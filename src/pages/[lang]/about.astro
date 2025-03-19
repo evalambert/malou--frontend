@@ -1,51 +1,51 @@
 ---
 //pages/[lang]/about.astro
-import fetchApi from "../../lib/strapi";
-import Layout from "../../layouts/Layout.astro";
-import Nav from "../../layouts/Nav.jsx";
-import AboutComponent from "../../layouts/AboutComponent.jsx";
-import ActuComponent from "../../layouts/ActuComponent.jsx";
-import MobileButtons from "../../components/MobileButtons.jsx";
-import WrapperHeight from "../../components/WrapperHeight.jsx";
+import fetchApi from '../../lib/strapi';
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../layouts/Nav.jsx';
+import AboutComponent from '../../layouts/AboutComponent.jsx';
+import ActuComponent from '../../layouts/ActuComponent.jsx';
+import MobileButtons from '../../components/MobileButtons.jsx';
+import WrapperHeight from '../../components/WrapperHeight.jsx';
 
 export async function getStaticPaths() {
-  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+    return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];
 }
 
 const { lang } = Astro.params;
 
 const about = await fetchApi({
-  endpoint: "about?populate=*",
-  wrappedByKey: "data",
-  locale: lang,
+    endpoint: 'about?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
 });
 
 const actus = await fetchApi({
-  endpoint: "actus?populate=*",
-  wrappedByKey: "data",
-  locale: lang,
+    endpoint: 'actus?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
 });
 
 export const prerender = true;
 ---
 
-<Layout title="About" showReturn returnTo="">
-  <main>
-    <Nav
-      className="md:fixed md:top-0 md:left-[15px] rounded-[4px] z-[999]"
-      lang={lang}
-      currentPath={Astro.url.pathname}
-      transition:name="nav"
-      transition:persist
-      client:load
-    />
-    <MobileButtons lang={lang} client:load />
-    <WrapperHeight client:load />
-    <div
-      class="wrapper-about-actus relative md:static overflow-hidden md:overflow-visible"
-    >
-      <AboutComponent about={about} lang={lang} client:load />
-      <ActuComponent actus={actus} lang={lang} client:load />
-    </div>
-  </main>
+<Layout title='About' showReturn returnTo=''>
+    <main>
+        <Nav
+            className='md:fixed md:top-0 md:left-[15px] rounded-[4px] z-[999]'
+            lang={lang}
+            currentPath={Astro.url.pathname}
+            transition:name='nav'
+            transition:persist
+            client:load
+        />
+        <MobileButtons lang={lang} client:load />
+        <WrapperHeight client:load />
+        <div
+            class='wrapper-about-actus relative md:static overflow-hidden md:overflow-visible'
+        >
+            <AboutComponent about={about} lang={lang} client:load />
+            <ActuComponent actus={actus} lang={lang} client:load />
+        </div>
+    </main>
 </Layout>
