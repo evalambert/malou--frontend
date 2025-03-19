@@ -17,7 +17,6 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang, cl
             const title = document.querySelectorAll("li.volume-title a");
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
-                    document.body.classList.add('on-slug-page');
                     title.parentElement.classList.add('active');
                 } else {
                     title.parentElement.classList.remove('active');

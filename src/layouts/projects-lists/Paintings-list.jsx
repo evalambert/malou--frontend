@@ -23,8 +23,6 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
             const title = document.querySelectorAll("li.painting-title a");
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
-
-                    document.body.classList.add('on-slug-page');
                     title.parentElement.classList.add('active');
                     const spansLenght = title.querySelectorAll('span').length;
                     const firstSpanTranslateY = (spansLenght - 1) * 10;
