@@ -69,6 +69,7 @@ export const prerender = true;
           transition:name="volumeslist"
           transition:persist
           client:load
+          className=""
         />
       </div>
       <div class="flex-1">
@@ -81,20 +82,23 @@ export const prerender = true;
           transition:name="vitrailist"
           transition:persist
           client:load
+          className=""
         />
       </div>
     </div>
-
-    <PoetryList
-      targetHref={`/poetry/`}
-      hidden={false}
-      lang={lang}
-      dataPoetry={poetries}
-      isOnPoetryPage={false}
-      transition:name="poetrylist"
-      transition:persist
-      client:only="react"
-    />
+    <div class="bg-lime-50 h-[calc(100vh-50px)] w-[150px] fixed left-0 bottom-[10px]">
+      <PoetryList
+        targetHref={`/poetry/`}
+        hidden={false}
+        lang={lang}
+        dataPoetry={poetries}
+        isOnPoetryPage={false}
+        transition:name="poetrylist"
+        transition:persist
+        client:only="react"
+        className=""
+      />
+    </div>
 
     <PaintingsList
       targetHref={`/painting/`}
@@ -105,6 +109,7 @@ export const prerender = true;
       transition:name="paintingslist"
       transition:persist
       client:load
+      className="fixed left-[150px] bottom-0"
     />
     <WeavingList
       targetHref={`/weaving/`}
@@ -115,6 +120,7 @@ export const prerender = true;
       transition:name="weavinglist"
       transition:persist
       client:load
+      className=""
     />
   </main>
 </Layout>

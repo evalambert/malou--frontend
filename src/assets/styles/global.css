@@ -34,6 +34,7 @@
   --spacing-main-x-mobile: 15px;
   /* ! change value in Paintings-list.jsx */
   --spacing-list-p-top: 6px;
+  --spacing-header-height: 100px;
 }
 
 /* -------------------------------------------------------------------- */

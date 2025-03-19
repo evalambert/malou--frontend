@@ -49,7 +49,7 @@ const VolumesList = ({ dataVolumes, isOnVolumePage, targetHref, hidden, lang, cl
                         className={`hidden-list-volume overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s]`}
                     >
                         {/* Liste Hidden */}
-                        <ul className="volume-list-compact flex flex-wrap gap-y-[25px] pb-[25px]">
+                        <ul className="volume-list-compact ml-[50px] flex flex-wrap gap-y-[25px] pb-[25px]">
                             {dataVolumes.slice(3).map((volume) => (
                                 <li
                                     className="volume-title w-fit block"
