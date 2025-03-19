@@ -26,7 +26,6 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang, 
             // Title animation
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
-                    document.body.classList.add('on-slug-page');
                     title.parentElement.classList.add('active');
                     const wordWrappers = title.querySelectorAll('.volume-word-wrapper > div');
                     wordWrappers.forEach((wrapper, wrapperIndex) => {
