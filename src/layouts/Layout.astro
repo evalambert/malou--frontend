@@ -10,9 +10,13 @@ const currentLocale = Astro.currentLocale || 'fr';
 const currentPath = Astro.url.pathname || '';
 const isAboutPage = currentPath.includes('/about');
 
+/* console.log('Current Path:', Astro.url.pathname); */
+
+
 // Extraire le segment de catégorie de l'URL
 const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
 const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
+
 
 ---
 
@@ -26,6 +30,7 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
         <title>{title}</title>
         <ClientRouter />
     </head>
+
     <body
         class={`font-bradford text-base leading-base px-main-x-mobile md:px-main-x ${
             Astro.url.pathname.match(
@@ -33,10 +38,12 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
             )
                 ? 'on-slug-page'
                 : ''
+
         } ${categoryClass}`}
         data-page={isAboutPage ? 'about' : undefined}
+
     >
-        <div
+        <!-- <div
             class='language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] bg-white z-[999]'
         >
             <LanguageSwitch
@@ -45,7 +52,9 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
                 currentPath={currentPath}
             />
         </div>
-        {showReturn && <ButtonReturn to={returnTo} />}
+        {showReturn && <ButtonReturn to={returnTo} />} -->
+
         <slot />
+        <!-- SLOT -->
     </body></html
 >
