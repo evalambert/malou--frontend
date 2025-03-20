@@ -161,11 +161,20 @@ li {
 }
 
 .swiper-pagination {
-    @apply !top-[10px] h-fit opacity-100 transition-all duration-100 ease-in-out max-md:!right-[10px] max-md:!left-auto max-md:!w-fit;
+
+  @apply !top-[10px] h-fit opacity-100 transition-all duration-100 ease-in-out max-md:!right-[10px] max-md:!left-auto max-md:!w-fit;
+  transform: translateY(-3px);
+
 }
 .swiper-pagination.pagination-hidden {
     @apply opacity-0 pointer-events-none;
 }
+body:not(.category-vitrail) .swiper-pagination{
+    width: fit-content;
+    right: 10px;
+    left: unset;
+}
+
 
 .modaleToogle span {
     @apply opacity-0 pointer-events-none transition-all duration-300 ease-in-out;
@@ -221,9 +230,11 @@ li {
     text-align: center;
 }
 
-body.on-slug-page .work-list li > div {
+
+/* body.on-slug-page .work-list li > div {
+
     pointer-events: none;
-}
+} */
 body.on-slug-page .work-list li > div:not(.active) {
     opacity: 0;
 }
