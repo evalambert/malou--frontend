@@ -7,8 +7,13 @@ import LanguageSwitch from '../components/LanguageSwitch.jsx';
 
 const { title, showReturn = false, returnTo = '' } = Astro.props;
 const currentLocale = Astro.currentLocale || 'fr';
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname || '';
 const isAboutPage = currentPath.includes('/about');
+
+// Extraire le segment de catégorie de l'URL
+const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
+const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
+
 ---
 
 <!doctype html>
@@ -24,11 +29,11 @@ const isAboutPage = currentPath.includes('/about');
     <body
         class={`font-bradford text-base leading-base px-main-x-mobile md:px-main-x ${
             Astro.url.pathname.match(
-                /^\/(painting|volume|poetry|weaving)\/[^\/]+$/
+                /^\/(fr|en)\/(painting|volume|poetry|vitrail|weaving)\/[^\/]+\/?$/
             )
                 ? 'on-slug-page'
                 : ''
-        }`}
+        } ${categoryClass}`}
         data-page={isAboutPage ? 'about' : undefined}
     >
         <div
