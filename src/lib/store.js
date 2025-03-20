@@ -19,9 +19,9 @@ export const toggleTextColor = () => {
   textWhite.set(textWhite.get() === true ? false : true)
 }
 export const toggleToBlack = () => {
-  console.log('toggleToBlack called');
+  //console.log('toggleToBlack called');
   textWhite.set(false);
-  console.log('textWhite value:', textWhite.get());
+  //console.log('textWhite value:', textWhite.get());
 }
 export const toggleToWhite = () => {
   textWhite.set(true)

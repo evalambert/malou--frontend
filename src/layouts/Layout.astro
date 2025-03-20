@@ -9,6 +9,7 @@ const { title, showReturn = false, returnTo = '' } = Astro.props;
 const currentLocale = Astro.currentLocale || 'fr';
 const currentPath = Astro.url.pathname;
 const isAboutPage = currentPath.includes('/about');
+/* console.log('Current Path:', Astro.url.pathname); */
 ---
 
 <!doctype html>
@@ -21,17 +22,18 @@ const isAboutPage = currentPath.includes('/about');
         <title>{title}</title>
         <ClientRouter />
     </head>
+
     <body
         class={`font-bradford text-base leading-base px-main-x-mobile md:px-main-x ${
             Astro.url.pathname.match(
-                /^\/(painting|volume|poetry|weaving)\/[^\/]+$/
+                /^\/(fr|en)\/(painting|volume|poetry|vitrail|weaving)\/[^\/]+\/?$/
             )
                 ? 'on-slug-page'
                 : ''
         }`}
-        data-page={isAboutPage ? 'about' : undefined}
+        data-page={isAboutPage ? 'about' : ''}
     >
-        <div
+        <!-- <div
             class='language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] bg-white z-[999]'
         >
             <LanguageSwitch
@@ -40,7 +42,9 @@ const isAboutPage = currentPath.includes('/about');
                 currentPath={currentPath}
             />
         </div>
-        {showReturn && <ButtonReturn to={returnTo} />}
+        {showReturn && <ButtonReturn to={returnTo} />} -->
+
         <slot />
+        <!-- SLOT -->
     </body></html
 >
