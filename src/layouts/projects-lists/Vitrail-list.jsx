@@ -28,6 +28,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang, 
                 if (title.getAttribute('href') === targetHref) {
                     title.parentElement.classList.add('active');
                     const wordWrappers = title.querySelectorAll('.volume-word-wrapper > div');
+                    console.log("CLIIIIIICK TO PAGE");
                     wordWrappers.forEach((wrapper, wrapperIndex) => {
                         const wordWrapperSpan = wrapper.querySelectorAll('span');
                         const wordWrapSpanLength = wordWrapperSpan.length;
@@ -132,7 +133,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang, 
 
                 </div>
             </div>
-            <PreviewImg />
+            <PreviewImg transition:persist transition:name="preview-img"/>
         </div>
     );
 };
