@@ -1,14 +1,12 @@
-//src/layouts/projects-lists/Paintings-list.jsx 
+//src/layouts/projects-lists/Paintings-list.jsx
 
 import { useEffect, useState } from 'react';
-import { navigate } from "astro:transitions/client";
+import { navigate } from 'astro:transitions/client';
 
-import { useStore } from "@nanostores/react";
-import { textWhite } from "../../lib/store.js";
+import { useStore } from '@nanostores/react';
+import { textWhite } from '../../lib/store.js';
 
-import PaintingTitle from "../../components/title/PaintingTitle.jsx";
-
-
+import PaintingTitle from '../../components/title/PaintingTitle.jsx';
 
 const PaintingsList = ({
     dataPaintings,
@@ -127,8 +125,11 @@ const PaintingsList = ({
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list fixed left-[150px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${isTextWhite ? 'text-white' : 'text-black '} ${className} ${!isOnPaintingPage ? "cursor-pointer" : ""
-                    } ${!hidden ? "" : "translate-y-[100vh]"}`}
+                className={`work-list fixed left-[150px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${
+                    isTextWhite ? 'text-white' : 'text-black '
+                } ${className} ${!isOnPaintingPage ? 'cursor-pointer' : ''} ${
+                    !hidden ? '' : 'translate-y-[100vh]'
+                }`}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
