@@ -137,7 +137,6 @@ const WeavingList = ({
                     </div>
                 </div>
             </div>
-            <PreviewImg />
         </>
     );
 };
