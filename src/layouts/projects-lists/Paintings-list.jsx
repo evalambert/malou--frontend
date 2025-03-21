@@ -9,17 +9,6 @@ import { textWhite } from "../../lib/store.js";
 import PaintingTitle from "../../components/title/PaintingTitle.jsx";
 
 
-const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang, className }) => {
-
-
-import { useEffect, useState } from 'react';
-import { navigate } from 'astro:transitions/client';
-
-import { useStore } from '@nanostores/react';
-import { textWhite } from '../../lib/store.js';
-
-import PreviewImg from '../../components/PreviewImg.jsx';
-import PaintingTitle from '../../components/title/PaintingTitle.jsx';
 
 const PaintingsList = ({
     dataPaintings,
