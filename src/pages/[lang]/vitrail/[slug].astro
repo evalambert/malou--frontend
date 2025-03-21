@@ -3,11 +3,15 @@
 
 import fetchApi from '../../../lib/strapi';
 
-import Layout from '../../../layouts/Layout.astro';
-import VitrailList from '../../../layouts/projects-lists/Vitrail-list.jsx';
-import Nav from '../../../layouts/Nav.jsx';
-import Slider from '../../../components/slider/Slider.jsx';
+import Layout from "../../../layouts/Layout.astro";
+import VitrailList from "../../../layouts/projects-lists/Vitrail-list.jsx";
+import Nav from "../../../layouts/Nav.jsx";
+import Slider from "../../../components/slider/Slider.jsx";
+import PreviewImg from "../../../components/PreviewImg.jsx";
 import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
+
+import { fade } from "astro:transitions";
+
 
 export async function getStaticPaths() {
     const languages = ['fr', 'en'];
@@ -45,6 +49,26 @@ export async function getStaticPaths() {
     return paths;
 }
 
+const animIn = {
+  old: {
+    name: "enterZoom",
+    duration: "3s",
+    easing: "ease-in",
+    fillMode: "forwards",
+  },
+  new: {
+    name: "enterZoom",
+    duration: "3s",
+    easing: "ease-in-out",
+    fillMode: "forwards",
+  },
+};
+
+const customTransition = {
+  forwards: animIn,
+  backwards: animIn,
+};
+
 const vitraux = await fetchApi({
     endpoint: 'vitrails?populate=*',
     wrappedByKey: 'data',
@@ -55,29 +79,31 @@ const { lang } = Astro.params;
 export const prerender = true;
 ---
 
-<Layout title='Vitrail' showReturn returnTo={`/vitrail`}>
+
+<Layout title="Vitrail" showReturn returnTo={`/vitrail`}>
+  <main class="relative z-[999]">
     <Nav
-        lang={lang}
-        currentPath={Astro.url.pathname}
-        transition:name='nav'
-        transition:persist
-        client:load
-        className='fixed top-0 left-main-x z-50'
+      lang={lang}
+      currentPath={Astro.url.pathname}
+      transition:name="nav"
+      transition:persist
+      client:load
+      className="fixed top-0 left-main-x z-50"
     />
-    <VitrailList
+    <div transition:name="vitrailist" transition:persist>
+      <VitrailList
         targetHref={Astro.url.pathname}
         hidden={false}
         lang={lang}
         dataVitrails={vitraux}
         isOnVitrailPage={true}
-        className='fixed top-0 right-main-x z-50'
-        transition:name='vitrailist'
-        transition:persist
+        className="fixed top-0 right-main-x z-50"
         client:load
-    />
+      />
+    </div>
 
     <Slider client:only medias={vitrail?.medias || []} />
-    <AccordionReadProject
+     <AccordionReadProject
         lang={lang}
         year={vitrail?.year || 'Année non disponible'}
         client:load
@@ -87,4 +113,13 @@ export const prerender = true;
         width={vitrail?.width || 'Largeur non disponible'}
         height={vitrail?.height || 'Hauteur non disponible'}
     />
+  </main>
+  <div
+    transition:animate={customTransition}
+    transition:name="previewimgtransition"
+    transition:persist
+    class="dynamic-image--wrapper"
+  >
+    <PreviewImg />
+  </div>
 </Layout>

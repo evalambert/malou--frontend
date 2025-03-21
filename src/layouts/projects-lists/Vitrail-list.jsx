@@ -34,10 +34,9 @@ const VitrailList = ({
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
                     title.parentElement.classList.add('active');
-                    const wordWrappers = title.querySelectorAll(
-                        '.volume-word-wrapper > div'
-                    );
-                    console.log('CLIIIIIICK TO PAGE');
+
+                    const wordWrappers = title.querySelectorAll('.volume-word-wrapper > div');
+                  
                     wordWrappers.forEach((wrapper, wrapperIndex) => {
                         const wordWrapperSpan =
                             wrapper.querySelectorAll('span');
@@ -113,11 +112,7 @@ const VitrailList = ({
 
     // Render
     return (
-        <div
-            className={`work-list ${className} ${
-                isTextWhite ? '' : 'mix-blend-difference '
-            }`}
-        >
+        <div className={`work-list ${className} ${isTextWhite ? '' : 'text-black'}`}>
             <div
                 className={`pt-list-p-top flex flex-col items-end  ${
                     !isOnVitrailPage ? 'cursor-pointer' : ''
@@ -180,7 +175,6 @@ const VitrailList = ({
                     {/* (END) Liste Homepage */}
                 </div>
             </div>
-            <PreviewImg transition:persist transition:name='preview-img' />
         </div>
     );
 };
