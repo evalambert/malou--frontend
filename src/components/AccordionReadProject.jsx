@@ -44,6 +44,25 @@ export default function AccordionReadProject({
     }, []);
 
     /**
+     * Événement pour synchroniser l'ouverture/fermeture de l'accordéon
+     * Déplacer le titre en fonction de l'ouverture/fermeture de l'accordéon
+     */
+    useEffect(() => {
+        const accordionMovementEvent = new CustomEvent(
+            'accordionDescriptionToggle',
+            {
+                detail: {
+                    isAccordionOpen: isOpen,
+                    accordionHeight: isOpen ? contentHeight : 0,
+                },
+            }
+        );
+        // Envoie l'event à la fenetre globale
+        // --> Ecouter : window.addEventListener('accordionDescriptionToggle', callback)
+        window.dispatchEvent(accordionMovementEvent);
+    }, [isOpen, contentHeight]);
+
+    /**
      * Calcule la position verticale de la description :
      * - Si ouvert et contenu < 50% de la fenêtre : place en bas
      * - Si ouvert et contenu > 50% de la fenêtre : centre verticalement

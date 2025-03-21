@@ -1,3 +1,5 @@
+//src/layouts/projects-lists/Paintings-list.jsx
+
 import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 
@@ -16,6 +18,7 @@ const PaintingsList = ({
     className,
 }) => {
     const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
+    const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const isTextWhite = useStore(textWhite);
 
     useEffect(() => {
@@ -84,6 +87,40 @@ const PaintingsList = ({
         return () => window.removeEventListener('resize', calculateLayout);
     }, [dataPaintings]);
 
+    /**
+     * Gestion du décalage vertical du titre en fonction de l'accordéon
+     */
+    useEffect(() => {
+        // Écoute l'événement personnalisé émis par l'accordéon
+        const handleAccordionMovement = (event) => {
+            // Récupère l'état de l'accordéon et sa hauteur depuis l'événement
+            const { isAccordionOpen, accordionHeight } = event.detail;
+            // Applique un décalage négatif égal à la hauteur de l'accordéon si ouvert, sinon revient à 0
+            setAccordionOffsetY(isAccordionOpen ? -accordionHeight : 0);
+        };
+
+        // Ajout de l'écouteur d'événement
+        window.addEventListener(
+            'accordionDescriptionToggle',
+            handleAccordionMovement
+        );
+
+        // Nettoyage de l'écouteur lors du démontage du composant
+        return () => {
+            window.removeEventListener(
+                'accordionDescriptionToggle',
+                handleAccordionMovement
+            );
+        };
+    }, []);
+
+    // Calcul du décalage vertical final :
+    // - Sur la page painting : utilise le décalage de l'accordéon
+    // - Sur les autres pages : utilise la hauteur de la liste cachée
+    const translateY = isOnPaintingPage
+        ? accordionOffsetY
+        : hiddenListHeightPainting;
+
     // Render
     return (
         <>
@@ -107,13 +144,7 @@ const PaintingsList = ({
                     className={`transition-all duration-500 ease-in-out ${
                         !isOnPaintingPage ? 'pointer-events-none' : ''
                     }`}
-                    style={
-                        isOnPaintingPage
-                            ? { transform: `translateY(0px)` }
-                            : {
-                                  transform: `translateY(${hiddenListHeightPainting}px)`,
-                              }
-                    }
+                    style={{ transform: `translateY(${translateY}px)` }}
                 >
                     {/* Liste Homepage */}
                     <ul className='painting-list-compact transition-all duration-500 ease-in-out'>
