@@ -7,6 +7,7 @@ import Layout from '../../../layouts/Layout.astro';
 import VolumesList from '../../../layouts/projects-lists/Volumes-list.jsx';
 import Nav from '../../../layouts/Nav.jsx';
 import Slider from '../../../components/slider/Slider.jsx';
+import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
 
 export async function getStaticPaths() {
     const languages = ['fr', 'en'];
@@ -77,5 +78,14 @@ export const prerender = true;
     />
 
     <Slider client:only medias={volume?.medias || []} />
-    <p>{volume?.description || 'Description non disponible'}</p>
+    <AccordionReadProject
+        lang={lang}
+        year={volume?.year || 'Année non disponible'}
+        client:load
+        description={volume?.description || 'Description non disponible'}
+        technique={volume?.technique || 'Technique non disponible'}
+        materials={volume?.materials || 'Matériaux non disponibles'}
+        width={volume?.width || 'Largeur non disponible'}
+        height={volume?.height || 'Hauteur non disponible'}
+    />
 </Layout>

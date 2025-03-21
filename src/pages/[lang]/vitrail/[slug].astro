@@ -1,48 +1,53 @@
 ---
 //pages/[lang]/vitrail/[slug].astro
-import fetchApi from "../../../lib/strapi";
 
-import Layout from "../../../layouts/Layout.astro";
-import VitrailList from "../../../layouts/projects-lists/Vitrail-list.jsx";
-import Nav from "../../../layouts/Nav.jsx";
-import Slider from "../../../components/slider/Slider.jsx";
+import fetchApi from '../../../lib/strapi';
+
+import Layout from '../../../layouts/Layout.astro';
+import VitrailList from '../../../layouts/projects-lists/Vitrail-list.jsx';
+import Nav from '../../../layouts/Nav.jsx';
+import Slider from '../../../components/slider/Slider.jsx';
+import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
 
 export async function getStaticPaths() {
-  const languages = ["fr", "en"];
-  const paths = [];
+    const languages = ['fr', 'en'];
+    const paths = [];
 
-  for (const lang of languages) {
-    try {
-      const vitraux = await fetchApi({
-        endpoint: "vitrails?populate=*",
-        wrappedByKey: "data",
-        locale: lang,
-      });
+    for (const lang of languages) {
+        try {
+            const vitraux = await fetchApi({
+                endpoint: 'vitrails?populate=*',
+                wrappedByKey: 'data',
+                locale: lang,
+            });
 
-      if (!Array.isArray(vitraux)) {
-        console.error("Les données reçues ne sont pas un tableau:", vitraux);
-        continue;
-      }
+            if (!Array.isArray(vitraux)) {
+                console.error(
+                    'Les données reçues ne sont pas un tableau:',
+                    vitraux
+                );
+                continue;
+            }
 
-      const langPaths = vitraux.map((vitrail) => ({
-        params: {
-          lang,
-          slug: vitrail.slug,
-        },
-        props: { vitrail },
-      }));
+            const langPaths = vitraux.map((vitrail) => ({
+                params: {
+                    lang,
+                    slug: vitrail.slug,
+                },
+                props: { vitrail },
+            }));
 
-      paths.push(...langPaths);
-    } catch (error) {
-      console.error(`Error fetching vitraux for ${lang}:`, error);
+            paths.push(...langPaths);
+        } catch (error) {
+            console.error(`Error fetching vitraux for ${lang}:`, error);
+        }
     }
-  }
-  return paths;
+    return paths;
 }
 
 const vitraux = await fetchApi({
-  endpoint: "vitrails?populate=*",
-  wrappedByKey: "data",
+    endpoint: 'vitrails?populate=*',
+    wrappedByKey: 'data',
 });
 
 const { vitrail } = Astro.props;
@@ -50,27 +55,36 @@ const { lang } = Astro.params;
 export const prerender = true;
 ---
 
-<Layout title="Vitrail" showReturn returnTo={`/vitrail`}>
-  <Nav
-    lang={lang}
-    currentPath={Astro.url.pathname}
-    transition:name="nav"
-    transition:persist
-    client:load
-    className="fixed top-0 left-main-x z-50"
-  />
-  <VitrailList
-    targetHref={Astro.url.pathname}
-    hidden={false}
-    lang={lang}
-    dataVitrails={vitraux}
-    isOnVitrailPage={true}
-    className="fixed top-0 right-main-x z-50"
-    transition:name="vitrailist"
-    transition:persist
-    client:load
-  />
+<Layout title='Vitrail' showReturn returnTo={`/vitrail`}>
+    <Nav
+        lang={lang}
+        currentPath={Astro.url.pathname}
+        transition:name='nav'
+        transition:persist
+        client:load
+        className='fixed top-0 left-main-x z-50'
+    />
+    <VitrailList
+        targetHref={Astro.url.pathname}
+        hidden={false}
+        lang={lang}
+        dataVitrails={vitraux}
+        isOnVitrailPage={true}
+        className='fixed top-0 right-main-x z-50'
+        transition:name='vitrailist'
+        transition:persist
+        client:load
+    />
 
-  <Slider client:only medias={vitrail?.medias || []} />
+    <Slider client:only medias={vitrail?.medias || []} />
+    <AccordionReadProject
+        lang={lang}
+        year={vitrail?.year || 'Année non disponible'}
+        client:load
+        description={vitrail?.description || 'Description non disponible'}
+        technique={vitrail?.technique || 'Technique non disponible'}
+        materials={vitrail?.materials || 'Matériaux non disponibles'}
+        width={vitrail?.width || 'Largeur non disponible'}
+        height={vitrail?.height || 'Hauteur non disponible'}
+    />
 </Layout>
-<p>{vitrail?.description || "Description non disponible"}</p>
