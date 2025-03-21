@@ -75,19 +75,25 @@ export default function AccordionReadProject({
         : 'calc(100vh - 47px)';
 
     return (
-        <div className='wrapper-parent-position relative z-[999]'>
+        <div
+            className={`wrapper-position relative z-[999] text-white mix-blend-difference`}
+        >
             <div
-                className='wrapper-description absolute right-0 flex flex-col items-center justify-center transition-all duration-500 ease-in-out'
+                className='wrapper-description w-full absolute right-0 flex flex-col items-center justify-center transition-all duration-500 ease-in-out'
                 style={{ top: computedTop }}
             >
                 <button
-                    className='button-description p-[11px] bg-pink-black '
+                    className='button-description p-[11px]'
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {lang === 'fr' ? 'Lire' : 'Read'}
                 </button>
 
-                <div className='container-description text-center overflow-hidden'>
+                <div
+                    className={`container-description text-center overflow-hidden 
+                    transition-all duration-500 ease-in-out`}
+                    style={{ maxHeight: isOpen ? `${contentHeight}px` : '0px' }}
+                >
                     <div ref={contentRef} className='text-description'>
                         <div className='triangle-left'></div>
                         <div className='triangle-right'></div>
@@ -100,8 +106,7 @@ export default function AccordionReadProject({
                             <p>
                                 {width} x {height} cm
                             </p>
-                            {/* <p>{year}</p> */}
-                            <p>2022</p>
+                            <p>{year}</p>
                         </div>
                     </div>
                 </div>

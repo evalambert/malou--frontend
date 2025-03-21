@@ -57,17 +57,14 @@ export const prerender = true;
         client:load
         className='fixed top-0 left-main-x z-50'
     />
-
-    <h1>{poetry?.title || 'Titre non disponible'}</h1>
-
     <AccordionReadProject
         lang={lang}
-        year={poetry?.year || 'Année non disponible'}
         client:load
         description={poetry?.description || 'Description non disponible'}
         technique={poetry?.technique || 'Technique non disponible'}
         materials={poetry?.materials || 'Matériaux non disponibles'}
         width={poetry?.width || 'Largeur non disponible'}
         height={poetry?.height || 'Hauteur non disponible'}
+        year={poetry?.year || 'Année non disponible'}
     />
 </Layout>

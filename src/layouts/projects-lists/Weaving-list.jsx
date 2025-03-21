@@ -15,6 +15,7 @@ const WeavingList = ({
     lang,
     className,
 }) => {
+    const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const isTextWhite = useStore(textWhite);
 
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
@@ -46,6 +47,39 @@ const WeavingList = ({
 
     /*   console.log(dataWeaving);
      */
+
+    /**
+     * Gestion du décalage vertical du titre en fonction de l'accordéon
+     */
+    useEffect(() => {
+        // Écoute l'événement personnalisé émis par l'accordéon
+        const handleAccordionMovement = (event) => {
+            // Récupère l'état de l'accordéon et sa hauteur depuis l'événement
+            const { isAccordionOpen, accordionHeight } = event.detail;
+            // Applique un décalage négatif égal à la hauteur de l'accordéon si ouvert, sinon revient à 0
+            setAccordionOffsetY(isAccordionOpen ? -accordionHeight : 0);
+        };
+
+        // Ajout de l'écouteur d'événement
+        window.addEventListener(
+            'accordionDescriptionToggle',
+            handleAccordionMovement
+        );
+
+        // Nettoyage de l'écouteur lors du démontage du composant
+        return () => {
+            window.removeEventListener(
+                'accordionDescriptionToggle',
+                handleAccordionMovement
+            );
+        };
+    }, []);
+
+    const translateX = isOnWeavingPage ? 0 : hiddenListWidthWeaving;
+    const translateY = isOnWeavingPage
+        ? accordionOffsetY
+        : hiddenListHeightWeaving;
+
     // Render
     return (
         <>
@@ -68,13 +102,9 @@ const WeavingList = ({
                     className={`grid auto-cols-auto auto-rows-min transition-all duration-1000 ease-in-out ${
                         !isOnWeavingPage ? 'pointer-events-none' : ''
                     }`}
-                    style={
-                        isOnWeavingPage
-                            ? { transform: `translate(0px,0px)` }
-                            : {
-                                  transform: `translate(${hiddenListWidthWeaving}px,${hiddenListHeightWeaving}px)`,
-                              }
-                    }
+                    style={{
+                        transform: `translate(${translateX}px, ${translateY}px)`,
+                    }}
                 >
                     {/* Liste Homepage */}
                     <ul className='w-fit flex flex-col items-end'>
