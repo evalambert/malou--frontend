@@ -1,43 +1,43 @@
 ---
 // src/layouts/Layout.astro
-import '../assets/styles/global.css';
-import { ClientRouter } from 'astro:transitions';
-import ButtonReturn from '../components/ButtonReturn.astro';
-import LanguageSwitch from '../components/LanguageSwitch.jsx';
+import "../assets/styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import ButtonReturn from "../components/ButtonReturn.astro";
+import LanguageSwitch from "../components/LanguageSwitch.jsx";
+import { TransitionProvider } from "../components/TransitionContext.jsx";
 
-const { title, showReturn = false, returnTo = '' } = Astro.props;
-const currentLocale = Astro.currentLocale || 'fr';
-const currentPath = Astro.url.pathname || '';
-const isAboutPage = currentPath.includes('/about');
+const { title, showReturn = false, returnTo = "" } = Astro.props;
+const currentLocale = Astro.currentLocale || "fr";
+const currentPath = Astro.url.pathname || "";
+const isAboutPage = currentPath.includes("/about");
 
 // Extraire le segment de catégorie de l'URL
 const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
-const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
-
+const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : "";
 ---
 
 <!doctype html>
-<html lang={currentLocale}>
-    <head transition:name='root' transition:animate='none'>
-        <meta charset='UTF-8' />
-        <meta name='viewport' content='width=device-width' />
-        <link rel='icon' type='image/x-icon' href='/favicon.ico' />
-        <meta name='generator' content={Astro.generator} />
+<html lang={currentLocale} transition:name="root" transition:animate="none">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
         <ClientRouter />
     </head>
     <body
         class={`font-bradford text-base leading-base px-main-x-mobile md:px-main-x ${
             Astro.url.pathname.match(
-                /^\/(fr|en)\/(painting|volume|poetry|vitrail|weaving)\/[^\/]+\/?$/
+                /^\/(fr|en)\/(painting|volume|poetry|vitrail|weaving)\/[^\/]+\/?$/,
             )
-                ? 'on-slug-page'
-                : ''
+                ? "on-slug-page"
+                : ""
         } ${categoryClass}`}
-        data-page={isAboutPage ? 'about' : undefined}
+        data-page={isAboutPage ? "about" : undefined}
     >
         <div
-            class='language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] bg-white z-[999]'
+            class="language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] bg-white z-[999]"
         >
             <LanguageSwitch
                 client:load
@@ -46,6 +46,8 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
             />
         </div>
         {showReturn && <ButtonReturn to={returnTo} />}
-        <slot />
-    </body></html
->
+        <TransitionProvider client:load>
+            <slot />
+        </TransitionProvider>
+    </body>
+</html>

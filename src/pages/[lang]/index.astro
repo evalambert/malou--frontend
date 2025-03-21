@@ -10,6 +10,9 @@ import VolumesList from "../../layouts/projects-lists/Volumes-list.jsx";
 import PoetryList from "../../layouts/projects-lists/Poetry-list.jsx";
 import WeavingList from "../../layouts/projects-lists/Weaving-list.jsx";
 
+
+import { fade } from 'astro:transitions';
+
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
 }
@@ -40,6 +43,26 @@ const weavings = await fetchApi({
   wrappedByKey: "data",
   locale: lang,
 });
+
+const anim = {
+  old: {
+    name: 'bump',
+    duration: '0.5s',
+    easing: 'ease-in',
+    direction: 'reverse',
+  },
+  new: {
+    name: 'bump',
+    duration: '0.5s',
+    easing: 'ease-in-out',
+  },
+};
+
+const customTransition = {
+  forwards: anim,
+  backwards: anim,
+}; 
+
 
 export const prerender = true;
 ---

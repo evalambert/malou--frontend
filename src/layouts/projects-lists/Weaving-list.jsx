@@ -4,7 +4,6 @@ import { navigate } from "astro:transitions/client";
 import { useStore } from "@nanostores/react";
 import { textWhite } from "../../lib/store.js";
 
-import PreviewImg from "../../components/PreviewImg.jsx";
 import WeavingTitle from "../../components/title/WeavingTitle.jsx";
 
 const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang, className }) => {
@@ -13,31 +12,33 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang, c
   const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
   const [hiddenListWidthWeaving, setHiddenListWidthWeaving] = useState(0);
 
+
+
   useEffect(() => {
-    // Afficher la hauteur et largeur de la liste cachée
-    const hiddenListHeightValue = document.querySelector('.hidden-list-weaving').clientHeight;
-    const hiddenListWidthValue = document.querySelector('.hidden-list-weaving').clientWidth;
+    // Attendre que le DOM soit prêt
+    const hiddenList = document.querySelector('.hidden-list-weaving');
+    if (!hiddenList) return; // Protection contre les éléments null
+
+    const hiddenListHeightValue = hiddenList.clientHeight;
+    const hiddenListWidthValue = hiddenList.clientWidth;
 
     setHiddenListHeightWeaving(hiddenListHeightValue);
     setHiddenListWidthWeaving(hiddenListWidthValue);
 
     const liTitle = document.querySelectorAll("li.weaving-title");
-    let nextLiWidth = 0;
-
     liTitle.forEach((li) => {
-      nextLiWidth = li.nextElementSibling ? li.nextElementSibling.offsetWidth : 0;
-      li.style.marginRight = `${nextLiWidth}px`;
-      return nextLiWidth;
+      if (li && li.nextElementSibling) {
+        const nextLiWidth = li.nextElementSibling.offsetWidth;
+        li.style.marginRight = `${nextLiWidth}px`;
+      }
     });
-
   }, [dataWeaving]);
 
-  console.log(dataWeaving);
 
   // Render
   return (
     <>
-      <div className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${isTextWhite ? '' : 'mix-blend-difference '} ${className} ${!isOnWeavingPage ? "cursor-pointer" : ""
+      <div className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${isTextWhite ? 'text-white' : 'text-black'} ${className} ${!isOnWeavingPage ? "cursor-pointer" : ""
         } ${!hidden ? "" : "translate-y-full translate-x-full"}`}
         onClick={
           !isOnWeavingPage
@@ -74,7 +75,6 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang, c
           </div>
         </div>
       </div >
-      <PreviewImg />
     </>
   );
 };

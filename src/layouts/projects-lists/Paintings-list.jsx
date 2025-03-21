@@ -4,7 +4,6 @@ import { navigate } from "astro:transitions/client";
 import { useStore } from "@nanostores/react";
 import { textWhite } from "../../lib/store.js";
 
-import PreviewImg from "../../components/PreviewImg.jsx";
 import PaintingTitle from "../../components/title/PaintingTitle.jsx";
 
 
@@ -80,7 +79,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list fixed left-[150px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${isTextWhite ? '' : 'mix-blend-difference '} ${className} ${!isOnPaintingPage ? "cursor-pointer" : ""
+                className={`work-list fixed left-[150px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${isTextWhite ? 'text-white' : 'text-black '} ${className} ${!isOnPaintingPage ? "cursor-pointer" : ""
                     } ${!hidden ? "" : "translate-y-[100vh]"}`}
                 onClick={
                     !isOnPaintingPage
@@ -123,7 +122,6 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                         {/* (END) Liste Hidden */}
                     </div>
                 </div>
-                <PreviewImg />
             </div>
         </>
     );

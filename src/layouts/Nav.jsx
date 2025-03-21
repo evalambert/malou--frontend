@@ -24,7 +24,7 @@ const Nav = ({ lang, currentPath, className }) => {
   // Render
   return (
     <>
-      <div className={`nav-wrapper ${className} flex gap-[10px] pt-[6px] ${isTextWhite ? '' : 'mix-blend-difference '}`}>
+      <div className={`nav-wrapper ${className} flex gap-[10px] pt-[6px] ${isTextWhite ? 'text-white' : 'text-black'}`}>
 
         <a href={isAboutPage ? `/${lang}/` : `/${lang}/about/`}>
           malou raulin
