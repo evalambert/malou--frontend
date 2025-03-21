@@ -5,12 +5,10 @@ import { useStore } from "@nanostores/react";
 import { textWhite } from "../../lib/store.js";
 
 import VitrailTitle from "../../components/title/VitrailTitle.jsx";
-import PreviewImg from "../../components/PreviewImg.jsx";
 
 
 const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang, className }) => {
     const isTextWhite = useStore(textWhite);
-
 
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
 
@@ -28,7 +26,6 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang, 
                 if (title.getAttribute('href') === targetHref) {
                     title.parentElement.classList.add('active');
                     const wordWrappers = title.querySelectorAll('.volume-word-wrapper > div');
-                    console.log("CLIIIIIICK TO PAGE");
                     wordWrappers.forEach((wrapper, wrapperIndex) => {
                         const wordWrapperSpan = wrapper.querySelectorAll('span');
                         const wordWrapSpanLength = wordWrapperSpan.length;
@@ -88,7 +85,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang, 
 
     // Render
     return (
-        <div className={`work-list ${className} ${isTextWhite ? '' : 'mix-blend-difference '}`}>
+        <div className={`work-list ${className} ${isTextWhite ? '' : 'text-black'}`}>
 
 
             <div
@@ -133,7 +130,7 @@ const VitrailList = ({ dataVitrails, isOnVitrailPage, targetHref, hidden, lang, 
 
                 </div>
             </div>
-            <PreviewImg transition:persist transition:name="preview-img"/>
+            
         </div>
     );
 };

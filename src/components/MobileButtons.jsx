@@ -13,7 +13,7 @@ export default function MobileButtons({ lang }) {
   };
 
   return (
-    <div className="mobile-buttons mix-blend-difference md:hidden w-full h-[200px] flex gap-6">
+    <div className="mobile-buttons md:hidden w-full h-[200px] flex gap-6">
       <button
         className={`button-about h-fit rotate-[18.74deg] py-[13px] transition-all duration-500 ease-in-out
          ${active === "actu" ? "-translate-y-0" : "translate-y-33"}`}

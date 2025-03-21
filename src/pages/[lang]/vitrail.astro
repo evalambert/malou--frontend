@@ -3,7 +3,6 @@
 
 import fetchApi from "../../lib/strapi";
 
-
 import Layout from "../../layouts/Layout.astro";
 import Nav from "../../layouts/Nav.jsx";
 import PaintingsList from "../../layouts/projects-lists/Paintings-list.jsx";
@@ -11,6 +10,7 @@ import VitrailList from "../../layouts/projects-lists/Vitrail-list.jsx";
 import VolumesList from "../../layouts/projects-lists/Volumes-list.jsx";
 import PoetryList from "../../layouts/projects-lists/Poetry-list.jsx";
 import WeavingList from "../../layouts/projects-lists/Weaving-list.jsx";
+import PreviewImg from "../../components/PreviewImg.jsx";
 
 export async function getStaticPaths() {
   return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
@@ -42,6 +42,25 @@ const weavings = await fetchApi({
   wrappedByKey: "data",
   locale: lang,
 });
+
+const animIn = {
+  old: {
+    name: "enterZoom",
+    duration: "3s",
+    easing: "ease-in",
+  },
+  new: {
+    name: "enterZoom",
+    duration: "3s",
+    easing: "ease-in-out",
+    direction: "reverse",
+  },
+};
+
+const customTransitionReturn = {
+  forwards: animIn,
+  backwards: animIn,
+};
 
 export const prerender = true;
 ---
@@ -75,17 +94,16 @@ export const prerender = true;
         />
       </div>
       <div class="flex-1">
-        <VitrailList
-          targetHref={`/vitrail/`}
-          hidden={false}
-          lang={lang}
-          dataVitrails={vitraux}
-          isOnVitrailPage={true}
-          className=""
-          transition:name="vitrailist"
-          transition:persist
-          client:load
-        />
+          <VitrailList
+            targetHref={Astro.url.pathname}
+            hidden={false}
+            lang={lang}
+            dataVitrails={vitraux}
+            isOnVitrailPage={true}
+            className="fixed top-0 right-main-x z-50"
+            client:load
+            transition:persist
+          />
       </div>
     </div>
 
@@ -124,6 +142,14 @@ export const prerender = true;
       className=""
     />
   </main>
+  <div
+    transition:animate={customTransitionReturn}
+    transition:name="previewimgtransition"
+    transition:persist
+    class="dynamic-image--wrapper"
+  >
+    <PreviewImg />
+  </div>
 </Layout>
 <script>
   import { setupBlackTextPage } from "../../lib/pageColorUtils.js";
