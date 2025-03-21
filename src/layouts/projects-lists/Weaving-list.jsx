@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
-import { navigate } from "astro:transitions/client";
+import { useEffect, useState } from 'react';
+import { navigate } from 'astro:transitions/client';
 
-import { useStore } from "@nanostores/react";
-import { textWhite } from "../../lib/store.js";
+import { useStore } from '@nanostores/react';
+import { textWhite } from '../../lib/store.js';
 
 import WeavingTitle from "../../components/title/WeavingTitle.jsx";
 
-const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang, className }) => {
-  const isTextWhite = useStore(textWhite);
+const WeavingList = ({
+    dataWeaving,
+    isOnWeavingPage,
+    targetHref,
+    hidden,
+    lang,
+    className,
+}) => {
+    const isTextWhite = useStore(textWhite);
 
-  const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
-  const [hiddenListWidthWeaving, setHiddenListWidthWeaving] = useState(0);
-
-
+    const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
+    const [hiddenListWidthWeaving, setHiddenListWidthWeaving] = useState(0);
 
   useEffect(() => {
     // Attendre que le DOM soit prêt
@@ -22,8 +27,8 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang, c
     const hiddenListHeightValue = hiddenList.clientHeight;
     const hiddenListWidthValue = hiddenList.clientWidth;
 
-    setHiddenListHeightWeaving(hiddenListHeightValue);
-    setHiddenListWidthWeaving(hiddenListWidthValue);
+        setHiddenListHeightWeaving(hiddenListHeightValue);
+        setHiddenListWidthWeaving(hiddenListWidthValue);
 
     const liTitle = document.querySelectorAll("li.weaving-title");
     liTitle.forEach((li) => {
@@ -78,5 +83,6 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang, c
     </>
   );
 }; 
+
 
 export default WeavingList;

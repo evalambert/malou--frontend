@@ -11,6 +11,8 @@ const currentLocale = Astro.currentLocale || "fr";
 const currentPath = Astro.url.pathname || "";
 const isAboutPage = currentPath.includes("/about");
 
+/* console.log('Current Path:', Astro.url.pathname); */
+
 // Extraire le segment de catégorie de l'URL
 const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
 const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : "";
@@ -26,6 +28,7 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : "";
         <title>{title}</title>
         <ClientRouter />
     </head>
+
     <body
         class={`font-bradford text-base leading-base px-main-x-mobile md:px-main-x ${
             Astro.url.pathname.match(

@@ -1,30 +1,30 @@
-import { defineConfig } from 'astro/config'
-import vercel from '@astrojs/vercel'
-import react from '@astrojs/react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'astro/config';
+import vercel from '@astrojs/vercel';
+import react from '@astrojs/react';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  // Changez 'server' en 'static'
-  output: 'static',
-  trailingSlash: 'always',
-  build: {
-    format: 'directory'
-  },
-  adapter: vercel({
-    imageService: true,
-    webAnalytics: {
-      enabled: true
-    }
-  }),
-  i18n: {
-    locales: ['fr', 'en'],
-    defaultLocale: 'fr',
-    routing: {
-      prefixDefaultLocale: true
-    }
-  },
-  vite: {
-    plugins: [tailwindcss()]
-  },
-  integrations: [react()]
-})
+    // Changez 'server' en 'static'
+    output: 'static',
+    trailingSlash: 'always',
+    build: {
+        format: 'directory',
+    },
+    adapter: vercel({
+        imageService: true,
+        webAnalytics: {
+            enabled: true,
+        },
+    }),
+    i18n: {
+        locales: ['fr', 'en'],
+        defaultLocale: 'fr',
+        routing: {
+            prefixDefaultLocale: true,
+        },
+    },
+    vite: {
+        plugins: [tailwindcss()],
+    },
+    integrations: [react()],
+});

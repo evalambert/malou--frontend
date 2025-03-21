@@ -21,7 +21,7 @@ export const toggleTextColor = () => {
 }
 export const toggleToBlack = () => {
   textWhite.set(false);
-  console.log('textWhite value:', textWhite.get());
+  //console.log('textWhite value:', textWhite.get());
 }
 export const toggleToWhite = () => {
   textWhite.set(true)

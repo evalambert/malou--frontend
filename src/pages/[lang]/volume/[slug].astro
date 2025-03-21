@@ -1,49 +1,53 @@
 ---
 //pages/[lang]/volume/[slug].astro
 
-import fetchApi from "../../../lib/strapi";
+import fetchApi from '../../../lib/strapi';
 
-import Layout from "../../../layouts/Layout.astro";
-import VolumesList from "../../../layouts/projects-lists/Volumes-list.jsx";
-import Nav from "../../../layouts/Nav.jsx";
-import Slider from "../../../components/slider/Slider.jsx";
+import Layout from '../../../layouts/Layout.astro';
+import VolumesList from '../../../layouts/projects-lists/Volumes-list.jsx';
+import Nav from '../../../layouts/Nav.jsx';
+import Slider from '../../../components/slider/Slider.jsx';
+import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
 
 export async function getStaticPaths() {
-  const languages = ["fr", "en"];
-  const paths = [];
+    const languages = ['fr', 'en'];
+    const paths = [];
 
-  for (const lang of languages) {
-    try {
-      const volumes = await fetchApi({
-        endpoint: "volumes?populate=*",
-        wrappedByKey: "data",
-        locale: lang,
-      });
+    for (const lang of languages) {
+        try {
+            const volumes = await fetchApi({
+                endpoint: 'volumes?populate=*',
+                wrappedByKey: 'data',
+                locale: lang,
+            });
 
-      if (!Array.isArray(volumes)) {
-        console.error("Les données reçues ne sont pas un tableau:", volumes);
-        continue;
-      }
+            if (!Array.isArray(volumes)) {
+                console.error(
+                    'Les données reçues ne sont pas un tableau:',
+                    volumes
+                );
+                continue;
+            }
 
-      const langPaths = volumes.map((volume) => ({
-        params: {
-          lang,
-          slug: volume.slug,
-        },
-        props: { volume },
-      }));
+            const langPaths = volumes.map((volume) => ({
+                params: {
+                    lang,
+                    slug: volume.slug,
+                },
+                props: { volume },
+            }));
 
-      paths.push(...langPaths);
-    } catch (error) {
-      console.error(`Error fetching volumes for ${lang}:`, error);
+            paths.push(...langPaths);
+        } catch (error) {
+            console.error(`Error fetching volumes for ${lang}:`, error);
+        }
     }
-  }
 
-  return paths;
+    return paths;
 }
 const volumes = await fetchApi({
-  endpoint: "volumes?populate=*",
-  wrappedByKey: "data",
+    endpoint: 'volumes?populate=*',
+    wrappedByKey: 'data',
 });
 
 const { volume } = Astro.props;
@@ -52,27 +56,36 @@ const { lang } = Astro.params;
 export const prerender = true;
 ---
 
-<Layout title="Volume" showReturn returnTo={`/volume/`}>
-  <Nav
-    lang={lang}
-    currentPath={Astro.url.pathname}
-    transition:name="nav"
-    transition:persist
-    client:load
-    className="fixed top-0 left-main-x z-50"
-  />
-  <VolumesList
-    targetHref={Astro.url.pathname}
-    hidden={false}
-    lang={lang}
-    dataVolumes={volumes}
-    isOnVolumePage={true}
-    transition:name="volumeslist"
-    transition:persist
-    client:load
-    className="fixed top-0 right-main-x z-50 pointer-events-none"
-  />
+<Layout title='Volume' showReturn returnTo={`/volume/`}>
+    <Nav
+        lang={lang}
+        currentPath={Astro.url.pathname}
+        transition:name='nav'
+        transition:persist
+        client:load
+        className='fixed top-0 left-main-x z-50'
+    />
+    <VolumesList
+        targetHref={Astro.url.pathname}
+        hidden={false}
+        lang={lang}
+        dataVolumes={volumes}
+        isOnVolumePage={true}
+        transition:name='volumeslist'
+        transition:persist
+        client:load
+        className='fixed top-0 right-main-x z-50 pointer-events-none'
+    />
 
-  <Slider client:only medias={volume?.medias || []} />
-  <p>{volume?.description || "Description non disponible"}</p>
+    <Slider client:only medias={volume?.medias || []} />
+    <AccordionReadProject
+        lang={lang}
+        year={volume?.year || 'Année non disponible'}
+        client:load
+        description={volume?.description || 'Description non disponible'}
+        technique={volume?.technique || 'Technique non disponible'}
+        materials={volume?.materials || 'Matériaux non disponibles'}
+        width={volume?.width || 'Largeur non disponible'}
+        height={volume?.height || 'Hauteur non disponible'}
+    />
 </Layout>

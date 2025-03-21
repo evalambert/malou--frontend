@@ -1,41 +1,46 @@
 ---
 //pages/[lang]/poetry/[slug].astro
 
-import fetchApi from "../../../lib/strapi";
-import Layout from "../../../layouts/Layout.astro";
+import fetchApi from '../../../lib/strapi';
+import Layout from '../../../layouts/Layout.astro';
+import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
+import Nav from '../../../layouts/Nav.jsx';
 
 export async function getStaticPaths() {
-  const languages = ["fr", "en"];
-  const paths = [];
+    const languages = ['fr', 'en'];
+    const paths = [];
 
-  for (const lang of languages) {
-    try {
-      const poetries = await fetchApi({
-        endpoint: "poetries?populate=*",
-        wrappedByKey: "data",
-        locale: lang,
-      });
+    for (const lang of languages) {
+        try {
+            const poetries = await fetchApi({
+                endpoint: 'poetries?populate=*',
+                wrappedByKey: 'data',
+                locale: lang,
+            });
 
-      if (!Array.isArray(poetries)) {
-        console.error("Les données reçues ne sont pas un tableau:", poetries);
-        continue;
-      }
+            if (!Array.isArray(poetries)) {
+                console.error(
+                    'Les données reçues ne sont pas un tableau:',
+                    poetries
+                );
+                continue;
+            }
 
-      const langPaths = poetries.map((poetry) => ({
-        params: {
-          lang,
-          slug: poetry.slug,
-        },
-        props: { poetry },
-      }));
+            const langPaths = poetries.map((poetry) => ({
+                params: {
+                    lang,
+                    slug: poetry.slug,
+                },
+                props: { poetry },
+            }));
 
-      paths.push(...langPaths);
-    } catch (error) {
-      console.error(`Error fetching poetries for ${lang}:`, error);
+            paths.push(...langPaths);
+        } catch (error) {
+            console.error(`Error fetching poetries for ${lang}:`, error);
+        }
     }
-  }
 
-  return paths;
+    return paths;
 }
 
 const { poetry } = Astro.props;
@@ -43,7 +48,26 @@ const { lang } = Astro.params;
 export const prerender = true;
 ---
 
-<Layout title="Poetry" showReturn returnTo={`/poetry`}>
-  <h1>{poetry?.title || "Titre non disponible"}</h1>
-  <p>{poetry?.description || "Description non disponible"}</p>
+<Layout title='Poetry' showReturn returnTo={`/poetry`}>
+    <Nav
+        lang={lang}
+        currentPath={Astro.url.pathname}
+        transition:name='nav'
+        transition:persist
+        client:load
+        className='fixed top-0 left-main-x z-50'
+    />
+
+    <h1>{poetry?.title || 'Titre non disponible'}</h1>
+
+    <AccordionReadProject
+        lang={lang}
+        year={poetry?.year || 'Année non disponible'}
+        client:load
+        description={poetry?.description || 'Description non disponible'}
+        technique={poetry?.technique || 'Technique non disponible'}
+        materials={poetry?.materials || 'Matériaux non disponibles'}
+        width={poetry?.width || 'Largeur non disponible'}
+        height={poetry?.height || 'Hauteur non disponible'}
+    />
 </Layout>
