@@ -77,6 +77,6 @@ const WeavingList = ({ dataWeaving, isOnWeavingPage, targetHref, hidden, lang, c
       </div >
     </>
   );
-};
+}; 
 
 export default WeavingList;
