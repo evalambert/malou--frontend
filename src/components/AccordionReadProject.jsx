@@ -16,30 +16,63 @@ export default function AccordionReadProject({
     const [contentHeight, setContentHeight] = useState(0);
     const contentRef = useRef(null);
 
-    // Fonction pour mettre à jour la hauteur de la description
+    /**
+     * Met à jour la hauteur du contenu de la description
+     * Utilisé pour calculer la position de l'accordéon
+     */
     const updateHeight = () => {
         if (contentRef.current) {
             setContentHeight(contentRef.current.scrollHeight);
         }
     };
 
-    // Debug: Log contentHeight when it changes
+    // Surveillance des changements de hauteur pour le débogage
     useEffect(() => {
         console.log('Content height:', contentHeight);
     }, [contentHeight]);
 
-    // Recalcul de la hauteur au montage et lors du redimensionnement de la fenêtre
+    /**
+     * Gestion du cycle de vie :
+     * - Calcule la hauteur initiale au montage
+     * - Recalcule la hauteur lors du redimensionnement de la fenêtre
+     * - Nettoie l'event listener au démontage
+     */
     useEffect(() => {
         updateHeight();
         window.addEventListener('resize', updateHeight);
         return () => window.removeEventListener('resize', updateHeight);
     }, []);
 
+    /**
+     * Événement pour synchroniser l'ouverture/fermeture de l'accordéon
+     * Déplacer le titre en fonction de l'ouverture/fermeture de l'accordéon
+     */
+    useEffect(() => {
+        const accordionMovementEvent = new CustomEvent(
+            'accordionDescriptionToggle',
+            {
+                detail: {
+                    isAccordionOpen: isOpen,
+                    accordionHeight: isOpen ? contentHeight : 0,
+                },
+            }
+        );
+        // Envoie l'event à la fenetre globale
+        // --> Ecouter : window.addEventListener('accordionDescriptionToggle', callback)
+        window.dispatchEvent(accordionMovementEvent);
+    }, [isOpen, contentHeight]);
+
+    /**
+     * Calcule la position verticale de la description :
+     * - Si ouvert et contenu < 50% de la fenêtre : place en bas
+     * - Si ouvert et contenu > 50% de la fenêtre : centre verticalement
+     * - Si fermé : place en bas de la fenêtre
+     */
     const computedTop = isOpen
         ? contentHeight < window.innerHeight * 0.5
-            ? `calc(100vh - ${contentHeight}px - 57px)`
+            ? `calc(100vh - ${contentHeight}px - 47px)`
             : '50vh'
-        : 'calc(100vh - 57px)';
+        : 'calc(100vh - 47px)';
 
     return (
         <div className='wrapper-parent-position relative z-[999]'>
@@ -48,7 +81,7 @@ export default function AccordionReadProject({
                 style={{ top: computedTop }}
             >
                 <button
-                    className='button-description p-4 bg-pink-black '
+                    className='button-description p-[11px] bg-pink-black '
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {lang === 'fr' ? 'Lire' : 'Read'}
@@ -60,7 +93,7 @@ export default function AccordionReadProject({
                         <div className='triangle-right'></div>
                         <p>{description}</p>
 
-                        <div className='pt-[11px]'>
+                        <div className='py-[11px]'>
                             <p>
                                 {technique}, {materials}
                             </p>

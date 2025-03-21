@@ -1,32 +1,43 @@
+//src/layouts/projects-lists/Paintings-list.jsx
+
 import { useEffect, useState } from 'react';
-import { navigate } from "astro:transitions/client";
+import { navigate } from 'astro:transitions/client';
 
-import { useStore } from "@nanostores/react";
-import { textWhite } from "../../lib/store.js";
+import { useStore } from '@nanostores/react';
+import { textWhite } from '../../lib/store.js';
 
-import PreviewImg from "../../components/PreviewImg.jsx";
-import PaintingTitle from "../../components/title/PaintingTitle.jsx";
+import PreviewImg from '../../components/PreviewImg.jsx';
+import PaintingTitle from '../../components/title/PaintingTitle.jsx';
 
-
-const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, lang, className }) => {
-
+const PaintingsList = ({
+    dataPaintings,
+    isOnPaintingPage,
+    targetHref,
+    hidden,
+    lang,
+    className,
+}) => {
     const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
+    const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const isTextWhite = useStore(textWhite);
 
     useEffect(() => {
         // Afficher la hauteur de la liste cachée
-        const hiddenListHeightPaintingValue = document.querySelector('.hidden-list-painting').clientHeight;
+        const hiddenListHeightPaintingValue = document.querySelector(
+            '.hidden-list-painting'
+        ).clientHeight;
         setHiddenListHeightPainting(hiddenListHeightPaintingValue);
 
         // Title animation
         const titleLayout = () => {
-            const title = document.querySelectorAll("li.painting-title a");
+            const title = document.querySelectorAll('li.painting-title a');
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
                     title.parentElement.classList.add('active');
                     const spansLenght = title.querySelectorAll('span').length;
                     const firstSpanTranslateY = (spansLenght - 1) * 10;
-                    const newTitleHeight = firstSpanTranslateY + (spansLenght * 10);
+                    const newTitleHeight =
+                        firstSpanTranslateY + spansLenght * 10;
                     title.style.height = `${newTitleHeight}px`;
                     title.querySelectorAll('span').forEach((span, index) => {
                         const translateY = (spansLenght - 1 - index) * 15;
@@ -35,7 +46,7 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                 } else {
                     title.parentElement.classList.remove('active');
                     title.style.height = '32px';
-                    title.querySelectorAll('span').forEach(span => {
+                    title.querySelectorAll('span').forEach((span) => {
                         span.style.transform = 'translateY(0)';
                     });
                 }
@@ -44,13 +55,14 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
             setTimeout(calculateLayout, 500);
         };
 
-        // Layout 
+        // Layout
         const calculateLayout = () => {
-            const liTitle = document.querySelectorAll("li.painting-title");
+            const liTitle = document.querySelectorAll('li.painting-title');
             let previousLiWidth = 0;
 
             liTitle.forEach((li) => {
-                const viewportWidth = window.matchMedia("(min-width: 48rem)").matches
+                const viewportWidth = window.matchMedia('(min-width: 48rem)')
+                    .matches
                     ? window.innerWidth - 100 // 100px = md:left-[100px] on item bellow
                     : window.innerWidth - 30; // --spacing-main-x-mobile (x2)
                 if (previousLiWidth + li.offsetWidth > viewportWidth) {
@@ -69,37 +81,82 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
         setTimeout(calculateLayout, 100);
 
         // Add resize event listener
-        window.addEventListener("resize", calculateLayout);
+        window.addEventListener('resize', calculateLayout);
 
         // Cleanup
-        return () => window.removeEventListener("resize", calculateLayout);
+        return () => window.removeEventListener('resize', calculateLayout);
     }, [dataPaintings]);
+
+    /**
+     * Gestion du décalage vertical du titre en fonction de l'accordéon
+     */
+    useEffect(() => {
+        // Écoute l'événement personnalisé émis par l'accordéon
+        const handleAccordionMovement = (event) => {
+            // Récupère l'état de l'accordéon et sa hauteur depuis l'événement
+            const { isAccordionOpen, accordionHeight } = event.detail;
+            // Applique un décalage négatif égal à la hauteur de l'accordéon si ouvert, sinon revient à 0
+            setAccordionOffsetY(isAccordionOpen ? -accordionHeight : 0);
+        };
+
+        // Ajout de l'écouteur d'événement
+        window.addEventListener(
+            'accordionDescriptionToggle',
+            handleAccordionMovement
+        );
+
+        // Nettoyage de l'écouteur lors du démontage du composant
+        return () => {
+            window.removeEventListener(
+                'accordionDescriptionToggle',
+                handleAccordionMovement
+            );
+        };
+    }, []);
+
+    // Calcul du décalage vertical final :
+    // - Sur la page painting : utilise le décalage de l'accordéon
+    // - Sur les autres pages : utilise la hauteur de la liste cachée
+    const translateY = isOnPaintingPage
+        ? accordionOffsetY
+        : hiddenListHeightPainting;
 
     // Render
     return (
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list fixed left-[150px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${isTextWhite ? '' : 'mix-blend-difference '} ${className} ${!isOnPaintingPage ? "cursor-pointer" : ""
-                    } ${!hidden ? "" : "translate-y-[100vh]"}`}
+                className={`work-list fixed left-[150px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${
+                    isTextWhite ? '' : 'mix-blend-difference '
+                } ${className} ${!isOnPaintingPage ? 'cursor-pointer' : ''} ${
+                    !hidden ? '' : 'translate-y-[100vh]'
+                }`}
                 onClick={
                     !isOnPaintingPage
-                        ? () => navigate(`/${lang}${targetHref}`, { history: "push" })
+                        ? () =>
+                              navigate(`/${lang}${targetHref}`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
-
                 <div
-                    className={`transition-all duration-500 ease-in-out ${!isOnPaintingPage ? "pointer-events-none" : ""
-                        }`}
-                    style={isOnPaintingPage ? { transform: `translateY(0px)` } : { transform: `translateY(${hiddenListHeightPainting}px)` }}
+                    className={`transition-all duration-500 ease-in-out ${
+                        !isOnPaintingPage ? 'pointer-events-none' : ''
+                    }`}
+                    style={{ transform: `translateY(${translateY}px)` }}
                 >
-
                     {/* Liste Homepage */}
-                    <ul className="painting-list-compact transition-all duration-500 ease-in-out">
+                    <ul className='painting-list-compact transition-all duration-500 ease-in-out'>
                         {dataPaintings.slice(0, 4).map((painting) => (
-                            <li className="painting-title w-fit" key={painting.id}>
-                                <PaintingTitle painting={painting} lang={lang} />
+                            <li
+                                className='painting-title w-fit'
+                                key={painting.id}
+                            >
+                                <PaintingTitle
+                                    painting={painting}
+                                    lang={lang}
+                                />
                             </li>
                         ))}
                     </ul>
@@ -112,10 +169,13 @@ const PaintingsList = ({ dataPaintings, isOnPaintingPage, targetHref, hidden, la
                         <ul>
                             {dataPaintings.slice(4).map((painting) => (
                                 <li
-                                    className="painting-title w-fit block"
+                                    className='painting-title w-fit block'
                                     key={painting.id}
                                 >
-                                    <PaintingTitle painting={painting} lang={lang} />
+                                    <PaintingTitle
+                                        painting={painting}
+                                        lang={lang}
+                                    />
                                 </li>
                             ))}
                         </ul>
