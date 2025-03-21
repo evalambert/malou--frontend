@@ -46,7 +46,7 @@
 }
 
 body {
-    @apply overflow-hidden bg-white;
+    @apply overflow-hidden w-screen md:h-screen bg-white border-3 border-emerald-300;
 }
 
 body[data-page='about'] {
@@ -187,7 +187,6 @@ body:not(.category-vitrail) .swiper-pagination {
     @apply opacity-100 pointer-events-auto;
 }
 
-
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Lists */
 
@@ -233,17 +232,13 @@ body:not(.category-vitrail) .swiper-pagination {
     text-align: center;
 }
 
-
 /* body.on-slug-page .work-list li > div {
+
     pointer-events: none;
 } */
 body.on-slug-page .work-list li>div:not(.active) {
     opacity: 0;
 }
-
-
-
-
 
 .dynamic-image--wrapper {
     @apply ease-in-out bg-[red];

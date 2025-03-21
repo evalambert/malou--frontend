@@ -1,6 +1,5 @@
 ---
 //pages/[lang]/vitrail/[slug].astro
-import fetchApi from "../../../lib/strapi";
 
 import Layout from "../../../layouts/Layout.astro";
 import VitrailList from "../../../layouts/projects-lists/Vitrail-list.jsx";
@@ -11,36 +10,39 @@ import PreviewImg from "../../../components/PreviewImg.jsx";
 import { fade } from "astro:transitions";
 
 export async function getStaticPaths() {
-  const languages = ["fr", "en"];
-  const paths = [];
+    const languages = ['fr', 'en'];
+    const paths = [];
 
-  for (const lang of languages) {
-    try {
-      const vitraux = await fetchApi({
-        endpoint: "vitrails?populate=*",
-        wrappedByKey: "data",
-        locale: lang,
-      });
+    for (const lang of languages) {
+        try {
+            const vitraux = await fetchApi({
+                endpoint: 'vitrails?populate=*',
+                wrappedByKey: 'data',
+                locale: lang,
+            });
 
-      if (!Array.isArray(vitraux)) {
-        console.error("Les données reçues ne sont pas un tableau:", vitraux);
-        continue;
-      }
+            if (!Array.isArray(vitraux)) {
+                console.error(
+                    'Les données reçues ne sont pas un tableau:',
+                    vitraux
+                );
+                continue;
+            }
 
-      const langPaths = vitraux.map((vitrail) => ({
-        params: {
-          lang,
-          slug: vitrail.slug,
-        },
-        props: { vitrail },
-      }));
+            const langPaths = vitraux.map((vitrail) => ({
+                params: {
+                    lang,
+                    slug: vitrail.slug,
+                },
+                props: { vitrail },
+            }));
 
-      paths.push(...langPaths);
-    } catch (error) {
-      console.error(`Error fetching vitraux for ${lang}:`, error);
+            paths.push(...langPaths);
+        } catch (error) {
+            console.error(`Error fetching vitraux for ${lang}:`, error);
+        }
     }
-  }
-  return paths;
+    return paths;
 }
 
 const animIn = {
@@ -64,15 +66,15 @@ const customTransition = {
 };
 
 const vitraux = await fetchApi({
-  endpoint: "vitrails?populate=*",
-  wrappedByKey: "data",
+    endpoint: 'vitrails?populate=*',
+    wrappedByKey: 'data',
 });
 
 const { vitrail } = Astro.props;
 const { lang } = Astro.params;
 export const prerender = true;
 ---
-
+g
 <Layout title="Vitrail" showReturn returnTo={`/vitrail`}>
   <main class="relative z-[999]">
     <Nav
@@ -106,4 +108,3 @@ export const prerender = true;
     <PreviewImg />
   </div>
 </Layout>
-<p>{vitrail?.description || "Description non disponible"}</p>
