@@ -1,149 +1,19 @@
 ---
 //pages/[lang]/index.astro
 
-import fetchApi from "../../lib/strapi";
 import Layout from "../../layouts/Layout.astro";
-import Nav from "../../layouts/Nav.jsx";
-import PaintingsList from "../../layouts/projects-lists/Paintings-list.jsx";
-import VitrailList from "../../layouts/projects-lists/Vitrail-list.jsx";
-import VolumesList from "../../layouts/projects-lists/Volumes-list.jsx";
-import PoetryList from "../../layouts/projects-lists/Poetry-list.jsx";
-import WeavingList from "../../layouts/projects-lists/Weaving-list.jsx";
-
-
-import { fade } from 'astro:transitions';
+import AllProjectsLists from "../../layouts/AllProjectsLists.astro";
 
 export async function getStaticPaths() {
-  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+    return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];
 }
 const { lang } = Astro.params;
-
-const volumes = await fetchApi({
-  endpoint: "volumes?populate=*",
-  wrappedByKey: "data",
-  locale: lang,
-});
-const vitraux = await fetchApi({
-  endpoint: "vitrails?populate=*",
-  wrappedByKey: "data",
-  locale: lang,
-});
-const paintings = await fetchApi({
-  endpoint: "paintings?populate=*",
-  wrappedByKey: "data",
-  locale: lang,
-});
-const poetries = await fetchApi({
-  endpoint: "poetries?populate=*",
-  wrappedByKey: "data",
-  locale: lang,
-});
-const weavings = await fetchApi({
-  endpoint: "weavings?populate=*",
-  wrappedByKey: "data",
-  locale: lang,
-});
-
-const anim = {
-  old: {
-    name: 'bump',
-    duration: '0.5s',
-    easing: 'ease-in',
-    direction: 'reverse',
-  },
-  new: {
-    name: 'bump',
-    duration: '0.5s',
-    easing: 'ease-in-out',
-  },
-};
-
-const customTransition = {
-  forwards: anim,
-  backwards: anim,
-}; 
-
 
 export const prerender = true;
 ---
 
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
-    <div
-      class="header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]"
-    >
-      <div class="flex-1">
-        <Nav
-          lang={lang}
-          currentPath={Astro.url.pathname}
-          transition:name="nav"
-          transition:persist
-          client:load
-          className=""
-        />
-      </div>
-      <div class="flex-3">
-        <VolumesList
-          targetHref="/volume/"
-          hidden={false}
-          lang={lang}
-          dataVolumes={volumes}
-          isOnVolumePage={false}
-          transition:name="volumeslist"
-          transition:persist
-          client:load
-          className=""
-        />
-      </div>
-      <div class="flex-1">
-        <VitrailList
-          targetHref={`/vitrail/`}
-          hidden={false}
-          lang={lang}
-          dataVitrails={vitraux}
-          isOnVitrailPage={false}
-          transition:name="vitrailist"
-          transition:persist
-          client:load
-          className=""
-        />
-      </div>
-    </div>
-    <div class="bg-lime-50 h-[calc(100vh-50px)] w-[150px] fixed left-0 bottom-[10px]">
-      <PoetryList
-        targetHref={`/poetry/`}
-        hidden={false}
-        lang={lang}
-        dataPoetry={poetries}
-        isOnPoetryPage={false}
-        transition:name="poetrylist"
-        transition:persist
-        client:only="react"
-        className=""
-      />
-    </div>
-
-    <PaintingsList
-      targetHref={`/painting/`}
-      hidden={false}
-      lang={lang}
-      dataPaintings={paintings}
-      isOnPaintingPage={false}
-      transition:name="paintingslist"
-      transition:persist
-      client:load
-      className="fixed left-[150px] bottom-0"
-    />
-    <WeavingList
-      targetHref={`/weaving/`}
-      hidden={false}
-      lang={lang}
-      dataWeaving={weavings}
-      isOnWeavingPage={false}
-      transition:name="weavinglist"
-      transition:persist
-      client:load
-      className=""
-    />
+    <AllProjectsLists lang={lang} enterIndex={true}/>
   </main>
 </Layout>

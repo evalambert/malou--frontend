@@ -93,7 +93,7 @@ export default function Slider({ medias = [] }) {
                     left: 0;
                     height: 100vh;
                     width: 100vw;
-                    z-index: 1;
+                    
                 }
                 .swiper-slide{
                     width: 50%;

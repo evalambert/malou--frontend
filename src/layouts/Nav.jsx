@@ -26,7 +26,7 @@ const Nav = ({ lang, currentPath, className }) => {
     <>
       <div className={`nav-wrapper ${className} flex gap-[10px] pt-[6px] ${isTextWhite ? 'text-white' : 'text-black'}`}>
 
-        <a href={isAboutPage ? `/${lang}/` : `/${lang}/about/`}>
+        <a href={isAboutPage ? `/${lang}/` : `/${lang}/about/`} className="whitespace-nowrap">
           malou raulin
         </a>
 

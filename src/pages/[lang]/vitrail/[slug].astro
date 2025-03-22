@@ -3,15 +3,11 @@
 
 import fetchApi from '../../../lib/strapi';
 
-import Layout from "../../../layouts/Layout.astro";
-import VitrailList from "../../../layouts/projects-lists/Vitrail-list.jsx";
-import Nav from "../../../layouts/Nav.jsx";
-import Slider from "../../../components/slider/Slider.jsx";
-import PreviewImg from "../../../components/PreviewImg.jsx";
+import Layout from '../../../layouts/Layout.astro';
+import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
+import PreviewImg from '../../../components/PreviewImg.jsx';
 import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
-
-import { fade } from "astro:transitions";
-
+import Slider from '../../../components/slider/Slider.jsx';
 
 export async function getStaticPaths() {
     const languages = ['fr', 'en'];
@@ -50,23 +46,23 @@ export async function getStaticPaths() {
 }
 
 const animIn = {
-  old: {
-    name: "enterZoom",
-    duration: "3s",
-    easing: "ease-in",
-    fillMode: "forwards",
-  },
-  new: {
-    name: "enterZoom",
-    duration: "3s",
-    easing: "ease-in-out",
-    fillMode: "forwards",
-  },
+    old: {
+        name: 'enterZoom',
+        duration: '3s',
+        easing: 'ease-in',
+        fillMode: 'forwards',
+    },
+    new: {
+        name: 'enterZoom',
+        duration: '3s',
+        easing: 'ease-in-out',
+        fillMode: 'forwards',
+    },
 };
 
 const customTransition = {
-  forwards: animIn,
-  backwards: animIn,
+    forwards: animIn,
+    backwards: animIn,
 };
 
 const vitraux = await fetchApi({
@@ -79,47 +75,34 @@ const { lang } = Astro.params;
 export const prerender = true;
 ---
 
+<Layout title='Vitrail' showReturn returnTo={`/vitrail`}>
+    <main
+        class='relative'
+        transition:name='mainElement'
+        transition:animate='none'
+    >
+       
+        <AllProjectsLists lang={lang} enterIndex={false} />
 
-<Layout title="Vitrail" showReturn returnTo={`/vitrail`}>
-  <main class="relative z-[999]">
-    <Nav
-      lang={lang}
-      currentPath={Astro.url.pathname}
-      transition:name="nav"
-      transition:persist
-      client:load
-      className="fixed top-0 left-main-x z-50"
-    />
-    <div transition:name="vitrailist" transition:persist>
-      <VitrailList
-        targetHref={Astro.url.pathname}
-        hidden={false}
-        lang={lang}
-        dataVitrails={vitraux}
-        isOnVitrailPage={true}
-        className="fixed top-0 right-main-x z-50"
-        client:load
-      />
+        <AccordionReadProject
+            lang={lang}
+            year={vitrail?.year || 'Année non disponible'}
+            client:load
+            description={vitrail?.description || 'Description non disponible'}
+            technique={vitrail?.technique || 'Technique non disponible'}
+            materials={vitrail?.materials || 'Matériaux non disponibles'}
+            width={vitrail?.width || 'Largeur non disponible'}
+            height={vitrail?.height || 'Hauteur non disponible'}
+        />
+        <!-- <div>
+          <Slider client:only medias={vitrail?.medias || []} />
+      </div> -->
+    </main>
+    <div
+        transition:animate={customTransition}
+        transition:name='previewimgtransition'
+        class='dynamic-image--wrapper'
+    >
+        <PreviewImg />
     </div>
-
-    <Slider client:only medias={vitrail?.medias || []} />
-     <AccordionReadProject
-        lang={lang}
-        year={vitrail?.year || 'Année non disponible'}
-        client:load
-        description={vitrail?.description || 'Description non disponible'}
-        technique={vitrail?.technique || 'Technique non disponible'}
-        materials={vitrail?.materials || 'Matériaux non disponibles'}
-        width={vitrail?.width || 'Largeur non disponible'}
-        height={vitrail?.height || 'Hauteur non disponible'}
-    />
-  </main>
-  <div
-    transition:animate={customTransition}
-    transition:name="previewimgtransition"
-    transition:persist
-    class="dynamic-image--wrapper"
-  >
-    <PreviewImg />
-  </div>
 </Layout>

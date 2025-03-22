@@ -275,7 +275,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
                     }`}
                 onClick={
                     !isOnPoetryPage
-                        ? () => navigate(`/${lang}${targetHref}`, { history: "push" })
+                        ? () => navigate(`/${lang}/poetry/`, { history: "push" })
                         : undefined
                 }
             >

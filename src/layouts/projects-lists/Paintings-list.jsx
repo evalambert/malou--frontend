@@ -132,7 +132,7 @@ const PaintingsList = ({
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                              navigate(`/${lang}${targetHref}`, {
+                              navigate(`/${lang}/painting/`, {
                                   history: 'push',
                               })
                         : undefined
