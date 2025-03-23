@@ -88,7 +88,7 @@ const WeavingList = ({
                 onClick={
                     !isOnWeavingPage
                         ? () =>
-                              navigate(`/${lang}${targetHref}`, {
+                              navigate(`/${lang}/weaving/`, {
                                   history: 'push',
                               })
                         : undefined

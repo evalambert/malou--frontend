@@ -1,0 +1,126 @@
+---
+import fetchApi from '../lib/strapi';
+
+
+import Nav from '../layouts/Nav.jsx';
+import PaintingsList from '../layouts/projects-lists/Paintings-list.jsx';
+import VitrailList from '../layouts/projects-lists/Vitrail-list.jsx';
+import VolumesList from '../layouts/projects-lists/Volumes-list.jsx';
+import PoetryList from '../layouts/projects-lists/Poetry-list.jsx';
+import WeavingList from '../layouts/projects-lists/Weaving-list.jsx';
+
+const { lang, enterIndex} = Astro.props;
+
+const currentPath = Astro.url.pathname || "";
+const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
+const categoryClass = categoryMatch ? `${categoryMatch[1]}` : "";
+
+const volumes = await fetchApi({
+    endpoint: 'volumes?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
+});
+const vitraux = await fetchApi({
+    endpoint: 'vitrails?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
+});
+const paintings = await fetchApi({
+    endpoint: 'paintings?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
+});
+const poetries = await fetchApi({
+    endpoint: 'poetries?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
+});
+const weavings = await fetchApi({
+    endpoint: 'weavings?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
+});
+
+
+
+
+export const prerender = true;
+---
+
+<div class={`header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]`}>
+    <div class='flex-1'>
+        <Nav
+            lang={lang}
+            currentPath={Astro.url.pathname}
+            transition:name='nav'
+            transition:persist
+            client:load
+            className=''
+        />
+    </div>
+    <div class='flex-3'>
+        <VolumesList
+            targetHref={currentPath}
+            hidden={false}
+            lang={lang}
+            dataVolumes={volumes}
+            isOnVolumePage={categoryClass === 'volume' ? true : false}
+            transition:name='volumeslist'
+            transition:persist
+            client:load
+            className=''
+        />
+    </div>
+    <div class='flex-1'>
+        <VitrailList
+            targetHref={currentPath}
+            hidden={false}
+            lang={lang}
+            animateIn={enterIndex ? true : false}
+            dataVitrails={vitraux}
+            isOnVitrailPage={categoryClass === 'vitrail' ? true : false}
+            transition:name='vitrailist'
+            transition:persist
+            client:load
+            className=''
+        />
+    </div>
+</div>
+<div
+    class='bg-lime-50 h-[calc(100vh-50px)] w-[150px] fixed left-0 bottom-[10px]'
+>
+    <PoetryList
+        targetHref={currentPath}
+        hidden={false}
+        lang={lang}
+        dataPoetry={poetries}
+        isOnPoetryPage={categoryClass === 'poetry' ? true : false}    
+        transition:name='poetrylist'
+        transition:persist
+        client:only='react'
+        className=''
+    />
+</div>
+
+<PaintingsList
+    targetHref={currentPath}
+    hidden={false}
+    lang={lang}
+    dataPaintings={paintings}
+    isOnPaintingPage={categoryClass === 'painting' ? true : false}
+    transition:name='paintingslist'
+    transition:persist
+    client:load
+    className='fixed left-[150px] bottom-0'
+/>
+<WeavingList
+    targetHref={currentPath}
+    hidden={false}
+    lang={lang}
+    dataWeaving={weavings}
+    isOnWeavingPage={categoryClass === 'weaving' ? true : false}
+    transition:name='weavinglist'
+    transition:persist
+    client:load
+    className=''
+/>
