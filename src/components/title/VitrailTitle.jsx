@@ -5,23 +5,23 @@ import { useState, useEffect } from 'react';
 const VitrailTitle = ({ vitrail, lang }) => {
 
     // Fonction pour gérer le survol et changer l'image
-    // const handleMouseEnter = (imageUrl) => {
-    //     const imageElement = document.querySelector('.dynamic-image');
-    //     const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-    //     if (imageElement) {
-    //         imageElement.src = imageUrl;
-    //     }
-    //     if (wrapperElement) {
-    //         wrapperElement.style.opacity = '1';
-    //     }
-    // };
+    const handleMouseEnter = (imageUrl) => {
+        const imageElement = document.querySelector('.dynamic-image');
+        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        if (imageElement) {
+            imageElement.src = imageUrl;
+        }
+        if (wrapperElement) {
+            wrapperElement.style.opacity = '1';
+        }
+    };
 
-    // const handleMouseLeave = () => {
-    //     const wrapperElement = document.querySelector('.dynamic-image--wrapper');
-    //     if (wrapperElement) {
-    //         wrapperElement.style.opacity = '0';
-    //     }
-    // };
+    const handleMouseLeave = () => {
+        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        if (wrapperElement) {
+            wrapperElement.style.opacity = '0';
+        }
+    };
 
     // Render
     return (
@@ -35,7 +35,7 @@ const VitrailTitle = ({ vitrail, lang }) => {
                         handleMouseEnter(mediaUrl);
                     }
                 }}
-                // onMouseLeave={handleMouseLeave}
+                onMouseLeave={handleMouseLeave}
                 data-image-preview={vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url}
             >
                 {vitrail.title.split(' ').map((word, i, words) => (

@@ -2,10 +2,11 @@
 //pages/[lang]/vitrail/[slug].astro
 
 import fetchApi from '../../../lib/strapi';
+import { fade } from 'astro:transitions';
 
 import Layout from '../../../layouts/Layout.astro';
 import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
-import PreviewImg from '../../../components/PreviewImg.jsx';
+import PreviewImgAnimation from '../../../components/PreviewImgAnimation.jsx';
 import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
 import Slider from '../../../components/slider/Slider.jsx';
 
@@ -48,18 +49,17 @@ export async function getStaticPaths() {
 const animIn = {
     old: {
         name: 'enterZoom',
-        duration: '3s',
+        duration: '1s',
         easing: 'ease-in',
         fillMode: 'forwards',
     },
     new: {
         name: 'enterZoom',
-        duration: '3s',
+        duration: '1s',
         easing: 'ease-in-out',
         fillMode: 'forwards',
     },
 };
-
 const customTransition = {
     forwards: animIn,
     backwards: animIn,
@@ -77,32 +77,32 @@ export const prerender = true;
 
 <Layout title='Vitrail' showReturn returnTo={`/vitrail`}>
     <main
-        class='relative'
+        class='relative w-screen h-screen'
         transition:name='mainElement'
         transition:animate='none'
     >
-       
         <AllProjectsLists lang={lang} enterIndex={false} />
 
-        <AccordionReadProject
-            lang={lang}
-            year={vitrail?.year || 'Année non disponible'}
-            client:load
-            description={vitrail?.description || 'Description non disponible'}
-            technique={vitrail?.technique || 'Technique non disponible'}
-            materials={vitrail?.materials || 'Matériaux non disponibles'}
-            width={vitrail?.width || 'Largeur non disponible'}
-            height={vitrail?.height || 'Hauteur non disponible'}
-        />
-        <!-- <div>
-          <Slider client:only medias={vitrail?.medias || []} />
-      </div> -->
+        <div class='accordion-read-project-wrapper'>
+            <AccordionReadProject
+                lang={lang}
+                year={vitrail?.year || 'Année non disponible'}
+                client:only
+                description={vitrail?.description ||
+                    'Description non disponible'}
+                technique={vitrail?.technique || 'Technique non disponible'}
+                materials={vitrail?.materials || 'Matériaux non disponibles'}
+                width={vitrail?.width || 'Largeur non disponible'}
+                height={vitrail?.height || 'Hauteur non disponible'}
+            />
+        </div>
+        <div class='fixed top-0 left-0 w-screen h-screen z-20'>
+            <Slider
+                client:only
+                medias={vitrail?.medias || []}
+                transition:animate={fade({ duration: '0.4s' })}
+            />
+        </div>
     </main>
-    <div
-        transition:animate={customTransition}
-        transition:name='previewimgtransition'
-        class='dynamic-image--wrapper'
-    >
-        <PreviewImg />
-    </div>
+    <PreviewImgAnimation medias={vitrail?.medias || []} client:only />
 </Layout>

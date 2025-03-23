@@ -18,7 +18,15 @@ export default function Slider({ medias = [] }) {
     const swiperRef = useRef(null);
     const [imageDimensions, setImageDimensions] = useState({});
     const [isHidden, setIsHidden] = useState(true);
+    const [show, setShow] = useState(false);
 
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setShow(true);
+        }, 1000); // Délai de 0,5s avant d'afficher Swiper
+
+        return () => clearTimeout(timeout);
+    }, []);
     // Colors
     const isTextWhite = useStore(textWhite);
 
@@ -88,9 +96,6 @@ export default function Slider({ medias = [] }) {
             <style>
                 {`
                 .swiper{
-                    position: fixed;
-                    top: 0;
-                    left: 0;
                     height: 100vh;
                     width: 100vw;
                     
@@ -123,7 +128,7 @@ export default function Slider({ medias = [] }) {
                 }
             `}
             </style>
-            <div>
+            <div className={`${show ? "opacity-100" : "opacity-0"}`}>
                 <Swiper
                     ref={swiperRef}
                     slidesPerView={'auto'}
@@ -140,14 +145,14 @@ export default function Slider({ medias = [] }) {
                     {medias.map((media, index) => (
                         imageDimensions[index]?.isLandscape ? (
                             // Affiche 2 slides pour les images en paysage
-                            <>
+                            <React.Fragment key={`landscape-container-${index}`}>
                                 <SwiperSlide
                                     key={`landscape-${index}`}
                                     className="landscape !overflow-visible"
                                 >
                                     <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
                                     <div className="h-full w-[200%]">
-                                        <ZoomableImg url={media.url} />
+                                        <img src={media.url} loading="lazy" />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide
@@ -156,7 +161,7 @@ export default function Slider({ medias = [] }) {
                                 >
                                     <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
                                 </SwiperSlide>
-                            </>
+                            </React.Fragment>
                         ) : (
                             // Affiche 1 slide pour les images en portrait
                             <SwiperSlide
@@ -164,7 +169,7 @@ export default function Slider({ medias = [] }) {
                                 className="portrait"
                             >
                                 <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
-                                <img src={media.url} loading="lazy"/>
+                                <img src={media.url} loading="lazy" />
                             </SwiperSlide>
                         )
                     ))}

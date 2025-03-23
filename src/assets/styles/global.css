@@ -50,7 +50,7 @@ body {
 }
 
 body[data-page='about'] {
-    @apply overflow-visible;
+    @apply overflow-visible ;
 }
 
 @media (max-width: 768px) {
@@ -194,15 +194,7 @@ body:not(.category-vitrail) .swiper-pagination {
 
 
 
-@keyframes vitrailEnter {
-    0% {
-        transform: translateY(-50vh);
-    }
 
-    100% {
-        transform: translateY(0vh);
-    }
-}
 
 
 

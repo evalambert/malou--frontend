@@ -29,10 +29,9 @@ const VitrailList = ({
         // Title animation
         const titleLayout = () => {
             const title = document.querySelectorAll('li.vitrail-title a');
-            
+
             // Title animation
             title.forEach((title) => {
-                console.log('title', title.getAttribute('href'));
                 if (title.getAttribute('href') === targetHref) {
                     title.parentElement.classList.add('active');
 
@@ -108,71 +107,85 @@ const VitrailList = ({
 
     // Render
     return (
-        <div className={`work-list ${className} ${isTextWhite ? '' : 'text-black'}`}>
-            
-            <div
-                className={`pt-list-p-top flex flex-col items-end 
-                    ${animateIn ? 'animate-[vitrailEnter_1s_ease-in-out]' : ''} 
-                    ${!isOnVitrailPage ? 'cursor-pointer' : ''
-                    } `}
-                onClick={
-                    !isOnVitrailPage
-                        ? () =>
-                            navigate(`/${lang}/vitrail/`, {
-                                history: 'push',
-                            })
-                        : undefined
+        <>
+            <style>
+                {`
+                @keyframes vitrailEnter {
+                    0% {
+                        transform: translateY(-50vh);
+                    }
+
+                    100% {
+                        transform: translateY(-${hiddenListHeightVitrail}px;
+                    }
                 }
-            >
+            `}
+            </style>
+            <div className={`work-list ${className} ${isTextWhite ? '' : 'text-black'}`}>
+                
                 <div
-                    className={`flex flex-col items-end transition-all duration-1000 ease-in-out  ${!isOnVitrailPage ? 'pointer-events-none' : ''
-                        } ${!hidden ? '' : 'translate-y-[-50vh]'}`}
-                    style={isOnVitrailPage
+                    className={`pt-list-p-top flex flex-col items-end 
+                    ${!isOnVitrailPage ? 'cursor-pointer' : ''
+                        } `}
+                    onClick={
+                        !isOnVitrailPage
+                            ? () =>
+                                navigate(`/${lang}/vitrail/`, {
+                                    history: 'push',
+                                })
+                            : undefined
+                    }
+                >
+                    <div
+                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out  ${!isOnVitrailPage ? 'pointer-events-none' : ''
+                            } ${!hidden ? '' : 'translate-y-[-50vh]'}`}
+                        style={isOnVitrailPage
                             ? { transform: `translateY(0px)` }
                             : {
                                 transform: `translateY(-${hiddenListHeightVitrail}px)`,
+                                // animation: animateIn ? 'vitrailEnter 1s ease forwards' : 'none'
                             }
-
                         }
-                >
-                    <div
-                        className={`hidden-list-vitrail transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? 'opacity-100' : 'opacity-0'
-                            } `}
                     >
-                        {/* Liste Hidden */}
+                        <div
+                            className={`hidden-list-vitrail transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? 'opacity-100' : 'opacity-0'
+                                } `}
+                        >
+                            {/* Liste Hidden */}
 
-                        <ul className='vitrail-list-compact overflow-visible'>
-                            {dataVitrails.slice(2).map((vitrail) => (
+                            <ul className='vitrail-list-compact overflow-visible'>
+                                {dataVitrails.slice(2).map((vitrail) => (
+                                    <li
+                                        className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-100'
+                                        key={vitrail.id}
+                                    >
+                                        <VitrailTitle
+                                            vitrail={vitrail}
+                                            lang={lang}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+
+                            {/* (END) Liste Hidden */}
+                        </div>
+                        {/* Liste Homepage */}
+                        <ul className='vitrail-list-compact'>
+                            {dataVitrails.slice(0, 2).map((vitrail) => (
                                 <li
-                                    className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-100'
+                                    className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-300'
                                     key={vitrail.id}
                                 >
-                                    <VitrailTitle
-                                        vitrail={vitrail}
-                                        lang={lang}
-                                    />
+                                    <VitrailTitle vitrail={vitrail} lang={lang} />
                                 </li>
                             ))}
                         </ul>
+                        {/* (END) Liste Homepage */}
 
-                        {/* (END) Liste Hidden */}
                     </div>
-                    {/* Liste Homepage */}
-                    <ul className='vitrail-list-compact'>
-                        {dataVitrails.slice(0, 2).map((vitrail) => (
-                            <li
-                                className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-300'
-                                key={vitrail.id}
-                            >
-                                <VitrailTitle vitrail={vitrail} lang={lang} />
-                            </li>
-                        ))}
-                    </ul>
-                    {/* (END) Liste Homepage */}
-                    
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
