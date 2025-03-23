@@ -55,26 +55,26 @@ export const prerender = true;
             transition:name='nav'
             transition:persist
             client:load
-            className=''
+            className='relative z-50'
         />
     </div>
     <div class='flex-3'>
         <VolumesList
             targetHref={currentPath}
-            hidden={false}
+            hidden={categoryClass === 'volume' || enterIndex === true ? false : true}
             lang={lang}
             dataVolumes={volumes}
             isOnVolumePage={categoryClass === 'volume' ? true : false}
             transition:name='volumeslist'
             transition:persist
             client:load
-            className=''
+            className='relative z-50'
         />
     </div>
     <div class='flex-1'>
         <VitrailList
             targetHref={currentPath}
-            hidden={false}
+            hidden={categoryClass === 'vitrail' || enterIndex === true ? false : true}
             lang={lang}
             animateIn={enterIndex ? true : false}
             dataVitrails={vitraux}
@@ -82,7 +82,7 @@ export const prerender = true;
             transition:name='vitrailist'
             transition:persist
             client:load
-            className=''
+            className='relative z-50'
         />
     </div>
 </div>
@@ -91,36 +91,36 @@ export const prerender = true;
 >
     <PoetryList
         targetHref={currentPath}
-        hidden={false}
+        hidden={categoryClass === 'poetry'|| enterIndex === true ? false : true}
         lang={lang}
         dataPoetry={poetries}
         isOnPoetryPage={categoryClass === 'poetry' ? true : false}    
         transition:name='poetrylist'
         transition:persist
         client:only='react'
-        className=''
+        className='relative z-50'
     />
 </div>
 
 <PaintingsList
     targetHref={currentPath}
-    hidden={false}
+    hidden={categoryClass === 'painting'|| enterIndex === true ? false : true}
     lang={lang}
     dataPaintings={paintings}
     isOnPaintingPage={categoryClass === 'painting' ? true : false}
     transition:name='paintingslist'
     transition:persist
     client:load
-    className='fixed left-[150px] bottom-0'
+    className='fixed left-[150px] bottom-0 z-50'
 />
 <WeavingList
     targetHref={currentPath}
-    hidden={false}
+    hidden={categoryClass === 'weaving' || enterIndex === true ? false : true}
     lang={lang}
     dataWeaving={weavings}
     isOnWeavingPage={categoryClass === 'weaving' ? true : false}
     transition:name='weavinglist'
     transition:persist
     client:load
-    className=''
+    className='z-50'
 />

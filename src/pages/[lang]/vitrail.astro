@@ -1,12 +1,12 @@
 ---
 //pages/[lang]/vitrail.astro
 
-import fetchApi from "../../lib/strapi";
+import fetchApi from '../../lib/strapi';
 
-import Layout from "../../layouts/Layout.astro";
-import AllProjectsLists from "../../layouts/AllProjectsLists.astro";
+import Layout from '../../layouts/Layout.astro';
+import AllProjectsLists from '../../layouts/AllProjectsLists.astro';
 
-import PreviewImg from "../../components/PreviewImg.jsx";
+import PreviewImg from '../../components/PreviewImg.jsx';
 
 export async function getStaticPaths() {
     return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];
@@ -14,42 +14,45 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 
 const animIn = {
-  old: {
-    name: "enterZoom",
-    duration: "3s",
-    easing: "ease-in",
-  },
-  new: {
-    name: "enterZoom",
-    duration: "3s",
-    easing: "ease-in-out",
-    direction: "reverse",
-  },
+    old: {
+        name: 'enterZoom',
+        duration: '3s',
+        easing: 'ease-in',
+    },
+    new: {
+        name: 'enterZoom',
+        duration: '3s',
+        easing: 'ease-in-out',
+        direction: 'reverse',
+    },
 };
 
 const customTransitionReturn = {
-  forwards: animIn,
-  backwards: animIn,
+    forwards: animIn,
+    backwards: animIn,
 };
 
 export const prerender = true;
 ---
 
-<Layout title={lang === "fr" ? "Accueil" : "Home"}>
-  <main>
-    <AllProjectsLists lang={lang} enterIndex={false}/>
-  </main>
-  <!-- <div
+<Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
+    <main>
+        <AllProjectsLists lang={lang} enterIndex={false} />
+    </main>
+    <div class='dynamic-image--wrapper opacity-0 transition-all duration-300'>
+        <PreviewImg />
+    </div>
+    <!-- <div
     transition:animate={customTransitionReturn}
     transition:name="previewimgtransition"
     transition:persist
-    class="dynamic-image--wrapper"
+    class="dynamic-image--wrapper transition-all duration-300"
   >
     <PreviewImg />
-  </div> -->
+  </div>   -->
 </Layout>
 <script>
-  import { setupBlackTextPage } from "../../lib/pageColorUtils.js";
-  // Utiliser la fonction utilitaire
-  setupBlackTextPage();
+    import { setupBlackTextPage } from '../../lib/pageColorUtils.js';
+    // Utiliser la fonction utilitaire
+    setupBlackTextPage();
 </script>

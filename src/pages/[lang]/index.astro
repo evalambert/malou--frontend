@@ -12,6 +12,8 @@ const { lang } = Astro.params;
 export const prerender = true;
 ---
 
+<!-- // Trouver un moyen de twixer la valeur de enterIndex -->
+
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
     <AllProjectsLists lang={lang} enterIndex={true}/>
