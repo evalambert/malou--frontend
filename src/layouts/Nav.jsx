@@ -14,12 +14,13 @@ const Nav = ({ lang, currentPath, className }) => {
         return `nav-li ${currentPath.startsWith(path) ? 'nav-on' : 'nav-off'}`;
     };
 
-    // Redirection link for "malou raulin"
+    // Redirection malou raulin nav link
     let destination = `/${lang}/`;
     if (isHomePage) {
         destination = `/${lang}/about/`;
     } else if (isAboutPage) {
         destination = `/${lang}/`;
+        
     }
 
     // Render
