@@ -8,11 +8,10 @@ export async function getStaticPaths() {
 }
 const { lang } = Astro.params;
 
-
 export const prerender = true;
 ---
 
-<Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
+<Layout title={lang === 'fr' ? 'malou raulin peint' : 'malou raulin painted'}>
     <main>
         <AllProjectsLists lang={lang} enterIndex={false} />
     </main>

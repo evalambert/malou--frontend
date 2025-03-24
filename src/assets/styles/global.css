@@ -50,7 +50,7 @@ body {
 }
 
 body[data-page='about'] {
-    @apply overflow-visible ;
+    @apply overflow-visible;
 }
 
 @media (max-width: 768px) {
@@ -188,16 +188,9 @@ body:not(.category-vitrail) .swiper-pagination {
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Lists */
-.volume-list-compact>li:nth-child(odd) {
+.volume-list-compact > li:nth-child(odd) {
     @apply pt-[25px];
 }
-
-
-
-
-
-
-
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Titles */
@@ -244,10 +237,8 @@ body.on-slug-page .work-list li > div:not(.active) {
     opacity: 0;
 }
 
-
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Preview Image Animation*/
-
 
 .dynamic-image--wrapper {
     @apply ease-in-out bg-[red];
@@ -290,7 +281,6 @@ body.on-slug-page .work-list li > div:not(.active) {
         z-index: -1 !important;
     }
 }
-
 
 /* .main-element {
 	position: fixed;

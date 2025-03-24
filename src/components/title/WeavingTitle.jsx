@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 
 const WeavingTitle = ({ weaving, lang }) => {
-
     // Fonction pour gérer le survol et changer l'image
     const handleMouseEnter = (imageUrl) => {
         const imageElement = document.querySelector('.dynamic-image');
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        const wrapperElement = document.querySelector(
+            '.dynamic-image--wrapper'
+        );
         if (imageElement) {
             imageElement.src = imageUrl;
         }
@@ -15,7 +16,9 @@ const WeavingTitle = ({ weaving, lang }) => {
     };
 
     const handleMouseLeave = () => {
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        const wrapperElement = document.querySelector(
+            '.dynamic-image--wrapper'
+        );
         if (wrapperElement) {
             wrapperElement.style.opacity = '0';
         }
@@ -24,14 +27,23 @@ const WeavingTitle = ({ weaving, lang }) => {
     // Render
     return (
         <div>
-            <a href={`/${lang}/weaving/${weaving.slug}/`} className="pr-1" onMouseEnter={() => {
-                const mediaUrl = weaving.medias && weaving.medias[0] && weaving.medias[0].url;
-                if (mediaUrl) {
-                    handleMouseEnter(mediaUrl);
-                }
-            }}
+            <a
+                href={`/${lang}/weaving/${weaving.slug}/`}
+                className='pr-1'
+                onMouseEnter={() => {
+                    const mediaUrl =
+                        weaving.medias &&
+                        weaving.medias[0] &&
+                        weaving.medias[0].url;
+                    if (mediaUrl) {
+                        handleMouseEnter(mediaUrl);
+                    }
+                }}
                 onMouseLeave={handleMouseLeave}
-                data-image-preview={weaving.medias && weaving.medias[0] && weaving.medias[0].url}>
+                data-image-preview={
+                    weaving.medias && weaving.medias[0] && weaving.medias[0].url
+                }
+            >
                 {weaving.title}
             </a>
         </div>

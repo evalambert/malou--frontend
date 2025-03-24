@@ -4,7 +4,7 @@ import { navigate } from 'astro:transitions/client';
 import { useStore } from '@nanostores/react';
 import { textWhite } from '../../lib/store.js';
 
-import WeavingTitle from "../../components/title/WeavingTitle.jsx";
+import WeavingTitle from '../../components/title/WeavingTitle.jsx';
 
 const WeavingList = ({
     dataWeaving,
@@ -20,26 +20,25 @@ const WeavingList = ({
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
     const [hiddenListWidthWeaving, setHiddenListWidthWeaving] = useState(0);
 
-  useEffect(() => {
-    // Attendre que le DOM soit prêt
-    const hiddenList = document.querySelector('.hidden-list-weaving');
-    if (!hiddenList) return; // Protection contre les éléments null
+    useEffect(() => {
+        // Attendre que le DOM soit prêt
+        const hiddenList = document.querySelector('.hidden-list-weaving');
+        if (!hiddenList) return; // Protection contre les éléments null
 
-    const hiddenListHeightValue = hiddenList.clientHeight;
-    const hiddenListWidthValue = hiddenList.clientWidth;
+        const hiddenListHeightValue = hiddenList.clientHeight;
+        const hiddenListWidthValue = hiddenList.clientWidth;
 
         setHiddenListHeightWeaving(hiddenListHeightValue);
         setHiddenListWidthWeaving(hiddenListWidthValue);
 
-    const liTitle = document.querySelectorAll("li.weaving-title");
-    liTitle.forEach((li) => {
-      if (li && li.nextElementSibling) {
-        const nextLiWidth = li.nextElementSibling.offsetWidth;
-        li.style.marginRight = `${nextLiWidth}px`;
-      }
-    });
-  }, [dataWeaving]);
-
+        const liTitle = document.querySelectorAll('li.weaving-title');
+        liTitle.forEach((li) => {
+            if (li && li.nextElementSibling) {
+                const nextLiWidth = li.nextElementSibling.offsetWidth;
+                li.style.marginRight = `${nextLiWidth}px`;
+            }
+        });
+    }, [dataWeaving]);
 
     /*   console.log(dataWeaving);
      */

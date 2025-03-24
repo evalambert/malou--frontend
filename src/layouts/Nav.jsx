@@ -20,7 +20,6 @@ const Nav = ({ lang, currentPath, className }) => {
         destination = `/${lang}/about/`;
     } else if (isAboutPage) {
         destination = `/${lang}/`;
-        
     }
 
     // Render

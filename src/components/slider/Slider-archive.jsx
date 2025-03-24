@@ -1,8 +1,8 @@
 // Import Swiper React components
-import React, { useRef, useState, useEffect  } from "react";
+import React, { useRef, useState, useEffect } from 'react';
 
-import { useStore } from "@nanostores/react";
-import { textWhite, toggleTextColor, toggleToWhite } from "../../lib/store.js";
+import { useStore } from '@nanostores/react';
+import { textWhite, toggleTextColor, toggleToWhite } from '../../lib/store.js';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Zoom, Keyboard } from 'swiper/modules';
@@ -10,7 +10,6 @@ import ZoomableImg from '../Zoomable-img';
 
 // Import Swiper styles
 import 'swiper/css';
-
 
 export default function Slider({ medias = [] }) {
     const swiperRef = useRef(null);
@@ -23,13 +22,12 @@ export default function Slider({ medias = [] }) {
         toggleToWhite();
     }, []);
 
-
-
     const handleSlideChange = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             const swiper = swiperRef.current.swiper;
             const isLastSlide = swiper.activeIndex === swiper.slides.length - 1;
-            const wasLastSlide = swiper.previousIndex === swiper.slides.length - 1;
+            const wasLastSlide =
+                swiper.previousIndex === swiper.slides.length - 1;
 
             if (isLastSlide || wasLastSlide) {
                 toggleTextColor();
@@ -68,7 +66,6 @@ export default function Slider({ medias = [] }) {
                             }, 200)
                         );
                     }
-
                 } else {
                     // Double clic
                     clearTimeout(clickTimeout);
@@ -78,23 +75,18 @@ export default function Slider({ medias = [] }) {
         }
     };
 
-    // Gestion du clic simple : change de slide 
+    // Gestion du clic simple : change de slide
     const handleSingleClickRight = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             swiperRef.current.swiper.slideNext();
         }
     };
 
-
     const handleSingleClickLeft = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             swiperRef.current.swiper.slidePrev();
         }
     };
-
-
-
-
 
     return (
         <>
@@ -149,7 +141,7 @@ export default function Slider({ medias = [] }) {
                     zoom={{
                         maxRatio: 3,
                         panOnMouseMove: true,
-                        limitToOriginalSize: true
+                        limitToOriginalSize: true,
                     }}
                     // loop={true}
                     keyboard={{
@@ -163,16 +155,17 @@ export default function Slider({ medias = [] }) {
                     onSlideChange={handleSlideChange}
                 >
                     {medias.map((media, index) => (
-                        <SwiperSlide
-                            key={index}
-                        >
-                            <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
+                        <SwiperSlide key={index}>
+                            <div
+                                className={`${
+                                    isTextWhite ? 'text-white' : 'text-black'
+                                }`}
+                            ></div>
                             <ZoomableImg url={media.url} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
             </div>
         </>
-
     );
-};
+}

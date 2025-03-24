@@ -1,7 +1,6 @@
 ---
 import fetchApi from '../lib/strapi';
 
-
 import Nav from '../layouts/Nav.jsx';
 import PaintingsList from '../layouts/projects-lists/Paintings-list.jsx';
 import VitrailList from '../layouts/projects-lists/Vitrail-list.jsx';
@@ -9,11 +8,11 @@ import VolumesList from '../layouts/projects-lists/Volumes-list.jsx';
 import PoetryList from '../layouts/projects-lists/Poetry-list.jsx';
 import WeavingList from '../layouts/projects-lists/Weaving-list.jsx';
 
-const { lang, enterIndex} = Astro.props;
+const { lang, enterIndex } = Astro.props;
 
-const currentPath = Astro.url.pathname || "";
+const currentPath = Astro.url.pathname || '';
 const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
-const categoryClass = categoryMatch ? `${categoryMatch[1]}` : "";
+const categoryClass = categoryMatch ? `${categoryMatch[1]}` : '';
 
 const volumes = await fetchApi({
     endpoint: 'volumes?populate=*',
@@ -41,13 +40,12 @@ const weavings = await fetchApi({
     locale: lang,
 });
 
-
-
-
 export const prerender = true;
 ---
 
-<div class={`header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]`}>
+<div
+    class={`header-wrapperfixed top-0 w-full flex justify-between gap-x-[20px]`}
+>
     <div class='flex-1'>
         <Nav
             lang={lang}
@@ -61,7 +59,9 @@ export const prerender = true;
     <div class='flex-3'>
         <VolumesList
             targetHref={currentPath}
-            hidden={categoryClass === 'volume' || enterIndex === true ? false : true}
+            hidden={categoryClass === 'volume' || enterIndex === true
+                ? false
+                : true}
             lang={lang}
             dataVolumes={volumes}
             isOnVolumePage={categoryClass === 'volume' ? true : false}
@@ -74,7 +74,9 @@ export const prerender = true;
     <div class='flex-1'>
         <VitrailList
             targetHref={currentPath}
-            hidden={categoryClass === 'vitrail' || enterIndex === true ? false : true}
+            hidden={categoryClass === 'vitrail' || enterIndex === true
+                ? false
+                : true}
             lang={lang}
             animateIn={enterIndex ? true : false}
             dataVitrails={vitraux}
@@ -91,10 +93,12 @@ export const prerender = true;
 >
     <PoetryList
         targetHref={currentPath}
-        hidden={categoryClass === 'poetry'|| enterIndex === true ? false : true}
+        hidden={categoryClass === 'poetry' || enterIndex === true
+            ? false
+            : true}
         lang={lang}
         dataPoetry={poetries}
-        isOnPoetryPage={categoryClass === 'poetry' ? true : false}    
+        isOnPoetryPage={categoryClass === 'poetry' ? true : false}
         transition:name='poetrylist'
         transition:persist
         client:only='react'
@@ -104,7 +108,7 @@ export const prerender = true;
 
 <PaintingsList
     targetHref={currentPath}
-    hidden={categoryClass === 'painting'|| enterIndex === true ? false : true}
+    hidden={categoryClass === 'painting' || enterIndex === true ? false : true}
     lang={lang}
     dataPaintings={paintings}
     isOnPaintingPage={categoryClass === 'painting' ? true : false}

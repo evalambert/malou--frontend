@@ -6,7 +6,6 @@ import { textWhite } from '../../lib/store.js';
 
 import VitrailTitle from '../../components/title/VitrailTitle.jsx';
 
-
 const VitrailList = ({
     dataVitrails,
     isOnVitrailPage,
@@ -14,7 +13,7 @@ const VitrailList = ({
     hidden,
     lang,
     className,
-    animateIn
+    animateIn,
 }) => {
     const isTextWhite = useStore(textWhite);
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
@@ -35,7 +34,9 @@ const VitrailList = ({
                 if (title.getAttribute('href') === targetHref) {
                     title.parentElement.classList.add('active');
 
-                    const wordWrappers = title.querySelectorAll('.volume-word-wrapper > div');
+                    const wordWrappers = title.querySelectorAll(
+                        '.volume-word-wrapper > div'
+                    );
 
                     wordWrappers.forEach((wrapper, wrapperIndex) => {
                         const wordWrapperSpan =
@@ -43,24 +44,28 @@ const VitrailList = ({
                         const wordWrapSpanLength = wordWrapperSpan.length;
 
                         wrapper.style.transition = 'height 0.5s ease-in-out';
-                        wrapper.style.transitionDelay = `${wrapperIndex * 0.3
-                            }s`;
+                        wrapper.style.transitionDelay = `${
+                            wrapperIndex * 0.3
+                        }s`;
                         wrapper.style.height = `${wordWrapSpanLength * 25}px`;
 
                         const firstSpan = wordWrapperSpan[0];
                         const firstWidth = firstSpan.offsetWidth;
 
-                        wrapper.parentElement.style.width = `${firstWidth * wordWrapSpanLength + 10
-                            }px`;
+                        wrapper.parentElement.style.width = `${
+                            firstWidth * wordWrapSpanLength + 10
+                        }px`;
 
                         wordWrapperSpan.forEach((span, index) => {
                             span.style.width = `${firstWidth}px`;
                             span.style.transition =
                                 'transform 0.5s ease-in-out';
-                            span.style.transitionDelay = `${wrapperIndex * 0.3
-                                }s`;
-                            span.style.transform = `translate(-${index * firstWidth
-                                }px, ${index * 25}px)`;
+                            span.style.transitionDelay = `${
+                                wrapperIndex * 0.3
+                            }s`;
+                            span.style.transform = `translate(-${
+                                index * firstWidth
+                            }px, ${index * 25}px)`;
                         });
                     });
                 } else {
@@ -74,15 +79,17 @@ const VitrailList = ({
 
                         // Animation inverse
                         wrapper.style.transition = 'height 0.5s ease-in-out';
-                        wrapper.style.transitionDelay = `${wrapperIndex * 0.3
-                            }s`;
+                        wrapper.style.transitionDelay = `${
+                            wrapperIndex * 0.3
+                        }s`;
                         wrapper.style.height = '0px';
 
                         wordWrapperSpan.forEach((span) => {
                             span.style.transition =
                                 'transform 0.5s ease-in-out';
-                            span.style.transitionDelay = `${wrapperIndex * 0.3
-                                }s`;
+                            span.style.transitionDelay = `${
+                                wrapperIndex * 0.3
+                            }s`;
                             span.style.transform = 'translate(0, 0)';
                         });
 
@@ -121,35 +128,40 @@ const VitrailList = ({
                 }
             `}
             </style>
-            <div className={`work-list ${className} ${isTextWhite ? '' : 'text-black'}`}>
-                
+            <div
+                className={`work-list ${className} ${
+                    isTextWhite ? '' : 'text-black'
+                }`}
+            >
                 <div
                     className={`pt-list-p-top flex flex-col items-end 
-                    ${!isOnVitrailPage ? 'cursor-pointer' : ''
-                        } `}
+                    ${!isOnVitrailPage ? 'cursor-pointer' : ''} `}
                     onClick={
                         !isOnVitrailPage
                             ? () =>
-                                navigate(`/${lang}/vitrail/`, {
-                                    history: 'push',
-                                })
+                                  navigate(`/${lang}/vitrail/`, {
+                                      history: 'push',
+                                  })
                             : undefined
                     }
                 >
                     <div
-                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out  ${!isOnVitrailPage ? 'pointer-events-none' : ''
-                            } ${!hidden ? '' : 'translate-y-[-50vh]'}`}
-                        style={isOnVitrailPage
-                            ? { transform: `translateY(0px)` }
-                            : {
-                                transform: `translateY(-${hiddenListHeightVitrail}px)`,
-                                // animation: animateIn ? 'vitrailEnter 1s ease forwards' : 'none'
-                            }
+                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out  ${
+                            !isOnVitrailPage ? 'pointer-events-none' : ''
+                        } ${!hidden ? '' : 'translate-y-[-50vh]'}`}
+                        style={
+                            isOnVitrailPage
+                                ? { transform: `translateY(0px)` }
+                                : {
+                                      transform: `translateY(-${hiddenListHeightVitrail}px)`,
+                                      // animation: animateIn ? 'vitrailEnter 1s ease forwards' : 'none'
+                                  }
                         }
                     >
                         <div
-                            className={`hidden-list-vitrail transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? 'opacity-100' : 'opacity-0'
-                                } `}
+                            className={`hidden-list-vitrail transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${
+                                isOnVitrailPage ? 'opacity-100' : 'opacity-0'
+                            } `}
                         >
                             {/* Liste Hidden */}
 
@@ -176,12 +188,14 @@ const VitrailList = ({
                                     className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-300'
                                     key={vitrail.id}
                                 >
-                                    <VitrailTitle vitrail={vitrail} lang={lang} />
+                                    <VitrailTitle
+                                        vitrail={vitrail}
+                                        lang={lang}
+                                    />
                                 </li>
                             ))}
                         </ul>
                         {/* (END) Liste Homepage */}
-
                     </div>
                 </div>
             </div>

@@ -1,17 +1,17 @@
 // src/components/WrapperHeight.jsx
-import { useStore } from "@nanostores/react";
-import { activeComponent, heightAbout, heightActu } from "../lib/store.js";
+import { useStore } from '@nanostores/react';
+import { activeComponent, heightAbout, heightActu } from '../lib/store.js';
 
 export default function WrapperHeight() {
-  const active = useStore(activeComponent);
-  const aboutHeight = useStore(heightAbout);
-  const actuHeight = useStore(heightActu);
+    const active = useStore(activeComponent);
+    const aboutHeight = useStore(heightAbout);
+    const actuHeight = useStore(heightActu);
 
-  const computedHeight = active === "about" ? aboutHeight : actuHeight;
+    const computedHeight = active === 'about' ? aboutHeight : actuHeight;
 
-  return (
-    <style>
-      {`
+    return (
+        <style>
+            {`
         @media (max-width: 768px) {
           .wrapper-about-actus {
             height: ${computedHeight}px;
@@ -19,6 +19,6 @@ export default function WrapperHeight() {
           }
         }
       `}
-    </style>
-  );
+        </style>
+    );
 }

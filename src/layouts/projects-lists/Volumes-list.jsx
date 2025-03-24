@@ -76,7 +76,7 @@ const VolumesList = ({
                 onClick={
                     !isOnVolumePage
                         ? () =>
-                                navigate(`/${lang}/volume/`, {
+                              navigate(`/${lang}/volume/`, {
                                   history: 'push',
                               })
                         : undefined

@@ -1,8 +1,8 @@
 // Import Swiper React components
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from 'react';
 
-import { useStore } from "@nanostores/react";
-import { textWhite, toggleTextColor, toggleToWhite } from "../../lib/store.js";
+import { useStore } from '@nanostores/react';
+import { textWhite, toggleTextColor, toggleToWhite } from '../../lib/store.js';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Keyboard, Navigation, Pagination } from 'swiper/modules';
@@ -39,21 +39,29 @@ export default function Slider({ medias = [] }) {
             const swiper = swiperRef.current.swiper;
 
             const isLastSlide = swiper.activeIndex === swiper.slides.length - 2;
-            const wasLastSlide = swiper.previousIndex === swiper.slides.length - 2;
+            const wasLastSlide =
+                swiper.previousIndex === swiper.slides.length - 2;
 
             if (isLastSlide || wasLastSlide) {
-                document.querySelector('.modaleToogle').classList.toggle('hidden');
-                document.querySelector('.modaleToogle').classList.toggle('pointer-events-none');
-
+                document
+                    .querySelector('.modaleToogle')
+                    .classList.toggle('hidden');
+                document
+                    .querySelector('.modaleToogle')
+                    .classList.toggle('pointer-events-none');
             }
         }
     };
 
     const handleClick = () => {
         toggleTextColor();
-        document.querySelector('.modaleToogle').classList.toggle('modaleToogle-active');
-        document.querySelector('.swiper-pagination').classList.toggle('pagination-hidden');
-        setIsHidden(prevState => !prevState);
+        document
+            .querySelector('.modaleToogle')
+            .classList.toggle('modaleToogle-active');
+        document
+            .querySelector('.swiper-pagination')
+            .classList.toggle('pagination-hidden');
+        setIsHidden((prevState) => !prevState);
     };
 
     useEffect(() => {
@@ -75,9 +83,9 @@ export default function Slider({ medias = [] }) {
         const img = new Image();
         img.onload = () => {
             const isLandscape = img.width > img.height;
-            setImageDimensions(prev => ({
+            setImageDimensions((prev) => ({
                 ...prev,
-                [index]: { isLandscape }
+                [index]: { isLandscape },
             }));
         };
         img.src = url;
@@ -88,8 +96,6 @@ export default function Slider({ medias = [] }) {
             checkImageOrientation(media.url, index);
         });
     }, [medias]);
-
-
 
     return (
         <>
@@ -128,7 +134,7 @@ export default function Slider({ medias = [] }) {
                 }
             `}
             </style>
-            <div className={`${show ? "opacity-100" : "opacity-0"}`}>
+            <div className={`${show ? 'opacity-100' : 'opacity-0'}`}>
                 <Swiper
                     ref={swiperRef}
                     slidesPerView={'auto'}
@@ -142,44 +148,63 @@ export default function Slider({ medias = [] }) {
                     modules={[Keyboard, Navigation, Pagination]}
                     onSlideChange={handleSlideChange}
                 >
-                    {medias.map((media, index) => (
+                    {medias.map((media, index) =>
                         imageDimensions[index]?.isLandscape ? (
                             // Affiche 2 slides pour les images en paysage
-                            <React.Fragment key={`landscape-container-${index}`}>
+                            <React.Fragment
+                                key={`landscape-container-${index}`}
+                            >
                                 <SwiperSlide
                                     key={`landscape-${index}`}
-                                    className="landscape !overflow-visible"
+                                    className='landscape !overflow-visible'
                                 >
-                                    <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
-                                    <div className="h-full w-[200%]">
-                                        <img src={media.url} loading="lazy" />
+                                    <div
+                                        className={`${
+                                            isTextWhite
+                                                ? 'text-white'
+                                                : 'text-black'
+                                        }`}
+                                    ></div>
+                                    <div className='h-full w-[200%]'>
+                                        <img src={media.url} loading='lazy' />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide
                                     key={`landscape-${index}-bis`}
-                                    className="landscape"
+                                    className='landscape'
                                 >
-                                    <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
+                                    <div
+                                        className={`${
+                                            isTextWhite
+                                                ? 'text-white'
+                                                : 'text-black'
+                                        }`}
+                                    ></div>
                                 </SwiperSlide>
                             </React.Fragment>
                         ) : (
                             // Affiche 1 slide pour les images en portrait
                             <SwiperSlide
                                 key={`portrait-${index}`}
-                                className="portrait"
+                                className='portrait'
                             >
-                                <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
-                                <img src={media.url} loading="lazy" />
+                                <div
+                                    className={`${
+                                        isTextWhite
+                                            ? 'text-white'
+                                            : 'text-black'
+                                    }`}
+                                ></div>
+                                <img src={media.url} loading='lazy' />
                             </SwiperSlide>
                         )
-                    ))}
+                    )}
                 </Swiper>
-                <button className="modaleToogle h-full w-full md:w-[50%] fixed top-0 right-0 z-10 hidden pointer-events-none">
+                <button className='modaleToogle h-full w-full md:w-[50%] fixed top-0 right-0 z-10 hidden pointer-events-none'>
                     <span>close</span>
                 </button>
                 <ZoomModale medias={medias} hidden={isHidden} />
             </div>
         </>
-
     );
-};
+}

@@ -29,7 +29,11 @@ const actus = await fetchApi({
 export const prerender = true;
 ---
 
-<Layout title='About' showReturn returnTo=''>
+<Layout
+    title={lang === 'fr' ? 'malou raulin ?' : 'malou raulin ?'}
+    showReturn
+    returnTo=''
+>
     <main>
         <Nav
             className='md:fixed md:top-0 md:left-[15px] rounded-[4px] z-[999]'
