@@ -6,10 +6,10 @@ import {
   toggleComponent,
   heightActu,
   heightAbout,
-} from "../lib/store.js";
-import EventItem from "../components/EventItem.jsx";
-import useEventManager from "../hooks/useEventManager.js";
-import useDateFormatter from "../hooks/useDateFormatter.js";
+} from "../../lib/store.js";
+import EventItem from "./EventItem.jsx";
+import useEventManager from "../../hooks/useEventManager.js";
+import useDateFormatter from "../../hooks/useDateFormatter.js";
 
 export default function ActuComponent({ actus, lang }) {
   const active = useStore(activeComponent); // On récupère l'état global

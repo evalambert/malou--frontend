@@ -2,11 +2,11 @@
 import React, { useRef, useState, useEffect } from "react";
 
 import { useStore } from "@nanostores/react";
-import { textWhite, toggleTextColor, toggleToWhite } from "../../lib/store.js";
+import { textWhite, toggleTextColor, toggleToWhite } from "../../../lib/store.js";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Keyboard, Navigation, Pagination } from 'swiper/modules';
-import ZoomableImg from '../Zoomable-img';
+import ZoomableImg from './ZoomableImg.jsx';
 import ZoomModale from './ZoomModale';
 
 // Import Swiper styles
@@ -126,6 +126,8 @@ export default function Slider({ medias = [] }) {
                     width: 100%;
                     object-fit: cover;
                 }
+
+
             `}
             </style>
             <div className={`${show ? "opacity-100" : "opacity-0"}`}>

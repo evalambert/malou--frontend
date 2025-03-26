@@ -4,7 +4,7 @@ import { navigate } from 'astro:transitions/client';
 import { useStore } from '@nanostores/react';
 import { textWhite } from '../../lib/store.js';
 
-import VitrailTitle from '../../components/title/VitrailTitle.jsx';
+import VitrailTitle from '../../components/common/title/VitrailTitle.jsx';
 
 
 const VitrailList = ({
@@ -124,7 +124,7 @@ const VitrailList = ({
             <div className={`work-list ${className} ${isTextWhite ? '' : 'text-black'}`}>
                 
                 <div
-                    className={`pt-list-p-top flex flex-col items-end 
+                    className={`pt-body-p-y flex flex-col items-end 
                     ${!isOnVitrailPage ? 'cursor-pointer' : ''
                         } `}
                     onClick={

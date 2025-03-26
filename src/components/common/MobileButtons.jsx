@@ -1,5 +1,5 @@
 import { useStore } from "@nanostores/react";
-import { activeComponent, toggleComponent } from "../lib/store.js";
+import { activeComponent, toggleComponent } from "../../lib/store.js";
 
 export default function MobileButtons({ lang }) {
   const active = useStore(activeComponent);

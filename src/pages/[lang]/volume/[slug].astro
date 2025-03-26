@@ -4,10 +4,10 @@
 import fetchApi from '../../../lib/strapi';
 
 import Layout from '../../../layouts/Layout.astro';
-import VolumesList from '../../../layouts/projects-lists/Volumes-list.jsx';
+import VolumesList from '../../../layouts/projects-lists/VolumesList.jsx';
 import Nav from '../../../layouts/Nav.jsx';
-import Slider from '../../../components/slider/Slider.jsx';
-import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
+import Slider from '../../../components/features/slider/Slider.jsx';
+import AccordionReadProject from '../../../components/features/accordion-project/AccordionReadProject.jsx';
 
 export async function getStaticPaths() {
     const languages = ['fr', 'en'];

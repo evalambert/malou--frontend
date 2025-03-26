@@ -3,10 +3,10 @@
 import fetchApi from '../../lib/strapi';
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../layouts/Nav.jsx';
-import AboutComponent from '../../layouts/AboutComponent.jsx';
-import ActuComponent from '../../layouts/ActuComponent.jsx';
-import MobileButtons from '../../components/MobileButtons.jsx';
-import WrapperHeight from '../../components/WrapperHeight.jsx';
+import AboutComponent from '../../layouts/about-page/AboutComponent.jsx';
+import ActuComponent from '../../layouts/about-page/ActuComponent.jsx';
+import MobileButtons from '../../components/common/MobileButtons.jsx';
+import WrapperHeight from '../../components/features/accordion-project/WrapperHeight.jsx';
 
 export async function getStaticPaths() {
     return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];

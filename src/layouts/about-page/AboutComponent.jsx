@@ -6,7 +6,7 @@ import {
     toggleComponent,
     heightAbout,
     heightActu,
-} from '../lib/store.js';
+} from '../../lib/store.js';
 
 export default function AboutComponent({ about, lang }) {
     const active = useStore(activeComponent);

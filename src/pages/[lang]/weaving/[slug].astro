@@ -5,9 +5,9 @@ import fetchApi from '../../../lib/strapi';
 
 import Layout from '../../../layouts/Layout.astro';
 import Nav from '../../../layouts/Nav.jsx';
-import WeavingList from '../../../layouts/projects-lists/Weaving-list.jsx';
-import Slider from '../../../components/slider/Slider.jsx';
-import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
+import WeavingList from '../../../layouts/projects-lists/WeavingList.jsx';
+import Slider from '../../../components/features/slider/Slider.jsx';
+import AccordionReadProject from '../../../components/features/accordion-project/AccordionReadProject.jsx';
 export async function getStaticPaths() {
     const languages = ['fr', 'en'];
     const paths = [];

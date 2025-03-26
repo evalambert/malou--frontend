@@ -2,11 +2,11 @@
 //pages/[lang]/painting/[slug].astro
 
 import fetchApi from '../../../lib/strapi';
-import AccordionReadProject from '../../../components/AccordionReadProject.jsx';
+import AccordionReadProject from '../../../components/features/accordion-project/AccordionReadProject.jsx';
 import Layout from '../../../layouts/Layout.astro';
 import Nav from '../../../layouts/Nav.jsx';
-import PaintingsList from '../../../layouts/projects-lists/Paintings-list.jsx';
-import Slider from '../../../components/slider/Slider.jsx';
+import PaintingsList from '../../../layouts/projects-lists/PaintingsList.jsx';
+import Slider from '../../../components/features/slider/Slider.jsx';
 
 export async function getStaticPaths() {
     const languages = ['fr', 'en'];

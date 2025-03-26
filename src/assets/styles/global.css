@@ -32,8 +32,8 @@
     --leading-base: 25px;
     --spacing-main-x: 15px;
     --spacing-main-x-mobile: 15px;
-    /* ! change value in Paintings-list.jsx */
-    --spacing-list-p-top: 6px;
+    /* ! change value in PaintingsList.jsx */
+    --spacing-body-p-y: 6px;
     --spacing-header-height: 100px;
 }
 
@@ -46,7 +46,7 @@
 }
 
 body {
-    @apply overflow-hidden w-screen md:h-screen bg-white;
+    @apply w-screen md:h-screen overflow-hidden bg-white;
 }
 
 body[data-page='about'] {
@@ -244,65 +244,3 @@ body.on-slug-page .work-list li > div:not(.active) {
     opacity: 0;
 }
 
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-/* Preview Image Animation*/
-
-
-.dynamic-image--wrapper {
-    @apply ease-in-out bg-[red];
-    width: 350px;
-    height: 300px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: -1 !important;
-    transform: translate(-50%, -50%);
-}
-
-@keyframes enterZoom {
-    0% {
-        width: 350px;
-        height: 300px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1 !important;
-    }
-
-    80% {
-        width: 100vw;
-        height: 100vh;
-        aspect-ratio: unset;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1 !important;
-    }
-
-    100% {
-        width: 100vw;
-        height: 100vh;
-        aspect-ratio: unset;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1 !important;
-    }
-}
-
-
-/* .main-element {
-	position: fixed;
-	view-transition-name: mainElement;
-}
-::view-transition-group(mainElement) {
-	z-index: 999;
-}
-.dynamic-image--wrapper {
-	position: fixed;
-	view-transition-name: previewimgtransition;
-}
-::view-transition-group(previewimgtransition) {
-	z-index: -1;
-} */

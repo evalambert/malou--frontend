@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { navigate } from 'astro:transitions/client';
-import VolumeTitle from '../../components/title/VolumeTitle.jsx';
+import VolumeTitle from '../../components/common/title/VolumeTitle.jsx';
 
 const VolumesList = ({
     dataVolumes,
@@ -70,7 +70,7 @@ const VolumesList = ({
     return (
         <>
             <div
-                className={`work-list pt-list-p-top transition-all duration-1000 ease-in-out ${className} ${
+                className={`work-list pt-body-p-y transition-all duration-1000 ease-in-out ${className} ${
                     !isOnVolumePage ? 'cursor-pointer' : ''
                 } ${!hidden ? '' : 'translate-y-[-50vh]'}`}
                 onClick={

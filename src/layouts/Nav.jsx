@@ -2,7 +2,7 @@ import { useStore } from '@nanostores/react';
 import { textWhite } from '../lib/store.js';
 
 const Nav = ({ lang, currentPath, className }) => {
-    const isTextWhite = useStore(textWhite);
+     const isTextWhite = useStore(textWhite);
 
     const isHomePage =
         currentPath === `/${lang}` || currentPath === `/${lang}/`;
@@ -20,18 +20,19 @@ const Nav = ({ lang, currentPath, className }) => {
         destination = `/${lang}/about/`;
     } else if (isAboutPage) {
         destination = `/${lang}/`;
-        
+
     }
 
     // Render
     return (
         <>
             <div
-                className={`nav-wrapper ${className} flex gap-[10px] pt-[6px] ${
-                    isTextWhite ? 'text-white' : 'text-black'
-                }`}
+                className={`nav-wrapper ${className} flex gap-[10px] pt-body-p-y }`}
+            // className={`nav-wrapper ${className} flex gap-[10px] pt-body-p-y ${
+            //     isTextWhite ? 'text-white' : 'text-black'
+            // }`}
             >
-                <a href={destination}>malou raulin</a>
+                <a href={destination} className="whitespace-nowrap">malou raulin</a>
                 <nav>
                     <ul className='flex flex-col'>
                         <li className={getLinkClass(`/${lang}/weaving/`)}>

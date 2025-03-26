@@ -7,7 +7,7 @@ const VitrailTitle = ({ vitrail, lang }) => {
     // Fonction pour gérer le survol et changer l'image
     const handleMouseEnter = (imageUrl) => {
         const imageElement = document.querySelector('.dynamic-image');
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        const wrapperElement = document.querySelector('.preview-image--wrapper');
         if (imageElement) {
             imageElement.src = imageUrl;
         }
@@ -17,7 +17,7 @@ const VitrailTitle = ({ vitrail, lang }) => {
     };
 
     const handleMouseLeave = () => {
-        const wrapperElement = document.querySelector('.dynamic-image--wrapper');
+        const wrapperElement = document.querySelector('.preview-image--wrapper');
         if (wrapperElement) {
             wrapperElement.style.opacity = '0';
         }

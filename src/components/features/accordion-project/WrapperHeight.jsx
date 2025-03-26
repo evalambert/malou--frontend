@@ -1,6 +1,6 @@
 // src/components/WrapperHeight.jsx
 import { useStore } from "@nanostores/react";
-import { activeComponent, heightAbout, heightActu } from "../lib/store.js";
+import { activeComponent, heightAbout, heightActu } from "../../../lib/store.js";
 
 export default function WrapperHeight() {
   const active = useStore(activeComponent);
