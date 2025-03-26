@@ -1,7 +1,7 @@
 // src/components/AccordionReadProject.jsx
 
 import { useState, useRef, useEffect } from 'react';
-import '../assets/styles/triangleShapeText.css';
+import '../../../assets/styles/triangleShapeText.css';
 
 export default function AccordionReadProject({
     description,

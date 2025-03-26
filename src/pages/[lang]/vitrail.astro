@@ -3,7 +3,7 @@
 
 import Layout from '../../layouts/Layout.astro';
 import AllProjectsLists from '../../layouts/AllProjectsLists.astro';
-import PreviewImg from '../../components/PreviewImg.jsx';
+import PreviewImg from '../../components/features/preview-image/PreviewImg.jsx';
 
 export async function getStaticPaths() {
     return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];

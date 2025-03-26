@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { navigate } from 'astro:transitions/client';
-import VolumeTitle from '../../components/title/VolumeTitle.jsx';
+import VolumeTitle from '../../components/common/title/VolumeTitle.jsx';
 
 const VolumesList = ({
     dataVolumes,

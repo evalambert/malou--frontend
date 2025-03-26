@@ -6,7 +6,7 @@ import { textWhite, toggleTextColor, toggleToWhite } from "../../lib/store.js";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Zoom, Keyboard } from 'swiper/modules';
-import ZoomableImg from '../Zoomable-img';
+import ZoomableImg from '../ZoomableImg';
 
 // Import Swiper styles
 import 'swiper/css';

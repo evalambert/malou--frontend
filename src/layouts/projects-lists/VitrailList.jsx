@@ -4,7 +4,7 @@ import { navigate } from 'astro:transitions/client';
 import { useStore } from '@nanostores/react';
 import { textWhite } from '../../lib/store.js';
 
-import VitrailTitle from '../../components/title/VitrailTitle.jsx';
+import VitrailTitle from '../../components/common/title/VitrailTitle.jsx';
 
 
 const VitrailList = ({

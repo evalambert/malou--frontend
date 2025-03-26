@@ -2,8 +2,8 @@
 // src/layouts/Layout.astro
 import '../assets/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import ButtonReturn from '../components/ButtonReturn.astro';
-import LanguageSwitch from '../components/LanguageSwitch.jsx';
+import ButtonReturn from '../components/common/ButtonReturn.astro';
+import LanguageSwitch from '../components/common/LanguageSwitch.jsx';
 
 const { title, showReturn = false, returnTo = '' } = Astro.props;
 const currentLocale = Astro.currentLocale || 'fr';
@@ -47,7 +47,7 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
                 currentPath={currentPath}
             />
         </div>
-        {showReturn && <ButtonReturn to={returnTo} />} -->
+        {showReturn && <ButtonReturn to={returnTo} />}  -->
         <slot />
     </body></html
 >

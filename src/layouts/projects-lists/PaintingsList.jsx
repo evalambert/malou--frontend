@@ -1,4 +1,4 @@
-//src/layouts/projects-lists/Paintings-list.jsx
+//src/layouts/projects-lists/PaintingsList.jsx
 
 import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
@@ -6,7 +6,7 @@ import { navigate } from 'astro:transitions/client';
 import { useStore } from '@nanostores/react';
 import { textWhite } from '../../lib/store.js';
 
-import PaintingTitle from '../../components/title/PaintingTitle.jsx';
+import PaintingTitle from '../../components/common/title/PaintingTitle.jsx';
 
 const PaintingsList = ({
     dataPaintings,

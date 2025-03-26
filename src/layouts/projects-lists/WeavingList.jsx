@@ -4,7 +4,7 @@ import { navigate } from 'astro:transitions/client';
 import { useStore } from '@nanostores/react';
 import { textWhite } from '../../lib/store.js';
 
-import WeavingTitle from "../../components/title/WeavingTitle.jsx";
+import WeavingTitle from "../../components/common/title/WeavingTitle.jsx";
 
 const WeavingList = ({
     dataWeaving,
