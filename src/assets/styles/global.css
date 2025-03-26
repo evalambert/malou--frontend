@@ -16,7 +16,8 @@
 
 @font-face {
     font-family: 'BradfordLL-Bold';
-    src: url('../../../fonts/BradfordLL-Bold.woff2') format('woff2'),
+    src:
+        url('../../../fonts/BradfordLL-Bold.woff2') format('woff2'),
         url('../../../fonts/BradfordLL-Bold.woff') format('woff');
     font-weight: 700;
     font-style: normal;
@@ -46,17 +47,21 @@
 }
 
 body {
-    @apply w-screen md:h-screen overflow-hidden bg-white;
+    @apply w-screen overflow-hidden bg-white text-white md:h-screen;
 }
 
 body[data-page='about'] {
-    @apply overflow-visible ;
+    @apply overflow-visible;
 }
 
 @media (max-width: 768px) {
     body.on-slug-page {
         overflow: visible;
     }
+}
+
+body:not(.text-white) .mix-blend-target {
+    mix-blend-mode: difference;
 }
 
 li {
@@ -152,11 +157,11 @@ li {
 }
 
 .swiper-button-prev {
-    @apply max-md:hidden !h-full !w-full md:!w-[50%] !left-0 !top-[20px];
+    @apply !top-[20px] !left-0 !h-full !w-full max-md:hidden md:!w-[50%];
 }
 
 .swiper-button-next {
-    @apply max-md:hidden !h-full !w-full md:!w-[50%] !right-0 !top-[20px];
+    @apply !top-[20px] !right-0 !h-full !w-full max-md:hidden md:!w-[50%];
 }
 
 .swiper-pagination {
@@ -165,7 +170,7 @@ li {
 }
 
 .swiper-pagination.pagination-hidden {
-    @apply opacity-0 pointer-events-none;
+    @apply pointer-events-none opacity-0;
 }
 
 body:not(.category-vitrail) .swiper-pagination {
@@ -175,29 +180,22 @@ body:not(.category-vitrail) .swiper-pagination {
 }
 
 .modaleToogle span {
-    @apply opacity-0 pointer-events-none transition-all duration-300 ease-in-out;
+    @apply pointer-events-none opacity-0 transition-all duration-300 ease-in-out;
 }
 
 .modaleToogle-active {
-    @apply w-fit h-fit top-[10px] right-[10px] md:right-auto md:left-1/2 md:-translate-x-1/2 z-50;
+    @apply top-[10px] right-[10px] z-50 h-fit w-fit md:right-auto md:left-1/2 md:-translate-x-1/2;
 }
 
 .modaleToogle-active span {
-    @apply opacity-100 pointer-events-auto;
+    @apply pointer-events-auto opacity-100;
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Lists */
-.volume-list-compact>li:nth-child(odd) {
+.volume-list-compact > li:nth-child(odd) {
     @apply pt-[25px];
 }
-
-
-
-
-
-
-
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Titles */
@@ -211,7 +209,7 @@ body:not(.category-vitrail) .swiper-pagination {
 }
 
 .painting-title.active a span {
-    @apply min-w-[13px] flex items-center justify-center;
+    @apply flex min-w-[13px] items-center justify-center;
 }
 
 .painting-title {
@@ -243,4 +241,3 @@ body:not(.category-vitrail) .swiper-pagination {
 body.on-slug-page .work-list li > div:not(.active) {
     opacity: 0;
 }
-
