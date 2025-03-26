@@ -10,12 +10,21 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 
 export const prerender = true;
+
+export const enterTarget = true;
 ---
 
 <!-- // Trouver un moyen de twixer la valeur de enterIndex -->
 
 <Layout title={lang === "fr" ? "Accueil" : "Home"}>
   <main>
-    <AllProjectsLists lang={lang} enterIndex={true}/>
+    <AllProjectsLists lang={lang} enterIndex={enterTarget}/>
   </main>
 </Layout>
+<script define:vars={{ enterTarget }}>
+  document.addEventListener("astro:page-load", () => {
+    const enterTarget = false;
+    console.log('Enter Target:', enterTarget);
+    return enterTarget;
+  });
+</script>

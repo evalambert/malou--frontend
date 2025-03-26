@@ -1,8 +1,6 @@
 // Import Swiper React components
 import React, { useRef, useState, useEffect } from "react";
 
-import { useStore } from "@nanostores/react";
-import { textWhite, toggleTextColor, toggleToWhite } from "../../../lib/store.js";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Zoom, Keyboard } from 'swiper/modules';
@@ -13,13 +11,6 @@ import 'swiper/css';
 
 const ZoomModale = ({ medias = [], hidden }) => {
     const swiperRef = useRef(null);
-    // Utilisez useStore pour obtenir la valeur réactive de textWhite
-    const isTextWhite = useStore(textWhite);
-
-    useEffect(() => {
-        toggleToWhite();
-    }, []);
-
 
 
 
@@ -83,7 +74,6 @@ const ZoomModale = ({ medias = [], hidden }) => {
                         className="zoom-modale-slide"
                         key={`100`}
                     >
-                        <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
                         <ZoomableImg url="https://res.cloudinary.com/dbfkv6zgf/image/upload/v1740734269/Capture_d_ecran_2025_02_28_a_09_52_13_f84f659d56.png" />
                     </SwiperSlide>
 

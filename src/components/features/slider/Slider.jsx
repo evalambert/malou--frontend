@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 
 import { useStore } from "@nanostores/react";
-import { textWhite, toggleTextColor, toggleToWhite } from "../../../lib/store.js";
+
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Keyboard, Navigation, Pagination } from 'swiper/modules';
@@ -27,12 +27,7 @@ export default function Slider({ medias = [] }) {
 
         return () => clearTimeout(timeout);
     }, []);
-    // Colors
-    const isTextWhite = useStore(textWhite);
 
-    useEffect(() => {
-        toggleToWhite();
-    }, []);
 
     const handleSlideChange = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
@@ -44,15 +39,18 @@ export default function Slider({ medias = [] }) {
             if (isLastSlide || wasLastSlide) {
                 document.querySelector('.modaleToogle').classList.toggle('hidden');
                 document.querySelector('.modaleToogle').classList.toggle('pointer-events-none');
-
             }
         }
     };
 
     const handleClick = () => {
-        toggleTextColor();
         document.querySelector('.modaleToogle').classList.toggle('modaleToogle-active');
         document.querySelector('.swiper-pagination').classList.toggle('pagination-hidden');
+        if (document.body.classList.contains("text-white")) {
+            document.body.classList.replace("text-white", "text-black");
+        } else {
+            document.body.classList.replace("text-black", "text-white");
+        }
         setIsHidden(prevState => !prevState);
     };
 
@@ -152,7 +150,7 @@ export default function Slider({ medias = [] }) {
                                     key={`landscape-${index}`}
                                     className="landscape !overflow-visible"
                                 >
-                                    <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
+                                   
                                     <div className="h-full w-[200%]">
                                         <img src={media.url} loading="lazy" />
                                     </div>
@@ -161,7 +159,7 @@ export default function Slider({ medias = [] }) {
                                     key={`landscape-${index}-bis`}
                                     className="landscape"
                                 >
-                                    <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
+                                    
                                 </SwiperSlide>
                             </React.Fragment>
                         ) : (
@@ -170,7 +168,7 @@ export default function Slider({ medias = [] }) {
                                 key={`portrait-${index}`}
                                 className="portrait"
                             >
-                                <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
+                                
                                 <img src={media.url} loading="lazy" />
                             </SwiperSlide>
                         )

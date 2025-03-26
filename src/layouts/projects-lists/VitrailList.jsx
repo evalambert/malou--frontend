@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 
-import { useStore } from '@nanostores/react';
-import { textWhite } from '../../lib/store.js';
 
 import VitrailTitle from '../../components/common/title/VitrailTitle.jsx';
 
@@ -16,7 +14,7 @@ const VitrailList = ({
     className,
     animateIn
 }) => {
-    const isTextWhite = useStore(textWhite);
+
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
 
     useEffect(() => {
@@ -121,7 +119,7 @@ const VitrailList = ({
                 }
             `}
             </style>
-            <div className={`work-list ${className} ${isTextWhite ? '' : 'text-black'}`}>
+            <div className={`work-list ${className} `}>
                 
                 <div
                     className={`pt-body-p-y flex flex-col items-end 
