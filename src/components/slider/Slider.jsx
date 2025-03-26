@@ -126,6 +126,8 @@ export default function Slider({ medias = [] }) {
                     width: 100%;
                     object-fit: cover;
                 }
+
+
             `}
             </style>
             <div className={`${show ? "opacity-100" : "opacity-0"}`}>

@@ -124,7 +124,7 @@ const VitrailList = ({
             <div className={`work-list ${className} ${isTextWhite ? '' : 'text-black'}`}>
                 
                 <div
-                    className={`pt-list-p-top flex flex-col items-end 
+                    className={`pt-body-p-y flex flex-col items-end 
                     ${!isOnVitrailPage ? 'cursor-pointer' : ''
                         } `}
                     onClick={

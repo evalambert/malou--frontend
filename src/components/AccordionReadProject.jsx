@@ -76,14 +76,14 @@ export default function AccordionReadProject({
 
     return (
         <div
-            className={`wrapper-position relative z-[999] text-white mix-blend-difference`}
+            className={`accordion-wrapper-position relative z-[999] text-white mix-blend-difference`}
         >
             <div
-                className='wrapper-description w-full absolute right-0 flex flex-col items-center justify-center transition-all duration-500 ease-in-out'
+                className='wrapper-description w-full absolute md:fixed md:z-[999] right-0 flex flex-col items-center justify-center transition-all duration-500 ease-in-out'
                 style={{ top: computedTop }}
             >
                 <button
-                    className='button-description p-[11px]'
+                    className='button-description p-[11px] cursor-pointer'
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {lang === 'fr' ? 'Lire' : 'Read'}
