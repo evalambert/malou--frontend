@@ -76,7 +76,7 @@ export default function AccordionReadProject({
 
     return (
         <div
-            className={`accordion-wrapper-position relative z-[999] text-white mix-blend-difference`}
+            className={`accordion-wrapper-position relative z-[999] mix-blend-target`}
         >
             <div
                 className='wrapper-description w-full absolute md:fixed md:z-[999] right-0 flex flex-col items-center justify-center transition-all duration-500 ease-in-out'
