@@ -1,8 +1,6 @@
 // Import Swiper React components
-import React, { useRef, useState, useEffect  } from "react";
+import React, { useRef, useState  } from "react";
 
-import { useStore } from "@nanostores/react";
-import { textWhite, toggleTextColor, toggleToWhite } from "../../lib/store.js";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Zoom, Keyboard } from 'swiper/modules';
@@ -16,12 +14,9 @@ export default function Slider({ medias = [] }) {
     const swiperRef = useRef(null);
     const [clickTimeout, setClickTimeout] = useState(null);
     const [mouseDownTime, setMouseDownTime] = useState(null);
-    // Utilisez useStore pour obtenir la valeur réactive de textWhite
-    const isTextWhite = useStore(textWhite);
 
-    useEffect(() => {
-        toggleToWhite();
-    }, []);
+
+
 
 
 
@@ -166,7 +161,6 @@ export default function Slider({ medias = [] }) {
                         <SwiperSlide
                             key={index}
                         >
-                            <div className={`${isTextWhite ? 'text-white' : 'text-black'}`}></div>
                             <ZoomableImg url={media.url} />
                         </SwiperSlide>
                     ))}

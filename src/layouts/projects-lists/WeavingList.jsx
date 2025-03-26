@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 
 import { useStore } from '@nanostores/react';
-import { textWhite } from '../../lib/store.js';
+
 
 import WeavingTitle from "../../components/common/title/WeavingTitle.jsx";
 
@@ -15,7 +15,6 @@ const WeavingList = ({
     className,
 }) => {
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
-    const isTextWhite = useStore(textWhite);
 
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
     const [hiddenListWidthWeaving, setHiddenListWidthWeaving] = useState(0);
@@ -80,9 +79,7 @@ const WeavingList = ({
     return (
         <>
             <div
-                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${
-                    isTextWhite ? 'text-white' : 'text-black '
-                } ${className} ${!isOnWeavingPage ? 'cursor-pointer' : ''} ${
+                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${className} ${!isOnWeavingPage ? 'cursor-pointer' : ''} ${
                     !hidden ? '' : 'translate-y-full translate-x-full'
                 }`}
                 onClick={
@@ -95,7 +92,7 @@ const WeavingList = ({
                 }
             >
                 <div
-                    className={`grid auto-cols-auto auto-rows-min transition-all duration-1000 ease-in-out ${
+                    className={`grid transition-all auto-cols-auto auto-rows-min duration-1000 ease-in-out ${
                         !isOnWeavingPage ? 'pointer-events-none' : ''
                     }`}
                     style={{

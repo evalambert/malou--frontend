@@ -61,9 +61,9 @@ export const prerender = true;
             hidden={categoryClass === 'volume' || enterIndex === true
                 ? false
                 : true}
+            isOnVolumePage={categoryClass === 'volume' ? true : false}
             lang={lang}
             dataVolumes={volumes}
-            isOnVolumePage={categoryClass === 'volume' ? true : false}
             transition:name='volumeslist'
             transition:persist
             client:load
