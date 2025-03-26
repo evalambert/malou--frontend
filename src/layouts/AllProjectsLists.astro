@@ -58,10 +58,6 @@ export const prerender = true;
         <VolumesList
             className='relative z-50'
             targetHref={currentPath}
-            hidden={categoryClass === 'volume' || enterIndex === true
-                ? false
-                : true}
-            isOnVolumePage={categoryClass === 'volume' ? true : false}
             lang={lang}
             dataVolumes={volumes}
             transition:name='volumeslist'

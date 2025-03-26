@@ -5,9 +5,7 @@ import VolumeTitle from '../../components/common/title/VolumeTitle.jsx';
 
 const VolumesList = ({
     dataVolumes,
-    isOnVolumePage,
     targetHref,
-    hidden,
     lang,
     className,
 }) => {
@@ -62,9 +60,31 @@ const VolumesList = ({
         };
     }, []);
 
-    const translateY = isOnVolumePage
-        ? accordionOffsetY
-        : -hiddenListHeightVolume;
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // Toogle hidden/compact/full
+    let translateValue = '-50vh';
+    let isOnVolumePage = false;
+    const toggleListDisplay = (url, category, accordionY) => {
+        if (url.includes(category)) {
+            // Full
+            translateValue = accordionY + "px";
+            isOnVolumePage = true;
+        } else if (url.endsWith('/fr/') || url.endsWith('/en/')) {
+            // Compact
+            translateValue = '-' + hiddenListHeightVolume + 'px';
+            isOnVolumePage = false;
+        } else {
+            // Hidden
+            translateValue = '-50vh';
+            isOnVolumePage = false;
+        }
+        return [translateValue, isOnVolumePage];
+    }
+
+    if (typeof window !== 'undefined') {
+        toggleListDisplay(window.location.href, 'volume', accordionOffsetY);
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     // Render
     return (
@@ -72,7 +92,7 @@ const VolumesList = ({
             <div
                 className={`work-list pt-body-p-y transition-all duration-1000 ease-in-out ${className} ${
                     !isOnVolumePage ? 'cursor-pointer' : ''
-                } ${!hidden ? '' : 'translate-y-[-50vh]'}`}
+                }`}
                 onClick={
                     !isOnVolumePage
                         ? () =>
@@ -86,7 +106,7 @@ const VolumesList = ({
                     className={`transition-all duration-500 ease-in-out ${
                         !isOnVolumePage ? 'pointer-events-none' : ''
                     }`}
-                    style={{ transform: `translateY(${translateY}px)` }}
+                    style={{ transform: `translateY(${translateValue})` }}
                 >
                     <div
                         className={`hidden-list-volume overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s]`}
