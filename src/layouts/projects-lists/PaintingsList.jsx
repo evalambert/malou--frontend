@@ -111,28 +111,28 @@ const PaintingsList = ({
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // Toogle hidden/compact/full
-    let translateValue = '100vh';
-    let isOnPaintingPage = false;
+    const [translateValue, setTranslateValue] = useState('100vh');
+    const [isOnPaintingPage, setIsOnPaintingPage] = useState(false);
+   
     const toggleListDisplay = (url, category, accordionY) => {
         if (url.includes(category)) {
-            // Full
-            translateValue = accordionY + "px";
-            isOnPaintingPage = true;
-        } else if (url.endsWith('/fr/') || url.endsWith('/en/')) {
-            // Compact
-            translateValue = hiddenListHeightPainting + 'px';
-            isOnPaintingPage = false;
+            setTranslateValue(accordionY + 'px');
+            setIsOnPaintingPage(true);
+        } else if (url == '/fr/' || url == '/en/') {
+            
+                setTranslateValue(hiddenListHeightPainting + 'px');
+                setIsOnPaintingPage(false);
+            
         } else {
-            // Hidden
-            translateValue = '100vh';
-            isOnPaintingPage = false;
+            setTranslateValue('100vh');
+            setIsOnPaintingPage(false);
         }
-        return [translateValue, isOnPaintingPage];
-    }
+    };
 
-    if (typeof window !== 'undefined') {
-        toggleListDisplay(window.location.href, 'painting', accordionOffsetY);
-    }
+    useEffect(() => {
+        toggleListDisplay(targetHref, 'painting', accordionOffsetY);
+    }, [targetHref, hiddenListHeightPainting, accordionOffsetY]);
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 

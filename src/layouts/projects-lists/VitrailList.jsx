@@ -13,6 +13,7 @@ const VitrailList = ({
 
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
 
+
     useEffect(() => {
         // Afficher la hauteur de la liste cachée
         const hiddenListHeightVitrailValue = document.querySelector(
@@ -101,28 +102,27 @@ const VitrailList = ({
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // Toogle hidden/compact/full
-    let translateValue = '-50vh';
-    let isOnVitrailPage = false;
+    const [translateValue, setTranslateValue] = useState('-50vh');
+    const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
+    
     const toggleListDisplay = (url, category) => {
         if (url.includes(category)) {
-            // Full
-            translateValue = '0px';
-            isOnVitrailPage = true;
-        } else if (url.endsWith('/fr/') || url.endsWith('/en/')) {
-            // Compact
-            translateValue = '-' + hiddenListHeightVitrail + 'px';
-            isOnVitrailPage = false;
+            setTranslateValue('0px');
+            setIsOnVitrailPage(true);
+        } else if (url == '/fr/' || url == '/en/') {
+            
+                setTranslateValue('-' + hiddenListHeightVitrail + 'px');
+                setIsOnVitrailPage(false);
+            
         } else {
-            // Hidden
-            translateValue = '-50vh';
-            isOnVitrailPage = false;
+            setTranslateValue('-50vh');
+            setIsOnVitrailPage(false);
         }
-        return [translateValue, isOnVitrailPage];
-    }
+    };
 
-    if (typeof window !== 'undefined') {
-        toggleListDisplay(window.location.href, 'vitrail');
-    }
+    useEffect(() => {
+        toggleListDisplay(targetHref, 'vitrail');
+    }, [targetHref, hiddenListHeightVitrail]);
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     // * END * Toogle hidden/compact/full

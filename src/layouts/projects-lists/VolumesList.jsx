@@ -62,28 +62,27 @@ const VolumesList = ({
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // Toogle hidden/compact/full
-    let translateValue = '-50vh';
-    let isOnVolumePage = false;
+    const [translateValue, setTranslateValue] = useState('-50vh');
+    const [isOnVolumePage, setIsOnVolumePage] = useState(false);
+   
     const toggleListDisplay = (url, category, accordionY) => {
         if (url.includes(category)) {
-            // Full
-            translateValue = accordionY + "px";
-            isOnVolumePage = true;
-        } else if (url.endsWith('/fr/') || url.endsWith('/en/')) {
-            // Compact
-            translateValue = '-' + hiddenListHeightVolume + 'px';
-            isOnVolumePage = false;
+            setTranslateValue(accordionY + 'px');
+            setIsOnVolumePage(true);
+        } else if (url == '/fr/' || url == '/en/') {
+            
+                setTranslateValue('-' + hiddenListHeightVolume + 'px');
+                setIsOnVolumePage(false);
+            
         } else {
-            // Hidden
-            translateValue = '-50vh';
-            isOnVolumePage = false;
+            setTranslateValue('-50vh');
+            setIsOnVolumePage(false);
         }
-        return [translateValue, isOnVolumePage];
-    }
+    };
 
-    if (typeof window !== 'undefined') {
-        toggleListDisplay(window.location.href, 'volume', accordionOffsetY);
-    }
+    useEffect(() => {
+        toggleListDisplay(targetHref, 'volume', accordionOffsetY);
+    }, [targetHref, hiddenListHeightVolume, accordionOffsetY]);
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     // Render

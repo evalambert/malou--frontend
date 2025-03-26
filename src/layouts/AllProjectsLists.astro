@@ -108,10 +108,8 @@ export const prerender = true;
 <WeavingList
     className='z-50'
     targetHref={currentPath}
-    hidden={categoryClass === 'weaving' || enterIndex === true ? false : true}
     lang={lang}
     dataWeaving={weavings}
-    isOnWeavingPage={categoryClass === 'weaving' ? true : false}
     transition:name='weavinglist'
     transition:persist
     client:load
