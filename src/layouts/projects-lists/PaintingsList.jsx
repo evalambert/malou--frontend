@@ -7,9 +7,7 @@ import PaintingTitle from '../../components/common/title/PaintingTitle.jsx';
 
 const PaintingsList = ({
     dataPaintings,
-    isOnPaintingPage,
     targetHref,
-    hidden,
     lang,
     className,
 }) => {
@@ -110,35 +108,54 @@ const PaintingsList = ({
         };
     }, []);
 
-    // Calcul du décalage vertical final :
-    // - Sur la page painting : utilise le décalage de l'accordéon
-    // - Sur les autres pages : utilise la hauteur de la liste cachée
-    const translateY = isOnPaintingPage
-        ? accordionOffsetY
-        : hiddenListHeightPainting;
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // Toogle hidden/compact/full
+    let translateValue = '100vh';
+    let isOnPaintingPage = false;
+    const toggleListDisplay = (url, category, accordionY) => {
+        if (url.includes(category)) {
+            // Full
+            translateValue = accordionY + "px";
+            isOnPaintingPage = true;
+        } else if (url.endsWith('/fr/') || url.endsWith('/en/')) {
+            // Compact
+            translateValue = hiddenListHeightPainting + 'px';
+            isOnPaintingPage = false;
+        } else {
+            // Hidden
+            translateValue = '100vh';
+            isOnPaintingPage = false;
+        }
+        return [translateValue, isOnPaintingPage];
+    }
+
+    if (typeof window !== 'undefined') {
+        toggleListDisplay(window.location.href, 'painting', accordionOffsetY);
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
 
     // Render
     return (
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list fixed left-[150px] bottom-0 transition-all duration-500 ease-in-out delay-[0.2s] ${className} ${!isOnPaintingPage ? 'cursor-pointer' : ''} ${
-                    !hidden ? '' : 'translate-y-[100vh]'
-                }`}
+                className={`work-list fixed left-[150px] bottom-0 pb-body-p-y transition-all duration-500 ease-in-out delay-[0.2s] ${className} ${!isOnPaintingPage ? 'cursor-pointer' : ''} `}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                              navigate(`/${lang}/painting/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/painting/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
                 <div
-                    className={`transition-all duration-500 ease-in-out ${
-                        !isOnPaintingPage ? 'pointer-events-none' : ''
-                    }`}
-                    style={{ transform: `translateY(${translateY}px)` }}
+                    className={`transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''
+                        }`}
+                    style={{ transform: `translateY(${translateValue})` }}
                 >
                     {/* Liste Homepage */}
                     <ul className='painting-list-compact transition-all duration-500 ease-in-out'>

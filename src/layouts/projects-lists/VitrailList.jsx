@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 
-
 import VitrailTitle from '../../components/common/title/VitrailTitle.jsx';
 
 
 const VitrailList = ({
     dataVitrails,
-    isOnVitrailPage,
     targetHref,
-    hidden,
     lang,
     className,
-    animateIn
 }) => {
 
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
@@ -103,24 +99,41 @@ const VitrailList = ({
         return () => window.removeEventListener('resize', titleLayout);
     }, [dataVitrails]);
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // Toogle hidden/compact/full
+    let translateValue = '-50vh';
+    let isOnVitrailPage = false;
+    const toggleListDisplay = (url, category) => {
+        if (url.includes(category)) {
+            // Full
+            translateValue = '0px';
+            isOnVitrailPage = true;
+        } else if (url.endsWith('/fr/') || url.endsWith('/en/')) {
+            // Compact
+            translateValue = '-' + hiddenListHeightVitrail + 'px';
+            isOnVitrailPage = false;
+        } else {
+            // Hidden
+            translateValue = '-50vh';
+            isOnVitrailPage = false;
+        }
+        return [translateValue, isOnVitrailPage];
+    }
+
+    if (typeof window !== 'undefined') {
+        toggleListDisplay(window.location.href, 'vitrail');
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    // * END * Toogle hidden/compact/full
+
+
+
     // Render
     return (
         <>
-            <style>
-                {`
-                @keyframes vitrailEnter {
-                    0% {
-                        transform: translateY(-50vh);
-                    }
-
-                    100% {
-                        transform: translateY(-${hiddenListHeightVitrail}px;
-                    }
-                }
-            `}
-            </style>
             <div className={`work-list ${className} `}>
-                
+
                 <div
                     className={`pt-body-p-y flex flex-col items-end 
                     ${!isOnVitrailPage ? 'cursor-pointer' : ''
@@ -135,54 +148,47 @@ const VitrailList = ({
                     }
                 >
                     <div
-                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out  ${!isOnVitrailPage ? 'pointer-events-none' : ''
-                            } ${!hidden ? '' : 'translate-y-[-50vh]'}`}
-                        style={isOnVitrailPage
-                            ? { transform: `translateY(0px)` }
-                            : {
-                                transform: `translateY(-${hiddenListHeightVitrail}px)`,
-                                // animation: animateIn ? 'vitrailEnter 1s ease forwards' : 'none'
-                            }
-                        }
+                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out  ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
+                        style={{ transform: `translateY(${translateValue})` }}
                     >
                         <div
-                            className={`hidden-list-vitrail transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? 'opacity-100' : 'opacity-0'
-                                } `}
-                        >
-                            {/* Liste Hidden */}
+                        className={`hidden-list-vitrail transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? 'opacity-100' : 'opacity-0'
+                            } `}
+                    >
+                        {/* Liste Hidden */}
 
-                            <ul className='vitrail-list-compact overflow-visible'>
-                                {dataVitrails.slice(2).map((vitrail) => (
-                                    <li
-                                        className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-100'
-                                        key={vitrail.id}
-                                    >
-                                        <VitrailTitle
-                                            vitrail={vitrail}
-                                            lang={lang}
-                                        />
-                                    </li>
-                                ))}
-                            </ul>
-
-                            {/* (END) Liste Hidden */}
-                        </div>
-                        {/* Liste Homepage */}
-                        <ul className='vitrail-list-compact'>
-                            {dataVitrails.slice(0, 2).map((vitrail) => (
+                        <ul className='vitrail-list-compact overflow-visible'>
+                            {dataVitrails.slice(2).map((vitrail) => (
                                 <li
-                                    className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-300'
+                                    className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-100'
                                     key={vitrail.id}
                                 >
-                                    <VitrailTitle vitrail={vitrail} lang={lang} />
+                                    <VitrailTitle
+                                        vitrail={vitrail}
+                                        lang={lang}
+                                    />
                                 </li>
                             ))}
                         </ul>
-                        {/* (END) Liste Homepage */}
 
+                        {/* (END) Liste Hidden */}
                     </div>
+                    {/* Liste Homepage */}
+                    <ul className='vitrail-list-compact'>
+                        {dataVitrails.slice(0, 2).map((vitrail) => (
+                            <li
+                                className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-300'
+                                key={vitrail.id}
+                            >
+                                <VitrailTitle vitrail={vitrail} lang={lang} />
+                            </li>
+                        ))}
+                    </ul>
+                    {/* (END) Liste Homepage */}
+
                 </div>
             </div>
+        </div >
         </>
     );
 };

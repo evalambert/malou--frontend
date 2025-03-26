@@ -73,13 +73,8 @@ export const prerender = true;
         <VitrailList
             className='relative z-50'
             targetHref={currentPath}
-            hidden={categoryClass === 'vitrail' || enterIndex === true
-                ? false
-                : true}
             lang={lang}
-            animateIn={enterIndex ? true : false}
             dataVitrails={vitraux}
-            isOnVitrailPage={categoryClass === 'vitrail' ? true : false}
             transition:name='vitrailist'
             transition:persist
             client:load
@@ -108,10 +103,8 @@ export const prerender = true;
 <PaintingsList
     className='fixed left-[150px] bottom-0 z-50'
     targetHref={currentPath}
-    hidden={categoryClass === 'painting' || enterIndex === true ? false : true}
     lang={lang}
     dataPaintings={paintings}
-    isOnPaintingPage={categoryClass === 'painting' ? true : false}
     transition:name='paintingslist'
     transition:persist
     client:load
