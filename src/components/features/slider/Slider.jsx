@@ -44,7 +44,6 @@ export default function Slider({ medias = [] }) {
     };
 
     const handleClick = () => {
-        toggleTextColor();
         document.querySelector('.modaleToogle').classList.toggle('modaleToogle-active');
         document.querySelector('.swiper-pagination').classList.toggle('pagination-hidden');
         if (document.body.classList.contains("text-white")) {

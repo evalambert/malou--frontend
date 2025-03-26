@@ -26,9 +26,6 @@ export default function Slider({ medias = [] }) {
             const isLastSlide = swiper.activeIndex === swiper.slides.length - 1;
             const wasLastSlide = swiper.previousIndex === swiper.slides.length - 1;
 
-            if (isLastSlide || wasLastSlide) {
-                toggleTextColor();
-            }
         }
     };
 
