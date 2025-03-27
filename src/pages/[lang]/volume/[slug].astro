@@ -2,12 +2,13 @@
 //pages/[lang]/volume/[slug].astro
 
 import fetchApi from '../../../assets/scripts/lib/strapi.js';
+import { fade } from 'astro:transitions';
 
 import Layout from '../../../layouts/Layout.astro';
-import VolumesList from '../../../layouts/projects-lists/VolumesList.jsx';
-import Nav from '../../../layouts/Nav.jsx';
-import Slider from '../../../components/features/slider/Slider.jsx';
+import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
+import PreviewImg from '../../../components/features/preview-image/PreviewImg.jsx';
 import AccordionReadProject from '../../../components/features/accordion-project/AccordionReadProject.jsx';
+import Slider from '../../../components/features/slider/Slider.jsx';
 
 export async function getStaticPaths() {
     const languages = ['fr', 'en'];
@@ -45,10 +46,7 @@ export async function getStaticPaths() {
 
     return paths;
 }
-const volumes = await fetchApi({
-    endpoint: 'volumes?populate=*',
-    wrappedByKey: 'data',
-});
+
 
 const { volume } = Astro.props;
 const { lang } = Astro.params;
@@ -57,27 +55,9 @@ export const prerender = true;
 ---
 
 <Layout title='Volume' showReturn returnTo={`/volume/`}>
-    <Nav
-        lang={lang}
-        currentPath={Astro.url.pathname}
-        transition:name='nav'
-        transition:persist
-        client:load
-        className='fixed top-0 left-main-x z-50'
-    />
-    <VolumesList
-        targetHref={Astro.url.pathname}
-        hidden={false}
-        lang={lang}
-        dataVolumes={volumes}
-        isOnVolumePage={true}
-        transition:name='volumeslist'
-        transition:persist
-        client:load
-        className='fixed top-0 right-main-x z-50 pointer-events-none'
-    />
+    <AllProjectsLists lang={lang} enterIndex={false} />
 
-    <Slider client:only medias={volume?.medias || []} />
+
     <AccordionReadProject
         lang={lang}
         year={volume?.year || 'Année non disponible'}
@@ -88,4 +68,16 @@ export const prerender = true;
         width={volume?.width || 'Largeur non disponible'}
         height={volume?.height || 'Hauteur non disponible'}
     />
+    <PreviewImg
+        transition:name='preview-image'
+        transition:persist
+        client:only
+    />
+    <div class='fixed top-0 left-0 w-screen h-screen'>
+        <Slider
+            client:only
+            medias={volume?.medias || []}
+            transition:animate={fade({ duration: '0.4s' })}
+        />
+    </div>
 </Layout>
