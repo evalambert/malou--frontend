@@ -3,12 +3,7 @@ import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 import VolumeTitle from '../../components/common/title/VolumeTitle.jsx';
 
-const VolumesList = ({
-    dataVolumes,
-    targetHref,
-    lang,
-    className,
-}) => {
+const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
     const [hiddenListHeightVolume, setHiddenListHeightVolume] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
 
@@ -60,7 +55,7 @@ const VolumesList = ({
         };
     }, []);
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateValue, setTranslateValue] = useState('-50vh');
     const [isOnVolumePage, setIsOnVolumePage] = useState(false);
@@ -75,7 +70,6 @@ const VolumesList = ({
             setTranslateValue('-' + hiddenListHeightVolume + 'px');
             setIsOnIndexPage(true);
             setIsOnVolumePage(false);
-            
         } else {
             setTranslateValue('-50vh');
             setIsOnVolumePage(false);
@@ -86,17 +80,17 @@ const VolumesList = ({
     useEffect(() => {
         toggleListDisplay(targetHref, 'volume', accordionOffsetY);
     }, [targetHref, hiddenListHeightVolume, accordionOffsetY]);
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Render
     return (
         <>
             <div
-                className={`work-list pt-body-p-y transition-all duration-1000 ease-in-out ${className} ${isOnIndexPage ? 'cursor-pointer pointer-events-auto' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
+                className={`work-list pt-body-p-y transition-all duration-1000 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
                 onClick={
                     !isOnVolumePage
                         ? () =>
-                                navigate(`/${lang}/volume/`, {
+                              navigate(`/${lang}/volume/`, {
                                   history: 'push',
                               })
                         : undefined
@@ -107,13 +101,13 @@ const VolumesList = ({
                     style={{ transform: `translateY(${translateValue})` }}
                 >
                     <div
-                        className={`hidden-list-volume overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s]`}
+                        className={`hidden-list-volume overflow-hidden transition-all delay-[0.2s] duration-500 ease-in-out`}
                     >
                         {/* Liste Hidden */}
                         <ul className='volume-list-compact ml-[50px] flex flex-wrap gap-y-[25px] pb-[25px]'>
                             {dataVolumes.slice(3).map((volume) => (
                                 <li
-                                    className='volume-title w-fit block'
+                                    className='volume-title block w-fit'
                                     key={volume.id}
                                 >
                                     <VolumeTitle volume={volume} lang={lang} />

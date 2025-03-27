@@ -31,8 +31,6 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
         });
     }, [dataWeaving]);
 
-
-
     /**
      * Gestion du décalage vertical du titre en fonction de l'accordéon
      */
@@ -123,7 +121,7 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
     return (
         <>
             <div
-                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${className} ${isOnIndexPage ? 'cursor-pointer pointer-events-auto' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
@@ -134,7 +132,7 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
                 }
             >
                 <div
-                    className={`grid transition-all auto-cols-auto auto-rows-min duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''}`}
+                    className={`grid auto-cols-auto auto-rows-min transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''}`}
                     style={{
                         transform: `translate(${translateXValue}, ${translateYValue})`,
                     }}

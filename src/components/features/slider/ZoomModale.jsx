@@ -1,6 +1,5 @@
 // Import Swiper React components
-import React, { useRef, useState, useEffect } from "react";
-
+import React, { useRef, useState, useEffect } from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Zoom, Keyboard } from 'swiper/modules';
@@ -11,9 +10,6 @@ import 'swiper/css';
 
 const ZoomModale = ({ medias = [], hidden }) => {
     const swiperRef = useRef(null);
-
-
-
 
     return (
         <>
@@ -53,14 +49,14 @@ const ZoomModale = ({ medias = [], hidden }) => {
                 }
             `}
             </style>
-            <div className="zoom-modale">
+            <div className='zoom-modale'>
                 <Swiper
                     ref={swiperRef}
                     slidesPerView={'auto'}
                     zoom={{
                         maxRatio: 3,
                         panOnMouseMove: true,
-                        limitToOriginalSize: true
+                        limitToOriginalSize: true,
                     }}
                     // loop={true}
                     keyboard={{
@@ -68,19 +64,16 @@ const ZoomModale = ({ medias = [], hidden }) => {
                     }}
                     modules={[Zoom]}
                 >
-
                     <SwiperSlide
                         // key={index}
-                        className="zoom-modale-slide"
+                        className='zoom-modale-slide'
                         key={`100`}
                     >
-                        <ZoomableImg url="https://res.cloudinary.com/dbfkv6zgf/image/upload/v1740734269/Capture_d_ecran_2025_02_28_a_09_52_13_f84f659d56.png" />
+                        <ZoomableImg url='https://res.cloudinary.com/dbfkv6zgf/image/upload/v1740734269/Capture_d_ecran_2025_02_28_a_09_52_13_f84f659d56.png' />
                     </SwiperSlide>
-
                 </Swiper>
             </div>
         </>
-
     );
 };
 

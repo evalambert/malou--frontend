@@ -5,15 +5,9 @@ import { navigate } from 'astro:transitions/client';
 
 import PaintingTitle from '../../components/common/title/PaintingTitle.jsx';
 
-const PaintingsList = ({
-    dataPaintings,
-    targetHref,
-    lang,
-    className,
-}) => {
+const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
     const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
-
 
     useEffect(() => {
         // Afficher la hauteur de la liste cachée
@@ -108,8 +102,7 @@ const PaintingsList = ({
         };
     }, []);
 
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateValue, setTranslateValue] = useState('100vh');
     const [isOnPaintingPage, setIsOnPaintingPage] = useState(false);
@@ -124,7 +117,6 @@ const PaintingsList = ({
             setTranslateValue(hiddenListHeightPainting + 'px');
             setIsOnIndexPage(true);
             setIsOnPaintingPage(false);
-
         } else {
             setTranslateValue('100vh');
             setIsOnPaintingPage(false);
@@ -136,22 +128,20 @@ const PaintingsList = ({
         toggleListDisplay(targetHref, 'painting', accordionOffsetY);
     }, [targetHref, hiddenListHeightPainting, accordionOffsetY]);
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Render
     return (
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`painting-list work-list fixed left-[150px] bottom-0 pb-body-p-y transition-all duration-500 ease-in-out delay-[0.2s] ${className} ${isOnIndexPage ? 'cursor-pointer pointer-events-auto' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`painting-list work-list pb-body-p-y fixed bottom-0 left-[150px] transition-all delay-[0.2s] duration-500 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                            navigate(`/${lang}/painting/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/painting/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
@@ -175,14 +165,14 @@ const PaintingsList = ({
                     </ul>
                     {/* (END) Liste Homepage */}
                     <div
-                        className={`hidden-list-painting overflow-hidden transition-all duration-500 ease-in-out delay-[0.2s] `}
+                        className={`hidden-list-painting overflow-hidden transition-all delay-[0.2s] duration-500 ease-in-out`}
                     >
                         {/* Liste Hidden */}
 
                         <ul>
                             {dataPaintings.slice(4).map((painting) => (
                                 <li
-                                    className='painting-title w-fit block'
+                                    className='painting-title block w-fit'
                                     key={painting.id}
                                 >
                                     <PaintingTitle

@@ -1,5 +1,5 @@
 // Import Swiper React components
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Keyboard, Navigation, Pagination } from 'swiper/modules';
@@ -16,15 +16,13 @@ export default function Slider({ medias = [] }) {
     const [isHidden, setIsHidden] = useState(true);
     const [show, setShow] = useState(false);
 
-
-
     useEffect(() => {
         const timeoutWhite = setTimeout(() => {
             document.body.classList.add('text-white');
-        }, 700); 
+        }, 700);
         const timeout = setTimeout(() => {
             setShow(true);
-        }, 1000); 
+        }, 1000);
 
         return () => {
             clearTimeout(timeoutWhite);
@@ -32,30 +30,38 @@ export default function Slider({ medias = [] }) {
         };
     }, []);
 
-
     const handleSlideChange = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             const swiper = swiperRef.current.swiper;
 
             const isLastSlide = swiper.activeIndex === swiper.slides.length - 2;
-            const wasLastSlide = swiper.previousIndex === swiper.slides.length - 2;
+            const wasLastSlide =
+                swiper.previousIndex === swiper.slides.length - 2;
 
             if (isLastSlide || wasLastSlide) {
-                document.querySelector('.modaleToogle').classList.toggle('hidden');
-                document.querySelector('.modaleToogle').classList.toggle('pointer-events-none');
+                document
+                    .querySelector('.modaleToogle')
+                    .classList.toggle('hidden');
+                document
+                    .querySelector('.modaleToogle')
+                    .classList.toggle('pointer-events-none');
             }
         }
     };
 
     const handleClick = () => {
-        document.querySelector('.modaleToogle').classList.toggle('modaleToogle-active');
-        document.querySelector('.swiper-pagination').classList.toggle('pagination-hidden');
-        if (document.body.classList.contains("text-white")) {
-            document.body.classList.replace("text-white", "text-black");
+        document
+            .querySelector('.modaleToogle')
+            .classList.toggle('modaleToogle-active');
+        document
+            .querySelector('.swiper-pagination')
+            .classList.toggle('pagination-hidden');
+        if (document.body.classList.contains('text-white')) {
+            document.body.classList.replace('text-white', 'text-black');
         } else {
-            document.body.classList.replace("text-black", "text-white");
+            document.body.classList.replace('text-black', 'text-white');
         }
-        setIsHidden(prevState => !prevState);
+        setIsHidden((prevState) => !prevState);
     };
 
     useEffect(() => {
@@ -77,9 +83,9 @@ export default function Slider({ medias = [] }) {
         const img = new Image();
         img.onload = () => {
             const isLandscape = img.width > img.height;
-            setImageDimensions(prev => ({
+            setImageDimensions((prev) => ({
                 ...prev,
-                [index]: { isLandscape }
+                [index]: { isLandscape },
             }));
         };
         img.src = url;
@@ -90,8 +96,6 @@ export default function Slider({ medias = [] }) {
             checkImageOrientation(media.url, index);
         });
     }, [medias]);
-
-
 
     return (
         <>
@@ -138,7 +142,9 @@ export default function Slider({ medias = [] }) {
 
             `}
             </style>
-            <div className={`${show ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}>
+            <div
+                className={`${show ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+            >
                 <Swiper
                     ref={swiperRef}
                     slidesPerView={'auto'}
@@ -152,44 +158,41 @@ export default function Slider({ medias = [] }) {
                     modules={[Keyboard, Navigation, Pagination]}
                     onSlideChange={handleSlideChange}
                 >
-                    {medias.map((media, index) => (
+                    {medias.map((media, index) =>
                         imageDimensions[index]?.isLandscape ? (
                             // Affiche 2 slides pour les images en paysage
-                            <React.Fragment key={`landscape-container-${index}`}>
+                            <React.Fragment
+                                key={`landscape-container-${index}`}
+                            >
                                 <SwiperSlide
                                     key={`landscape-${index}`}
-                                    className="landscape !overflow-visible"
+                                    className='landscape !overflow-visible'
                                 >
-                                   
-                                    <div className="h-full w-[200%]">
-                                        <img src={media.url} loading="lazy" />
+                                    <div className='h-full w-[200%]'>
+                                        <img src={media.url} loading='lazy' />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide
                                     key={`landscape-${index}-bis`}
-                                    className="landscape"
-                                >
-                                    
-                                </SwiperSlide>
+                                    className='landscape'
+                                ></SwiperSlide>
                             </React.Fragment>
                         ) : (
                             // Affiche 1 slide pour les images en portrait
                             <SwiperSlide
                                 key={`portrait-${index}`}
-                                className="portrait"
+                                className='portrait'
                             >
-                                
-                                <img src={media.url} loading="lazy" />
+                                <img src={media.url} loading='lazy' />
                             </SwiperSlide>
                         )
-                    ))}
+                    )}
                 </Swiper>
-                <button className="modaleToogle h-full w-full md:w-[50%] fixed top-0 right-0 z-10 hidden cursor-pointer pointer-events-none mix-blend-difference">
+                <button className='modaleToogle pointer-events-none fixed top-0 right-0 z-10 hidden h-full w-full cursor-pointer mix-blend-difference md:w-[50%]'>
                     <span>close</span>
                 </button>
                 <ZoomModale medias={medias} hidden={isHidden} />
             </div>
         </>
-
     );
-};
+}

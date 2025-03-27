@@ -14,13 +14,11 @@ export const prerender = true;
 ---
 
 <Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
-    <main>
-        <AllProjectsLists lang={lang} enterIndex={false} />
-        <PreviewImg
-            transition:name='preview-image'
-            transition:persist
-            client:only
-        />
-    </main>
+    <AllProjectsLists lang={lang} enterIndex={false} />
+    <PreviewImg
+        transition:name='preview-image'
+        transition:persist
+        client:only
+    />
 </Layout>
 <script is:inline src='/scripts/preview-slider-transition-anim.js'></script>

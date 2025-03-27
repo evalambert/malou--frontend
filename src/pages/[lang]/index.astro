@@ -1,8 +1,8 @@
 ---
 //pages/[lang]/index.astro
 
-import Layout from "../../layouts/Layout.astro";
-import AllProjectsLists from "../../layouts/AllProjectsLists.astro";
+import Layout from '../../layouts/Layout.astro';
+import AllProjectsLists from '../../layouts/AllProjectsLists.astro';
 
 export async function getStaticPaths() {
     return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];
@@ -15,15 +15,12 @@ export const enterTarget = true;
 ---
 
 <!-- // Trouver un moyen de twixer la valeur de enterIndex -->
-
-<Layout title={lang === "fr" ? "Accueil" : "Home"}>
-  <main>
-    <AllProjectsLists lang={lang} enterIndex={enterTarget}/>
-  </main>
+<Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
+    <AllProjectsLists lang={lang} enterIndex={enterTarget} />
 </Layout>
 <script define:vars={{ enterTarget }}>
-  document.addEventListener("astro:page-load", () => {
-    const enterTarget = false;
-    return enterTarget;
-  });
+    document.addEventListener('astro:page-load', () => {
+        const enterTarget = false;
+        return enterTarget;
+    });
 </script>

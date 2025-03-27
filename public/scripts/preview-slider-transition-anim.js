@@ -13,24 +13,22 @@ document.addEventListener('astro:before-preparation', (event) => {
                 wrapperElement.classList.add('preview-image--wrapper-visible');
                 setTimeout(() => {
                     wrapperElement.style.opacity = '0';
-                    wrapperElement.classList.remove('preview-image--wrapper-visible');
+                    wrapperElement.classList.remove(
+                        'preview-image--wrapper-visible'
+                    );
                 }, 5000);
             }
             return;
         }
     }
-    if (document.body.classList.contains("on-slug-page")) {
+    if (document.body.classList.contains('on-slug-page')) {
         // code Eva pour fermer accordion quand on quitte la page SLUG.
         console.log('<<< Placeholder code EVA accordion close>>>');
     }
 
-
-
-
     // // Vérifier si on est sur la page du slider
     // const swiper = document.querySelector('.swiper');
     // if (swiper) {
-
 
     //     // Ajouter un délai à la transition
     //     const transitionDelay = 5000; // 5 secondes en millisecondes
@@ -41,7 +39,7 @@ document.addEventListener('astro:before-preparation', (event) => {
     //     swiper.style.opacity = '0';
     //     if (document.body.classList.contains("text-white")) {
     //         document.body.classList.replace("text-white", "text-black");
-    //     } 
+    //     }
 
     //     // Créer une Promise pour le délai
     //     new Promise(resolve => setTimeout(resolve, transitionDelay))
@@ -52,5 +50,4 @@ document.addEventListener('astro:before-preparation', (event) => {
 
     //     // ... existing code ...
     // }
-
 });

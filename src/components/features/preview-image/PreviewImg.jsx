@@ -1,6 +1,4 @@
-
 const PreviewImg = () => {
-
     // Render
     return (
         <>
@@ -21,14 +19,18 @@ const PreviewImg = () => {
                 }
             `}
             </style>
-            <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center !z-0">
-                <div className="preview-image--wrapper opacity-0 transition-all duration-350 w-[350px] h-[300px]">
-
-                    <img className="preview-img w-full h-full object-cover dynamic-image " src="/" alt="preview image" data-persist></img>
+            <div className='fixed top-0 left-0 !z-0 flex h-screen w-screen items-center justify-center'>
+                <div className='preview-image--wrapper h-[300px] w-[350px] opacity-0 transition-all duration-350'>
+                    <img
+                        className='preview-img dynamic-image h-full w-full object-cover'
+                        src='/'
+                        alt='preview image'
+                        data-persist
+                    ></img>
                 </div>
             </div>
         </>
     );
 };
 
-export default PreviewImg; 
+export default PreviewImg;
