@@ -1,7 +1,7 @@
 ---
 //pages/[lang]/weaving/[slug].astro
 
-import fetchApi from '../../../lib/strapi';
+import fetchApi from '../../../assets/scripts/lib/strapi.js';
 
 import Layout from '../../../layouts/Layout.astro';
 import Nav from '../../../layouts/Nav.jsx';
@@ -69,10 +69,8 @@ export const prerender = true;
     />
     <WeavingList
         targetHref={`/weaving/`}
-        hidden={false}
         lang={lang}
         dataWeaving={weavings}
-        isOnWeavingPage={true}
         transition:name='weavinglist'
         className='fixed bottom-0 right-main-x z-50 pointer-events-none'
         transition:persist

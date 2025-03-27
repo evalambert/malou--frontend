@@ -1,4 +1,4 @@
-import { handleMouseEnter, handleMouseLeave } from '../../../utils/preview-img';
+import { handleMouseEnter, handleMouseLeave } from '../../../assets/scripts/utils/preview-img';
 
 const WeavingTitle = ({ weaving, lang }) => {
 

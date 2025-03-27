@@ -1,13 +1,12 @@
 ---
 //pages/[lang]/vitrail/[slug].astro
 
-import fetchApi from '../../../lib/strapi';
+import fetchApi from '../../../assets/scripts/lib/strapi.js';
 import { fade } from 'astro:transitions';
 
 import Layout from '../../../layouts/Layout.astro';
 import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
 import PreviewImg from '../../../components/features/preview-image/PreviewImg.jsx';
-import PreviewImgAnimation from '../../../components/features/preview-image/PreviewImgAnimation.jsx';
 import AccordionReadProject from '../../../components/features/accordion-project/AccordionReadProject.jsx';
 import Slider from '../../../components/features/slider/Slider.jsx';
 

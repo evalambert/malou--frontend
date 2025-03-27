@@ -16,19 +16,11 @@ export const prerender = true;
 <Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
     <main>
         <AllProjectsLists lang={lang} enterIndex={false} />
+        <PreviewImg
+            transition:name='preview-image'
+            transition:persist
+            client:only
+        />
     </main>
-
-    <PreviewImg transition:name='preview-image' transition:persist client:only/>
 </Layout>
-<script is:inline>
-    // Keep the preview image visible when the page is loaded
-    document.addEventListener('astro:before-preparation', (event) => {
-        const wrapperElement = document.querySelector(
-            '.preview-image--wrapper'
-        );
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '1';
-            wrapperElement.classList.add('preview-image--wrapper-visible');
-        }
-    });
-</script>
+<script is:inline src="/scripts/preview-slider-transition-anim.js"></script>
