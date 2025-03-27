@@ -38,8 +38,6 @@ const WeavingList = ({
     }, [dataWeaving]);
 
 
-    /*   console.log(dataWeaving);
-     */
 
     /**
      * Gestion du décalage vertical du titre en fonction de l'accordéon
@@ -107,7 +105,6 @@ const WeavingList = ({
             setTranslateXValue(0);
             setIsOnWeavingPage(true);
         } else if (url == '/fr/' || url == '/en/') {
-            console.log(translateXValue, translateYValue);
             setTranslateYValue(hiddenListHeightWeaving + 'px');
             setTranslateXValue(hiddenListWidthWeaving + 'px');
             setIsOnWeavingPage(false);

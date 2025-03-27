@@ -1,12 +1,8 @@
 // Import Swiper React components
 import React, { useRef, useState, useEffect } from "react";
 
-import { useStore } from "@nanostores/react";
-
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Keyboard, Navigation, Pagination } from 'swiper/modules';
-import ZoomableImg from './ZoomableImg.jsx';
 import ZoomModale from './ZoomModale';
 
 // Import Swiper styles
@@ -106,9 +102,15 @@ export default function Slider({ medias = [] }) {
                     width: 100vw;
                     
                 }
+                .swiper-wrapper{
+                    user-select: none !important;
+                }
                 .swiper-slide{
                     width: 50%;
                     overflow: hidden;
+                }
+                .swiper-slide:focus-visible{
+                    outline: none;
                 }
                 @media (max-width: 768px) {
                     .swiper-slide {

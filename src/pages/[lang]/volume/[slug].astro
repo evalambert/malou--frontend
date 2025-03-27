@@ -2,7 +2,6 @@
 //pages/[lang]/volume/[slug].astro
 
 import fetchApi from '../../../assets/scripts/lib/strapi.js';
-import { fade } from 'astro:transitions';
 
 import Layout from '../../../layouts/Layout.astro';
 import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
@@ -77,7 +76,6 @@ export const prerender = true;
         <Slider
             client:only
             medias={volume?.medias || []}
-            transition:animate={fade({ duration: '0.4s' })}
         />
     </div>
 </Layout>

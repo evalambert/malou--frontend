@@ -2,7 +2,6 @@
 //pages/[lang]/vitrail/[slug].astro
 
 import fetchApi from '../../../assets/scripts/lib/strapi.js';
-import { fade } from 'astro:transitions';
 
 import Layout from '../../../layouts/Layout.astro';
 import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
@@ -75,7 +74,6 @@ export const prerender = true;
             <Slider
                 client:only
                 medias={vitrail?.medias || []}
-                transition:animate={fade({ duration: '0.4s' })}
             />
         </div>
     </main>

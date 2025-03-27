@@ -27,9 +27,9 @@ export default function AccordionReadProject({
     };
 
     // Surveillance des changements de hauteur pour le débogage
-    useEffect(() => {
-        console.log('Content height:', contentHeight);
-    }, [contentHeight]);
+    // useEffect(() => {
+    //     console.log('Content height:', contentHeight);
+    // }, [contentHeight]);
 
     /**
      * Gestion du cycle de vie :
