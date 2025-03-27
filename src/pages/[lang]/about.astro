@@ -7,6 +7,7 @@ import AboutComponent from '../../layouts/about-page/AboutComponent.jsx';
 import ActuComponent from '../../layouts/about-page/ActuComponent.jsx';
 import MobileButtons from '../../components/common/MobileButtons.jsx';
 import WrapperHeight from '../../layouts/about-page/WrapperHeight.jsx';
+import AllProjectsLists from '../../layouts/AllProjectsLists.astro';
 
 export async function getStaticPaths() {
     return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];
@@ -30,20 +31,27 @@ export const prerender = true;
 ---
 
 <Layout title='About' showReturn returnTo=''>
-    <Nav
+    <AllProjectsLists lang={lang} enterIndex={false} />
+    <!-- <Nav
         className='md:fixed md:top-0 md:left-[15px] rounded-[4px] z-[999] mix-blend-target'
         lang={lang}
         currentPath={Astro.url.pathname}
         transition:name='nav'
         transition:persist
         client:load
-    />
+    /> -->
     <MobileButtons lang={lang} client:load />
+
     <WrapperHeight client:load />
     <div
         class='wrapper-about-actus relative md:static overflow-hidden md:overflow-visible'
     >
         <AboutComponent about={about} lang={lang} client:load />
-        <ActuComponent actus={actus} lang={lang} client:load />
+        <ActuComponent
+            actus={actus}
+            lang={lang}
+            client:load
+            data-astro-reload
+        />
     </div>
 </Layout>
