@@ -64,19 +64,22 @@ const VolumesList = ({
     // Toogle hidden/compact/full
     const [translateValue, setTranslateValue] = useState('-50vh');
     const [isOnVolumePage, setIsOnVolumePage] = useState(false);
-   
+    const [isOnIndexPage, setIsOnIndexPage] = useState(false);
+
     const toggleListDisplay = (url, category, accordionY) => {
         if (url.includes(category)) {
             setTranslateValue(accordionY + 'px');
             setIsOnVolumePage(true);
+            setIsOnIndexPage(false);
         } else if (url == '/fr/' || url == '/en/') {
-            
-                setTranslateValue('-' + hiddenListHeightVolume + 'px');
-                setIsOnVolumePage(false);
+            setTranslateValue('-' + hiddenListHeightVolume + 'px');
+            setIsOnIndexPage(true);
+            setIsOnVolumePage(false);
             
         } else {
             setTranslateValue('-50vh');
             setIsOnVolumePage(false);
+            setIsOnIndexPage(false);
         }
     };
 
@@ -89,9 +92,7 @@ const VolumesList = ({
     return (
         <>
             <div
-                className={`work-list pt-body-p-y transition-all duration-1000 ease-in-out ${className} ${
-                    !isOnVolumePage ? 'cursor-pointer' : ''
-                }`}
+                className={`work-list pt-body-p-y transition-all duration-1000 ease-in-out ${className} ${isOnIndexPage ? 'cursor-pointer pointer-events-auto' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
                 onClick={
                     !isOnVolumePage
                         ? () =>
@@ -102,9 +103,7 @@ const VolumesList = ({
                 }
             >
                 <div
-                    className={`transition-all duration-500 ease-in-out ${
-                        !isOnVolumePage ? 'pointer-events-none' : ''
-                    }`}
+                    className={`transition-all duration-500 ease-in-out ${!isOnVolumePage ? 'pointer-events-none' : ''}`}
                     style={{ transform: `translateY(${translateValue})` }}
                 >
                     <div

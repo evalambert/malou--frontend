@@ -1,19 +1,19 @@
 ---
 //pages/[lang]/poetry.astro
 
-import Layout from "../../layouts/Layout.astro";
-import AllProjectsLists from "../../layouts/AllProjectsLists.astro";
+import Layout from '../../layouts/Layout.astro';
+import AllProjectsLists from '../../layouts/AllProjectsLists.astro';
 
 export async function getStaticPaths() {
-  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+    return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];
 }
 const { lang } = Astro.params;
 
 export const prerender = true;
 ---
 
-<Layout title={lang === "fr" ? "Accueil" : "Home"}>
-  <main>
-    <AllProjectsLists lang={lang} enterIndex={false} />
-  </main>
+<Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
+    <main>
+        <AllProjectsLists lang={lang} enterIndex={false} />
+    </main>
 </Layout>

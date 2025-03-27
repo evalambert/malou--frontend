@@ -113,19 +113,22 @@ const PaintingsList = ({
     // Toogle hidden/compact/full
     const [translateValue, setTranslateValue] = useState('100vh');
     const [isOnPaintingPage, setIsOnPaintingPage] = useState(false);
-   
+    const [isOnIndexPage, setIsOnIndexPage] = useState(false);
+
     const toggleListDisplay = (url, category, accordionY) => {
         if (url.includes(category)) {
             setTranslateValue(accordionY + 'px');
             setIsOnPaintingPage(true);
+            setIsOnIndexPage(false);
         } else if (url == '/fr/' || url == '/en/') {
-            
-                setTranslateValue(hiddenListHeightPainting + 'px');
-                setIsOnPaintingPage(false);
-            
+            setTranslateValue(hiddenListHeightPainting + 'px');
+            setIsOnIndexPage(true);
+            setIsOnPaintingPage(false);
+
         } else {
             setTranslateValue('100vh');
             setIsOnPaintingPage(false);
+            setIsOnIndexPage(false);
         }
     };
 
@@ -142,7 +145,7 @@ const PaintingsList = ({
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list fixed left-[150px] bottom-0 pb-body-p-y transition-all duration-500 ease-in-out delay-[0.2s] ${className} ${!isOnPaintingPage ? 'cursor-pointer' : ''} `}
+                className={`painting-list work-list fixed left-[150px] bottom-0 pb-body-p-y transition-all duration-500 ease-in-out delay-[0.2s] ${className} ${isOnIndexPage ? 'cursor-pointer pointer-events-auto' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
@@ -153,8 +156,7 @@ const PaintingsList = ({
                 }
             >
                 <div
-                    className={`transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''
-                        }`}
+                    className={`transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''}`}
                     style={{ transform: `translateY(${translateValue})` }}
                 >
                     {/* Liste Homepage */}

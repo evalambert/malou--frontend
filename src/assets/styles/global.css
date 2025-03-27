@@ -234,10 +234,4 @@ body:not(.category-vitrail) .swiper-pagination {
     text-align: center;
 }
 
-/* body.on-slug-page .work-list li > div {
 
-    pointer-events: none;
-} */
-body.on-slug-page .work-list li > div:not(.active) {
-    opacity: 0;
-}

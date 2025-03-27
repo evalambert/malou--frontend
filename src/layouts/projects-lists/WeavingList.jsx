@@ -38,8 +38,6 @@ const WeavingList = ({
     }, [dataWeaving]);
 
 
-    /*   console.log(dataWeaving);
-     */
 
     /**
      * Gestion du décalage vertical du titre en fonction de l'accordéon
@@ -100,22 +98,24 @@ const WeavingList = ({
     const [translateYValue, setTranslateYValue] = useState('100vh');
     const [translateXValue, setTranslateXValue] = useState('100vw');
     const [isOnWeavingPage, setIsOnWeavingPage] = useState(false);
+    const [isOnIndexPage, setIsOnIndexPage] = useState(false);
 
     const toggleListDisplay = (url, category, accordionY) => {
         if (url.includes(category)) {
             setTranslateYValue(accordionY + 'px');
             setTranslateXValue(0);
             setIsOnWeavingPage(true);
+            setIsOnIndexPage(false);
         } else if (url == '/fr/' || url == '/en/') {
-            console.log(translateXValue, translateYValue);
             setTranslateYValue(hiddenListHeightWeaving + 'px');
             setTranslateXValue(hiddenListWidthWeaving + 'px');
             setIsOnWeavingPage(false);
-
+            setIsOnIndexPage(true);
         } else {
             setTranslateYValue('100vh');
             setTranslateXValue('100vw');
             setIsOnWeavingPage(false);
+            setIsOnIndexPage(false);
         }
     };
 
@@ -129,7 +129,7 @@ const WeavingList = ({
     return (
         <>
             <div
-                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${className} ${!isOnWeavingPage ? 'cursor-pointer' : ''} `}
+                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${className} ${isOnIndexPage ? 'cursor-pointer pointer-events-auto' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
@@ -140,8 +140,7 @@ const WeavingList = ({
                 }
             >
                 <div
-                    className={`grid transition-all auto-cols-auto auto-rows-min duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''
-                        }`}
+                    className={`grid transition-all auto-cols-auto auto-rows-min duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''}`}
                     style={{
                         transform: `translate(${translateXValue}, ${translateYValue})`,
                     }}
