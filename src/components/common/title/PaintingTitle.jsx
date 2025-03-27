@@ -1,25 +1,7 @@
-import { useState, useEffect } from 'react';
+import { handleMouseEnter, handleMouseLeave } from '../../../assets/scripts/utils/preview-img';
 
 const PaintingTitle = ({ painting, lang }) => {
     
-    // Fonction pour gérer le survol et changer l'image
-    const handleMouseEnter = (imageUrl) => {
-        const imageElement = document.querySelector('.dynamic-image');
-        const wrapperElement = document.querySelector('.preview-image--wrapper');
-        if (imageElement) {
-            imageElement.src = imageUrl;
-        }
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '1';
-        }
-    };
-
-    const handleMouseLeave = () => {
-        const wrapperElement = document.querySelector('.preview-image--wrapper');
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '0';
-        }
-    };
 
     // Render
     return (

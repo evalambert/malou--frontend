@@ -10,16 +10,17 @@ export async function getStaticPaths() {
 }
 const { lang } = Astro.params;
 
-
 export const prerender = true;
 ---
 
 <Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
     <main>
         <AllProjectsLists lang={lang} enterIndex={false} />
+        <PreviewImg
+            transition:name='preview-image'
+            transition:persist
+            client:only
+        />
     </main>
-    <div class='preview-image--wrapper fixed top-1/2 left-1/2 !-z-10 opacity-0 w-[350px] h-[300px] -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out'>
-        <PreviewImg />
-    </div>
 </Layout>
-
+<script is:inline src="/scripts/preview-slider-transition-anim.js"></script>

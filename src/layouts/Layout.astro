@@ -33,7 +33,7 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
             Astro.url.pathname.match(
                 /^\/(fr|en)\/(painting|volume|poetry|vitrail|weaving)\/[^\/]+\/?$/
             )
-                ? 'on-slug-page text-white'
+                ? 'on-slug-page'
                 : ''
         } ${categoryClass}`}
         data-page={isAboutPage ? 'about' : undefined}

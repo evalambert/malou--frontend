@@ -20,12 +20,20 @@ export default function Slider({ medias = [] }) {
     const [isHidden, setIsHidden] = useState(true);
     const [show, setShow] = useState(false);
 
+
+
     useEffect(() => {
+        const timeoutWhite = setTimeout(() => {
+            document.body.classList.add('text-white');
+        }, 700); 
         const timeout = setTimeout(() => {
             setShow(true);
-        }, 1000); // Délai de 0,5s avant d'afficher Swiper
+        }, 1000); 
 
-        return () => clearTimeout(timeout);
+        return () => {
+            clearTimeout(timeoutWhite);
+            clearTimeout(timeout);
+        };
     }, []);
 
 
@@ -174,7 +182,7 @@ export default function Slider({ medias = [] }) {
                         )
                     ))}
                 </Swiper>
-                <button className="modaleToogle h-full w-full md:w-[50%] fixed top-0 right-0 z-10 hidden pointer-events-none">
+                <button className="modaleToogle h-full w-full md:w-[50%] fixed top-0 right-0 z-10 hidden pointer-events-none mix-blend-difference">
                     <span>close</span>
                 </button>
                 <ZoomModale medias={medias} hidden={isHidden} />

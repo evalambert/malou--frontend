@@ -1,12 +1,12 @@
 ---
 //pages/[lang]/vitrail/[slug].astro
 
-import fetchApi from '../../../lib/strapi';
+import fetchApi from '../../../assets/scripts/lib/strapi.js';
 import { fade } from 'astro:transitions';
 
 import Layout from '../../../layouts/Layout.astro';
 import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
-import PreviewImgAnimation from '../../../components/features/preview-image/PreviewImgAnimation.jsx';
+import PreviewImg from '../../../components/features/preview-image/PreviewImg.jsx';
 import AccordionReadProject from '../../../components/features/accordion-project/AccordionReadProject.jsx';
 import Slider from '../../../components/features/slider/Slider.jsx';
 
@@ -66,13 +66,13 @@ export const prerender = true;
             height={vitrail?.height || 'Hauteur non disponible'}
         />
 
-        <PreviewImgAnimation medias={vitrail?.medias || []} client:only />
+        <PreviewImg transition:name='preview-image' transition:persist client:only />
         <div class='fixed top-0 left-0 w-screen h-screen'>
             <Slider
                 client:only
                 medias={vitrail?.medias || []}
                 transition:animate={fade({ duration: '0.4s' })}
             />
-        </div>
+        </div> 
     </main>
 </Layout>
