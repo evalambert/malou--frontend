@@ -3,15 +3,9 @@ import { navigate } from 'astro:transitions/client';
 
 import { useStore } from '@nanostores/react';
 
+import WeavingTitle from '../../components/common/title/WeavingTitle.jsx';
 
-import WeavingTitle from "../../components/common/title/WeavingTitle.jsx";
-
-const WeavingList = ({
-    dataWeaving,
-    targetHref,
-    lang,
-    className,
-}) => {
+const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
 
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
@@ -28,7 +22,7 @@ const WeavingList = ({
         setHiddenListHeightWeaving(hiddenListHeightValue);
         setHiddenListWidthWeaving(hiddenListWidthValue);
 
-        const liTitle = document.querySelectorAll("li.weaving-title");
+        const liTitle = document.querySelectorAll('li.weaving-title');
         liTitle.forEach((li) => {
             if (li && li.nextElementSibling) {
                 const nextLiWidth = li.nextElementSibling.offsetWidth;
@@ -36,7 +30,6 @@ const WeavingList = ({
             }
         });
     }, [dataWeaving]);
-
 
     /*   console.log(dataWeaving);
      */
@@ -68,7 +61,7 @@ const WeavingList = ({
         };
     }, []);
 
-/**
+    /**
      * Gestion du décalage vertical du titre en fonction de l'accordéon
      */
     useEffect(() => {
@@ -95,7 +88,7 @@ const WeavingList = ({
         };
     }, []);
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateYValue, setTranslateYValue] = useState('100vh');
     const [translateXValue, setTranslateXValue] = useState('100vw');
@@ -111,7 +104,6 @@ const WeavingList = ({
             setTranslateYValue(hiddenListHeightWeaving + 'px');
             setTranslateXValue(hiddenListWidthWeaving + 'px');
             setIsOnWeavingPage(false);
-
         } else {
             setTranslateYValue('100vh');
             setTranslateXValue('100vw');
@@ -123,31 +115,32 @@ const WeavingList = ({
         toggleListDisplay(targetHref, 'weaving', accordionOffsetY);
     }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Render
     return (
         <>
             <div
-                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${className} ${!isOnWeavingPage ? 'cursor-pointer' : ''} `}
+                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out ${className} ${!isOnWeavingPage ? 'cursor-pointer' : ''} `}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
-                            navigate(`/${lang}/weaving/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/weaving/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
                 <div
-                    className={`grid transition-all auto-cols-auto auto-rows-min duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''
-                        }`}
+                    className={`grid auto-cols-auto auto-rows-min transition-all duration-1000 ease-in-out ${
+                        !isOnWeavingPage ? 'pointer-events-none' : ''
+                    }`}
                     style={{
                         transform: `translate(${translateXValue}, ${translateYValue})`,
                     }}
                 >
                     {/* Liste Homepage */}
-                    <ul className='w-fit flex flex-col items-end'>
+                    <ul className='flex w-fit flex-col items-end'>
                         {dataWeaving.slice(0, 5).map((weaving) => (
                             <li
                                 className='weaving-title w-fit'
@@ -159,11 +152,11 @@ const WeavingList = ({
                     </ul>
                     {/* (END) Liste Homepage */}
                     <div
-                        className={`hidden-list-weaving overflow-hidden col-start-2 row-start-2 transition-all duration-1000 ease-in-out delay-[0.2s]`}
+                        className={`hidden-list-weaving col-start-2 row-start-2 overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out`}
                     >
                         {/* Liste Hidden */}
                         {/* {isOnWeavingPage && ( */}
-                        <ul className='w-fit flex flex-col items-end'>
+                        <ul className='flex w-fit flex-col items-end'>
                             {dataWeaving.slice(5).map((weaving) => (
                                 <li
                                     className='weaving-title w-fit'

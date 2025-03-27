@@ -38,7 +38,7 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
         } ${categoryClass}`}
         data-page={isAboutPage ? 'about' : undefined}
     >
-        <!-- <div
+        <div
             class='language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] z-[999]'
         >
             <LanguageSwitch
@@ -47,6 +47,7 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
                 currentPath={currentPath}
             />
         </div>
+        <!--
         {showReturn && <ButtonReturn to={returnTo} />}  -->
         <slot />
     </body></html
