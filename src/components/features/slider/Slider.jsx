@@ -100,7 +100,7 @@ export default function Slider({ medias = [] }) {
                 .swiper{
                     height: 100vh;
                     width: 100vw;
-                    
+                    transition: opacity 0.3s ease-in-out;
                 }
                 .swiper-wrapper{
                     user-select: none !important;
@@ -138,7 +138,7 @@ export default function Slider({ medias = [] }) {
 
             `}
             </style>
-            <div className={`${show ? "opacity-100" : "opacity-0"}`}>
+            <div className={`${show ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}>
                 <Swiper
                     ref={swiperRef}
                     slidesPerView={'auto'}
