@@ -1,7 +1,7 @@
 export const handleMouseEnter = (imageUrl) => {    
     const imageElement = document.querySelector('.dynamic-image');
     const wrapperElement = document.querySelector('.preview-image--wrapper');
-    if (!document.body.classList.contains('on-slug-page')) {
+    if (!document.body.classList.contains('on-slug-page') && !wrapperElement.classList.contains('preview-image--wrapper-visible')) {
         if (imageElement) {
             imageElement.src = imageUrl;
             imageElement.dataset.lastImage = imageUrl;

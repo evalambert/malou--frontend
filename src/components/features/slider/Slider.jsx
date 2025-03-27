@@ -1,12 +1,8 @@
 // Import Swiper React components
 import React, { useRef, useState, useEffect } from "react";
 
-import { useStore } from "@nanostores/react";
-
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Keyboard, Navigation, Pagination } from 'swiper/modules';
-import ZoomableImg from './ZoomableImg.jsx';
 import ZoomModale from './ZoomModale';
 
 // Import Swiper styles
@@ -104,11 +100,17 @@ export default function Slider({ medias = [] }) {
                 .swiper{
                     height: 100vh;
                     width: 100vw;
-                    
+                    transition: opacity 0.3s ease-in-out;
+                }
+                .swiper-wrapper{
+                    user-select: none !important;
                 }
                 .swiper-slide{
                     width: 50%;
                     overflow: hidden;
+                }
+                .swiper-slide:focus-visible{
+                    outline: none;
                 }
                 @media (max-width: 768px) {
                     .swiper-slide {
@@ -136,7 +138,7 @@ export default function Slider({ medias = [] }) {
 
             `}
             </style>
-            <div className={`${show ? "opacity-100" : "opacity-0"}`}>
+            <div className={`${show ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}>
                 <Swiper
                     ref={swiperRef}
                     slidesPerView={'auto'}
@@ -182,7 +184,7 @@ export default function Slider({ medias = [] }) {
                         )
                     ))}
                 </Swiper>
-                <button className="modaleToogle h-full w-full md:w-[50%] fixed top-0 right-0 z-10 hidden pointer-events-none mix-blend-difference">
+                <button className="modaleToogle h-full w-full md:w-[50%] fixed top-0 right-0 z-10 hidden cursor-pointer pointer-events-none mix-blend-difference">
                     <span>close</span>
                 </button>
                 <ZoomModale medias={medias} hidden={isHidden} />

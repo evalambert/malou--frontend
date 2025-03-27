@@ -3,11 +3,12 @@
 
 import Layout from '../../layouts/Layout.astro';
 import AllProjectsLists from '../../layouts/AllProjectsLists.astro';
+import PreviewImg from '../../components/features/preview-image/PreviewImg.jsx';
+
 export async function getStaticPaths() {
     return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];
 }
 const { lang } = Astro.params;
-
 
 export const prerender = true;
 ---
@@ -15,5 +16,11 @@ export const prerender = true;
 <Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
     <main>
         <AllProjectsLists lang={lang} enterIndex={false} />
+        <PreviewImg
+            transition:name='preview-image'
+            transition:persist
+            client:only
+        />
     </main>
 </Layout>
+<script is:inline src='/scripts/preview-slider-transition-anim.js'></script>
