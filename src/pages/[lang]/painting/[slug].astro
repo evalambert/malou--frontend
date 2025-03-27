@@ -2,6 +2,7 @@
 //pages/[lang]/painting/[slug].astro
 
 import fetchApi from '../../../assets/scripts/lib/strapi.js';
+import { fade } from 'astro:transitions';
 
 import Layout from '../../../layouts/Layout.astro';
 import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
@@ -71,7 +72,10 @@ export const prerender = true;
         transition:persist
         client:only
     />
-    <div class='fixed top-0 left-0 w-screen h-screen'>
+    <div
+        class='fixed top-0 left-0 w-screen h-screen'
+        transition:animate={fade({ duration: '0.5s' })}
+    >
         <Slider
             client:only
             medias={painting?.medias || []}

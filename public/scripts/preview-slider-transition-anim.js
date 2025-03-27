@@ -19,30 +19,38 @@ document.addEventListener('astro:before-preparation', (event) => {
             return;
         }
     }
-    // Vérifier si on est sur la page du slider
-    const swiper = document.querySelector('.swiper');
-    if (swiper) {
-
-
-        // Ajouter un délai à la transition
-        const transitionDelay = 5000; // 5 secondes en millisecondes
-
-        event.preventDefault(); // Empêcher la transition immédiate
-
-        // Jouer votre animation ici
-        swiper.style.opacity = '0';
-        if (document.body.classList.contains("text-white")) {
-            document.body.classList.replace("text-white", "text-black");
-        } 
-
-        // Créer une Promise pour le délai
-        new Promise(resolve => setTimeout(resolve, transitionDelay))
-            .then(() => {
-                // Continuer la transition après le délai
-                event.continue();
-            });
-
-        // ... existing code ...
+    if (document.body.classList.contains("on-slug-page")) {
+        // code Eva pour fermer accordion quand on quitte la page SLUG.
+        console.log('<<< Placeholder code EVA accordion close>>>');
     }
+
+
+
+
+    // // Vérifier si on est sur la page du slider
+    // const swiper = document.querySelector('.swiper');
+    // if (swiper) {
+
+
+    //     // Ajouter un délai à la transition
+    //     const transitionDelay = 5000; // 5 secondes en millisecondes
+
+    //     event.preventDefault(); // Empêcher la transition immédiate
+
+    //     // Jouer votre animation ici
+    //     swiper.style.opacity = '0';
+    //     if (document.body.classList.contains("text-white")) {
+    //         document.body.classList.replace("text-white", "text-black");
+    //     } 
+
+    //     // Créer une Promise pour le délai
+    //     new Promise(resolve => setTimeout(resolve, transitionDelay))
+    //         .then(() => {
+    //             // Continuer la transition après le délai
+    //             event.continue();
+    //         });
+
+    //     // ... existing code ...
+    // }
 
 });

@@ -184,7 +184,7 @@ export default function Slider({ medias = [] }) {
                         )
                     ))}
                 </Swiper>
-                <button className="modaleToogle h-full w-full md:w-[50%] fixed top-0 right-0 z-10 hidden pointer-events-none mix-blend-difference">
+                <button className="modaleToogle h-full w-full md:w-[50%] fixed top-0 right-0 z-10 hidden cursor-pointer pointer-events-none mix-blend-difference">
                     <span>close</span>
                 </button>
                 <ZoomModale medias={medias} hidden={isHidden} />

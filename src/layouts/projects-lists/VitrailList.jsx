@@ -104,19 +104,24 @@ const VitrailList = ({
     // Toogle hidden/compact/full
     const [translateValue, setTranslateValue] = useState('-50vh');
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
+    const [isOnIndexPage, setIsOnIndexPage] = useState(false);
     
     const toggleListDisplay = (url, category) => {
         if (url.includes(category)) {
+            console.log(':::: ENTER VITRAIL PAGE ::::')
             setTranslateValue('0px');
             setIsOnVitrailPage(true);
+            setIsOnIndexPage(false);
         } else if (url == '/fr/' || url == '/en/') {
-            
-                setTranslateValue('-' + hiddenListHeightVitrail + 'px');
-                setIsOnVitrailPage(false);
-            
+            console.log(':::: ENTER HOMEPAGE ::::')
+            setTranslateValue('-' + hiddenListHeightVitrail + 'px');
+            setIsOnVitrailPage(false);
+            setIsOnIndexPage(true);
         } else {
+            console.log(':::: HIDE (not on vitrail page not on homepage) ::::')
             setTranslateValue('-50vh');
             setIsOnVitrailPage(false);
+            setIsOnIndexPage(false);
         }
     };
 
@@ -132,11 +137,11 @@ const VitrailList = ({
     // Render
     return (
         <>
-            <div className={`work-list ${className} `}>
+            <div className={`work-list ${className} ${isOnIndexPage ? 'cursor-pointer pointer-events-auto' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}>
 
                 <div
                     className={`pt-body-p-y flex flex-col items-end 
-                    ${!isOnVitrailPage ? 'cursor-pointer' : ''
+                        ${!isOnVitrailPage ? 'cursor-pointer' : ''
                         } `}
                     onClick={
                         !isOnVitrailPage
