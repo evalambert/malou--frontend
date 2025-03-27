@@ -8,9 +8,7 @@ import WeavingTitle from "../../components/common/title/WeavingTitle.jsx";
 
 const WeavingList = ({
     dataWeaving,
-    isOnWeavingPage,
     targetHref,
-    hidden,
     lang,
     className,
 }) => {
@@ -19,25 +17,25 @@ const WeavingList = ({
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
     const [hiddenListWidthWeaving, setHiddenListWidthWeaving] = useState(0);
 
-  useEffect(() => {
-    // Attendre que le DOM soit prêt
-    const hiddenList = document.querySelector('.hidden-list-weaving');
-    if (!hiddenList) return; // Protection contre les éléments null
+    useEffect(() => {
+        // Attendre que le DOM soit prêt
+        const hiddenList = document.querySelector('.hidden-list-weaving');
+        if (!hiddenList) return; // Protection contre les éléments null
 
-    const hiddenListHeightValue = hiddenList.clientHeight;
-    const hiddenListWidthValue = hiddenList.clientWidth;
+        const hiddenListHeightValue = hiddenList.clientHeight;
+        const hiddenListWidthValue = hiddenList.clientWidth;
 
         setHiddenListHeightWeaving(hiddenListHeightValue);
         setHiddenListWidthWeaving(hiddenListWidthValue);
 
-    const liTitle = document.querySelectorAll("li.weaving-title");
-    liTitle.forEach((li) => {
-      if (li && li.nextElementSibling) {
-        const nextLiWidth = li.nextElementSibling.offsetWidth;
-        li.style.marginRight = `${nextLiWidth}px`;
-      }
-    });
-  }, [dataWeaving]);
+        const liTitle = document.querySelectorAll("li.weaving-title");
+        liTitle.forEach((li) => {
+            if (li && li.nextElementSibling) {
+                const nextLiWidth = li.nextElementSibling.offsetWidth;
+                li.style.marginRight = `${nextLiWidth}px`;
+            }
+        });
+    }, [dataWeaving]);
 
 
     /*   console.log(dataWeaving);
@@ -70,33 +68,82 @@ const WeavingList = ({
         };
     }, []);
 
-    const translateX = isOnWeavingPage ? 0 : hiddenListWidthWeaving;
-    const translateY = isOnWeavingPage
-        ? accordionOffsetY
-        : hiddenListHeightWeaving;
+/**
+     * Gestion du décalage vertical du titre en fonction de l'accordéon
+     */
+    useEffect(() => {
+        // Écoute l'événement personnalisé émis par l'accordéon
+        const handleAccordionMovement = (event) => {
+            // Récupère l'état de l'accordéon et sa hauteur depuis l'événement
+            const { isAccordionOpen, accordionHeight } = event.detail;
+            // Applique un décalage négatif égal à la hauteur de l'accordéon si ouvert, sinon revient à 0
+            setAccordionOffsetY(isAccordionOpen ? -accordionHeight : 0);
+        };
+
+        // Ajout de l'écouteur d'événement
+        window.addEventListener(
+            'accordionDescriptionToggle',
+            handleAccordionMovement
+        );
+
+        // Nettoyage de l'écouteur lors du démontage du composant
+        return () => {
+            window.removeEventListener(
+                'accordionDescriptionToggle',
+                handleAccordionMovement
+            );
+        };
+    }, []);
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // Toogle hidden/compact/full
+    const [translateYValue, setTranslateYValue] = useState('100vh');
+    const [translateXValue, setTranslateXValue] = useState('100vw');
+    const [isOnWeavingPage, setIsOnWeavingPage] = useState(false);
+
+    const toggleListDisplay = (url, category, accordionY) => {
+        if (url.includes(category)) {
+            setTranslateYValue(accordionY + 'px');
+            setTranslateXValue(0);
+            setIsOnWeavingPage(true);
+        } else if (url == '/fr/' || url == '/en/') {
+            console.log(translateXValue, translateYValue);
+            setTranslateYValue(hiddenListHeightWeaving + 'px');
+            setTranslateXValue(hiddenListWidthWeaving + 'px');
+            setIsOnWeavingPage(false);
+
+        } else {
+            setTranslateYValue('100vh');
+            setTranslateXValue('100vw');
+            setIsOnWeavingPage(false);
+        }
+    };
+
+    useEffect(() => {
+        toggleListDisplay(targetHref, 'weaving', accordionOffsetY);
+    }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     // Render
     return (
         <>
             <div
-                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${className} ${!isOnWeavingPage ? 'cursor-pointer' : ''} ${
-                    !hidden ? '' : 'translate-y-full translate-x-full'
-                }`}
+                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out  ${className} ${!isOnWeavingPage ? 'cursor-pointer' : ''} `}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
-                              navigate(`/${lang}/weaving/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/weaving/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
                 <div
-                    className={`grid transition-all auto-cols-auto auto-rows-min duration-1000 ease-in-out ${
-                        !isOnWeavingPage ? 'pointer-events-none' : ''
-                    }`}
+                    className={`grid transition-all auto-cols-auto auto-rows-min duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''
+                        }`}
                     style={{
-                        transform: `translate(${translateX}px, ${translateY}px)`,
+                        transform: `translate(${translateXValue}, ${translateYValue})`,
                     }}
                 >
                     {/* Liste Homepage */}
