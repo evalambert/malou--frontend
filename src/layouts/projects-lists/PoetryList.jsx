@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
-import { navigate } from "astro:transitions/client";
-import Matter from "matter-js";
-import "../../assets/styles/matterPoems.css";
+import { useEffect, useState } from 'react';
+import { navigate } from 'astro:transitions/client';
+import Matter from 'matter-js';
+import '../../assets/styles/matterPoems.css';
 import 'pathseg';
 import decomp from 'poly-decomp';
 
-const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, className }) => {
-
+const PoetryList = ({
+    dataPoetry,
+    isOnPoetryPage,
+    targetHref,
+    hidden,
+    lang,
+    className,
+}) => {
     // const [letterPositions, setLetterPositions] = useState({});
     // const [letterOffsets, setLetterOffsets] = useState({});
 
@@ -31,7 +37,7 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
     //         letters: poetry.title.split('')
     //     }));
 
-    //     // console.log(poetryTitlesLetters); 
+    //     // console.log(poetryTitlesLetters);
 
     //     // module aliases
     //     var Engine = Matter.Engine,
@@ -73,7 +79,6 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
     //             // showVelocity: true
     //         }
     //     });
-
 
     //     // Création des chaînes pour chaque titre
     //     const ropes = poetryTitlesLetters.map((poetry, index) => {
@@ -130,7 +135,6 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
     //     const vertices = Svg.pathToVertices(path, 30);
     //     // Obtient les dimensions du path SVG
 
-
     //     // Crée une forme physique à partir des vertices
     //     // La position est calculée pour centrer la forme horizontalement
     //     // et la placer en bas du conteneur
@@ -157,7 +161,6 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
     //         }
     //     );
 
-
     //     // Wall and Ground Variables
     //     let leftWall = Bodies.rectangle(0 - thiccness / 2, matterContainer.clientHeight / 2, thiccness, matterContainer.clientHeight * 5, { isStatic: true });
     //     let rightWall = Bodies.rectangle(matterContainer.clientWidth + thiccness / 2, matterContainer.clientHeight / 2, thiccness, matterContainer.clientHeight * 5, { isStatic: true });
@@ -170,7 +173,6 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
     //         groundShape,
     //     ]);
 
-
     //     // run the renderer
     //     Render.run(render);
 
@@ -179,7 +181,6 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
 
     //     // run the engine
     //     Runner.run(runner, engine);
-
 
     //     // resize the canvas
     //     function handleResize(matterContainer) {
@@ -240,7 +241,6 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
     //         handleResize(matterContainer);
     //     });
     // }, []);
-
 
     // Render
     return (
@@ -313,7 +313,6 @@ const PoetryList = ({ dataPoetry, isOnPoetryPage, targetHref, hidden, lang, clas
 
 
             </div> */}
-
         </>
     );
 };

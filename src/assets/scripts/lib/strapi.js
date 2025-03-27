@@ -11,46 +11,46 @@
  * @returns {Promise}
  */
 
-export default async function fetchApi ({
-  endpoint,
-  query,
-  wrappedByKey,
-  wrappedByList,
-  locale
+export default async function fetchApi({
+    endpoint,
+    query,
+    wrappedByKey,
+    wrappedByList,
+    locale,
 }) {
-  if (endpoint.startsWith('/')) {
-    endpoint = endpoint.slice(1)
-  }
-
-  const API_URL = 'https://railwayapp-strapi-production-a8e8.up.railway.app' // URL de base de votre API
-  const url = new URL(`${API_URL}/api/${endpoint}`)
-
-  if (query) {
-    Object.entries(query).forEach(([key, value]) => {
-      url.searchParams.append(key, value)
-    })
-  }
-
-  // Ajout du paramètre locale à l'URL si spécifié
-  if (locale) {
-    url.searchParams.append('locale', locale)
-  }
-
-  try {
-    const res = await fetch(url.toString())
-    let data = await res.json()
-
-    if (wrappedByKey) {
-      data = data[wrappedByKey]
+    if (endpoint.startsWith('/')) {
+        endpoint = endpoint.slice(1);
     }
 
-    if (wrappedByList) {
-      data = data[0]
+    const API_URL = 'https://railwayapp-strapi-production-a8e8.up.railway.app'; // URL de base de votre API
+    const url = new URL(`${API_URL}/api/${endpoint}`);
+
+    if (query) {
+        Object.entries(query).forEach(([key, value]) => {
+            url.searchParams.append(key, value);
+        });
     }
 
-    return data
-  } catch (error) {
-    console.error('Erreur lors de la récupération des données:', error)
-    throw error
-  }
+    // Ajout du paramètre locale à l'URL si spécifié
+    if (locale) {
+        url.searchParams.append('locale', locale);
+    }
+
+    try {
+        const res = await fetch(url.toString());
+        let data = await res.json();
+
+        if (wrappedByKey) {
+            data = data[wrappedByKey];
+        }
+
+        if (wrappedByList) {
+            data = data[0];
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error);
+        throw error;
+    }
 }

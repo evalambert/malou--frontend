@@ -30,22 +30,20 @@ export const prerender = true;
 ---
 
 <Layout title='About' showReturn returnTo=''>
-    <main>
-        <Nav
-            className='md:fixed md:top-0 md:left-[15px] rounded-[4px] z-[999]'
-            lang={lang}
-            currentPath={Astro.url.pathname}
-            transition:name='nav'
-            transition:persist
-            client:load
-        />
-        <MobileButtons lang={lang} client:load />
-        <WrapperHeight client:load />
-        <div
-            class='wrapper-about-actus relative md:static overflow-hidden md:overflow-visible'
-        >
-            <AboutComponent about={about} lang={lang} client:load />
-            <ActuComponent actus={actus} lang={lang} client:load />
-        </div>
-    </main>
+    <Nav
+        className='md:fixed md:top-0 md:left-[15px] rounded-[4px] z-[999] mix-blend-target'
+        lang={lang}
+        currentPath={Astro.url.pathname}
+        transition:name='nav'
+        transition:persist
+        client:load
+    />
+    <MobileButtons lang={lang} client:load />
+    <WrapperHeight client:load />
+    <div
+        class='wrapper-about-actus relative md:static overflow-hidden md:overflow-visible'
+    >
+        <AboutComponent about={about} lang={lang} client:load />
+        <ActuComponent actus={actus} lang={lang} client:load />
+    </div>
 </Layout>

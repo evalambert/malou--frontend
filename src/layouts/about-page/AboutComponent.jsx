@@ -45,12 +45,11 @@ export default function AboutComponent({ about, lang }) {
     return (
         <section
             ref={aboutRef}
-            className={`section--about absolute left-0 w-full md:fixed md:right-0 flex flex-col gap-3
-        ${
-            active === 'about'
-                ? 'md:h-full md:top-0'
-                : 'md:h-0 md:top-[calc(-100vh)]'
-        } transition-all duration-500 ease-in-out overflow-hidden`}
+            className={`section--about mix-blend-target absolute left-0 flex w-full flex-col gap-3 md:fixed md:right-0 ${
+                active === 'about'
+                    ? 'md:top-0 md:h-full'
+                    : 'md:top-[calc(-100vh)] md:h-0'
+            } overflow-hidden transition-all duration-500 ease-in-out`}
             style={
                 isMobile
                     ? { top: active === 'about' ? '0px' : `${actuHeight}px` }
@@ -58,32 +57,31 @@ export default function AboutComponent({ about, lang }) {
             }
         >
             <button
-                className={`button-about md:fixed md:top-0 md:left-[270px] md:p-6 md:rotate-[27.28deg] rotate-[19deg] transition-opacity duration-300 hidden md:block
-          ${active === 'about' ? 'opacity-0' : 'opacity-100'}`}
+                className={`button-about hidden rotate-[19deg] transition-opacity duration-300 md:fixed md:top-0 md:left-[270px] md:block md:rotate-[27.28deg] md:p-6 ${active === 'about' ? 'opacity-0' : 'opacity-100'}`}
                 onClick={toggleComponent}
             >
                 {lang === 'fr' ? 'à propos' : 'about'}
             </button>
-            <div className='wrapper--bio md:order-2 flex'>
-                <div className='fake-nav hidden md:block flex-none w-[170px]'></div>
+            <div className='wrapper--bio flex md:order-2'>
+                <div className='fake-nav hidden w-[170px] flex-none md:block'></div>
                 <p className='bio'>{about.bio}</p>
             </div>
-            <div className='wrapper--email md:order-1 flex'>
-                <div className='fake-nav hidden md:block flex-none w-[270px] h-[131px] '></div>
-                <div className='email flex flex-1 justify-center items-center'>
-                    <p className='rotate-[-16deg] md:rotate-[10.87deg] py-9 px-4 md:py-0 md:px-0'>
+            <div className='wrapper--email flex md:order-1'>
+                <div className='fake-nav hidden h-[131px] w-[270px] flex-none md:block'></div>
+                <div className='email flex flex-1 items-center justify-center'>
+                    <p className='rotate-[-16deg] px-4 py-9 md:rotate-[10.87deg] md:px-0 md:py-0'>
                         {about.email}
                     </p>
                 </div>
             </div>
-            <div className='wrappper--phone flex md:order-3 justify-end md:justify-start '>
+            <div className='wrappper--phone flex justify-end md:order-3 md:justify-start'>
                 {/*  <p>{about.studio}, {about.city}</p> */}
-                <p className='md:pt-[31px] md:ps-[47px] pb-[24px] pt-[8px] rotate-[15.72deg] md:rotate-45'>
+                <p className='rotate-[15.72deg] pt-[8px] pb-[24px] md:rotate-45 md:ps-[47px] md:pt-[31px]'>
                     {about.phone}
                 </p>
             </div>
-            <div className='wrapper--credits md:order-4 flex flex-col flex-1 items-center md:items-end justify-end md:pe-20 text-center'>
-                <div className='flex flex-col justify-center items-center h-fit rotate-[-16deg] md:py-12 md:px-4 pb-[50px] pt-[5px]'>
+            <div className='wrapper--credits flex flex-1 flex-col items-center justify-end text-center md:order-4 md:items-end md:pe-20'>
+                <div className='flex h-fit rotate-[-16deg] flex-col items-center justify-center pt-[5px] pb-[50px] md:px-4 md:py-12'>
                     <p>©{about.update}</p>
                     <p>
                         {lang === 'fr' ? (

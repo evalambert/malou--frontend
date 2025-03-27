@@ -1,6 +1,5 @@
 // Import Swiper React components
-import React, { useRef, useState  } from "react";
-
+import React, { useRef, useState } from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Zoom, Keyboard } from 'swiper/modules';
@@ -9,23 +8,17 @@ import ZoomableImg from '../ZoomableImg';
 // Import Swiper styles
 import 'swiper/css';
 
-
 export default function Slider({ medias = [] }) {
     const swiperRef = useRef(null);
     const [clickTimeout, setClickTimeout] = useState(null);
     const [mouseDownTime, setMouseDownTime] = useState(null);
 
-
-
-
-
-
     const handleSlideChange = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             const swiper = swiperRef.current.swiper;
             const isLastSlide = swiper.activeIndex === swiper.slides.length - 1;
-            const wasLastSlide = swiper.previousIndex === swiper.slides.length - 1;
-
+            const wasLastSlide =
+                swiper.previousIndex === swiper.slides.length - 1;
         }
     };
 
@@ -60,7 +53,6 @@ export default function Slider({ medias = [] }) {
                             }, 200)
                         );
                     }
-
                 } else {
                     // Double clic
                     clearTimeout(clickTimeout);
@@ -70,23 +62,18 @@ export default function Slider({ medias = [] }) {
         }
     };
 
-    // Gestion du clic simple : change de slide 
+    // Gestion du clic simple : change de slide
     const handleSingleClickRight = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             swiperRef.current.swiper.slideNext();
         }
     };
 
-
     const handleSingleClickLeft = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             swiperRef.current.swiper.slidePrev();
         }
     };
-
-
-
-
 
     return (
         <>
@@ -141,7 +128,7 @@ export default function Slider({ medias = [] }) {
                     zoom={{
                         maxRatio: 3,
                         panOnMouseMove: true,
-                        limitToOriginalSize: true
+                        limitToOriginalSize: true,
                     }}
                     // loop={true}
                     keyboard={{
@@ -155,15 +142,12 @@ export default function Slider({ medias = [] }) {
                     onSlideChange={handleSlideChange}
                 >
                     {medias.map((media, index) => (
-                        <SwiperSlide
-                            key={index}
-                        >
+                        <SwiperSlide key={index}>
                             <ZoomableImg url={media.url} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
             </div>
         </>
-
     );
-};
+}

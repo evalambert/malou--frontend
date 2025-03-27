@@ -52,30 +52,28 @@ export const prerender = true;
 ---
 
 <Layout title='Vitrail' showReturn returnTo={`/vitrail`}>
-    <main>
-        <AllProjectsLists lang={lang} enterIndex={false} />
+    <AllProjectsLists lang={lang} enterIndex={false} />
 
-        <AccordionReadProject
-            lang={lang}
-            year={vitrail?.year || 'Année non disponible'}
-            client:only
-            description={vitrail?.description || 'Description non disponible'}
-            technique={vitrail?.technique || 'Technique non disponible'}
-            materials={vitrail?.materials || 'Matériaux non disponibles'}
-            width={vitrail?.width || 'Largeur non disponible'}
-            height={vitrail?.height || 'Hauteur non disponible'}
-        />
+    <AccordionReadProject
+        lang={lang}
+        year={vitrail?.year || 'Année non disponible'}
+        client:only
+        description={vitrail?.description || 'Description non disponible'}
+        technique={vitrail?.technique || 'Technique non disponible'}
+        materials={vitrail?.materials || 'Matériaux non disponibles'}
+        width={vitrail?.width || 'Largeur non disponible'}
+        height={vitrail?.height || 'Hauteur non disponible'}
+    />
 
-        <PreviewImg
-            transition:name='preview-image'
-            transition:persist
-            client:only
-        />
-        <div
-            class='fixed top-0 left-0 w-screen h-screen'
-            transition:animate={fade({ duration: '0.5s' })}
-        >
-            <Slider client:only medias={vitrail?.medias || []} />
-        </div>
-    </main>
+    <PreviewImg
+        transition:name='preview-image'
+        transition:persist
+        client:only
+    />
+    <div
+        class='fixed top-0 left-0 w-screen h-screen'
+        transition:animate={fade({ duration: '0.5s' })}
+    >
+        <Slider client:only medias={vitrail?.medias || []} />
+    </div>
 </Layout>

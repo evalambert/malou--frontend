@@ -1,15 +1,11 @@
-
-
 const Nav = ({ lang, currentPath, className }) => {
-
-
     const isHomePage =
         currentPath === `/${lang}` || currentPath === `/${lang}/`;
 
     const isAboutPage = currentPath === `/${lang}/about/`;
 
     const getLinkClass = (path) => {
-        if (isHomePage) return 'nav-li nav-home';
+        if (isHomePage || isAboutPage) return 'nav-li nav-home';
         return `nav-li ${currentPath.startsWith(path) ? 'nav-on' : 'nav-off'}`;
     };
 
@@ -19,16 +15,17 @@ const Nav = ({ lang, currentPath, className }) => {
         destination = `/${lang}/about/`;
     } else if (isAboutPage) {
         destination = `/${lang}/`;
-
     }
 
     // Render
     return (
         <>
             <div
-                className={`nav-wrapper ${className} flex gap-[10px] pt-body-p-y }`}
+                className={`nav-wrapper ${className} pt-body-p-y } flex gap-[10px]`}
             >
-                <a href={destination} className="whitespace-nowrap">malou raulin</a>
+                <a href={destination} className='whitespace-nowrap'>
+                    malou raulin
+                </a>
                 <nav>
                     <ul className='flex flex-col'>
                         <li className={getLinkClass(`/${lang}/weaving/`)}>

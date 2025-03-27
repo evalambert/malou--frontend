@@ -56,36 +56,34 @@ export const prerender = true;
 ---
 
 <Layout title='Weaving' showReturn returnTo={`/weaving`}>
-    <main>
-        <AllProjectsLists lang={lang} enterIndex={false} />
+    <AllProjectsLists lang={lang} enterIndex={false} />
 
-        <AccordionReadProject
-            lang={lang}
-            year={weaving?.year || 'Année non disponible'}
-            client:load
-            description={weaving?.description || 'Description non disponible'}
-            technique={weaving?.technique || 'Technique non disponible'}
-            materials={weaving?.materials || 'Matériaux non disponibles'}
-            width={weaving?.width || 'Largeur non disponible'}
-            height={weaving?.height || 'Hauteur non disponible'}
-            <PreviewImg
-            transition:name='preview-image'
-            transition:persist
-            client:only
-        />
-
+    <AccordionReadProject
+        lang={lang}
+        year={weaving?.year || 'Année non disponible'}
+        client:load
+        description={weaving?.description || 'Description non disponible'}
+        technique={weaving?.technique || 'Technique non disponible'}
+        materials={weaving?.materials || 'Matériaux non disponibles'}
+        width={weaving?.width || 'Largeur non disponible'}
+        height={weaving?.height || 'Hauteur non disponible'}
         <PreviewImg
-            transition:name='preview-image'
-            transition:persist
-            client:only
-        />
+        transition:name='preview-image'
+        transition:persist
+        client:only
+    />
 
-        <div
-            class='fixed top-0 left-0 w-screen h-screen'
-            transition:animate={fade({ duration: '0.5s' })}
-        >
-            <Slider client:only medias={weaving?.medias || []} />
-        </div>
-        />
-    </main>
+    <PreviewImg
+        transition:name='preview-image'
+        transition:persist
+        client:only
+    />
+
+    <div
+        class='fixed top-0 left-0 w-screen h-screen'
+        transition:animate={fade({ duration: '0.5s' })}
+    >
+        <Slider client:only medias={weaving?.medias || []} />
+    </div>
+    />
 </Layout>
