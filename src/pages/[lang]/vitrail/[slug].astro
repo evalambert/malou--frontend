@@ -66,6 +66,7 @@ export const prerender = true;
             height={vitrail?.height || 'Hauteur non disponible'}
         />
 
+        <PreviewImgAnimation medias={vitrail?.medias || []} client:only />
         <div class='fixed top-0 left-0 w-screen h-screen'>
             <Slider
                 client:only
@@ -74,5 +75,4 @@ export const prerender = true;
             />
         </div>
     </main>
-    <!-- <PreviewImgAnimation medias={vitrail?.medias || []} client:only /> -->
 </Layout>
