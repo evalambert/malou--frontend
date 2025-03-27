@@ -25,15 +25,11 @@ const VitrailTitle = ({ vitrail, lang }) => {
                 }
             >
                 {vitrail.title.split(' ').map((word, i, words) => (
-                    <div
-                        key={i}
-                        className='volume-word-wrapper inline-block transition-all duration-300'
-                    >
-                        <div className='inline-block h-[25px] transition-all duration-300'>
+
+                    <div key={i} className="vitrail-word-wrapper inline-block transition-all duration-300 ">
+                        <div className="inline-block transition-all duration-300 h-[25px]">
                             {word.split('').map((letter, j) => (
-                                <span key={j} className=''>
-                                    {letter}
-                                </span>
+                                <span key={j} className="transition-all duration-300">{letter}</span>
                             ))}
                         </div>
                     </div>

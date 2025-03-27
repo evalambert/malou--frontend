@@ -229,7 +229,14 @@ body:not(.category-vitrail) .swiper-pagination {
     width: fit-content;
 
 } */
-.active .volume-word-wrapper span {
-    display: inline-block;
+.active  .volume-word-wrapper span {
     text-align: center;
+    display: inline-block;
 }
+
+
+.vitrail-word-wrapper.active  span {
+    text-align: center;
+    display: inline-block;
+}
+
