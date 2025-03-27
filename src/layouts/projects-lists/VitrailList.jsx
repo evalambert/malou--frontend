@@ -21,72 +21,91 @@ const VitrailList = ({
         ).clientHeight;
         setHiddenListHeightVitrail(hiddenListHeightVitrailValue);
 
+
+        const openAnimation = (targetTitle) => {
+            console.log(':::: OPEN ANIMATION ::::')
+
+            
+            const wordWrappers = targetTitle.querySelectorAll('.vitrail-word-wrapper > div');
+
+            wordWrappers.forEach((wrapper, wrapperIndex) => {
+                const wordWrapperSpan =
+                    wrapper.querySelectorAll('span');
+                const wordWrapSpanLength = wordWrapperSpan.length;
+
+                wrapper.parentElement.classList.add('active');
+                wrapper.style.transition = 'height 0.5s ease-in-out';
+                wrapper.style.transitionDelay = `${wrapperIndex * 0.3
+                    }s`;
+                wrapper.style.height = `${wordWrapSpanLength * 25}px`;
+
+                const firstSpan = wordWrapperSpan[0];
+                const firstWidth = firstSpan.offsetWidth;
+
+                wrapper.parentElement.style.width = `${firstWidth * wordWrapSpanLength + 10
+                    }px`;
+
+                wordWrapperSpan.forEach((span, index) => {
+                    span.style.width = `${firstWidth}px`;
+                    span.style.transition =
+                        'transform 0.5s ease-in-out';
+                    span.style.transitionDelay = `${wrapperIndex * 0.3
+                        }s`;
+                    span.style.transform = `translate(-${index * firstWidth
+                        }px, ${index * 25}px)`;
+                });
+            });
+        }
+
+        const closeAnimation = (targetTitle) => {
+            console.log(':::: CLOSE ANIMATION ::::')
+            const wordWrappers = targetTitle.querySelectorAll(
+                '.vitrail-word-wrapper > div'
+            );
+            wordWrappers.forEach((wrapper, wrapperIndex) => {
+                const wordWrapperSpan =
+                    wrapper.querySelectorAll('span');
+
+                // Animation inverse
+                wrapper.style.transition = 'height 0.5s ease-in-out';
+                wrapper.style.transitionDelay = `${wrapperIndex * 0.3
+                    }s`;
+                wrapper.style.height = '0px';
+
+                wordWrapperSpan.forEach((span) => {
+                    span.style.transition =
+                        'transform 0.5s ease-in-out';
+                    span.style.transitionDelay = `${wrapperIndex * 0.3
+                        }s`;
+                    span.style.transform = 'translate(0, 0)';
+                });
+
+                // Réinitialiser la largeur après l'animation
+                setTimeout(() => {
+                    wrapper.parentElement.style.width = '';
+                    wrapper.parentElement.classList.remove('active');
+                }, wrapperIndex * 300 + 650);
+            });
+        }
+
         // Title animation
         const titleLayout = () => {
             const title = document.querySelectorAll('li.vitrail-title a');
 
             // Title animation
             title.forEach((title) => {
-                if (title.getAttribute('href') === targetHref) {
-                    title.parentElement.classList.add('active');
-
-                    const wordWrappers = title.querySelectorAll('.volume-word-wrapper > div');
-
-                    wordWrappers.forEach((wrapper, wrapperIndex) => {
-                        const wordWrapperSpan =
-                            wrapper.querySelectorAll('span');
-                        const wordWrapSpanLength = wordWrapperSpan.length;
-
-                        wrapper.style.transition = 'height 0.5s ease-in-out';
-                        wrapper.style.transitionDelay = `${wrapperIndex * 0.3
-                            }s`;
-                        wrapper.style.height = `${wordWrapSpanLength * 25}px`;
-
-                        const firstSpan = wordWrapperSpan[0];
-                        const firstWidth = firstSpan.offsetWidth;
-
-                        wrapper.parentElement.style.width = `${firstWidth * wordWrapSpanLength + 10
-                            }px`;
-
-                        wordWrapperSpan.forEach((span, index) => {
-                            span.style.width = `${firstWidth}px`;
-                            span.style.transition =
-                                'transform 0.5s ease-in-out';
-                            span.style.transitionDelay = `${wrapperIndex * 0.3
-                                }s`;
-                            span.style.transform = `translate(-${index * firstWidth
-                                }px, ${index * 25}px)`;
-                        });
-                    });
+                if (document.querySelector('body').classList.contains('on-slug-page')) {
+                    if (title.getAttribute('href') === targetHref) {
+                        console.log(':::: Enter slug page ::::')
+                        openAnimation(title);
+                    } 
                 } else {
-                    title.parentElement.classList.remove('active');
-                    const wordWrappers = title.querySelectorAll(
-                        '.volume-word-wrapper > div'
-                    );
-                    wordWrappers.forEach((wrapper, wrapperIndex) => {
-                        const wordWrapperSpan =
-                            wrapper.querySelectorAll('span');
-
-                        // Animation inverse
-                        wrapper.style.transition = 'height 0.5s ease-in-out';
-                        wrapper.style.transitionDelay = `${wrapperIndex * 0.3
-                            }s`;
-                        wrapper.style.height = '0px';
-
-                        wordWrapperSpan.forEach((span) => {
-                            span.style.transition =
-                                'transform 0.5s ease-in-out';
-                            span.style.transitionDelay = `${wrapperIndex * 0.3
-                                }s`;
-                            span.style.transform = 'translate(0, 0)';
-                        });
-
-                        // Réinitialiser la largeur après l'animation
-                        setTimeout(() => {
-                            wrapper.parentElement.style.width = '';
-                        }, wrapperIndex * 300 + 500);
-                    });
+                    console.log(':::: Leave slug page ::::')
+                    if (title.children[0].classList.contains('active')) {
+                        closeAnimation(title);
+                    }
                 }
+
             });
         };
 
@@ -105,20 +124,17 @@ const VitrailList = ({
     const [translateValue, setTranslateValue] = useState('-50vh');
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
-    
+
     const toggleListDisplay = (url, category) => {
         if (url.includes(category)) {
-            console.log(':::: ENTER VITRAIL PAGE ::::')
             setTranslateValue('0px');
             setIsOnVitrailPage(true);
             setIsOnIndexPage(false);
         } else if (url == '/fr/' || url == '/en/') {
-            console.log(':::: ENTER HOMEPAGE ::::')
             setTranslateValue('-' + hiddenListHeightVitrail + 'px');
             setIsOnVitrailPage(false);
             setIsOnIndexPage(true);
         } else {
-            console.log(':::: HIDE (not on vitrail page not on homepage) ::::')
             setTranslateValue('-50vh');
             setIsOnVitrailPage(false);
             setIsOnIndexPage(false);
@@ -157,43 +173,43 @@ const VitrailList = ({
                         style={{ transform: `translateY(${translateValue})` }}
                     >
                         <div
-                        className={`hidden-list-vitrail transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? 'opacity-100' : 'opacity-0'
-                            } `}
-                    >
-                        {/* Liste Hidden */}
+                            className={`hidden-list-vitrail transition-all duration-1000 ease-in-out delay-[0.2s]flex flex-col items-end ${isOnVitrailPage ? 'opacity-100' : 'opacity-0'
+                                } `}
+                        >
+                            {/* Liste Hidden */}
 
-                        <ul className='vitrail-list-compact overflow-visible'>
-                            {dataVitrails.slice(2).map((vitrail) => (
+                            <ul className='vitrail-list-compact overflow-visible'>
+                                {dataVitrails.slice(2).map((vitrail) => (
+                                    <li
+                                        className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-100'
+                                        key={vitrail.id}
+                                    >
+                                        <VitrailTitle
+                                            vitrail={vitrail}
+                                            lang={lang}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+
+                            {/* (END) Liste Hidden */}
+                        </div>
+                        {/* Liste Homepage */}
+                        <ul className='vitrail-list-compact'>
+                            {dataVitrails.slice(0, 2).map((vitrail) => (
                                 <li
-                                    className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-100'
+                                    className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-300'
                                     key={vitrail.id}
                                 >
-                                    <VitrailTitle
-                                        vitrail={vitrail}
-                                        lang={lang}
-                                    />
+                                    <VitrailTitle vitrail={vitrail} lang={lang} />
                                 </li>
                             ))}
                         </ul>
+                        {/* (END) Liste Homepage */}
 
-                        {/* (END) Liste Hidden */}
                     </div>
-                    {/* Liste Homepage */}
-                    <ul className='vitrail-list-compact'>
-                        {dataVitrails.slice(0, 2).map((vitrail) => (
-                            <li
-                                className='vitrail-title !overflow-visible text-right w-fit block ml-auto transition-all duration-300'
-                                key={vitrail.id}
-                            >
-                                <VitrailTitle vitrail={vitrail} lang={lang} />
-                            </li>
-                        ))}
-                    </ul>
-                    {/* (END) Liste Homepage */}
-
                 </div>
-            </div>
-        </div >
+            </div >
         </>
     );
 };
