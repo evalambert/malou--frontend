@@ -3,16 +3,8 @@ import { navigate } from 'astro:transitions/client';
 
 import VitrailTitle from '../../components/common/title/VitrailTitle.jsx';
 
-
-const VitrailList = ({
-    dataVitrails,
-    targetHref,
-    lang,
-    className,
-}) => {
-
+const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
-
 
     useEffect(() => {
         // Afficher la hauteur de la liste cachée
@@ -94,6 +86,7 @@ const VitrailList = ({
 
             // Title animation
             title.forEach((title) => {
+
                 if (document.querySelector('body').classList.contains('on-slug-page')) {
                     if (title.getAttribute('href') === targetHref) {
                         console.log(':::: Enter slug page ::::')
@@ -104,6 +97,7 @@ const VitrailList = ({
                     if (title.children[0].classList.contains('active')) {
                         closeAnimation(title);
                     }
+
                 }
 
             });
@@ -119,7 +113,7 @@ const VitrailList = ({
         return () => window.removeEventListener('resize', titleLayout);
     }, [dataVitrails]);
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateValue, setTranslateValue] = useState('-50vh');
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
@@ -144,32 +138,31 @@ const VitrailList = ({
     useEffect(() => {
         toggleListDisplay(targetHref, 'vitrail');
     }, [targetHref, hiddenListHeightVitrail]);
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // * END * Toogle hidden/compact/full
-
-
 
     // Render
     return (
         <>
-            <div className={`work-list ${className} ${isOnIndexPage ? 'cursor-pointer pointer-events-auto' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}>
-
+            <div
+                className={`work-list ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
+            >
                 <div
-                    className={`pt-body-p-y flex flex-col items-end 
-                        ${!isOnVitrailPage ? 'cursor-pointer' : ''
-                        } `}
+                    className={`pt-body-p-y flex flex-col items-end ${
+                        !isOnVitrailPage ? 'cursor-pointer' : ''
+                    } `}
                     onClick={
                         !isOnVitrailPage
                             ? () =>
-                                navigate(`/${lang}/vitrail/`, {
-                                    history: 'push',
-                                })
+                                  navigate(`/${lang}/vitrail/`, {
+                                      history: 'push',
+                                  })
                             : undefined
                     }
                 >
                     <div
-                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out  ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
+                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
                         style={{ transform: `translateY(${translateValue})` }}
                     >
                         <div

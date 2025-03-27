@@ -70,28 +70,43 @@ export default function AccordionReadProject({
      */
     const computedTop = isOpen
         ? contentHeight < window.innerHeight * 0.5
-            ? `calc(100vh - ${contentHeight}px - 47px)`
+            ? `calc(100vh - ${contentHeight}px - 57px)`
             : '50vh'
-        : 'calc(100vh - 47px)';
+        : 'calc(100vh - 57px)';
+
+    const getTranslateY = () => {
+        if (isOpen) {
+            return lang === 'fr' ? 'translate-y-[-11px]' : 'translate-y-[-6px]';
+        } else {
+            return lang === 'fr' ? 'translate-y-[-6px]' : 'translate-y-[-8px]';
+        }
+    };
 
     return (
         <div
-            className={`accordion-wrapper-position relative z-[999] mix-blend-target`}
+            className={`accordion-wrapper-position mix-blend-target relative z-[999]`}
         >
             <div
-                className='wrapper-description w-full absolute md:fixed md:z-[999] right-0 flex flex-col items-center justify-center transition-all duration-500 ease-in-out'
+                className='wrapper-description absolute right-0 flex w-full flex-col items-center justify-center transition-all duration-500 ease-in-out md:fixed md:z-[999]'
                 style={{ top: computedTop }}
             >
                 <button
-                    className='button-description p-[11px] cursor-pointer'
+                    className={`button-description rotate-[24deg] cursor-pointer p-4 ${getTranslateY()}`}
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    {lang === 'fr' ? 'Lire' : 'Read'}
+                    {isOpen ? (
+                        <span className='text-description'>
+                            {lang === 'fr' ? 'fermer' : 'close'}
+                        </span>
+                    ) : (
+                        <span className='text-description'>
+                            {lang === 'fr' ? 'lire' : 'read'}
+                        </span>
+                    )}
                 </button>
 
                 <div
-                    className={`container-description text-center overflow-hidden 
-                    transition-all duration-500 ease-in-out`}
+                    className={`container-description overflow-hidden text-center transition-all duration-500 ease-in-out`}
                     style={{ maxHeight: isOpen ? `${contentHeight}px` : '0px' }}
                 >
                     <div ref={contentRef} className='text-description'>
