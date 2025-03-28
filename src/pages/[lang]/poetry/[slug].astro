@@ -2,9 +2,13 @@
 //pages/[lang]/poetry/[slug].astro
 
 import fetchApi from '../../../assets/scripts/lib/strapi.js';
+import { fade } from 'astro:transitions';
+
 import Layout from '../../../layouts/Layout.astro';
+import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
+import PreviewImg from '../../../components/features/preview-image/PreviewImg.jsx';
 import AccordionReadProject from '../../../components/features/accordion-project/AccordionReadProject.jsx';
-import Nav from '../../../layouts/Nav.jsx';
+import Slider from '../../../components/features/slider/Slider.jsx';
 
 export async function getStaticPaths() {
     const languages = ['fr', 'en'];
@@ -49,14 +53,8 @@ export const prerender = true;
 ---
 
 <Layout title='Poetry' showReturn returnTo={`/poetry`}>
-    <Nav
-        lang={lang}
-        currentPath={Astro.url.pathname}
-        transition:name='nav'
-        transition:persist
-        client:load
-        className='fixed top-0 left-main-x z-50'
-    />
+    <AllProjectsLists lang={lang} enterIndex={false} />
+
     <AccordionReadProject
         lang={lang}
         client:load
@@ -67,4 +65,15 @@ export const prerender = true;
         height={poetry?.height || 'Hauteur non disponible'}
         year={poetry?.year || 'Année non disponible'}
     />
+    <PreviewImg
+        transition:name='preview-image'
+        transition:persist
+        client:only
+    />
+    <div
+        class='fixed top-0 left-0 w-screen h-screen'
+        transition:animate={fade({ duration: '0.5s' })}
+    >
+        <Slider client:only medias={poetry?.medias || []} />
+    </div>
 </Layout>

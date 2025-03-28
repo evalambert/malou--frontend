@@ -1,0 +1,149 @@
+import { useState, useEffect } from 'react';
+import { gsap } from "gsap";
+
+const PoetryTitle = ({ pathOpen, pathClose, title, targetHref, keyId, className }) => {
+    // States
+    const [data, setData] = useState(null);
+
+    // Effects
+    useEffect(() => {
+        console.log(pathOpen, pathClose, title, targetHref)
+
+        // Récupération des éléments du DOM
+        const path = document.getElementById('myPath' + keyId)
+        const textOverlay = document.getElementById('textOverlay' + keyId)
+        const toggleBtn = document.getElementById('toggle' + keyId)
+        const svg = document.getElementById('svg' + keyId);
+
+        const bbox = path.getBBox();
+        const widthBbox = bbox.width * 2;
+        svg.setAttribute("viewBox", `0 -20 ${widthBbox} 1050`);
+
+        // Phrase à afficher (chaque lettre séparée, sans les espaces)
+        const phrase = title.split('').filter(c => c !== ' ')
+
+        // État courant (tracé ouvert ou fermé)
+        let isOpen = true
+
+        // Version fermée du tracé SVG
+        const closedPath = pathOpen
+
+        // Version ouverte du tracé SVG
+        const openPath = pathClose
+
+
+        // Fonction : extrait les points (x, y) d'une chaîne de commande SVG (attribut "d")
+        function extractPointsFromD(d) {
+            const points = []
+            const regex = /[ML]\s*([0-9.]+)[ ,]([0-9.]+)/g
+            let match
+            while ((match = regex.exec(d)) !== null) {
+                points.push({ x: parseFloat(match[1]), y: parseFloat(match[2]) })
+            }
+            return points
+        }
+
+        // Convertit des coordonnées SVG en pixels à l'écran
+        function svgPointToScreen(svg, x, y) {
+            const pt = svg.createSVGPoint()
+            pt.x = x
+            pt.y = y
+            return pt.matrixTransform(svg.getScreenCTM())
+        }
+
+        // Place les lettres sur les points du tracé actuel
+        function placeLettersOnPoints() {
+            const d = path.getAttribute('d') // récupère l'attribut "d" du path actuel
+            const points = extractPointsFromD(d) // extrait les points
+            textOverlay.innerHTML = '' // vide le conteneur HTML des lettres
+
+            const count = Math.min(phrase.length, points.length) // on limite au nombre de points disponibles
+            const svg = path.ownerSVGElement // référence au SVG parent
+
+            for (let i = 0; i < count; i++) {
+                const { x, y } = svgPointToScreen(svg, points[i].x, points[i].y)
+                const span = document.createElement('span')
+                span.textContent = phrase[i] // ajoute la lettre
+                span.style.left = `${x}px`
+                span.style.top = `${y}px`
+                textOverlay.appendChild(span) // ajoute le span dans le DOM
+            }
+        }
+
+        // Lorsque le bouton est cliqué, on alterne entre les deux formes
+        // toggleBtn.addEventListener('click', () => {
+        //     const to = isOpen ? closedPath : openPath // choisir la forme à animer vers
+        //     toggleBtn.textContent = isOpen ? 'ouvrir' : 'fermer' // changer le texte du bouton
+        //     isOpen = !isOpen // changer l'état
+
+        //     // Animation du changement de forme avec GSAP
+        //     gsap.to(path, {
+        //         duration: 0.5,
+        //         attr: { d: to }, // anime l'attribut "d"
+        //         onUpdate: placeLettersOnPoints // repositionne les lettres à chaque frame
+        //     })
+        // })
+
+        // Place les lettres au chargement initial et quand on redimensionne la fenêtre
+        placeLettersOnPoints();
+        window.addEventListener('load', placeLettersOnPoints)
+        window.addEventListener('resize', placeLettersOnPoints)
+    }, []);
+
+    // Handlers
+    const handleClick = () => {
+        // Handle click
+    };
+
+    // Render
+    return (
+        <>
+            <style>
+                {`
+
+                /* Style de chaque lettre */
+                .textOverlay span {
+                    position: absolute;
+                    transform: translate(-50%, -50%); /* centre la lettre sur le point */
+                    font-size: 24px;
+                    white-space: pre;
+                }
+
+                /* Bouton toggle */
+                #toggle {
+                margin - bottom: 1rem;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+            `}
+            </style>
+            <div className={`poetry-title--wrapper ${className}`}>
+                
+                <svg
+                    id={"svg" + keyId}
+                    className="w-full h-auto block"
+                    viewBox="0 -20 160 1050"
+                    preserveAspectRatio="none"
+                    style={{ height: "100vh" }}
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <a xlinkHref={targetHref}>
+                        <path id={"myPath" + keyId}
+                            d={pathClose}
+                            stroke="blue" strokeWidth="20px" fill="none" />
+                    </a>
+                </svg>
+                <div id={"textOverlay" + keyId} className="textOverlay absolute top-0 left-0 w-full h-full pointer-events-none">
+                    {/* <div className="textOverlay">
+                        {title.split('').map((letter, index) => (
+                            <span keyId={index}>{letter}</span>
+                        ))}
+                    </div> */}
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default PoetryTitle;
