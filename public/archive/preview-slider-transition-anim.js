@@ -1,4 +1,4 @@
-/* // pulic/scripts/preview-slider-transition-anim.js
+// pulic/scripts/preview-slider-transition-anim.js
 
 // Keep the preview image visible when the page is loaded
 document.addEventListener('astro:before-preparation', (event) => {
@@ -57,36 +57,4 @@ document.addEventListener('astro:before-preparation', (event) => {
 
     //     // ... existing code ...
     // }
-});
- */
-
-document.addEventListener('astro:before-preparation', (event) => {
-    const clickedElement = event.sourceElement;
-
-    // Si le clic est sur un élément ayant data-close-accordion → on ferme l'accordéon
-    if (clickedElement?.closest('[data-close-accordion]')) {
-        window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
-    }
-
-    // Gestion des images preview (inchangée)
-    const workList = document.querySelectorAll('.work-list');
-
-    for (const work of workList) {
-        if (work.contains(clickedElement)) {
-            const wrapperElement = document.querySelector(
-                '.preview-image--wrapper'
-            );
-            if (wrapperElement) {
-                wrapperElement.style.opacity = '1';
-                wrapperElement.classList.add('preview-image--wrapper-visible');
-                setTimeout(() => {
-                    wrapperElement.style.opacity = '0';
-                    wrapperElement.classList.remove(
-                        'preview-image--wrapper-visible'
-                    );
-                }, 5000);
-            }
-            return;
-        }
-    }
 });
