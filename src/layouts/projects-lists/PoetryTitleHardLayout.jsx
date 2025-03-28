@@ -143,12 +143,12 @@ const PoetryTitleHardLayout = ({ lang }) => {
                     <a xlinkHref={`/${lang}/poetry/comme-un-serpent-dans-une-flute/`}>
                         <path id="myPath-hard-layout-serpent"
                             d={pathSerpentClose}
-                            stroke="blue" strokeWidth="20px" fill="none" />
+                            stroke="transparent" strokeWidth="20px" fill="none" />
                     </a>
                     <a xlinkHref={`/${lang}/poetry/des-coquilles-et-des-pepins/`} className='translate-y-[150px]'>
                         <path id="myPath-hard-layout-coquille"
                             d={pathCoquilleClose}
-                            stroke="blue" strokeWidth="20px" fill="none" />
+                            stroke="transparent" strokeWidth="20px" fill="none" />
                     </a>
 
                 </svg>

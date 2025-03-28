@@ -19,7 +19,7 @@ const PoetryList = ({
         <>
 
             <div
-                className={`w-fit h-screen fixed top-0 z-[9] left-0 border-2 border-red-500 ${className} ${!isOnPoetryPage ? "cursor-pointer" : ""
+                className={`w-fit h-screen fixed top-0 z-[9] left-0 ${className} ${!isOnPoetryPage ? "cursor-pointer" : ""
                     }`}
                 onClick={
                     !isOnPoetryPage
@@ -29,11 +29,11 @@ const PoetryList = ({
             >
                 <div className={`work-list flex `}>
                     
-                    <div className="poetry-wrapper flex fixed translate-y-[20px] top-0 left-0 bg-blue-900  px-body-p-x">
-                        {dataPoetry.map((poetry) => (
+                    <div className="poetry-wrapper flex fixed translate-y-[20px] top-0 left-0  px-body-p-x">
+                        {dataPoetry.slice(2).map((poetry) => (
                             <div key={poetry.id}>
                                 <PoetryTitle 
-                                    className='border-2 border-green-500'
+                                    className=''
                                     pathOpen={poetry.svgPath?.svgPathOpenData || ''} 
                                     pathClose={poetry.svgPath?.svgPathCloseData || ''} 
                                     title={poetry.title} 

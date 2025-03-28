@@ -10,11 +10,11 @@ const PoetryTitle = ({ pathOpen, pathClose, title, targetHref, keyId, className 
         // Récupération des éléments du DOM
         const path = document.getElementById('myPath' + keyId)
         const textOverlay = document.getElementById('textOverlay' + keyId)
-        const svg = document.getElementById('svg' + keyId);
+        // const svg = document.getElementById('svg' + keyId);
 
-        const bbox = path.getBBox();
-        const widthBbox = bbox.width * 2;
-        svg.setAttribute("viewBox", `0 -20 ${widthBbox} 1050`);
+        // const bbox = path.getBBox();
+        // const widthBbox = bbox.width * 2;
+        // svg.setAttribute("viewBox", `0 -20 ${widthBbox} 1050`);
 
         // Phrase à afficher (chaque lettre séparée, sans les espaces)
         const phrase = title.split('').filter(c => c !== ' ')
@@ -132,7 +132,7 @@ const PoetryTitle = ({ pathOpen, pathClose, title, targetHref, keyId, className 
                     <a xlinkHref={targetHref}>
                         <path id={"myPath" + keyId}
                             d={pathClose}
-                            stroke="blue" strokeWidth="20px" fill="none" />
+                            stroke="transparent" strokeWidth="20px" fill="none" />
                     </a>
                 </svg>
                 <div id={"textOverlay" + keyId} className="textOverlay absolute top-0 left-0 w-full h-full pointer-events-none">
