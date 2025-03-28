@@ -58,7 +58,8 @@ export const prerender = true;
 
     <AccordionReadProject
         lang={lang}
-        client:only        transition:persist
+        client:only        
+        transition:persist
         year={volume?.year || 'Année non disponible'}
         description={volume?.description || 'Description non disponible'}
         technique={volume?.technique || 'Technique non disponible'}
