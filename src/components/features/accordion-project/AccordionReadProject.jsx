@@ -31,6 +31,20 @@ export default function AccordionReadProject({
     //     console.log('Content height:', contentHeight);
     // }, [contentHeight]);
 
+    // Gestion de la fermeture de l'accordéon 
+    useEffect(() => {
+        const handleClose = () => {
+            setIsOpen(false);
+        };
+
+        window.addEventListener('closeAccordionDescription', handleClose);
+        return () =>
+            window.removeEventListener(
+                'closeAccordionDescription',
+                handleClose
+            );
+    }, []);
+
     /**
      * Gestion du cycle de vie :
      * - Calcule la hauteur initiale au montage

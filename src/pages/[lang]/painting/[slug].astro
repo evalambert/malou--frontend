@@ -57,7 +57,7 @@ export const prerender = true;
     <AllProjectsLists lang={lang} enterIndex={false} />
     <AccordionReadProject
         lang={lang}
-        client:load
+        client:only
         transition:persist
         description={painting?.description || 'Description non disponible'}
         technique={painting?.technique || 'Technique non disponible'}

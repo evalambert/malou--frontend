@@ -42,7 +42,7 @@ const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
             class='language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] z-[999] mix-blend-target'
         >
             <LanguageSwitch
-                client:load
+                client:only
                 currentLang={currentLocale}
                 currentPath={currentPath}
             />
