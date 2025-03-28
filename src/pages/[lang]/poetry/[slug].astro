@@ -57,7 +57,8 @@ export const prerender = true;
 
     <AccordionReadProject
         lang={lang}
-        client:load
+        client:only
+        transition:persist
         description={poetry?.description || 'Description non disponible'}
         technique={poetry?.technique || 'Technique non disponible'}
         materials={poetry?.materials || 'Matériaux non disponibles'}

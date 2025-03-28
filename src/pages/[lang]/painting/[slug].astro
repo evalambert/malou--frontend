@@ -55,16 +55,16 @@ export const prerender = true;
 
 <Layout title='Painting' showReturn returnTo={`/painting`}>
     <AllProjectsLists lang={lang} enterIndex={false} />
-
     <AccordionReadProject
+        lang={lang}
+        client:only
+        transition:persist
         description={painting?.description || 'Description non disponible'}
         technique={painting?.technique || 'Technique non disponible'}
         materials={painting?.materials || 'Matériaux non disponibles'}
         width={painting?.width || 'Largeur non disponible'}
         height={painting?.height || 'Hauteur non disponible'}
         year={painting?.year || 'Année non disponible'}
-        lang={lang}
-        client:load
     />
     <PreviewImg
         transition:name='preview-image'
@@ -74,6 +74,7 @@ export const prerender = true;
     <div
         class='fixed top-0 left-0 w-screen h-screen'
         transition:animate={fade({ duration: '0.5s' })}
+        transition:persist
     >
         <Slider client:only medias={painting?.medias || []} />
     </div>

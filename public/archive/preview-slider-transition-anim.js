@@ -25,10 +25,36 @@ document.addEventListener('astro:before-preparation', (event) => {
             return;
         }
     }
+
     if (document.body.classList.contains('on-slug-page')) {
-        // Fermer l'accordéon avant de quitter la page
+        // 🍄 Fermer l'accordéon avant de quitter la page
         window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
-        // Scroller en haut de la page de catégorie après retour
-        //window.scrollTo({ top: 0, behavior: 'smooth' });
+        // 🍄 Facultatif : scroller en haut de la page de catégorie après retour
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // // Vérifier si on est sur la page du slider
+    // const swiper = document.querySelector('.swiper');
+    // if (swiper) {
+
+    //     // Ajouter un délai à la transition
+    //     const transitionDelay = 5000; // 5 secondes en millisecondes
+
+    //     event.preventDefault(); // Empêcher la transition immédiate
+
+    //     // Jouer votre animation ici
+    //     swiper.style.opacity = '0';
+    //     if (document.body.classList.contains("text-white")) {
+    //         document.body.classList.replace("text-white", "text-black");
+    //     }
+
+    //     // Créer une Promise pour le délai
+    //     new Promise(resolve => setTimeout(resolve, transitionDelay))
+    //         .then(() => {
+    //             // Continuer la transition après le délai
+    //             event.continue();
+    //         });
+
+    //     // ... existing code ...
+    // }
 });
