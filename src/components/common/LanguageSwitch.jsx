@@ -1,6 +1,9 @@
 import { navigate } from 'astro:transitions/client';
+import { useState } from 'react';
 
 const LanguageSwitch = ({ currentLang, currentPath }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
     const handleLanguageChange = () => {
         const newLang = currentLang === 'fr' ? 'en' : 'fr';
         const newPath = currentPath.replace(`/${currentLang}/`, `/${newLang}/`);
@@ -10,9 +13,15 @@ const LanguageSwitch = ({ currentLang, currentPath }) => {
     return (
         <button
             onClick={handleLanguageChange}
-            className='rotate-[35deg] transition hover:opacity-50'
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className='w-8 rotate-[35deg] text-center'
         >
-            {currentLang === 'fr' ? 'fr,' : 'en,'}
+            {isHovered
+                ? currentLang === 'fr'
+                    ? 'en,'
+                    : 'fr,'
+                : `${currentLang},`}
         </button>
     );
 };
