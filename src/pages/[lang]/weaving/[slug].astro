@@ -60,7 +60,7 @@ export const prerender = true;
 
     <AccordionReadProject
         lang={lang}
-        client:load
+        client:only
         transition:persist
         year={weaving?.year || 'Année non disponible'}
         description={weaving?.description || 'Description non disponible'}

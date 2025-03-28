@@ -55,10 +55,9 @@ export const prerender = true;
 
 <Layout title='Painting' showReturn returnTo={`/painting`}>
     <AllProjectsLists lang={lang} enterIndex={false} />
-
     <AccordionReadProject
         lang={lang}
-        client:load
+        client:only
         transition:persist
         description={painting?.description || 'Description non disponible'}
         technique={painting?.technique || 'Technique non disponible'}
