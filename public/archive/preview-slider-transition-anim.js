@@ -27,9 +27,9 @@ document.addEventListener('astro:before-preparation', (event) => {
     }
 
     if (document.body.classList.contains('on-slug-page')) {
-        // Fermer l'accordéon avant de quitter la page
+        // 🍄 Fermer l'accordéon avant de quitter la page
         window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
-        // Facultatif : scroller en haut de la page de catégorie après retour
+        // 🍄 Facultatif : scroller en haut de la page de catégorie après retour
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
