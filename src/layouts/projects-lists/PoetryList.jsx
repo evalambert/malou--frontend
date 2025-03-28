@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 
 import PoetryTitle from '../../components/common/title/PoetryTitle';
-
+import PoetryTitleHardLayout from './PoetryTitleHardLayout';
 
 const PoetryList = ({
     dataPoetry,
@@ -42,6 +42,7 @@ const PoetryList = ({
                                 />
                             </div>
                         ))}
+                        <PoetryTitleHardLayout lang={lang} />
                     </div>
                 </div>
 

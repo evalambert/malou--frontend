@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { gsap } from "gsap";
 
 const PoetryTitle = ({ pathOpen, pathClose, title, targetHref, keyId, className }) => {
-    // States
-    const [data, setData] = useState(null);
 
     // Effects
     useEffect(() => {
@@ -12,7 +10,6 @@ const PoetryTitle = ({ pathOpen, pathClose, title, targetHref, keyId, className 
         // Récupération des éléments du DOM
         const path = document.getElementById('myPath' + keyId)
         const textOverlay = document.getElementById('textOverlay' + keyId)
-        const toggleBtn = document.getElementById('toggle' + keyId)
         const svg = document.getElementById('svg' + keyId);
 
         const bbox = path.getBBox();
@@ -139,11 +136,6 @@ const PoetryTitle = ({ pathOpen, pathClose, title, targetHref, keyId, className 
                     </a>
                 </svg>
                 <div id={"textOverlay" + keyId} className="textOverlay absolute top-0 left-0 w-full h-full pointer-events-none">
-                    {/* <div className="textOverlay">
-                        {title.split('').map((letter, index) => (
-                            <span keyId={index}>{letter}</span>
-                        ))}
-                    </div> */}
                 </div>
             </div>
         </>
