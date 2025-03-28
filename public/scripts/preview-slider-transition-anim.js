@@ -1,5 +1,5 @@
 // Keep the preview image visible when the page is loaded
-document.addEventListener('astro:before-preparation', async (event) => {
+document.addEventListener('astro:before-preparation', (event) => {
     // Vérifier si l'élément cliqué est un descendant de .work-list avant de fixer l'image poru la transition
     const workList = document.querySelectorAll('.work-list');
     const clickedElement = event.sourceElement;
@@ -22,12 +22,8 @@ document.addEventListener('astro:before-preparation', async (event) => {
         }
     }
     if (document.body.classList.contains('on-slug-page')) {
-        // Déclencher l'événement de fermeture de l'accordéon
-        const closeAccordionEvent = new Event('closeAccordion');
-        window.dispatchEvent(closeAccordionEvent);
-
-        // Attendre que l'animation de fermeture soit terminée
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        // code Eva pour fermer accordion quand on quitte la page SLUG.
+        console.log('<<< Placeholder code EVA accordion close>>>');
     }
 
     // // Vérifier si on est sur la page du slider

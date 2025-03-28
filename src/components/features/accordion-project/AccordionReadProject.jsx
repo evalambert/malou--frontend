@@ -36,22 +36,11 @@ export default function AccordionReadProject({
      * - Calcule la hauteur initiale au montage
      * - Recalcule la hauteur lors du redimensionnement de la fenêtre
      * - Nettoie l'event listener au démontage
-     * - Ajout d'un useEffect pour recalculer la hauteur quand le contenu change
      */
     useEffect(() => {
         updateHeight();
         window.addEventListener('resize', updateHeight);
-
-        // Ajouter un écouteur pour fermer l'accordéon
-        const handlePageExit = () => {
-            setIsOpen(false);
-        };
-        window.addEventListener('closeAccordion', handlePageExit);
-
-        return () => {
-            window.removeEventListener('resize', updateHeight);
-            window.removeEventListener('closeAccordion', handlePageExit);
-        };
+        return () => window.removeEventListener('resize', updateHeight);
     }, [description, technique, materials, width, height, year, lang]);
 
     /**
