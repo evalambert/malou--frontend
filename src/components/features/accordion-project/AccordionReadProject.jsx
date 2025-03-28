@@ -41,7 +41,17 @@ export default function AccordionReadProject({
     useEffect(() => {
         updateHeight();
         window.addEventListener('resize', updateHeight);
-        return () => window.removeEventListener('resize', updateHeight);
+
+        // Ajouter un écouteur pour fermer l'accordéon
+        const handlePageExit = () => {
+            setIsOpen(false);
+        };
+        window.addEventListener('closeAccordion', handlePageExit);
+
+        return () => {
+            window.removeEventListener('resize', updateHeight);
+            window.removeEventListener('closeAccordion', handlePageExit);
+        };
     }, [description, technique, materials, width, height, year, lang]);
 
     /**
