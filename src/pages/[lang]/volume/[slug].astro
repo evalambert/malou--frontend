@@ -58,8 +58,9 @@ export const prerender = true;
 
     <AccordionReadProject
         lang={lang}
-        year={volume?.year || 'Année non disponible'}
         client:load
+        transition:persist
+        year={volume?.year || 'Année non disponible'}
         description={volume?.description || 'Description non disponible'}
         technique={volume?.technique || 'Technique non disponible'}
         materials={volume?.materials || 'Matériaux non disponibles'}
@@ -74,6 +75,7 @@ export const prerender = true;
     <div
         class='fixed top-0 left-0 w-screen h-screen'
         transition:animate={fade({ duration: '0.5s' })}
+        transition:persist
     >
         <Slider client:only medias={volume?.medias || []} />
     </div>
