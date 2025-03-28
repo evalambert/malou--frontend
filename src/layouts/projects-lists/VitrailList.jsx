@@ -93,7 +93,6 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
                         openAnimation(title);
                     } 
                 } else {
-                    console.log(':::: Leave slug page ::::')
                     if (title.children[0].classList.contains('active')) {
                         closeAnimation(title);
                     }

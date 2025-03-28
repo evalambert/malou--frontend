@@ -5,16 +5,16 @@ const PoetryTitle = ({ pathOpen, pathClose, title, targetHref, keyId, className 
 
     // Effects
     useEffect(() => {
-        console.log(pathOpen, pathClose, title, targetHref)
+        
 
         // Récupération des éléments du DOM
         const path = document.getElementById('myPath' + keyId)
         const textOverlay = document.getElementById('textOverlay' + keyId)
-        // const svg = document.getElementById('svg' + keyId);
+        const svg = document.getElementById('svg' + keyId);
 
-        // const bbox = path.getBBox();
-        // const widthBbox = bbox.width * 2;
-        // svg.setAttribute("viewBox", `0 -20 ${widthBbox} 1050`);
+        const bbox = path.getBBox();
+        const widthBbox = bbox.width * 2;
+        svg.setAttribute("viewBox", `0 -20 ${widthBbox} 1050`);
 
         // Phrase à afficher (chaque lettre séparée, sans les espaces)
         const phrase = title.split('').filter(c => c !== ' ')

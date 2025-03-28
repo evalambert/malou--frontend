@@ -7,42 +7,95 @@ import PoetryTitleHardLayout from './PoetryTitleHardLayout';
 const PoetryList = ({
     dataPoetry,
     targetHref,
-    isOnPoetryPage,
     lang,
     className,
 }) => {
 
-   
+    // // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // // Toogle hidden/compact/full;
+    const [translateXValue, setTranslateXValue] = useState('0px');
+    const [opacityValue, setOpacityValue] = useState(0);
+    const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
+    const [isOnIndexPage, setIsOnIndexPage] = useState(false);
+
+    // const hiddenListHeightPoetry = 100;
+
+
+    const toggleListDisplay = (url, category) => {
+        const hiddenListPoetry = document.querySelector('.poetry-wrapper');
+        const hiddenListWidthPoetry = hiddenListPoetry.offsetWidth;
+        const halfHiddenListWidthPoetry = hiddenListPoetry.offsetWidth - 160;
+
+        if (url.includes(category)) {
+            console.log('ON PAGE POETRY');
+            setTranslateXValue(0 + 'px');
+            setIsOnPoetryPage(true);
+            
+            // Création et dispatch de l'événement personnalisé
+            const poetryPageEvent = new CustomEvent('poetryPageStateChange', {
+                detail: {
+                    isOnPoetryPage: true
+                }
+            });
+            window.dispatchEvent(poetryPageEvent);
+            
+            setIsOnIndexPage(false);
+        } else if (url == '/fr/' || url == '/en/') {
+            setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
+            setTimeout(() => {
+                setOpacityValue(1);
+                setTranslateXValue('-' + halfHiddenListWidthPoetry + 'px');
+                document.querySelector('.poetry-wrapper').classList.add('transition-transform', 'duration-1000', 'ease-in-out');
+            }, 50);
+            setIsOnPoetryPage(false);
+            setIsOnIndexPage(true);
+        } else {
+            console.log('HIIIIIIDDDDEN');
+            setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
+            setIsOnPoetryPage(false);
+            setIsOnIndexPage(false);
+        }
+    };
+
+    useEffect(() => {
+        
+        toggleListDisplay(targetHref, 'poetry');
+    }, [targetHref, translateXValue]);
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Render
     return (
         <>
 
             <div
-                className={`w-fit h-screen fixed top-0 z-[9] left-0 ${className} ${!isOnPoetryPage ? "cursor-pointer" : ""
-                    }`}
+                className={`poetry-wrapper-wrap h-screen fixed top-0 z-[9] left-0 ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer w-[80px]' : ''} ${!isOnPoetryPage && !isOnIndexPage ? 'pointer-events-none w-fit' : ''}`}
                 onClick={
                     !isOnPoetryPage
-                        ? () => navigate(`/${lang}/poetry/`, { history: "push" })
+                        ? () =>
+                              navigate(`/${lang}/poetry/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
-                <div className={`work-list flex `}>
-                    
-                    <div className="poetry-wrapper flex fixed translate-y-[20px] top-0 left-0  px-body-p-x">
+                <div className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''}`} >
+                    <div className="poetry-wrapper flex fixed translate-y-[20px] top-0 left-0 opacity-0 px-body-p-x "
+                        style={{ opacity: opacityValue, transform: `translateX(${translateXValue})` }}>
                         {dataPoetry.slice(2).map((poetry) => (
                             <div key={poetry.id}>
-                                <PoetryTitle 
+                                <PoetryTitle
                                     className=''
-                                    pathOpen={poetry.svgPath?.svgPathOpenData || ''} 
-                                    pathClose={poetry.svgPath?.svgPathCloseData || ''} 
-                                    title={poetry.title} 
-                                    targetHref={`/${lang}/poetry/${poetry.slug}/`} 
+                                    pathOpen={poetry.svgPath?.svgPathOpenData || ''}
+                                    pathClose={poetry.svgPath?.svgPathCloseData || ''}
+                                    title={poetry.title}
+                                    targetHref={`/${lang}/poetry/${poetry.slug}/`}
                                     keyId={poetry.id}
+                                    client:only='react'
                                 />
                             </div>
                         ))}
-                        <PoetryTitleHardLayout lang={lang} />
+                        <PoetryTitleHardLayout lang={lang} client:only='react' />
                     </div>
                 </div>
 
