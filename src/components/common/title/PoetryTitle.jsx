@@ -70,30 +70,35 @@ const PoetryTitle = ({ pathOpen, pathClose, title, targetHref, keyId, className 
             }
         }
 
-        // Lorsque le bouton est cliqué, on alterne entre les deux formes
-        // toggleBtn.addEventListener('click', () => {
-        //     const to = isOpen ? closedPath : openPath // choisir la forme à animer vers
-        //     toggleBtn.textContent = isOpen ? 'ouvrir' : 'fermer' // changer le texte du bouton
-        //     isOpen = !isOpen // changer l'état
-
-        //     // Animation du changement de forme avec GSAP
-        //     gsap.to(path, {
-        //         duration: 0.5,
-        //         attr: { d: to }, // anime l'attribut "d"
-        //         onUpdate: placeLettersOnPoints // repositionne les lettres à chaque frame
-        //     })
-        // })
 
         // Place les lettres au chargement initial et quand on redimensionne la fenêtre
         placeLettersOnPoints();
         window.addEventListener('load', placeLettersOnPoints)
         window.addEventListener('resize', placeLettersOnPoints)
+
+        // Fonction pour gérer l'animation
+        const handleAccordionChange = (event) => {
+            const { isAccordionOpen } = event.detail;
+            const to = isAccordionOpen ? closedPath : openPath;
+            isOpen = isAccordionOpen;
+
+            gsap.to(path, {
+                duration: 0.5,
+                attr: { d: to },
+                onUpdate: placeLettersOnPoints
+            });
+        };
+
+        // Écouter l'événement de l'accordéon
+        window.addEventListener('accordionDescriptionToggle', handleAccordionChange);
+
+        // Nettoyage
+        return () => {
+            window.removeEventListener('accordionDescriptionToggle', handleAccordionChange);
+        };
     }, []);
 
-    // Handlers
-    const handleClick = () => {
-        // Handle click
-    };
+;
 
     // Render
     return (
@@ -119,13 +124,12 @@ const PoetryTitle = ({ pathOpen, pathClose, title, targetHref, keyId, className 
             `}
             </style>
             <div className={`poetry-title--wrapper ${className}`}>
-                
                 <svg
                     id={"svg" + keyId}
                     className="w-full h-auto block"
                     viewBox="0 -20 160 1050"
                     preserveAspectRatio="none"
-                    style={{ height: "100vh" }}
+                    style={{ height: "95vh" }}
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <a xlinkHref={targetHref}>

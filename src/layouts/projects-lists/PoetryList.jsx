@@ -29,7 +29,7 @@ const PoetryList = ({
             >
                 <div className={`work-list flex `}>
                     
-                    <div className="poetry-wrapper flex fixed top-0 left-0 bg-blue-900  px-body-p-x">
+                    <div className="poetry-wrapper flex fixed translate-y-[20px] top-0 left-0 bg-blue-900  px-body-p-x">
                         {dataPoetry.map((poetry) => (
                             <div key={poetry.id}>
                                 <PoetryTitle 
