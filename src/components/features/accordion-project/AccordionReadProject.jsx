@@ -41,7 +41,7 @@ export default function AccordionReadProject({
         updateHeight();
         window.addEventListener('resize', updateHeight);
         return () => window.removeEventListener('resize', updateHeight);
-    }, []);
+    }, [description, technique, materials, width, height, year, lang]);
 
     /**
      * Événement pour synchroniser l'ouverture/fermeture de l'accordéon
