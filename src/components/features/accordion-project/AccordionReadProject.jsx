@@ -36,6 +36,7 @@ export default function AccordionReadProject({
      * - Calcule la hauteur initiale au montage
      * - Recalcule la hauteur lors du redimensionnement de la fenêtre
      * - Nettoie l'event listener au démontage
+     * - Ajout d'un useEffect pour recalculer la hauteur quand le contenu change
      */
     useEffect(() => {
         updateHeight();
