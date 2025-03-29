@@ -52,22 +52,34 @@ const PoetryTitleHardLayout = ({ lang }) => {
 
         // Fonction pour placer les lettres sur un chemin spécifique
         function placeLettersOnPath(path, textOverlay, title) {
+            const phrase = title.split('').filter(c => c !== ' ');
+            const d = path.getAttribute('d');
+            const points = extractPointsFromD(d);
+            
+            // Créer les spans une seule fois si ils n'existent pas
+            if (textOverlay.children.length === 0) {
+                phrase.forEach((letter, i) => {
+                    const span = document.createElement('span');
+                    span.textContent = letter;
+                    textOverlay.appendChild(span);
+                });
+            }
 
-            const phrase = title.split('').filter(c => c !== ' ')
-            const d = path.getAttribute('d')
-            const points = extractPointsFromD(d)
-            textOverlay.innerHTML = ''
-
-            const count = Math.min(phrase.length, points.length)
-            const svg = path.ownerSVGElement
+            // Mettre à jour les positions des spans existants
+            const count = Math.min(phrase.length, points.length);
+            const svg = path.ownerSVGElement;
 
             for (let i = 0; i < count; i++) {
-                const { x, y } = svgPointToScreen(svg, points[i].x, points[i].y)
-                const span = document.createElement('span')
-                span.textContent = phrase[i]
-                span.style.left = `${x}px`
-                span.style.top = `${y}px`
-                textOverlay.appendChild(span)
+                const { x, y } = svgPointToScreen(svg, points[i].x, points[i].y);
+                const span = textOverlay.children[i];
+                
+                // Utiliser GSAP pour animer la position des spans
+                gsap.to(span, {
+                    duration: 0.5,
+                    left: `${x}px`,
+                    top: `${y}px`,
+                    ease: "none"
+                });
             }
         }
 
@@ -102,12 +114,17 @@ const PoetryTitleHardLayout = ({ lang }) => {
             setTimeout(() => {
                 const textOverlayCoquille = document.getElementById('textOverlay-hard-layout-coquille');
                 if (textOverlayCoquille) {
-                    textOverlayCoquille.style.opacity = 1;
+                    
+                    setTimeout(() => {
+                        textOverlayCoquille.style.opacity = 1;
+                    }, 1000);
                 }
+                
                 gsap.to(pathSerpent, {
-                    duration: 0.5,
+                    duration: 1,
                     attr: { d: isOnPoetryPage ? pathSerpentIndex : pathSerpentClose },
-                    onUpdate: updatePaths
+                    onUpdate: updatePaths,
+                    ease: "none" // Utiliser une interpolation linéaire
                 });
             }, 400);
         }
@@ -149,15 +166,14 @@ const PoetryTitleHardLayout = ({ lang }) => {
                     white-space: pre;
                 }
 
-                /* Bouton toggle */
-                #toggle {
-                margin - bottom: 1rem;
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
+ 
+                // #textOverlay-hard-layout-serpent span{
+                // border: 2px solid yellow;
+                // }
             }
             `}
             </style>
+            
             <div className={`poetry-title--wrapper`}>
                 <svg
                     id="svg-hard-layout"
