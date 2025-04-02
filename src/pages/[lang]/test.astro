@@ -15,8 +15,6 @@ const previews = [
             ['Aujourd’hui j’ai l’humeur', 'd’un saute pleureur'],
             ['la cuillère dans le pot de fer', 'en finesse te réveillera'],
             ['bon ou mavais', 'voici des moments'],
-            ['rebord de fenêtre', 'blablabla', 'le vent qui pousse'],
-            ['quand le tram lance des éclairs', 'c’est bout de rentrerr'],
         ],
     },
     {
@@ -26,8 +24,6 @@ const previews = [
             ['je racle la pluie', 'sur le bord du jour'],
             ['éventail ouvert', 'sur des jours de menthe'],
             ['je marche', 'dans le sable mou', 'l’ongle en étoile'],
-            ['tout ce que j’écris s’efface', 'entre deux touffes'],
-            ['le dos', 'du mot', 'est plus froid', 'que l’encre'],
         ],
     },
 ];
@@ -35,54 +31,84 @@ const previews = [
 export const prerender = true;
 ---
 
-<Layout title={lang === 'fr' ? 'TEST —> FR' : 'TEST —> EN'}>
-    <div class='wrapper-test'>
-        <h1 class='mix-blend-target'>malou raulin</h1>
-        <div class='flex gap-4'>
-            <div class='wrapper-project flex gap-4'>
-                {
-                    previews.map((recueil, index) => (
-                        <div
-                            class={`project w-[100px] h-[calc(100vh-50px)] flex items-center justify-center cursor-pointer ${
-                                index === 0 ? 'bg-red-500' : 'bg-blue-500'
-                            }`}
-                            data-id={recueil.id}
-                        >
-                            <span class='text-white text-center px-2'>
-                                {recueil.title}
-                            </span>
-                        </div>
-                    ))
-                }
-            </div>
-            <div
-                class='wrapper-preview h-[calc(100vh-50px)] flex-1 bg-amber-200 overflow-hidden relative'
-            ></div>
-        </div>
+<Layout title='Test Ligne Ondulée Sécurisée'>
+    <div class='wrapper'>
+        {
+            previews.map((recueil, index) => (
+                <div
+                    class={`project ${index === 0 ? 'red' : 'blue'}`}
+                    data-id={recueil.id}
+                >
+                    {recueil.title}
+                </div>
+            ))
+        }
+        <div class='preview'></div>
     </div>
 
     <style>
-        .preview-container {
+        .wrapper {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            padding: 2rem;
-            font-style: italic;
-            font-size: 1.1rem;
-            color: #000;
+            height: 100vh;
         }
 
-        .preview-segment {
-            display: inline-block;
+        .project {
+            width: 100px;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .red {
+            background: #f87171;
+        }
+
+        .blue {
+            background: #60a5fa;
+        }
+
+        .preview {
+            flex: 1;
+            position: relative;
+            background: #fde68a;
+            overflow: hidden;
+        }
+
+        .wavy-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wavy-word {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: bold;
+            white-space: nowrap;
+            line-height: 1;
+            color: #1f2937;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
             transform-origin: left center;
+            transition: transform 0.3s ease;
         }
     </style>
 
     <script type='module'>
+        console.log('Script chargé');
+
         const previews = [
             {
                 id: 'serpent',
-                title: 'comme un serpent dans une flûte',
                 poems: [
                     ['Aujourd’hui j’ai l’humeur', 'd’un saute pleureur'],
                     [
@@ -90,61 +116,91 @@ export const prerender = true;
                         'en finesse te réveillera',
                     ],
                     ['bon ou mavais', 'voici des moments'],
-                    ['rebord de fenêtre', 'blablabla', 'le vent qui pousse'],
-                    [
-                        'quand le tram lance des éclairs',
-                        'c’est bout de rentrerr',
-                    ],
                 ],
             },
             {
                 id: 'coquilles',
-                title: 'des coquilles et des pépins',
                 poems: [
                     ['je racle la pluie', 'sur le bord du jour'],
                     ['éventail ouvert', 'sur des jours de menthe'],
                     ['je marche', 'dans le sable mou', 'l’ongle en étoile'],
-                    ['tout ce que j’écris s’efface', 'entre deux touffes'],
-                    ['le dos', 'du mot', 'est plus froid', 'que l’encre'],
                 ],
             },
         ];
-        function createPreviewHTML(segments) {
-            const container = document.createElement('div');
-            container.classList.add('preview-container');
 
-            segments.forEach((segment) => {
-                const span = document.createElement('span');
-                span.textContent = segment;
-                span.classList.add('preview-segment');
-
-                const angle = Math.floor(Math.random() * 11) - 5;
-                span.style.transform = `rotate(${angle}deg)`;
-
-                container.appendChild(span);
-            });
-
-            return container;
-        }
-
+        const previewWrapper = document.querySelector('.preview');
         const projects = document.querySelectorAll('.project');
-        const previewWrapper = document.querySelector('.wrapper-preview');
+
+        console.log('Preview wrapper:', previewWrapper);
+        console.log('Projects:', projects);
+
+        function createWavyLine(segments) {
+            console.log('Création de la ligne ondulée avec:', segments);
+            const container = document.createElement('div');
+            container.classList.add('wavy-line');
+
+            const previewRect = previewWrapper.getBoundingClientRect();
+            const containerWidth = previewRect.width * 0.8;
+            const containerHeight = previewRect.height * 0.8;
+
+            container.style.width = `${containerWidth}px`;
+            container.style.height = `${containerHeight}px`;
+            container.style.top = '50%';
+            container.style.left = '50%';
+            container.style.transform = 'translate(-50%, -50%)';
+
+            previewWrapper.innerHTML = '';
+            previewWrapper.appendChild(container);
+
+            let currentX = 0;
+            let currentY = containerHeight / 2;
+            const angles = [-15, -10, -5, 0, 5, 10, 15];
+
+            segments.forEach((text) => {
+                const span = document.createElement('span');
+                span.textContent = text;
+                span.classList.add('wavy-word');
+                const angle = angles[Math.floor(Math.random() * angles.length)];
+                span.style.transform = `rotate(${angle}deg)`;
+                container.appendChild(span);
+
+                // Positionner le mot après l'avoir ajouté au DOM
+                requestAnimationFrame(() => {
+                    const width = span.getBoundingClientRect().width;
+                    const radians = angle * (Math.PI / 180);
+
+                    if (currentX + width > containerWidth) {
+                        currentX = 0;
+                        currentY += 40;
+                    }
+
+                    span.style.left = `${currentX}px`;
+                    span.style.top = `${currentY}px`;
+                    currentX += width * Math.cos(radians) + 20;
+                    currentY += width * Math.sin(radians) * 0.2;
+                });
+            });
+        }
 
         projects.forEach((project) => {
             const id = project.dataset.id;
+            console.log('Ajout des événements pour le projet:', id);
 
             project.addEventListener('mouseenter', () => {
+                console.log('Mouse enter sur le projet:', id);
                 const recueil = previews.find((r) => r.id === id);
+                console.log('Recueil trouvé:', recueil);
                 const poem =
                     recueil.poems[
                         Math.floor(Math.random() * recueil.poems.length)
                     ];
-
+                console.log('Poème sélectionné:', poem);
                 previewWrapper.innerHTML = '';
-                previewWrapper.appendChild(createPreviewHTML(poem));
+                createWavyLine(poem);
             });
 
             project.addEventListener('mouseleave', () => {
+                console.log('Mouse leave sur le projet:', id);
                 previewWrapper.innerHTML = '';
             });
         });
