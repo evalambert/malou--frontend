@@ -14,6 +14,7 @@ export default function AccordionReadProject({
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const [contentHeight, setContentHeight] = useState(0);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const contentRef = useRef(null);
 
     // 🔄 Met à jour la hauteur du contenu
@@ -22,6 +23,16 @@ export default function AccordionReadProject({
             setContentHeight(contentRef.current.scrollHeight);
         }
     };
+
+    // 📏 Met à jour la largeur de la fenêtre
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+            updateHeight();
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // 🍄 Gestion fermeture via event global
     useEffect(() => {
@@ -62,12 +73,12 @@ export default function AccordionReadProject({
 
     // 🎯 Calcule la position verticale de l'accordéon
     const computedTop = isOpen
-        ? window.innerWidth >= 768 // Desktop open
+        ? windowWidth >= 768 // Desktop open
             ? `calc(100vh - ${contentHeight}px - 47px)`
             : contentHeight < window.innerHeight * 0.5 // Mobile open
               ? `calc(100vh - ${contentHeight}px - 78px)`
               : '50vh'
-        : window.innerWidth >= 768 // Desktop close
+        : windowWidth >= 768 // Desktop close
           ? 'calc(100vh - 47px)'
           : 'calc(100vh - 78px)'; // Mobile close
 
