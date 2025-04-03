@@ -1,0 +1,20 @@
+/* src/assets/styles/previewPoeme.css */
+
+.line-wrapper {
+    position: absolute; /* sera positionné librement dans .preview */
+    pointer-events: none; /* les mots ne réagissent pas à la souris */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 20;
+}
+
+.wavy-line {
+    position: relative; /* les mots à l'intérieur seront positionnés en absolute */
+    z-index: 21;
+}
+
+.wavy-word {
+    position: absolute;
+    white-space: nowrap;
+    z-index: 22;
+}
