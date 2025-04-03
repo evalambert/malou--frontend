@@ -9,12 +9,13 @@ const { title, showReturn = false, returnTo = '' } = Astro.props;
 const currentLocale = Astro.currentLocale || 'fr';
 const currentPath = Astro.url.pathname || '';
 const isAboutPage = currentPath.includes('/about');
+const isIndexPage = currentPath == '/fr/' || currentPath == '/en/';
 
 /* console.log('Current Path:', Astro.url.pathname); */
 
 // Find the category of the current page and add it to the body tag
 const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
-const categoryClass = categoryMatch ? `category-${categoryMatch[1]}` : '';
+const categoryClass = (categoryMatch ? `category-${categoryMatch[1]}` : '') + '' + (isIndexPage ? 'index-page' : '');
 ---
 
 <!doctype html>

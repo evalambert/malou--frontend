@@ -88,7 +88,9 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateYValue, setTranslateYValue] = useState('100vh');
-    const [translateXValue, setTranslateXValue] = useState('100vw');
+    const [translateXValue, setTranslateXValue] = useState(window.innerWidth < 768 ? '0px' : '100vw');
+    const [maxHeightValue, setmaxHeightValue] = useState('0px');
+    const [mobileTopValue, setMobileTopValue] = useState('unset');
     const [isOnWeavingPage, setIsOnWeavingPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
 
@@ -98,14 +100,37 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
             setTranslateXValue(0);
             setIsOnWeavingPage(true);
             setIsOnIndexPage(false);
+            if (window.innerWidth < 768) {
+                let weavingListHeight = document.querySelector('.weaving-list').clientHeight;
+                setmaxHeightValue(weavingListHeight + 'px');
+                setTranslateXValue('0px');
+                if (weavingListHeight > (window.innerHeight / 2)) {
+                    setMobileTopValue('50vh');
+                }else{
+                    let newMobileTopValue = window.innerHeight - (weavingListHeight + 50);
+                    setMobileTopValue(newMobileTopValue + 'px');
+                }
+            }
         } else if (url == '/fr/' || url == '/en/') {
-            setTranslateYValue(hiddenListHeightWeaving + 'px');
-            setTranslateXValue(hiddenListWidthWeaving + 'px');
+            if (window.innerWidth < 768) {
+                setTranslateYValue('100vh');
+                setTranslateXValue('0px');
+                setmaxHeightValue('0px');
+            } else {
+                setTranslateYValue(hiddenListHeightWeaving + 'px');
+                setTranslateXValue(hiddenListWidthWeaving + 'px');
+                setmaxHeightValue('300vh');
+            }
             setIsOnWeavingPage(false);
             setIsOnIndexPage(true);
         } else {
             setTranslateYValue('100vh');
-            setTranslateXValue('100vw');
+            if (window.innerWidth < 768) {
+                setTranslateXValue('0px');
+                setmaxHeightValue('0px');
+            }else{
+                setmaxHeightValue('unset');
+            }
             setIsOnWeavingPage(false);
             setIsOnIndexPage(false);
         }
@@ -121,7 +146,7 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
     return (
         <>
             <div
-                className={`work-list fixed right-0 bottom-0 transition-all duration-1000 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list weaving-list-wrapper relative md:fixed right-0 md:bottom-0 md:!top-[unset] transition-all duration-1000 ease-in-out overflow-hidden ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
@@ -130,9 +155,13 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
                               })
                         : undefined
                 }
+                style={{
+                    maxHeight: `${maxHeightValue}`,
+                    top: `${mobileTopValue}`
+                }}
             >
                 <div
-                    className={`grid auto-cols-auto auto-rows-min transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''}`}
+                    className={`weaving-list md:grid md:auto-cols-auto md:auto-rows-min max-md:flex max-md:flex-col max-md:items-end transition-all duration-1000 ease-in-out overflow-hidden ${!isOnWeavingPage ? 'pointer-events-none' : ''}`}
                     style={{
                         transform: `translate(${translateXValue}, ${translateYValue})`,
                     }}
