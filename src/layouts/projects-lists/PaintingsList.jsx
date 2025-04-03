@@ -51,7 +51,7 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
             liTitle.forEach((li) => {
                 const viewportWidth = window.matchMedia('(min-width: 48rem)')
                     .matches
-                    ? window.innerWidth - 100 // 100px = md:left-[100px] on item bellow
+                    ? window.innerWidth - 180 // 150px = md:left-[150px] on item bellow
                     : window.innerWidth - 30; // --spacing-main-x-mobile (x2)
                 if (previousLiWidth + li.offsetWidth > viewportWidth) {
                     let maxMarginLeft = viewportWidth - li.offsetWidth;
@@ -105,6 +105,7 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateValue, setTranslateValue] = useState('100vh');
+    const [maxHeightValue, setmaxHeightValue] = useState('0px');
     const [isOnPaintingPage, setIsOnPaintingPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
 
@@ -113,8 +114,17 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
             setTranslateValue(accordionY + 'px');
             setIsOnPaintingPage(true);
             setIsOnIndexPage(false);
+            if (window.innerWidth < 768) {
+                setmaxHeightValue('300vh');
+            }
         } else if (url == '/fr/' || url == '/en/') {
-            setTranslateValue(hiddenListHeightPainting + 'px');
+            if (window.innerWidth < 768) {
+                setTranslateValue('100vh');
+                setmaxHeightValue('0px')
+            } else {
+                setTranslateValue(hiddenListHeightPainting + 'px');
+                setmaxHeightValue('300vh');
+            }
             setIsOnIndexPage(true);
             setIsOnPaintingPage(false);
         } else {
@@ -135,19 +145,19 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`painting-list work-list pb-body-p-y fixed bottom-0 left-[150px] transition-all delay-[0.2s] duration-500 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list painting-list-wrapper  pb-body-p-y fixed bottom-0 transition-all delay-[0.2s] duration-500 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                              navigate(`/${lang}/painting/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/painting/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
                 <div
-                    className={`transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''}`}
-                    style={{ transform: `translateY(${translateValue})` }}
+                    className={`transition-all duration-500 ease-in-out overflow-hidden ${!isOnPaintingPage ? 'pointer-events-none' : ''}`}
+                    style={{ transform: `translateY(${translateValue})`, maxHeight: `${maxHeightValue}` }}
                 >
                     {/* Liste Homepage */}
                     <ul className='painting-list-compact transition-all duration-500 ease-in-out'>
@@ -180,13 +190,13 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
                                         lang={lang}
                                     />
                                 </li>
-                            ))}
+                            ))}                           
                         </ul>
 
                         {/* (END) Liste Hidden */}
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };

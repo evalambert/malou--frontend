@@ -43,8 +43,8 @@ const weavings = await fetchApi({
 export const prerender = true;
 ---
 
-<div class={`header-wrapper w-full flex justify-between gap-x-[20px]`}>
-    <div class='flex-1'>
+<div class={`header-wrapper w-full md:flex justify-between gap-x-[20px]`}>
+    <div class='md:flex-1'>
         <Nav
             className='relative z-50 mix-blend-target'
             lang={lang}
@@ -54,7 +54,7 @@ export const prerender = true;
             client:load
         />
     </div>
-    <div class='flex-3 max-md:hidden'>
+    <div class='md:flex-3'>
         <VolumesList
             className='relative z-50 mix-blend-target'
             targetHref={currentPath}
@@ -65,7 +65,7 @@ export const prerender = true;
             client:only='react'
         />
     </div>
-    <div class='flex-1 max-md:hidden'>
+    <div class='md:flex-1'>
         <VitrailList
             className='relative z-50 mix-blend-target'
             targetHref={currentPath}
@@ -89,7 +89,7 @@ export const prerender = true;
 />
 
 <PaintingsList
-    className='fixed left-[150px] bottom-0 z-50 mix-blend-target'
+    className='relative md:fixed pl-0 md:pl-[150px] max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target'
     targetHref={currentPath}
     lang={lang}
     dataPaintings={paintings}

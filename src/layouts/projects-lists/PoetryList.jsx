@@ -25,7 +25,7 @@ const PoetryList = ({
         const hiddenListPoetry = document.querySelector('.poetry-wrapper');
         const hiddenListWidthPoetry = hiddenListPoetry.offsetWidth;
         const halfHiddenListWidthPoetry = 0; // /!\ Calcul n'est pas le même si elle as plus de livre -- a tester !
-        // const paintingList = document.querySelector('.painting-list');
+        // const paintingList = document.querySelector('.painting-list-wrapper');
         // const halfHiddenListWidthPoetry = paintingList?.children.length > 0 ? hiddenListPoetry.offsetWidth - 160 : 0;
 
 
@@ -93,7 +93,7 @@ const PoetryList = ({
                 <div className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''}`} >
                     <div className="poetry-wrapper flex fixed translate-y-[20px] top-0 left-0 opacity-0 px-body-p-x "
                         style={{ opacity: opacityValue, transform: `translateX(${translateXValue})` }}>
-                        {/* {dataPoetry.slice(2).map((poetry) => (
+                        {/* {dataPoetry.map((poetry) => (
                             <div key={poetry.id}>
                                 <PoetryTitle
                                     className=''
@@ -107,7 +107,7 @@ const PoetryList = ({
                                     transition:persist
                                 />
                             </div>
-                        ))} */}
+                        ))}  */}
                         <PoetryTitleHardLayout lang={lang} client:only='react' transition:name='poetryhardlayout' transition:persist />
                     </div>
                 </div>
