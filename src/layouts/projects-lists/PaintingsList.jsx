@@ -105,6 +105,7 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateValue, setTranslateValue] = useState('100vh');
+    const [maxHeightValue, setmaxHeightValue] = useState('0px');
     const [isOnPaintingPage, setIsOnPaintingPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
 
@@ -113,11 +114,16 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
             setTranslateValue(accordionY + 'px');
             setIsOnPaintingPage(true);
             setIsOnIndexPage(false);
+            if (window.innerWidth < 768) {
+                setmaxHeightValue('300vh');
+            }
         } else if (url == '/fr/' || url == '/en/') {
             if (window.innerWidth < 768) {
                 setTranslateValue('100vh');
+                setmaxHeightValue('0px')
             } else {
                 setTranslateValue(hiddenListHeightPainting + 'px');
+                setmaxHeightValue('300vh');
             }
             setIsOnIndexPage(true);
             setIsOnPaintingPage(false);
@@ -139,7 +145,7 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`painting-list work-list pb-body-p-y fixed bottom-0 transition-all delay-[0.2s] duration-500 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list painting-list-wrapper  pb-body-p-y fixed bottom-0 transition-all delay-[0.2s] duration-500 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
@@ -150,8 +156,8 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
                 }
             >
                 <div
-                    className={`transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''}`}
-                    style={{ transform: `translateY(${translateValue})` }}
+                    className={`transition-all duration-500 ease-in-out overflow-hidden ${!isOnPaintingPage ? 'pointer-events-none' : ''}`}
+                    style={{ transform: `translateY(${translateValue})`, maxHeight: `${maxHeightValue}` }}
                 >
                     {/* Liste Homepage */}
                     <ul className='painting-list-compact transition-all duration-500 ease-in-out'>

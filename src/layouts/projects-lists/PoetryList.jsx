@@ -25,7 +25,7 @@ const PoetryList = ({
         const hiddenListPoetry = document.querySelector('.poetry-wrapper');
         const hiddenListWidthPoetry = hiddenListPoetry.offsetWidth;
         const halfHiddenListWidthPoetry = 0; // /!\ Calcul n'est pas le même si elle as plus de livre -- a tester !
-        // const paintingList = document.querySelector('.painting-list');
+        // const paintingList = document.querySelector('.painting-list-wrapper');
         // const halfHiddenListWidthPoetry = paintingList?.children.length > 0 ? hiddenListPoetry.offsetWidth - 160 : 0;
 
 
