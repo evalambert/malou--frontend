@@ -1,3 +1,5 @@
+// src/layouts/projects-lists/PoetryList.jsx
+
 import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 
@@ -19,7 +21,6 @@ const PoetryList = ({
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
 
     // const hiddenListHeightPoetry = 100;
-
 
     const toggleListDisplay = (url, category) => {
         const hiddenListPoetry = document.querySelector('.poetry-wrapper');

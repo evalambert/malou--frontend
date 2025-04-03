@@ -2,7 +2,7 @@
 //pages/[lang]/poetry.astro
 
 import Layout from '../../layouts/Layout.astro';
-/* import AllProjectsLists from '../../layouts/AllProjectsLists.astro'; */
+import AllProjectsLists from '../../layouts/AllProjectsLists.astro';
 import PoetryPreview from '../../components/features/preview-poeme/PoetryPreview.jsx';
 
 export async function getStaticPaths() {
@@ -32,16 +32,6 @@ export const prerender = true;
 ---
 
 <Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
-    <!-- <AllProjectsLists lang={lang} enterIndex={false} /> -->
-     <div class='wrapper'>
-        <div class='box-project'>
-            <div class='project' data-type='coquille'
-                >des coquilles et des pépins</div
-            >
-            <div class='project' data-type='serpent'
-                >comme un serpent dans une flûte</div
-            >
-        </div>
-        <PoetryPreview client:only poems={poems} />
-    </div>
+    <AllProjectsLists lang={lang} enterIndex={false} />
+    <PoetryPreview client:only poems={poems}  />
 </Layout>
