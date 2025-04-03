@@ -53,7 +53,7 @@ const PoetryList = ({
             setIsOnPoetryPage(false);
             setIsOnIndexPage(true);
         } else {
-            console.log('HIIIIIIDDDDEN');
+            // console.log('HIIIIIIDDDDEN');
             setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
             setIsOnPoetryPage(false);
             setIsOnIndexPage(false);
