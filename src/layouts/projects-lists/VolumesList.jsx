@@ -35,7 +35,7 @@ const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
                     if (isNextToPadding === false) {
                         title.classList.add('max-md:mt-[50px]');
                         isNextToPadding = true;
-                        // title.style.border = `2px solid red`;
+                        // title.style.border = `2px solid red`;  
                     } else {
                         isNextToPadding = false;
                         // title.style.border = `2px solid blue`;
