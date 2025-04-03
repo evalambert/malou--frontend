@@ -125,9 +125,11 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
             setIsOnVitrailPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                setMaxWidthValue('100vw');
                 setMaxHeightValue('initial');
-                settranslateXValue('0px');
+                setTimeout(() => {
+                    settranslateXValue('0px');
+                    setMaxWidthValue('100vw');
+                }, 300);
             }
         } else if (url == '/fr/' || url == '/en/') {
             setIsOnVitrailPage(false);
@@ -149,7 +151,7 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
                 settranslateYValue('0px');
                 settranslateXValue('50vw');
             }else{
-                settranslateYValue('-50vh');
+                settranslateYValue('-200vh');
             }
         }
     };

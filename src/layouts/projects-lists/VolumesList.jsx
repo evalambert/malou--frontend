@@ -71,7 +71,7 @@ const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
             setIsOnIndexPage(true);
             setIsOnVolumePage(false);
         } else {
-            setTranslateValue('-50vh');
+            setTranslateValue('-200vh');
             setIsOnVolumePage(false);
             setIsOnIndexPage(false);
         }
