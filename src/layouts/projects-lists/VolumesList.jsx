@@ -80,7 +80,24 @@ const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
     useEffect(() => {
         toggleListDisplay(targetHref, 'volume', accordionOffsetY);
     }, [targetHref, hiddenListHeightVolume, accordionOffsetY]);
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // RECHERCHE ::: Copy le titre ACTIF et le place en Fixed / Relative on mobile
+    // useEffect(() => {
+    //     const activeTitle = document.querySelector('.work-list .active');
+    //     if (activeTitle) {
+    //         setTimeout(() => {
+    //             const titleBound = activeTitle.getBoundingClientRect();
+    //             const fixedTitle = activeTitle.cloneNode(true);
+    //             const fixedTitleContainer = document.createElement('div');
+    //             fixedTitleContainer.id = 'fixed-title';
+    //             fixedTitleContainer.style.position = window.innerWidth < 768 ? 'relative' : 'fixed';
+    //             fixedTitleContainer.style.top = `${titleBound.top}px`;
+    //             fixedTitleContainer.style.left = `${titleBound.left}px`;
+    //             fixedTitleContainer.appendChild(fixedTitle);
+    //             document.body.appendChild(fixedTitleContainer);
+    //         }, 1000);
+    //     }
+    // }, []); // Exécuté une fois au montage du composant
 
     // Render
     return (
@@ -129,6 +146,7 @@ const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
                     {/* (END) Liste Homepage */}
                 </div>
             </div>
+
         </>
     );
 };

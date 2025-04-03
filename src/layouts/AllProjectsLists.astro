@@ -62,7 +62,7 @@ export const prerender = true;
             dataVolumes={volumes}
             transition:name='volumeslist'
             transition:persist
-            client:load
+            client:only='react'
         />
     </div>
     <div class='flex-1 max-md:hidden'>
@@ -73,7 +73,7 @@ export const prerender = true;
             dataVitrails={vitraux}
             transition:name='vitrailist'
             transition:persist
-            client:load
+            client:only='react'
         />
     </div>
 </div>
@@ -95,7 +95,7 @@ export const prerender = true;
     dataPaintings={paintings}
     transition:name='paintingslist'
     transition:persist
-    client:load
+    client:only='react'
 />
 <WeavingList
     className='z-50 mix-blend-target'
@@ -104,5 +104,5 @@ export const prerender = true;
     dataWeaving={weavings}
     transition:name='weavinglist'
     transition:persist
-    client:load
+    client:only='react'
 />
