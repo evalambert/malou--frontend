@@ -112,7 +112,7 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
-    const [translateYValue, settranslateYValue] = useState('-50vh');
+    const [translateYValue, settranslateYValue] = useState('-200vh');
     const [translateXValue, settranslateXValue] = useState('0px');
     const [maxWidthValue, setMaxWidthValue] = useState('initial');
     const [maxHeightValue, setMaxHeightValue] = useState('initial');
@@ -129,7 +129,7 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
                 setTimeout(() => {
                     settranslateXValue('0px');
                     setMaxWidthValue('100vw');
-                }, 300);
+                }, 400);
             }
         } else if (url == '/fr/' || url == '/en/') {
             setIsOnVitrailPage(false);

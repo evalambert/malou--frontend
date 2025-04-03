@@ -197,7 +197,7 @@ body:not(.category-vitrail) .swiper-pagination {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Lists */
 .volume-list-compact > li:nth-child(odd) {
-    @apply pt-[25px];
+    @apply md:pt-[25px];
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
