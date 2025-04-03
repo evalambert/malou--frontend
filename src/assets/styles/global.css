@@ -48,7 +48,10 @@
 }
 
 body {
-    @apply w-screen overflow-hidden bg-white text-white md:h-screen;
+    @apply w-screen md:overflow-hidden bg-white text-white md:h-screen;
+}
+body.index-page{
+    @apply overflow-hidden;
 }
 
 body[data-page='about'] {
