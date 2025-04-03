@@ -98,13 +98,13 @@ const PoetryTitleHardLayout = ({ lang }) => {
             isOpen = isAccordionOpen;
 
             gsap.to(pathSerpent, {
-                duration: 0.5,
+                duration: 0.4,
                 attr: { d: isAccordionOpen ? pathSerpentOpen : pathSerpentClose },
                 onUpdate: updatePaths
             });
 
             gsap.to(pathCoquille, {
-                duration: 0.5,
+                duration: 0.4,
                 attr: { d: isAccordionOpen ? pathCoquilleOpen : pathCoquilleClose },
                 onUpdate: updatePaths
             });
@@ -121,7 +121,7 @@ const PoetryTitleHardLayout = ({ lang }) => {
                 }
                 
                 gsap.to(pathSerpent, {
-                    duration: 1,
+                    duration: 0.4,
                     attr: { d: isOnPoetryPage ? pathSerpentIndex : pathSerpentClose },
                     onUpdate: updatePaths,
                     ease: "none" // Utiliser une interpolation linéaire
