@@ -4,29 +4,30 @@
 import Layout from '../../layouts/Layout.astro';
 import AllProjectsLists from '../../layouts/AllProjectsLists.astro';
 import PoetryPreview from '../../components/features/preview-poeme/PoetryPreview.jsx';
-
+import fetchApi from '../../assets/scripts/lib/strapi';
 export async function getStaticPaths() {
     return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];
 }
 const { lang } = Astro.params;
 
-const poems = {
-    coquille: [
-        ['Aujourd’hui j’ai l’humeur', 'd’un saule pleureur'],
-        [
-            'ronron tondeuse',
-            'tympans dans l’eau',
-            'berceus avione',
-            'poids : zéro',
-        ],
-        ['le vent qui pousse', 'le rideau', 'dodo'],
-    ],
-    serpent: [
-        ['je me faufile', 'entre les pierres'],
-        ['j’attends que le monde', 'redevienne silence'],
-        ['langue double', 'peau vide'],
-    ],
-};
+const dataPoetry = await fetchApi({
+    endpoint: 'poetries',
+    query: {
+        'populate[poemsPreviews][populate]': 'Lines',
+    },
+    wrappedByKey: 'data',
+    locale: lang,
+});
+
+const poems = {};
+for (const item of dataPoetry) {
+    const slug = item.slug;
+    const previews = item.poemsPreviews || [];
+
+    poems[slug] = previews.map((preview) =>
+        preview.Lines.map((line) => line.line)
+    );
+}
 
 export const prerender = true;
 ---

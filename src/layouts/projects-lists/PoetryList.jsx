@@ -6,13 +6,7 @@ import { navigate } from 'astro:transitions/client';
 import PoetryTitle from '../../components/common/title/PoetryTitle';
 import PoetryTitleHardLayout from './PoetryTitleHardLayout';
 
-const PoetryList = ({
-    dataPoetry,
-    targetHref,
-    lang,
-    className,
-}) => {
-
+const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
     // // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // // Toogle hidden/compact/full;
     const [translateXValue, setTranslateXValue] = useState('0px');
@@ -29,7 +23,6 @@ const PoetryList = ({
         // const paintingList = document.querySelector('.painting-list');
         // const halfHiddenListWidthPoetry = paintingList?.children.length > 0 ? hiddenListPoetry.offsetWidth - 160 : 0;
 
-
         if (url.includes(category)) {
             console.log('ON PAGE POETRY');
             setTranslateXValue(0 + 'px');
@@ -38,8 +31,8 @@ const PoetryList = ({
             // Création et dispatch de l'événement personnalisé
             const poetryPageEvent = new CustomEvent('poetryPageStateChange', {
                 detail: {
-                    isOnPoetryPage: true
-                }
+                    isOnPoetryPage: true,
+                },
             });
             window.dispatchEvent(poetryPageEvent);
 
@@ -49,7 +42,13 @@ const PoetryList = ({
             setTimeout(() => {
                 setOpacityValue(1);
                 setTranslateXValue('-' + halfHiddenListWidthPoetry + 'px');
-                document.querySelector('.poetry-wrapper').classList.add('transition-transform', 'duration-1000', 'ease-in-out');
+                document
+                    .querySelector('.poetry-wrapper')
+                    .classList.add(
+                        'transition-transform',
+                        'duration-1000',
+                        'ease-in-out'
+                    );
             }, 50);
             setIsOnPoetryPage(false);
             setIsOnIndexPage(true);
@@ -62,13 +61,13 @@ const PoetryList = ({
     };
 
     useEffect(() => {
-
         toggleListDisplay(targetHref, 'poetry');
 
         // ANIMATION ON DIRECT ENTERING POETRY PAGE
         if (targetHref.endsWith(`/${lang}/poetry/`)) {
             setTimeout(() => {
-                document.querySelector('.poetry-wrapper').style.transition = 'opacity 1000ms';
+                document.querySelector('.poetry-wrapper').style.transition =
+                    'opacity 1000ms';
                 document.querySelector('.poetry-wrapper').style.opacity = 1;
             }, 1000);
         }
@@ -79,41 +78,55 @@ const PoetryList = ({
     // Render
     return (
         <>
-
             <div
-                className={`poetry-wrapper-wrap h-screen fixed top-0 z-[9] left-0 ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer w-[80px]' : ''} ${!isOnPoetryPage && !isOnIndexPage ? 'pointer-events-none w-fit' : ''}`}
+                className={`poetry-wrapper-wrap fixed top-0 left-0 z-[9] h-screen ${className} ${isOnIndexPage ? 'pointer-events-auto w-[80px] cursor-pointer' : ''} ${!isOnPoetryPage && !isOnIndexPage ? 'pointer-events-none w-fit' : ''}`}
                 onClick={
                     !isOnPoetryPage
                         ? () =>
-                            navigate(`/${lang}/poetry/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/poetry/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
-                <div className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''}`} >
-                    <div className="poetry-wrapper flex fixed translate-y-[20px] top-0 left-0 opacity-0 px-body-p-x "
-                        style={{ opacity: opacityValue, transform: `translateX(${translateXValue})` }}>
-                        {/* {dataPoetry.slice(2).map((poetry) => (
+                <div
+                    className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''}`}
+                >
+                    <div
+                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] opacity-0'
+                        style={{
+                            opacity: opacityValue,
+                            transform: `translateX(${translateXValue})`,
+                        }}
+                    >
+                        {dataPoetry.map((poetry) => (
                             <div key={poetry.id}>
                                 <PoetryTitle
                                     className=''
-                                    pathOpen={poetry.svgPath?.svgPathOpenData || ''}
-                                    pathClose={poetry.svgPath?.svgPathCloseData || ''}
+                                    pathOpen={
+                                        poetry.svgPath?.svgPathOpenData || ''
+                                    }
+                                    pathClose={
+                                        poetry.svgPath?.svgPathCloseData || ''
+                                    }
                                     title={poetry.title}
                                     targetHref={`/${lang}/poetry/${poetry.slug}/`}
                                     keyId={poetry.id}
                                     client:only='react'
-                                    transition:name='poetrytitles' 
+                                    transition:name='poetrytitles'
                                     transition:persist
+                                    slug={poetry.slug}
                                 />
                             </div>
-                        ))} */}
-                        <PoetryTitleHardLayout lang={lang} client:only='react' transition:name='poetryhardlayout' transition:persist />
+                        ))}
+                        <PoetryTitleHardLayout
+                            lang={lang}
+                            client:only='react'
+                            transition:name='poetryhardlayout'
+                            transition:persist
+                        />
                     </div>
                 </div>
-
-
             </div>
         </>
     );
