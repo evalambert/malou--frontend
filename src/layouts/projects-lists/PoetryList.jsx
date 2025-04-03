@@ -33,7 +33,7 @@ const PoetryList = ({
             console.log('ON PAGE POETRY');
             setTranslateXValue(0 + 'px');
             setIsOnPoetryPage(true);
-            
+
             // Création et dispatch de l'événement personnalisé
             const poetryPageEvent = new CustomEvent('poetryPageStateChange', {
                 detail: {
@@ -41,7 +41,7 @@ const PoetryList = ({
                 }
             });
             window.dispatchEvent(poetryPageEvent);
-            
+
             setIsOnIndexPage(false);
         } else if (url == '/fr/' || url == '/en/') {
             setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
@@ -61,8 +61,16 @@ const PoetryList = ({
     };
 
     useEffect(() => {
-        
+
         toggleListDisplay(targetHref, 'poetry');
+
+        // ANIMATION ON DIRECT ENTERING POETRY PAGE
+        if (targetHref.endsWith(`/${lang}/poetry/`)) {
+            setTimeout(() => {
+                document.querySelector('.poetry-wrapper').style.transition = 'opacity 1000ms';
+                document.querySelector('.poetry-wrapper').style.opacity = 1;
+            }, 1000);
+        }
     }, [targetHref, translateXValue]);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -76,9 +84,9 @@ const PoetryList = ({
                 onClick={
                     !isOnPoetryPage
                         ? () =>
-                              navigate(`/${lang}/poetry/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/poetry/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
@@ -100,7 +108,7 @@ const PoetryList = ({
                                 />
                             </div>
                         ))} */}
-                        <PoetryTitleHardLayout lang={lang} client:only='react' transition:name='poetryhardlayout' transition:persist/>
+                        <PoetryTitleHardLayout lang={lang} client:only='react' transition:name='poetryhardlayout' transition:persist />
                     </div>
                 </div>
 
