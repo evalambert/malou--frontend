@@ -48,7 +48,7 @@
 }
 
 body {
-    @apply w-screen md:overflow-hidden bg-white text-white md:h-screen;
+    @apply w-screen overflow-x-hidden md:overflow-hidden bg-white text-white md:h-screen;
 }
 
 

@@ -112,23 +112,45 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
-    const [translateValue, setTranslateValue] = useState('-50vh');
+    const [translateYValue, settranslateYValue] = useState('-50vh');
+    const [translateXValue, settranslateXValue] = useState('0px');
+    const [maxWidthValue, setMaxWidthValue] = useState('initial');
+    const [maxHeightValue, setMaxHeightValue] = useState('initial');
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
 
     const toggleListDisplay = (url, category) => {
         if (url.includes(category)) {
-            setTranslateValue('0px');
+            settranslateYValue('0px');
             setIsOnVitrailPage(true);
             setIsOnIndexPage(false);
+            if (window.innerWidth < 768) {
+                setMaxWidthValue('100vw');
+                setMaxHeightValue('initial');
+                settranslateXValue('0px');
+            }
         } else if (url == '/fr/' || url == '/en/') {
-            setTranslateValue('-' + hiddenListHeightVitrail + 'px');
             setIsOnVitrailPage(false);
             setIsOnIndexPage(true);
+            if (window.innerWidth < 768) {
+                settranslateYValue('0px');
+                settranslateXValue('50vw');
+                setMaxWidthValue('0px');
+                setMaxHeightValue('0px');
+            }else{
+                settranslateYValue('-' + hiddenListHeightVitrail + 'px');
+            }
         } else {
-            setTranslateValue('-50vh');
             setIsOnVitrailPage(false);
             setIsOnIndexPage(false);
+            if (window.innerWidth < 768) {
+                setMaxWidthValue('0px');
+                setMaxHeightValue('0px');
+                settranslateYValue('0px');
+                settranslateXValue('50vw');
+            }else{
+                settranslateYValue('-50vh');
+            }
         }
     };
 
@@ -143,10 +165,10 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
     return (
         <>
             <div
-                className={`work-list ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
+                className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
             >
                 <div
-                    className={`pt-body-p-y flex flex-col items-end ${
+                    className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${
                         !isOnVitrailPage ? 'cursor-pointer' : ''
                     } `}
                     onClick={
@@ -157,14 +179,15 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
                                   })
                             : undefined
                     }
+                    style={{ maxWidth: `${maxWidthValue}`, maxHeight: `${maxHeightValue}` }}
                 >
                     <div
-                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
-                        style={{ transform: `translateY(${translateValue})` }}
+                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out pt-body-p-y ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
+                        style={{  transform: `translate(${translateXValue}, ${translateYValue})` }}
                     >
                         <div
-                            className={`hidden-list-vitrail delay-[0.2s]flex flex-col items-end transition-all duration-1000 ease-in-out ${
-                                isOnVitrailPage ? 'opacity-100' : 'opacity-0'
+                            className={`hidden-list-vitrail delay-[0.2s] max-md:order-2 flex flex-col items-end transition-all duration-1000 ease-in-out ${
+                                isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
                             } `}
                         >
                             {/* Liste Hidden */}
@@ -186,7 +209,7 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
                             {/* (END) Liste Hidden */}
                         </div>
                         {/* Liste Homepage */}
-                        <ul className='vitrail-list-compact'>
+                        <ul className='vitrail-list-compact max-md:order-1'>
                             {dataVitrails.slice(0, 2).map((vitrail) => (
                                 <li
                                     className='vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300'
