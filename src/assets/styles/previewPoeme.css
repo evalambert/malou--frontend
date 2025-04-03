@@ -1,0 +1,60 @@
+/* src/assets/styles/previewPoeme.css */
+.wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+.box-project {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+}
+
+.project {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #60a5fa;
+    cursor: pointer;
+    text-align: center;
+    border-bottom: 1px solid #fff;
+    padding: 10px;
+    z-index: 10;
+}
+
+.preview {
+    flex: 1;
+    position: relative;
+    background: #fde68a;
+    overflow: hidden; /* masque tout ce qui dépasse */
+    z-index: 5;
+}
+
+.line-wrapper {
+    position: absolute; /* sera positionné librement dans .preview */
+    border: 1px solid red; /* visible pour debug */
+    pointer-events: none; /* les mots ne réagissent pas à la souris */
+    opacity: 1;
+    visibility: visible;
+    z-index: 20;
+}
+
+.wavy-line {
+    position: relative; /* les mots à l'intérieur seront positionnés en absolute */
+    border: 1px solid green; /* debug */
+    z-index: 21;
+}
+
+.wavy-word {
+    position: absolute;
+    white-space: nowrap;
+    border: 1px solid blue; /* debug */
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    z-index: 22;
+}

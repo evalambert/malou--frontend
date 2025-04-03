@@ -3,15 +3,45 @@
 
 import Layout from '../../layouts/Layout.astro';
 import AllProjectsLists from '../../layouts/AllProjectsLists.astro';
+import PoetryPreview from '../../components/features/preview-poeme/PoetryPreview.jsx';
 
 export async function getStaticPaths() {
     return [{ params: { lang: 'fr' } }, { params: { lang: 'en' } }];
 }
 const { lang } = Astro.params;
 
+const poems = {
+    coquille: [
+        ['Aujourd’hui j’ai l’humeur', 'd’un saule pleureur'],
+        [
+            'ronron tondeuse',
+            'tympans dans l’eau',
+            'berceus avione',
+            'poids : zéro',
+        ],
+        ['le vent qui pousse', 'le rideau', 'dodo'],
+    ],
+    serpent: [
+        ['je me faufile', 'entre les pierres'],
+        ['j’attends que le monde', 'redevienne silence'],
+        ['langue double', 'peau vide'],
+    ],
+};
+
 export const prerender = true;
 ---
 
 <Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
     <AllProjectsLists lang={lang} enterIndex={false} />
+     <div class='wrapper'>
+        <div class='box-project'>
+            <div class='project' data-type='coquille'
+                >des coquilles et des pépins</div
+            >
+            <div class='project' data-type='serpent'
+                >comme un serpent dans une flûte</div
+            >
+        </div>
+        <PoetryPreview client:only poems={poems} />
+    </div>
 </Layout>
