@@ -99,26 +99,36 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                             transform: `translateX(${translateXValue})`,
                         }}
                     >
-                        {dataPoetry.map((poetry) => (
-                            <div key={poetry.id}>
-                                <PoetryTitle
-                                    className=''
-                                    pathOpen={
-                                        poetry.svgPath?.svgPathOpenData || ''
-                                    }
-                                    pathClose={
-                                        poetry.svgPath?.svgPathCloseData || ''
-                                    }
-                                    title={poetry.title}
-                                    targetHref={`/${lang}/poetry/${poetry.slug}/`}
-                                    keyId={poetry.id}
-                                    client:only='react'
-                                    transition:name='poetrytitles'
-                                    transition:persist
-                                    slug={poetry.slug}
-                                />
-                            </div>
-                        ))}
+                        {dataPoetry
+                            .filter(
+                                (poetry) =>
+                                    poetry.slug !==
+                                        'comme-un-serpent-dans-une-flute' &&
+                                    poetry.slug !==
+                                        'des-coquilles-et-des-pepins'
+                            )
+                            .map((poetry) => (
+                                <div key={poetry.id}>
+                                    <PoetryTitle
+                                        className=''
+                                        pathOpen={
+                                            poetry.svgPath?.svgPathOpenData ||
+                                            ''
+                                        }
+                                        pathClose={
+                                            poetry.svgPath?.svgPathCloseData ||
+                                            ''
+                                        }
+                                        title={poetry.title}
+                                        targetHref={`/${lang}/poetry/${poetry.slug}/`}
+                                        keyId={poetry.id}
+                                        client:only='react'
+                                        transition:name='poetrytitles'
+                                        transition:persist
+                                        slug={poetry.slug}
+                                    />
+                                </div>
+                            ))}
                         <PoetryTitleHardLayout
                             lang={lang}
                             client:only='react'
