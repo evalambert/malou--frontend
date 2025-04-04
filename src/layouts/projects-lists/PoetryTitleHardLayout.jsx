@@ -16,8 +16,8 @@ const PoetryTitleHardLayout = ({ lang }) => {
         'M1 1L9 35L15.5 66L13 132L5.5 163.5L5.5 197L15.5 226.5L26.5 257.5L18.5 288L9 320.5L21.5 355L15.5 389L6.5 451L15.5 482.5L30 547.5L40.5 581L40.5 613L26.5 677L9.5 708.5L12 742L21.5 770L32 804L42.5 835.5';
     const pathCoquilleOpen =
         'M1 1L9 35L15.5 66L13 132L5.5 163.5L5.5 197L15.5 226.5L26.5 257.5L18.5 288L9 320.5L21.5 355L15.5 389L13.5 453L32 478L52 536L70.5 564.5L95 579L156.5 579L187.5 572L217.5 564.5L238.5 536L254.5 497L284 487.5';
-    const pathSerpentTitle = 'Comme un serpent dans une flûte';
-    const pathCoquilleTitle = 'Des coquilles et des pépins';
+    const pathSerpentTitle = 'comme un serpent dans une flûte';
+    const pathCoquilleTitle = 'des coquilles et des pépins';
 
     useEffect(() => {
         // Récupération des éléments du DOM
