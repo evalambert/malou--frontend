@@ -143,4 +143,5 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
 };
 
 export default PoetryList;
+
 export const client = 'only';
