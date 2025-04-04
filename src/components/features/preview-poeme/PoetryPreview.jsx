@@ -49,17 +49,23 @@ function getLineBoundingBox(spans, container) {
 }
 
 export default function PoetryPreview({ poems = {} }) {
-    // Calculer la largeur de .poetry-wrapper
-    const [previewWidth, setPreviewWidth] = useState('calc(100vw - 180px)');
+    const [previewWidth, setPreviewWidth] = useState(null);
 
-    // Calculer la largeur de .poetry-wrapper
     useEffect(() => {
         const handleWidthChange = (event) => {
             const { width } = event.detail;
             setPreviewWidth(`calc(100vw - ${width}px)`);
         };
 
+        // Écouter l'événement de changement de largeur
         window.addEventListener('poetryWrapperWidthChange', handleWidthChange);
+
+        // Déclencher un événement pour demander la largeur initiale
+        const requestInitialWidth = new CustomEvent(
+            'requestPoetryWrapperWidth'
+        );
+        window.dispatchEvent(requestInitialWidth);
+
         return () =>
             window.removeEventListener(
                 'poetryWrapperWidthChange',
@@ -156,7 +162,8 @@ export default function PoetryPreview({ poems = {} }) {
     return (
         <div
             className='preview mix-blend-target fixed inset-0 top-[unset] right-0 bottom-0 left-[unset] z-5 h-[calc(100vh-31px)] flex-1 overflow-hidden border-2 border-blue-500'
-            style={{ width: previewWidth }}
+            style={{ width: previewWidth || 'calc(100vw - 180px)' }}
         />
     );
+    
 }
