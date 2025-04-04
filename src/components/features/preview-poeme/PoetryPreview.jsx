@@ -1,6 +1,6 @@
 //
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import '../../../assets/styles/previewPoeme.css';
 
 const angles = [-20, -10, 0, 10, 20];
@@ -49,9 +49,26 @@ function getLineBoundingBox(spans, container) {
 }
 
 export default function PoetryPreview({ poems = {} }) {
+    // Calculer la largeur de .poetry-wrapper
+    const [previewWidth, setPreviewWidth] = useState('calc(100vw - 180px)');
+
+    // Calculer la largeur de .poetry-wrapper
+    useEffect(() => {
+        const handleWidthChange = (event) => {
+            const { width } = event.detail;
+            setPreviewWidth(`calc(100vw - ${width}px)`);
+        };
+
+        window.addEventListener('poetryWrapperWidthChange', handleWidthChange);
+        return () =>
+            window.removeEventListener(
+                'poetryWrapperWidthChange',
+                handleWidthChange
+            );
+    }, []);
+
     useEffect(() => {
         const preview = document.querySelector('.preview');
-
         // if (!preview || projectTriggers.length === 0) return;
 
         function clearPreview() {
@@ -137,6 +154,9 @@ export default function PoetryPreview({ poems = {} }) {
     }, [poems]);
 
     return (
-        <div className='preview mix-blend-target fixed inset-0 top-[unset] right-0 bottom-0 left-[unset] z-5 h-[calc(100vh-31px)] w-[calc(100vw-180px)] flex-1 overflow-hidden' />
+        <div
+            className='preview mix-blend-target fixed inset-0 top-[unset] right-0 bottom-0 left-[unset] z-5 h-[calc(100vh-31px)] flex-1 overflow-hidden border-2 border-blue-500'
+            style={{ width: previewWidth }}
+        />
     );
 }
