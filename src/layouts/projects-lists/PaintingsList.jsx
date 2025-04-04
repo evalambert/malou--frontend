@@ -5,7 +5,13 @@ import { navigate } from 'astro:transitions/client';
 
 import PaintingTitle from '../../components/common/title/PaintingTitle.jsx';
 
-const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
+const PaintingsList = ({
+    homepagePaintings,
+    hiddenPaintings,
+    targetHref,
+    lang,
+    className,
+}) => {
     const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
 
@@ -73,7 +79,7 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
 
         // Cleanup
         return () => window.removeEventListener('resize', calculateLayout);
-    }, [dataPaintings]);
+    }, [homepagePaintings, hiddenPaintings]);
 
     /**
      * Gestion du décalage vertical du titre en fonction de l'accordéon
@@ -120,7 +126,7 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
         } else if (url == '/fr/' || url == '/en/') {
             if (window.innerWidth < 768) {
                 setTranslateValue('100vh');
-                setmaxHeightValue('0px')
+                setmaxHeightValue('0px');
             } else {
                 setTranslateValue(hiddenListHeightPainting + 'px');
                 setmaxHeightValue('300vh');
@@ -145,23 +151,26 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list painting-list-wrapper  pb-body-p-y fixed bottom-0 transition-all delay-[0.2s] duration-500 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list painting-list-wrapper pb-body-p-y fixed bottom-0 transition-all delay-[0.2s] duration-500 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                            navigate(`/${lang}/painting/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/painting/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
                 <div
-                    className={`transition-all duration-500 ease-in-out overflow-hidden ${!isOnPaintingPage ? 'pointer-events-none' : ''}`}
-                    style={{ transform: `translateY(${translateValue})`, maxHeight: `${maxHeightValue}` }}
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''}`}
+                    style={{
+                        transform: `translateY(${translateValue})`,
+                        maxHeight: `${maxHeightValue}`,
+                    }}
                 >
                     {/* Liste Homepage */}
                     <ul className='painting-list-compact transition-all duration-500 ease-in-out'>
-                        {dataPaintings.slice(0, 4).map((painting) => (
+                        {homepagePaintings.map((painting) => (
                             <li
                                 className='painting-title w-fit'
                                 key={painting.id}
@@ -174,13 +183,13 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
                         ))}
                     </ul>
                     {/* (END) Liste Homepage */}
+
                     <div
                         className={`hidden-list-painting overflow-hidden transition-all delay-[0.2s] duration-500 ease-in-out`}
                     >
                         {/* Liste Hidden */}
-
                         <ul>
-                            {dataPaintings.slice(4).map((painting) => (
+                            {hiddenPaintings.map((painting) => (
                                 <li
                                     className='painting-title block w-fit'
                                     key={painting.id}
@@ -190,13 +199,12 @@ const PaintingsList = ({ dataPaintings, targetHref, lang, className }) => {
                                         lang={lang}
                                     />
                                 </li>
-                            ))}                           
+                            ))}
                         </ul>
-
                         {/* (END) Liste Hidden */}
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     );
 };

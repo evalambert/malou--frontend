@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
-
 import { navigate } from 'astro:transitions/client';
 import VolumeTitle from '../../components/common/title/VolumeTitle.jsx';
 
-const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
+const VolumesList = ({
+    homepageVolumes,
+    hiddenVolumes,
+    targetHref,
+    lang,
+    className,
+}) => {
     const [hiddenListHeightVolume, setHiddenListHeightVolume] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
 
@@ -17,12 +22,14 @@ const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
             let lastTitleWidth = 0;
 
             // Déplacer les éléments li de hidden-list-volume vers preview-list-volume
-            const hiddenList = document.querySelector('.hidden-list-volume .volume-list-compact');
+            const hiddenList = document.querySelector(
+                '.hidden-list-volume .volume-list-compact'
+            );
             const previewList = document.querySelector('.preview-list-volume');
-            
+
             if (hiddenList && previewList) {
                 const liElements = hiddenList.querySelectorAll('li');
-                liElements.forEach(li => {
+                liElements.forEach((li) => {
                     previewList.appendChild(li);
                 });
             }
@@ -35,23 +42,21 @@ const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
                     if (isNextToPadding === false) {
                         title.classList.add('max-md:mt-[50px]');
                         isNextToPadding = true;
-                        // title.style.border = `2px solid red`;  
+                        // title.style.border = `2px solid red`;
                     } else {
                         isNextToPadding = false;
                         // title.style.border = `2px solid blue`;
                         title.classList.add('max-md:mt-[25px]');
                     }
- 
                 } else {
                     maxLenghtPhrase = 0;
                     // title.style.border = `2px solid green`;
-                    if (titleWidth > windowWidth / 2){
+                    if (titleWidth > windowWidth / 2) {
                         title.classList.add('max-md:mt-[25px]');
-                    }else{
+                    } else {
                         title.classList.add('max-md:mt-[50px]');
                     }
                 }
-
 
                 // if (title.closest('.preview-list-volume')?.querySelector('.volume-list-compact li:first-child') === title){
                 //     title.classList.add('preview-list-volume-first');
@@ -59,25 +64,19 @@ const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
                 //         title.style.paddingLeft = `${lastTitleWidth}px`;
                 //         document.querySelector('.hidden-list-volume-last').style.paddingTop = `50px`;
                 //         document.querySelector('.preview-list-volume').style.marginTop = `-50px`;
-                        
+
                 //     }
                 // }
-                
+
                 // if (title.closest('.hidden-list-volume')?.querySelector('.volume-list-compact li:last-child') === title) {
                 //     title.classList.add('hidden-list-volume-last');
                 //     if (titleWidth < windowWidth) {
                 //         lastTitleWidth = titleWidth;
                 //     }
                 // }
-
-
-            })
-
+            });
         }
-
     });
-
-
 
     useEffect(() => {
         // Afficher la hauteur de la liste cachée
@@ -199,45 +198,56 @@ const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
     return (
         <>
             <div
-                className={`work-list max-md:relative max-md:top-[50vh] max-md:left-0 max-md:overflow-hidden max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
-
+                className={`work-list max-md:relative max-md:top-[50vh] max-md:left-0 max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
             >
                 <div
-                    className={` max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out`}
+                    className={`max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out`}
                     onClick={
                         !isOnVolumePage
                             ? () =>
-                                navigate(`/${lang}/volume/`, {
-                                    history: 'push',
-                                })
+                                  navigate(`/${lang}/volume/`, {
+                                      history: 'push',
+                                  })
                             : undefined
                     }
-                    style={{ maxWidth: `${maxWidthValue}`, maxHeight: `${maxHeightValue}` }}>
+                    style={{
+                        maxWidth: `${maxWidthValue}`,
+                        maxHeight: `${maxHeightValue}`,
+                    }}
+                >
                     <div
-                        className={`transition-all duration-500 ease-in-out pt-body-p-y max-md:w-[calc(100vw-40px)] ${!isOnVolumePage ? 'pointer-events-none' : ''}`}
-                        style={{ transform: `translate(${translateXValue}, ${translateYValue})` }}
+                        className={`pt-body-p-y transition-all duration-500 ease-in-out max-md:w-[calc(100vw-40px)] ${!isOnVolumePage ? 'pointer-events-none' : ''}`}
+                        style={{
+                            transform: `translate(${translateXValue}, ${translateYValue})`,
+                        }}
                     >
                         <div
                             className={`hidden-list-volume overflow-hidden transition-all delay-[0.2s] duration-500 ease-in-out`}
                         >
                             {/* Liste Hidden */}
-                            <ul className='volume-list-compact md:ml-[50px] flex flex-wrap md:gap-y-[25px] md:pb-[25px]'>
-                                {dataVolumes.slice(3).map((volume) => (
+                            <ul className='volume-list-compact flex flex-wrap md:ml-[50px] md:gap-y-[25px] md:pb-[25px]'>
+                                {hiddenVolumes.map((volume) => (
                                     <li
                                         className='volume-title block w-fit'
                                         key={volume.id}
                                     >
-                                        <VolumeTitle volume={volume} lang={lang} />
+                                        <VolumeTitle
+                                            volume={volume}
+                                            lang={lang}
+                                        />
                                     </li>
                                 ))}
                             </ul>
                             {/* (END) Liste Hidden */}
                         </div>
-                        {/* Liste Homepage */}
 
+                        {/* Liste Homepage */}
                         <ul className='volume-list-compact preview-list-volume flex flex-wrap md:gap-y-[25px]'>
-                            {dataVolumes.slice(0, 3).map((volume) => (
-                                <li className='volume-title w-fit' key={volume.id}>
+                            {homepageVolumes.map((volume) => (
+                                <li
+                                    className='volume-title w-fit'
+                                    key={volume.id}
+                                >
                                     <VolumeTitle volume={volume} lang={lang} />
                                 </li>
                             ))}
@@ -247,7 +257,6 @@ const VolumesList = ({ dataVolumes, targetHref, lang, className }) => {
                     </div>
                 </div>
             </div>
-
         </>
     );
 };
