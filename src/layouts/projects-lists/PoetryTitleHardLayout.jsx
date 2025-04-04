@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 
-const PoetryTitleHardLayout = ({ lang }) => {
+const PoetryTitleHardLayout = ({ lang, targetHref }) => {
     // const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
 
     // // Définition des constantes
@@ -25,13 +25,15 @@ const PoetryTitleHardLayout = ({ lang }) => {
         const pathCoquille = document.getElementById('myPath-hard-layout-coquille');
         const textOverlaySerpent = document.getElementById('textOverlay-hard-layout-serpent');
         const textOverlayCoquille = document.getElementById('textOverlay-hard-layout-coquille');
+        
+        console.log(targetHref);
 
         let isOpen = false;
 
         // SPANS
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         ///////// Update Letters Position 
-        function updateLettersPosition(path, textOverlay) {
+        function updateLettersPosition(path, textOverlay, durationDuration) {
             // Fonction pour extraire les points du chemin SVG
             function extractPointsFromD(d) {
                 const points = [];
@@ -70,7 +72,7 @@ const PoetryTitleHardLayout = ({ lang }) => {
 
                 // Utilisation de GSAP pour une animation fluide
                 gsap.to(span, {
-                    duration: 0,
+                    duration: durationDuration,
                     left: `${x}px`,
                     top: `${y}px`,
                     ease: 'none',
@@ -80,9 +82,9 @@ const PoetryTitleHardLayout = ({ lang }) => {
         ///////// END Update Letters Position /////////
 
         // Fonction pour mettre à jour les deux chemins
-        function updateBothPaths() {
-            updateLettersPosition(pathSerpent, textOverlaySerpent);
-            updateLettersPosition(pathCoquille, textOverlayCoquille);
+        function updateBothPaths(duration) {
+            updateLettersPosition(pathSerpent, textOverlaySerpent, duration);
+            updateLettersPosition(pathCoquille, textOverlayCoquille, duration);
         }
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -111,7 +113,7 @@ const PoetryTitleHardLayout = ({ lang }) => {
                 attr: {
                     d: pathSerpentClose,
                 },
-                onUpdate: updateBothPaths,
+                onUpdate: () => updateBothPaths(0),
             });
             showCoquille();
         }
@@ -123,7 +125,7 @@ const PoetryTitleHardLayout = ({ lang }) => {
                     attr: {
                         d: pathSerpentIndex,
                     },
-                    onUpdate: updateBothPaths,
+                    onUpdate: () => updateBothPaths(0),
                 });
                 hideCoquille();
             }
@@ -142,7 +144,7 @@ const PoetryTitleHardLayout = ({ lang }) => {
                 attr: {
                     d: isAccordionOpen ? pathSerpentOpen : pathSerpentClose,
                 },
-                onUpdate: updateBothPaths,
+                onUpdate: () => updateBothPaths(0),
             });
 
             gsap.to(pathCoquille, {
@@ -150,7 +152,7 @@ const PoetryTitleHardLayout = ({ lang }) => {
                 attr: {
                     d: isAccordionOpen ? pathCoquilleOpen : pathCoquilleClose,
                 },
-                onUpdate: updateBothPaths,
+                onUpdate: () => updateBothPaths(0),
             });
         };
 
@@ -158,36 +160,29 @@ const PoetryTitleHardLayout = ({ lang }) => {
 
 
 
-
-        ////////////////// TEST BUTTON //////////////////
-        // Ajout d'un écouteur d'événement sur le bouton de test
-        const testButton = document.getElementById('test-button');
-        testButton.addEventListener('click', () => {
-
-            if (pathSerpent.classList.contains('animate-open-serpent')) {
-                closeSerpentForIndex();
-            } else {
-                openSerpentCategoryPoetry();
-            }
-        });
-        ////////////////// End TEST BUTTON //////////////////
-
-
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         // TRIGER INITIALISATION
-
+        if (targetHref.endsWith(`/${lang}/poetry/`)) {
+            openSerpentCategoryPoetry();
+            setTimeout(() => {
+                updateBothPaths(0.3);
+            }, 900);
+        } else if (targetHref == '/fr/' || targetHref == '/en/') {
+            updateBothPaths(0);
+            closeSerpentForIndex();
+        }
 
         // Initialisation
         // window.addEventListener('load', updatePaths);
-        window.addEventListener('resize', updateBothPaths);
+        window.addEventListener('resize', () => updateBothPaths(0));
         window.addEventListener(
             'accordionDescriptionToggle',
             handleAccordionChange
         );
-        window.addEventListener(
-            'poetryPageStateChange',
-            openSerpentCategoryPoetry
-        );
+        // window.addEventListener(
+        //     'poetryPageStateChange',
+        //     openSerpentCategoryPoetry
+        // );
         // window.addEventListener(
         //     'indexPageStateChange',
         //     closeSerpentForIndex
@@ -195,177 +190,24 @@ const PoetryTitleHardLayout = ({ lang }) => {
 
         return () => {
             // window.removeEventListener('load', updatePaths);
-            window.removeEventListener('resize', updateBothPaths);
+            window.removeEventListener('resize', () => updateBothPaths(0));
             window.removeEventListener(
                 'accordionDescriptionToggle',
                 handleAccordionChange
             );
-            window.removeEventListener(
-                'poetryPageStateChange',
-                openSerpentCategoryPoetry
-            );
+            // window.removeEventListener(
+            //     'poetryPageStateChange',
+            //     openSerpentCategoryPoetry
+            // );
             // window.removeEventListener(
             //     'indexPageStateChange',
             //     closeSerpentForIndex
             // );
         };
 
-        //     // Calcul du viewBox basé sur les deux chemins
-        //     const bboxSerpent = pathSerpent.getBBox();
-        //     const bboxCoquille = pathCoquille.getBBox();
-        //     const maxWidth = Math.max(bboxSerpent.width, bboxCoquille.width) * 3;
-        //     svg.setAttribute('viewBox', `0 -20 ${maxWidth} 1050`);
-
-        //     // État initial fermé au lieu de ouvert
-        //     let isOpen = false;
-
-        //     // Fonction : extrait les points (x, y) d'une chaîne de commande SVG
-        //     function extractPointsFromD(d) {
-        //         const points = [];
-        //         const regex = /[ML]\s*([0-9.]+)[ ,]([0-9.]+)/g;
-        //         let match;
-        //         while ((match = regex.exec(d)) !== null) {
-        //             points.push({
-        //                 x: parseFloat(match[1]),
-        //                 y: parseFloat(match[2]),
-        //             });
-        //         }
-        //         return points;
-        //     }
-
-        //     // Convertit des coordonnées SVG en pixels
-        //     function svgPointToScreen(svg, x, y) {
-        //         const pt = svg.createSVGPoint();
-        //         pt.x = x;
-        //         pt.y = y;
-        //         return pt.matrixTransform(svg.getScreenCTM());
-        //     }
-
-        //     // Fonction pour placer les lettres sur un chemin spécifique
-        //     function placeLettersOnPath(path, textOverlay, title) {
-        //         const phrase = title.split('').filter((c) => c !== ' ');
-        //         const d = path.getAttribute('d');
-        //         const points = extractPointsFromD(d);
-
-        //         // Créer les spans une seule fois si ils n'existent pas
-        //         if (textOverlay.children.length === 0) {
-        //             phrase.forEach((letter, i) => {
-        //                 const span = document.createElement('span');
-        //                 span.textContent = letter;
-        //                 textOverlay.appendChild(span);
-        //             });
-        //         }
-
-        //         // Mettre à jour les positions des spans existants
-        //         const count = Math.min(phrase.length, points.length);
-        //         const svg = path.ownerSVGElement;
-
-        //         for (let i = 0; i < count; i++) {
-        //             const { x, y } = svgPointToScreen(
-        //                 svg,
-        //                 points[i].x,
-        //                 points[i].y
-        //             );
-        //             const span = textOverlay.children[i];
-
-        //             // Utiliser GSAP pour animer la position des spans
-        //             gsap.to(span, {
-        //                 duration: 0.5,
-        //                 left: `${x}px`,
-        //                 top: `${y}px`,
-        //                 ease: 'none',
-        //             });
-        //         }
-        //     }
-
-        //     // Mise à jour des deux chemins
-        //     function updatePaths() {
-        //         if (window.location.pathname.includes('poetry')) {
-        //             setIsOnPoetryPage(true);
-        //         }
-        //         placeLettersOnPath(
-        //             pathSerpent,
-        //             textOverlaySerpent,
-        //             pathSerpentTitle
-        //         );
-        //         placeLettersOnPath(
-        //             pathCoquille,
-        //             textOverlayCoquille,
-        //             pathCoquilleTitle
-        //         );
-        //     }
-
-        //     // Gestion de l'animation
-        //     const handleAccordionChange = (event) => {
-        //         const { isAccordionOpen } = event.detail;
-        //         isOpen = isAccordionOpen;
-
-        //         gsap.to(pathSerpent, {
-        //             duration: 0.4,
-        //             attr: {
-        //                 d: isAccordionOpen ? pathSerpentOpen : pathSerpentClose,
-        //             },
-        //             onUpdate: updatePaths,
-        //         });
-
-        //         gsap.to(pathCoquille, {
-        //             duration: 0.4,
-        //             attr: {
-        //                 d: isAccordionOpen ? pathCoquilleOpen : pathCoquilleClose,
-        //             },
-        //             onUpdate: updatePaths,
-        //         });
-        //     };
-        //     const handlePoetryPageStateChange = (event) => {
-        //         console.log('handlePoetryPageStateChange');
-        //         setTimeout(() => {
-        //             const textOverlayCoquille = document.getElementById(
-        //                 'textOverlay-hard-layout-coquille'
-        //             );
-        //             if (textOverlayCoquille) {
-        //                 setTimeout(() => {
-        //                     textOverlayCoquille.style.opacity = 1;
-        //                 }, 1000);
-        //             }
-
-        //             gsap.to(pathSerpent, {
-        //                 duration: 0.4,
-        //                 attr: {
-        //                     d: isOnPoetryPage ? pathSerpentIndex : pathSerpentClose,
-        //                 },
-        //                 onUpdate: updatePaths,
-        //                 ease: 'none', // Utiliser une interpolation linéaire
-        //             });
-        //         }, 400);
-        //     };
-
-        //     // Initialisation avec les chemins fermés
-        //     pathSerpent.setAttribute('d', pathSerpentIndex);
-        //     pathCoquille.setAttribute('d', pathCoquilleClose);
-        //     updatePaths();
-
-        //     // Initialisation
-        //     window.addEventListener('load', updatePaths);
-        //     window.addEventListener('resize', updatePaths);
-        //     window.addEventListener(
-        //         'accordionDescriptionToggle',
-        //         handleAccordionChange
-        //     );
-        //     window.addEventListener(
-        //         'poetryPageStateChange',
-        //         handlePoetryPageStateChange
-        //     );
-
-        //     // Nettoyage
-        //     return () => {
-        //         window.removeEventListener('load', updatePaths);
-        //         window.removeEventListener('resize', updatePaths);
-        //         window.removeEventListener(
-        //             'accordionDescriptionToggle',
-        //             handleAccordionChange
-        //         );
-        //     };
-    }, []);
+        
+        
+    }, [targetHref]);
 
     // Render
     return (
@@ -480,7 +322,6 @@ const PoetryTitleHardLayout = ({ lang }) => {
                     <span style={{ top: '685px', left: '45px' }}>s</span>
                 </div>
             </div>
-            <button id="test-button" className='bg-blue-300 cursor-pointer'>Open</button>
         </>
     );
 };
