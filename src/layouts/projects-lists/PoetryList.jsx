@@ -52,6 +52,9 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             }, 50);
             setIsOnPoetryPage(false);
             setIsOnIndexPage(true);
+            // Création et dispatch de l'événement personnalisé
+            const indexPageEvent = new CustomEvent('indexPageStateChange', {});
+            window.dispatchEvent(indexPageEvent);
         } else {
             // console.log('HIIIIIIDDDDEN');
             setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
@@ -125,9 +128,9 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                 onClick={
                     !isOnPoetryPage
                         ? () =>
-                              navigate(`/${lang}/poetry/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/poetry/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
@@ -141,7 +144,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                             transform: `translateX(${translateXValue})`,
                         }}
                     >
-                        {dataPoetry
+                        {/* {dataPoetry
                             .filter(
                                 (poetry) =>
                                     poetry.slug !==
@@ -170,7 +173,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                                         slug={poetry.slug}
                                     />
                                 </div>
-                            ))}
+                            ))} */}
 
                         <PoetryTitleHardLayout
                             lang={lang}

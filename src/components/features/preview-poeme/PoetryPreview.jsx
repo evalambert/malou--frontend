@@ -127,7 +127,7 @@ export default function PoetryPreview({ poems = {} }) {
                 const safeLeft = Math.random() * Math.max(0, maxLeft);
                 const safeTop = Math.random() * Math.max(0, maxTop);
 
-                wrapper.style.left = `${safeLeft}px`;
+                wrapper.style.left = `${safeLeft}px`; 
                 wrapper.style.top = `${safeTop}px`;
                 wrapper.style.opacity = '1';
                 wrapper.style.visibility = 'visible';
@@ -148,15 +148,16 @@ export default function PoetryPreview({ poems = {} }) {
 
                 project.addEventListener('mouseleave', clearPreview);
             });
-        }, 1000);
 
-        // Nettoyage des events au démontage
-        return () => {
-            projectTriggers.forEach((project) => {
-                project.removeEventListener('mouseenter', clearPreview);
-                project.removeEventListener('mouseleave', clearPreview);
-            });
-        };
+
+            // Nettoyage des events au démontage
+            return () => {
+                projectTriggers.forEach((project) => {
+                    project.removeEventListener('mouseenter', clearPreview);
+                    project.removeEventListener('mouseleave', clearPreview);
+                });
+            };
+        }, 1000);
     }, [poems]);
 
     return (
@@ -165,5 +166,5 @@ export default function PoetryPreview({ poems = {} }) {
             style={{ width: previewWidth || 'calc(100vw - 180px)' }}
         />
     );
-    
+
 }
