@@ -52,6 +52,9 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             }, 50);
             setIsOnPoetryPage(false);
             setIsOnIndexPage(true);
+            // Création et dispatch de l'événement personnalisé
+            const indexPageEvent = new CustomEvent('indexPageStateChange', {});
+            window.dispatchEvent(indexPageEvent);
         } else {
             // console.log('HIIIIIIDDDDEN');
             setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
@@ -63,14 +66,12 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
     useEffect(() => {
         toggleListDisplay(targetHref, 'poetry');
 
-        // ANIMATION ON DIRECT ENTERING POETRY PAGE
-        if (targetHref.endsWith(`/${lang}/poetry/`)) {
-            setTimeout(() => {
-                document.querySelector('.poetry-wrapper').style.transition =
-                    'opacity 1000ms';
-                document.querySelector('.poetry-wrapper').style.opacity = 1;
-            }, 1000);
-        }
+        // // ANIMATION ON DIRECT ENTERING POETRY PAGE
+        // if (targetHref.endsWith(`/${lang}/poetry/`) ) {
+        //     document.querySelector('.poetry-wrapper').style.transition =
+        //     'opacity 1000ms';
+        // document.querySelector('.poetry-wrapper').style.opacity = 1;
+        // }
     }, [targetHref, translateXValue]);
 
     // Calculer et transmettre la largeur de .poetry-wrapper via CustomEvent
@@ -125,9 +126,9 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                 onClick={
                     !isOnPoetryPage
                         ? () =>
-                              navigate(`/${lang}/poetry/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/poetry/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
@@ -135,13 +136,13 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                     className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                 >
                     <div
-                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] border-2 border-red-500 opacity-0'
+                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] opacity-0'
                         style={{
                             opacity: opacityValue,
                             transform: `translateX(${translateXValue})`,
                         }}
                     >
-                        {dataPoetry
+                        {/* {dataPoetry
                             .filter(
                                 (poetry) =>
                                     poetry.slug !==
@@ -170,10 +171,11 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                                         slug={poetry.slug}
                                     />
                                 </div>
-                            ))}
+                            ))} */}
 
                         <PoetryTitleHardLayout
                             lang={lang}
+                            targetHref={targetHref}
                             client:only='react'
                             transition:name='poetryhardlayout'
                             transition:persist

@@ -2,10 +2,10 @@
 import { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 
-const PoetryTitleHardLayout = ({ lang }) => {
-    const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
+const PoetryTitleHardLayout = ({ lang, targetHref }) => {
+    // const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
 
-    // Définition des constantes
+    // // Définition des constantes
     const pathSerpentIndex =
         'M1.5 0.5L17.5 38L22.5 71L17.5 103L8 134.5L4 197L11.5 231L13.5 294L15.5 325.5L8 357L1 391.5L10 421L13.5 455.5L23 484.5L16.5 547.5L10 582.5L16.5 614.5L32 646.5L46 707L58 741.5L46 772L16.5 833L3 867.5L18.5 900L34.5 932L58 965.5';
     const pathSerpentClose =
@@ -19,108 +19,122 @@ const PoetryTitleHardLayout = ({ lang }) => {
     const pathSerpentTitle = 'comme un serpent dans une flûte';
     const pathCoquilleTitle = 'des coquilles et des pépins';
 
+
     useEffect(() => {
-        // Récupération des éléments du DOM
-        const pathSerpent = document.getElementById(
-            'myPath-hard-layout-serpent'
-        );
-        const pathCoquille = document.getElementById(
-            'myPath-hard-layout-coquille'
-        );
-        const textOverlaySerpent = document.getElementById(
-            'textOverlay-hard-layout-serpent'
-        );
-        const textOverlayCoquille = document.getElementById(
-            'textOverlay-hard-layout-coquille'
-        );
-        const svg = document.getElementById('svg-hard-layout');
+        const pathSerpent = document.getElementById('myPath-hard-layout-serpent');
+        const pathCoquille = document.getElementById('myPath-hard-layout-coquille');
+        const textOverlaySerpent = document.getElementById('textOverlay-hard-layout-serpent');
+        const textOverlayCoquille = document.getElementById('textOverlay-hard-layout-coquille');
+        
+        console.log(targetHref);
 
-        // Calcul du viewBox basé sur les deux chemins
-        const bboxSerpent = pathSerpent.getBBox();
-        const bboxCoquille = pathCoquille.getBBox();
-        const maxWidth = Math.max(bboxSerpent.width, bboxCoquille.width) * 3;
-        svg.setAttribute('viewBox', `0 -20 ${maxWidth} 1050`);
-
-        // État initial fermé au lieu de ouvert
         let isOpen = false;
 
-        // Fonction : extrait les points (x, y) d'une chaîne de commande SVG
-        function extractPointsFromD(d) {
-            const points = [];
-            const regex = /[ML]\s*([0-9.]+)[ ,]([0-9.]+)/g;
-            let match;
-            while ((match = regex.exec(d)) !== null) {
-                points.push({
-                    x: parseFloat(match[1]),
-                    y: parseFloat(match[2]),
-                });
+        // SPANS
+        // ————————————————————————————————————————————————————————————————————————————————————————————————————
+        ///////// Update Letters Position 
+        function updateLettersPosition(path, textOverlay, durationDuration) {
+            // Fonction pour extraire les points du chemin SVG
+            function extractPointsFromD(d) {
+                const points = [];
+                const regex = /[ML]\s*([0-9.]+)[ ,]([0-9.]+)/g;
+                let match;
+                while ((match = regex.exec(d)) !== null) {
+                    points.push({
+                        x: parseFloat(match[1]),
+                        y: parseFloat(match[2]),
+                    });
+                }
+                return points;
+                
             }
-            return points;
-        }
 
-        // Convertit des coordonnées SVG en pixels
-        function svgPointToScreen(svg, x, y) {
-            const pt = svg.createSVGPoint();
-            pt.x = x;
-            pt.y = y;
-            return pt.matrixTransform(svg.getScreenCTM());
-        }
+            // Fonction pour convertir les coordonnées SVG en coordonnées écran
+            function svgPointToScreen(svg, x, y) {
+                const pt = svg.createSVGPoint();
+                pt.x = x;
+                pt.y = y;
+                return pt.matrixTransform(svg.getScreenCTM());
+            }
 
-        // Fonction pour placer les lettres sur un chemin spécifique
-        function placeLettersOnPath(path, textOverlay, title) {
-            const phrase = title.split('').filter((c) => c !== ' ');
+            // Récupération des points du chemin SVG
             const d = path.getAttribute('d');
             const points = extractPointsFromD(d);
-
-            // Créer les spans une seule fois si ils n'existent pas
-            if (textOverlay.children.length === 0) {
-                phrase.forEach((letter, i) => {
-                    const span = document.createElement('span');
-                    span.textContent = letter;
-                    textOverlay.appendChild(span);
-                });
-            }
-
-            // Mettre à jour les positions des spans existants
-            const count = Math.min(phrase.length, points.length);
             const svg = path.ownerSVGElement;
 
-            for (let i = 0; i < count; i++) {
-                const { x, y } = svgPointToScreen(
-                    svg,
-                    points[i].x,
-                    points[i].y
-                );
-                const span = textOverlay.children[i];
+            // Mise à jour des positions des spans
+            const spans = textOverlay.children;
+            const count = Math.min(spans.length, points.length);
 
-                // Utiliser GSAP pour animer la position des spans
+            for (let i = 0; i < count; i++) {
+                const { x, y } = svgPointToScreen(svg, points[i].x, points[i].y);
+                const span = spans[i];
+
+                // Utilisation de GSAP pour une animation fluide
                 gsap.to(span, {
-                    duration: 0.5,
+                    duration: durationDuration,
                     left: `${x}px`,
                     top: `${y}px`,
                     ease: 'none',
                 });
             }
         }
+        ///////// END Update Letters Position /////////
 
-        // Mise à jour des deux chemins
-        function updatePaths() {
-            if (window.location.pathname.includes('poetry')) {
-                setIsOnPoetryPage(true);
-            }
-            placeLettersOnPath(
-                pathSerpent,
-                textOverlaySerpent,
-                pathSerpentTitle
-            );
-            placeLettersOnPath(
-                pathCoquille,
-                textOverlayCoquille,
-                pathCoquilleTitle
-            );
+        // Fonction pour mettre à jour les deux chemins
+        function updateBothPaths(duration) {
+            updateLettersPosition(pathSerpent, textOverlaySerpent, duration);
+            updateLettersPosition(pathCoquille, textOverlayCoquille, duration);
+        }
+        // ————————————————————————————————————————————————————————————————————————————————————————————————————
+
+
+        // ————————————————————————————————————————————————————————————————————————————————————————————————————
+        // FUNCTIONS PATH AND SHAPES
+
+        const hideCoquille = () => {
+            textOverlayCoquille.style.transform = 'translateX(-100vw)';
+            setTimeout(() => {
+                textOverlayCoquille.style.opacity = 0;
+            }, 500);
         }
 
-        // Gestion de l'animation
+        const showCoquille = () => {
+            textOverlayCoquille.style.opacity = 1;
+            textOverlayCoquille.style.transform = 'translateX(0vw)';
+        }
+
+
+        // Open and close Snake
+        const openSerpentCategoryPoetry = () => {
+            pathSerpent.classList.add('animate-open-serpent');
+            gsap.to(pathSerpent, {
+                duration: 0.4,
+                attr: {
+                    d: pathSerpentClose,
+                },
+                onUpdate: () => updateBothPaths(0),
+            });
+            showCoquille();
+        }
+        const closeSerpentForIndex = () => {
+            if (pathSerpent.classList.contains('animate-open-serpent')) {
+                pathSerpent.classList.remove('animate-open-serpent');
+                gsap.to(pathSerpent, {
+                    duration: 0.4,
+                    attr: {
+                        d: pathSerpentIndex,
+                    },
+                    onUpdate: () => updateBothPaths(0),
+                });
+                hideCoquille();
+            }
+        }
+
+
+
+
+        // Gestion de l'animation Accordion
         const handleAccordionChange = (event) => {
             const { isAccordionOpen } = event.detail;
             isOpen = isAccordionOpen;
@@ -130,7 +144,7 @@ const PoetryTitleHardLayout = ({ lang }) => {
                 attr: {
                     d: isAccordionOpen ? pathSerpentOpen : pathSerpentClose,
                 },
-                onUpdate: updatePaths,
+                onUpdate: () => updateBothPaths(0),
             });
 
             gsap.to(pathCoquille, {
@@ -138,59 +152,62 @@ const PoetryTitleHardLayout = ({ lang }) => {
                 attr: {
                     d: isAccordionOpen ? pathCoquilleOpen : pathCoquilleClose,
                 },
-                onUpdate: updatePaths,
+                onUpdate: () => updateBothPaths(0),
             });
         };
-        const handlePoetryPageStateChange = (event) => {
-            console.log('handlePoetryPageStateChange');
+
+
+
+
+
+        // ————————————————————————————————————————————————————————————————————————————————————————————————————
+        // TRIGER INITIALISATION
+        if (targetHref.endsWith(`/${lang}/poetry/`)) {
+            openSerpentCategoryPoetry();
             setTimeout(() => {
-                const textOverlayCoquille = document.getElementById(
-                    'textOverlay-hard-layout-coquille'
-                );
-                if (textOverlayCoquille) {
-                    setTimeout(() => {
-                        textOverlayCoquille.style.opacity = 1;
-                    }, 1000);
-                }
-
-                gsap.to(pathSerpent, {
-                    duration: 0.4,
-                    attr: {
-                        d: isOnPoetryPage ? pathSerpentIndex : pathSerpentClose,
-                    },
-                    onUpdate: updatePaths,
-                    ease: 'none', // Utiliser une interpolation linéaire
-                });
-            }, 400);
-        };
-
-        // Initialisation avec les chemins fermés
-        pathSerpent.setAttribute('d', pathSerpentIndex);
-        pathCoquille.setAttribute('d', pathCoquilleClose);
-        updatePaths();
+                updateBothPaths(0.3);
+            }, 900);
+        } else if (targetHref == '/fr/' || targetHref == '/en/') {
+            updateBothPaths(0);
+            closeSerpentForIndex();
+        }
 
         // Initialisation
-        window.addEventListener('load', updatePaths);
-        window.addEventListener('resize', updatePaths);
+        // window.addEventListener('load', updatePaths);
+        window.addEventListener('resize', () => updateBothPaths(0));
         window.addEventListener(
             'accordionDescriptionToggle',
             handleAccordionChange
         );
-        window.addEventListener(
-            'poetryPageStateChange',
-            handlePoetryPageStateChange
-        );
+        // window.addEventListener(
+        //     'poetryPageStateChange',
+        //     openSerpentCategoryPoetry
+        // );
+        // window.addEventListener(
+        //     'indexPageStateChange',
+        //     closeSerpentForIndex
+        // );
 
-        // Nettoyage
         return () => {
-            window.removeEventListener('load', updatePaths);
-            window.removeEventListener('resize', updatePaths);
+            // window.removeEventListener('load', updatePaths);
+            window.removeEventListener('resize', () => updateBothPaths(0));
             window.removeEventListener(
                 'accordionDescriptionToggle',
                 handleAccordionChange
             );
+            // window.removeEventListener(
+            //     'poetryPageStateChange',
+            //     openSerpentCategoryPoetry
+            // );
+            // window.removeEventListener(
+            //     'indexPageStateChange',
+            //     closeSerpentForIndex
+            // );
         };
-    }, []);
+
+        
+        
+    }, [targetHref]);
 
     // Render
     return (
@@ -217,10 +234,10 @@ const PoetryTitleHardLayout = ({ lang }) => {
             <div className={`poetry-title--wrapper`}>
                 <svg
                     id='svg-hard-layout'
-                    className='block h-auto w-full'
+                    className='block h-[95vh] w-full'
                     viewBox='0 -20 300 1050'
                     preserveAspectRatio='none'
-                    style={{ height: '95vh' }}
+                    // style={{ height: '95vh' }}
                     xmlns='http://www.w3.org/2000/svg'
                 >
                     <a
@@ -250,18 +267,109 @@ const PoetryTitleHardLayout = ({ lang }) => {
                         />
                     </a>
                 </svg>
-                <div
-                    id={'textOverlay-hard-layout-serpent'}
-                    className='textOverlay pointer-events-none absolute top-0 left-0 h-full w-full'
-                ></div>
-                <div
-                    id={'textOverlay-hard-layout-coquille'}
-                    className='textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px]'
-                    style={{ opacity: 0 }}
-                ></div>
+
+                <div id="textOverlay-hard-layout-serpent" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full">
+                    <span style={{ top: '38px', left: '13px' }}>c</span>
+                    <span style={{ top: '67px', left: '26px' }}>o</span>
+                    <span style={{ top: '92px', left: '29px' }}>m</span>
+                    <span style={{ top: '117px', left: '26px' }}>m</span>
+                    <span style={{ top: '142px', left: '18px' }}>e</span>
+                    <span style={{ top: '190px', left: '15px' }}>u</span>
+                    <span style={{ top: '216px', left: '21px' }}>n</span>
+                    <span style={{ top: '265px', left: '22px' }}>s</span>
+                    <span style={{ top: '290px', left: '24px' }}>e</span>
+                    <span style={{ top: '314px', left: '18px' }}>r</span>
+                    <span style={{ top: '341px', left: '13px' }}>p</span>
+                    <span style={{ top: '364px', left: '20px' }}>e</span>
+                    <span style={{ top: '390px', left: '22px' }}>n</span>
+                    <span style={{ top: '413px', left: '30px' }}>t</span>
+                    <span style={{ top: '462px', left: '25px' }}>d</span>
+                    <span style={{ top: '489px', left: '20px' }}>a</span>
+                    <span style={{ top: '513px', left: '25px' }}>n</span>
+                    <span style={{ top: '538px', left: '37px' }}>s</span>
+                    <span style={{ top: '585px', left: '48px' }}>u</span>
+                    <span style={{ top: '612px', left: '57px' }}>n</span>
+                    <span style={{ top: '635px', left: '48px' }}>e</span>
+                    <span style={{ top: '683px', left: '25px' }}>f</span>
+                    <span style={{ top: '709px', left: '14px' }}>l</span>
+                    <span style={{ top: '735px', left: '26px' }}>û</span>
+                    <span style={{ top: '759px', left: '39px' }}>t</span>
+                    <span style={{ top: '785px', left: '57px' }}>e</span>
+                </div>
+                <div id="textOverlay-hard-layout-coquille" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px] transition-[transform] duration-500" style={{ opacity: 0, transform: 'translateX(-100vw)' }}>
+                    <span style={{ top: '38px', left: '13px' }}>d</span>
+                    <span style={{ top: '65px', left: '19px' }}>e</span>
+                    <span style={{ top: '89px', left: '24px' }}>s</span>
+                    <span style={{ top: '140px', left: '22px' }}>c</span>
+                    <span style={{ top: '164px', left: '16px' }}>o</span>
+                    <span style={{ top: '190px', left: '16px' }}>q</span>
+                    <span style={{ top: '213px', left: '24px' }}>u</span>
+                    <span style={{ top: '237px', left: '33px' }}>i</span>
+                    <span style={{ top: '261px', left: '26px' }}>l</span>
+                    <span style={{ top: '286px', left: '19px' }}>l</span>
+                    <span style={{ top: '312px', left: '29px' }}>e</span>
+                    <span style={{ top: '339px', left: '24px' }}>s</span>
+                    <span style={{ top: '387px', left: '17px' }}>e</span>
+                    <span style={{ top: '411px', left: '24px' }}>t</span>
+                    <span style={{ top: '462px', left: '35px' }}>d</span>
+                    <span style={{ top: '487px', left: '43px' }}>e</span>
+                    <span style={{ top: '512px', left: '43px' }}>s</span>
+                    <span style={{ top: '562px', left: '33px' }}>p</span>
+                    <span style={{ top: '586px', left: '19px' }}>é</span>
+                    <span style={{ top: '612px', left: '21px' }}>p</span>
+                    <span style={{ top: '634px', left: '29px' }}>i</span>
+                    <span style={{ top: '660px', left: '37px' }}>n</span>
+                    <span style={{ top: '685px', left: '45px' }}>s</span>
+                </div>
             </div>
         </>
     );
 };
 
 export default PoetryTitleHardLayout;
+
+function updateLettersPosition(path, textOverlay) {
+    // Fonction pour extraire les points du chemin SVG
+    function extractPointsFromD(d) {
+        const points = [];
+        const regex = /[ML]\s*([0-9.]+)[ ,]([0-9.]+)/g;
+        let match;
+        while ((match = regex.exec(d)) !== null) {
+            points.push({
+                x: parseFloat(match[1]),
+                y: parseFloat(match[2]),
+            });
+        }
+        return points;
+    }
+
+    // Fonction pour convertir les coordonnées SVG en coordonnées écran
+    function svgPointToScreen(svg, x, y) {
+        const pt = svg.createSVGPoint();
+        pt.x = x;
+        pt.y = y;
+        return pt.matrixTransform(svg.getScreenCTM());
+    }
+
+    // Récupération des points du chemin SVG
+    const d = path.getAttribute('d');
+    const points = extractPointsFromD(d);
+    const svg = path.ownerSVGElement;
+
+    // Mise à jour des positions des spans
+    const spans = textOverlay.children;
+    const count = Math.min(spans.length, points.length);
+
+    for (let i = 0; i < count; i++) {
+        const { x, y } = svgPointToScreen(svg, points[i].x, points[i].y);
+        const span = spans[i];
+
+        // Utilisation de GSAP pour une animation fluide
+        gsap.to(span, {
+            duration: 0.4,
+            left: `${x}px`,
+            top: `${y}px`,
+            ease: 'none',
+        });
+    }
+}
