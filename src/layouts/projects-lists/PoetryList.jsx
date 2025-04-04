@@ -20,7 +20,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
         const hiddenListPoetry = document.querySelector('.poetry-wrapper');
         const hiddenListWidthPoetry = hiddenListPoetry.offsetWidth;
         const halfHiddenListWidthPoetry = 0; // /!\ Calcul n'est pas le même si elle as plus de livre -- a tester !
-        // const paintingList = document.querySelector('.painting-list-wrapper');
+        // const paintingList = document.querySelector('.painting-list');
         // const halfHiddenListWidthPoetry = paintingList?.children.length > 0 ? hiddenListPoetry.offsetWidth - 160 : 0;
 
         if (url.includes(category)) {
@@ -73,6 +73,33 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
         }
     }, [targetHref, translateXValue]);
 
+    // Calculer et transmettre la largeur de .poetry-wrapper via CustomEvent
+    useEffect(() => {
+        const handleResize = () => {
+            const poetryWrapper = document.querySelector('.poetry-wrapper');
+            if (poetryWrapper) {
+                const width = poetryWrapper.offsetWidth;
+                console.log('Largeur de poetry-wrapper:', width);
+
+                // Émission d'un événement personnalisé pour informer les autres composants
+                // de la nouvelle largeur de poetry-wrapper
+                const event = new CustomEvent('poetryWrapperWidthChange', {
+                    detail: { width },
+                });
+                window.dispatchEvent(event);
+            }
+        };
+
+        // Écoute des changements de taille de la fenêtre
+        window.addEventListener('resize', handleResize);
+
+        // Calcul initial de la largeur au montage du composant
+        handleResize();
+
+        // Nettoyage de l'écouteur d'événements au démontage
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Render
@@ -89,47 +116,36 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                         : undefined
                 }
             >
-
                 <div
-                    className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''}`}
+                    className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                 >
                     <div
-                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] opacity-0'
+                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] border-2 border-red-500 opacity-0'
                         style={{
                             opacity: opacityValue,
                             transform: `translateX(${translateXValue})`,
                         }}
                     >
-                        {dataPoetry
-                            .filter(
-                                (poetry) =>
-                                    poetry.slug !==
-                                        'comme-un-serpent-dans-une-flute' &&
-                                    poetry.slug !==
-                                        'des-coquilles-et-des-pepins'
-                            )
-                            .map((poetry) => (
-                                <div key={poetry.id}>
-                                    <PoetryTitle
-                                        className=''
-                                        pathOpen={
-                                            poetry.svgPath?.svgPathOpenData ||
-                                            ''
-                                        }
-                                        pathClose={
-                                            poetry.svgPath?.svgPathCloseData ||
-                                            ''
-                                        }
-                                        title={poetry.title}
-                                        targetHref={`/${lang}/poetry/${poetry.slug}/`}
-                                        keyId={poetry.id}
-                                        client:only='react'
-                                        transition:name='poetrytitles'
-                                        transition:persist
-                                        slug={poetry.slug}
-                                    />
-                                </div>
-                            ))}
+                        {dataPoetry.map((poetry) => (
+                            <div key={poetry.id}>
+                                <PoetryTitle
+                                    className=''
+                                    pathOpen={
+                                        poetry.svgPath?.svgPathOpenData || ''
+                                    }
+                                    pathClose={
+                                        poetry.svgPath?.svgPathCloseData || ''
+                                    }
+                                    title={poetry.title}
+                                    targetHref={`/${lang}/poetry/${poetry.slug}/`}
+                                    keyId={poetry.id}
+                                    client:only='react'
+                                    transition:name='poetrytitles'
+                                    transition:persist
+                                    slug={poetry.slug}
+                                />
+                            </div>
+                        ))}
                         <PoetryTitleHardLayout
                             lang={lang}
                             client:only='react'
@@ -144,5 +160,4 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
 };
 
 export default PoetryList;
-
 export const client = 'only';
