@@ -90,14 +90,29 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             }
         };
 
+        // Écouter la demande initiale de largeur
+        const handleInitialRequest = () => {
+            handleResize();
+        };
+        window.addEventListener(
+            'requestPoetryWrapperWidth',
+            handleInitialRequest
+        );
+
         // Écoute des changements de taille de la fenêtre
         window.addEventListener('resize', handleResize);
 
         // Calcul initial de la largeur au montage du composant
         handleResize();
 
-        // Nettoyage de l'écouteur d'événements au démontage
-        return () => window.removeEventListener('resize', handleResize);
+        // Nettoyage des écouteurs d'événements au démontage
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener(
+                'requestPoetryWrapperWidth',
+                handleInitialRequest
+            );
+        };
     }, []);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
