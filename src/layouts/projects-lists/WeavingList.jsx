@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 
-import { useStore } from '@nanostores/react';
-
 import WeavingTitle from '../../components/common/title/WeavingTitle.jsx';
 
-const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
+const WeavingList = ({
+    homepageWeavings,
+    hiddenWeavings,
+    targetHref,
+    lang,
+    className,
+}) => {
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
 
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
@@ -29,7 +33,7 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
                 li.style.marginRight = `${nextLiWidth}px`;
             }
         });
-    }, [dataWeaving]);
+    }, [homepageWeavings, hiddenWeavings]);
 
     /**
      * Gestion du décalage vertical du titre en fonction de l'accordéon
@@ -88,7 +92,9 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateYValue, setTranslateYValue] = useState('100vh');
-    const [translateXValue, setTranslateXValue] = useState(window.innerWidth < 768 ? '0px' : '100vw');
+    const [translateXValue, setTranslateXValue] = useState(
+        window.innerWidth < 768 ? '0px' : '100vw'
+    );
     const [maxHeightValue, setmaxHeightValue] = useState('0px');
     const [mobileTopValue, setMobileTopValue] = useState('unset');
     const [isOnWeavingPage, setIsOnWeavingPage] = useState(false);
@@ -101,13 +107,15 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
             setIsOnWeavingPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                let weavingListHeight = document.querySelector('.weaving-list').clientHeight;
+                let weavingListHeight =
+                    document.querySelector('.weaving-list').clientHeight;
                 setmaxHeightValue(weavingListHeight + 'px');
                 setTranslateXValue('0px');
-                if (weavingListHeight > (window.innerHeight / 2)) {
+                if (weavingListHeight > window.innerHeight / 2) {
                     setMobileTopValue('50vh');
-                }else{
-                    let newMobileTopValue = window.innerHeight - (weavingListHeight + 50);
+                } else {
+                    let newMobileTopValue =
+                        window.innerHeight - (weavingListHeight + 50);
                     setMobileTopValue(newMobileTopValue + 'px');
                 }
             }
@@ -128,7 +136,7 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
             if (window.innerWidth < 768) {
                 setTranslateXValue('0px');
                 setmaxHeightValue('0px');
-            }else{
+            } else {
                 setmaxHeightValue('unset');
             }
             setIsOnWeavingPage(false);
@@ -146,7 +154,7 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
     return (
         <>
             <div
-                className={`work-list weaving-list-wrapper relative md:fixed right-0 md:bottom-0 md:!top-[unset] transition-all duration-1000 ease-in-out overflow-hidden ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list weaving-list-wrapper relative right-0 overflow-hidden transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-0 ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
@@ -157,18 +165,18 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
                 }
                 style={{
                     maxHeight: `${maxHeightValue}`,
-                    top: `${mobileTopValue}`
+                    top: `${mobileTopValue}`,
                 }}
             >
                 <div
-                    className={`weaving-list md:grid md:auto-cols-auto md:auto-rows-min max-md:flex max-md:flex-col max-md:items-end transition-all duration-1000 ease-in-out overflow-hidden ${!isOnWeavingPage ? 'pointer-events-none' : ''}`}
+                    className={`weaving-list overflow-hidden transition-all duration-1000 ease-in-out max-md:flex max-md:flex-col max-md:items-end md:grid md:auto-cols-auto md:auto-rows-min ${!isOnWeavingPage ? 'pointer-events-none' : ''}`}
                     style={{
                         transform: `translate(${translateXValue}, ${translateYValue})`,
                     }}
                 >
                     {/* Liste Homepage */}
                     <ul className='flex w-fit flex-col items-end'>
-                        {dataWeaving.slice(0, 5).map((weaving) => (
+                        {homepageWeavings.map((weaving) => (
                             <li
                                 className='weaving-title w-fit'
                                 key={weaving.id}
@@ -178,13 +186,14 @@ const WeavingList = ({ dataWeaving, targetHref, lang, className }) => {
                         ))}
                     </ul>
                     {/* (END) Liste Homepage */}
+
                     <div
                         className={`hidden-list-weaving col-start-2 row-start-2 overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out`}
                     >
                         {/* Liste Hidden */}
                         {/* {isOnWeavingPage && ( */}
                         <ul className='flex w-fit flex-col items-end'>
-                            {dataWeaving.slice(5).map((weaving) => (
+                            {hiddenWeavings.map((weaving) => (
                                 <li
                                     className='weaving-title w-fit'
                                     key={weaving.id}

@@ -3,7 +3,13 @@ import { navigate } from 'astro:transitions/client';
 
 import VitrailTitle from '../../components/common/title/VitrailTitle.jsx';
 
-const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
+const VitrailList = ({
+    homepageVitraux,
+    hiddenVitraux,
+    targetHref,
+    lang,
+    className,
+}) => {
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
 
     useEffect(() => {
@@ -108,7 +114,7 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
 
         // Nettoyage
         return () => window.removeEventListener('resize', titleLayout);
-    }, [dataVitrails]);
+    }, [homepageVitraux, hiddenVitraux]);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
@@ -139,7 +145,7 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
                 settranslateXValue('50vw');
                 setMaxWidthValue('0px');
                 setMaxHeightValue('0px');
-            }else{
+            } else {
                 settranslateYValue('-' + hiddenListHeightVitrail + 'px');
             }
         } else {
@@ -150,7 +156,7 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
                 setMaxHeightValue('0px');
                 settranslateYValue('0px');
                 settranslateXValue('50vw');
-            }else{
+            } else {
                 settranslateYValue('-200vh');
             }
         }
@@ -181,21 +187,25 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
                                   })
                             : undefined
                     }
-                    style={{ maxWidth: `${maxWidthValue}`, maxHeight: `${maxHeightValue}` }}
+                    style={{
+                        maxWidth: `${maxWidthValue}`,
+                        maxHeight: `${maxHeightValue}`,
+                    }}
                 >
                     <div
-                        className={`flex flex-col items-end transition-all duration-1000 ease-in-out pt-body-p-y ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
-                        style={{  transform: `translate(${translateXValue}, ${translateYValue})` }}
+                        className={`pt-body-p-y flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
+                        style={{
+                            transform: `translate(${translateXValue}, ${translateYValue})`,
+                        }}
                     >
                         <div
-                            className={`hidden-list-vitrail delay-[0.2s] max-md:order-2 flex flex-col items-end transition-all duration-1000 ease-in-out ${
+                            className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${
                                 isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
                             } `}
                         >
                             {/* Liste Hidden */}
-
                             <ul className='vitrail-list-compact overflow-visible'>
-                                {dataVitrails.slice(2).map((vitrail) => (
+                                {hiddenVitraux.map((vitrail) => (
                                     <li
                                         className='vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-100'
                                         key={vitrail.id}
@@ -207,12 +217,12 @@ const VitrailList = ({ dataVitrails, targetHref, lang, className }) => {
                                     </li>
                                 ))}
                             </ul>
-
                             {/* (END) Liste Hidden */}
                         </div>
+
                         {/* Liste Homepage */}
                         <ul className='vitrail-list-compact max-md:order-1'>
-                            {dataVitrails.slice(0, 2).map((vitrail) => (
+                            {homepageVitraux.map((vitrail) => (
                                 <li
                                     className='vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300'
                                     key={vitrail.id}

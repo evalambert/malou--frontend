@@ -2,7 +2,6 @@
 // src/layouts/AllProjectsLists.astro
 
 import fetchApi from '../assets/scripts/lib/strapi.js';
-import { fetchSortedCategory } from '../assets/scripts/lib/sortedData.js';
 
 import Nav from './Nav.jsx';
 import PaintingsList from './projects-lists/PaintingsList.jsx';
@@ -17,36 +16,39 @@ const currentPath = Astro.url.pathname || '';
 const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
 const categoryClass = categoryMatch ? `${categoryMatch[1]}` : '';
 
-const { homepageItems: homepageVolumes, hiddenItems: hiddenVolumes } =
-    await fetchSortedCategory({
-        category: 'volumes',
-        homepageKey: 'volumes',
-        lang,
-    });
+const volumes = await fetchApi({
+    endpoint: 'volumes?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
+});
+const homepage = await fetchApi({
+    endpoint: 'homepage?populate=volumes',
+    wrappedByKey: 'data',
+    locale: lang,
+});
+const homepageVolumeIds = homepage.volumes.map((v) => v.id);
+const homepageVolumes = homepageVolumeIds
+    .map((id) => volumes.find((v) => v.id === id))
+    .filter(Boolean);
+const hiddenVolumes = volumes.filter((v) => !homepageVolumeIds.includes(v.id));
 
-const { homepageItems: homepageVitraux, hiddenItems: hiddenVitraux } =
-    await fetchSortedCategory({
-        category: 'vitrails',
-        homepageKey: 'vitrails',
-        lang,
-    });
-
-const { homepageItems: homepagePaintings, hiddenItems: hiddenPaintings } =
-    await fetchSortedCategory({
-        category: 'paintings',
-        homepageKey: 'paintings',
-        lang,
-    });
-
-const { homepageItems: homepageWeavings, hiddenItems: hiddenWeavings } =
-    await fetchSortedCategory({
-        category: 'weavings',
-        homepageKey: 'weavings',
-        lang,
-    });
-
+const vitraux = await fetchApi({
+    endpoint: 'vitrails?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
+});
+const paintings = await fetchApi({
+    endpoint: 'paintings?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
+});
 const poetries = await fetchApi({
     endpoint: 'poetries?populate=*',
+    wrappedByKey: 'data',
+    locale: lang,
+});
+const weavings = await fetchApi({
+    endpoint: 'weavings?populate=*',
     wrappedByKey: 'data',
     locale: lang,
 });
@@ -82,8 +84,7 @@ export const prerender = true;
             className='relative z-50 mix-blend-target'
             targetHref={currentPath}
             lang={lang}
-            homepageVitraux={homepageVitraux}
-            hiddenVitraux={hiddenVitraux}
+            dataVitrails={vitraux}
             transition:name='vitrailist'
             transition:persist
             client:only='react'
@@ -105,19 +106,16 @@ export const prerender = true;
     className='relative md:fixed pl-0 md:pl-[150px] max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target'
     targetHref={currentPath}
     lang={lang}
-    homepagePaintings={homepagePaintings}
-    hiddenPaintings={hiddenPaintings}
+    dataPaintings={paintings}
     transition:name='paintingslist'
     transition:persist
     client:only='react'
 />
-
 <WeavingList
     className='z-50 mix-blend-target'
     targetHref={currentPath}
     lang={lang}
-    homepageWeavings={homepageWeavings}
-    hiddenWeavings={hiddenWeavings}
+    dataWeaving={weavings}
     transition:name='weavinglist'
     transition:persist
     client:only='react'

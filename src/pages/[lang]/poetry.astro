@@ -34,5 +34,5 @@ export const prerender = true;
 
 <Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
     <AllProjectsLists lang={lang} enterIndex={false} />
-    <PoetryPreview client:only poems={poems}  />
+    <PoetryPreview client:only poems={poems} />
 </Layout>
