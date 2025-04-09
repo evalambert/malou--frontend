@@ -28,8 +28,8 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             setTranslateXValue(0 + 'px');
             setIsOnPoetryPage(true);
             setIsOnIndexPage(false);
-            console.log('On page poetry');
-            console.log('TranslateXValue', translateXValue);
+            // console.log('On page poetry');
+            // console.log('TranslateXValue', translateXValue);
 
             // Création et dispatch de l'événement personnalisé
             const poetryPageEvent = new CustomEvent('poetryPageStateChange', {
@@ -55,8 +55,8 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             }, 50);
             setIsOnPoetryPage(false);
             setIsOnIndexPage(true);
-            console.log('On page (index)');
-            console.log('TranslateXValue', translateXValue);
+            // console.log('On page (index)');
+            // console.log('TranslateXValue', translateXValue);
 
         } else {
             // ON HIDDDEN ************************************************************************************************
@@ -84,7 +84,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             const poetryWrapper = document.querySelector('.poetry-wrapper');
             if (poetryWrapper) {
                 const width = poetryWrapper.offsetWidth;
-                console.log('Largeur de poetry-wrapper:', width);
+                // console.log('Largeur de poetry-wrapper:', width);
 
                 // Émission d'un événement personnalisé pour informer les autres composants
                 // de la nouvelle largeur de poetry-wrapper
@@ -146,7 +146,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                             transform: `translateX(${translateXValue})`,
                         }}
                     >
-                        {/* {dataPoetry
+                        {dataPoetry
                             .filter(
                                 (poetry) =>
                                     poetry.slug !==
@@ -166,8 +166,9 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                                             poetry.svgPath?.svgPathCloseData ||
                                             ''
                                         }
+                                        lang={lang}
                                         title={poetry.title}
-                                        targetHref={`/${lang}/poetry/${poetry.slug}/`}
+                                        targetHref={targetHref}
                                         keyId={poetry.id}
                                         client:only='react'
                                         transition:name='poetrytitles'
@@ -175,7 +176,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                                         slug={poetry.slug}
                                     />
                                 </div>
-                            ))} */}
+                            ))} 
 
                         <PoetryTitleHardLayout
                             lang={lang}
