@@ -48,9 +48,8 @@
 }
 
 body {
-    @apply w-screen overflow-x-hidden md:overflow-hidden bg-white text-white md:h-screen;
+    @apply w-screen overflow-x-hidden bg-white text-white md:h-screen md:overflow-hidden;
 }
-
 
 body[data-page='about'] {
     @apply overflow-visible;
@@ -206,17 +205,15 @@ body:not(.category-vitrail) .swiper-pagination {
     @apply pointer-events-none;
 } */
 
-
 .painting-title a span,
 .volume-title a span {
     @apply min-w-[5px] transition-all duration-400 ease-in-out;
 }
 
 .volume-title .active a span,
-#fixed-title .active a span{
+#fixed-title .active a span {
     @apply min-w-[30px];
 }
-
 
 .painting-title.active a span {
     @apply flex min-w-[13px] items-center justify-center;
@@ -239,13 +236,12 @@ body:not(.category-vitrail) .swiper-pagination {
     width: fit-content;
 
 } */
-.active  .volume-word-wrapper span {
+.active .volume-word-wrapper span {
     text-align: center;
     display: inline-block;
 }
 
-.vitrail-word-wrapper.active  span {
+.vitrail-word-wrapper.active span {
     text-align: center;
     display: inline-block;
 }
-

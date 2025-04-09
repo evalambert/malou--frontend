@@ -1,6 +1,5 @@
 ---
 // src/layouts/AllProjectsLists.astro
-
 import fetchApi from '../assets/scripts/lib/strapi.js';
 import { fetchSortedCategory } from '../assets/scripts/lib/sortedData.js';
 
@@ -57,7 +56,11 @@ export const prerender = true;
 <div class={`header-wrapper w-full md:flex justify-between gap-x-[20px]`}>
     <div class='md:flex-1'>
         <Nav
-            className='relative z-50 mix-blend-target'
+            className={`z-50 mix-blend-target ${
+                Astro.url.pathname === `/${lang}/about/`
+                    ? 'md:fixed'
+                    : 'relative'
+            }`}
             lang={lang}
             currentPath={Astro.url.pathname}
             transition:name='nav'
@@ -90,7 +93,6 @@ export const prerender = true;
         />
     </div>
 </div>
-
 <PoetryList
     className='mix-blend-target'
     targetHref={currentPath}
@@ -100,7 +102,6 @@ export const prerender = true;
     transition:persist
     client:only='react'
 />
-
 <PaintingsList
     className='relative md:fixed pl-0 md:pl-[150px] max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target'
     targetHref={currentPath}
@@ -111,7 +112,6 @@ export const prerender = true;
     transition:persist
     client:only='react'
 />
-
 <WeavingList
     className='z-50 mix-blend-target'
     targetHref={currentPath}
