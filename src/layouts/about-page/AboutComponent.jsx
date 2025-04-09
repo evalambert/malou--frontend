@@ -14,6 +14,12 @@ export default function AboutComponent({ about, lang }) {
     const actuHeight = useStore(heightActu);
     const [isMobile, setIsMobile] = useState(false);
 
+    // Réinitialisation de activeComponent à 'about' à chaque fois que AboutPage est montée
+    useEffect(() => {
+        // On force la réinitialisation de activeComponent à 'about' à chaque fois que AboutPage est montée
+        activeComponent.set('about');
+    }, []); // Le tableau vide garantit que cet effet s'exécute seulement lors du montage de AboutPage
+
     /* ------actuHeight ------ */
     // Fonction pour recalculer la hauteur et vérifier la taille de l'écran
     const updateHeight = () => {

@@ -17,11 +17,6 @@ export default function ActuComponent({ actus, lang }) {
     const aboutHeight = useStore(heightAbout);
     const [isMobile, setIsMobile] = useState(false);
 
-    // Forcer l’état "about" actif à chaque montée
-    useEffect(() => {
-        activeComponent.set('about');
-    }, []);
-
     /* ------ aboutHeight ------ */
     // Fonction pour recalculer la hauteur
     const updateHeight = () => {

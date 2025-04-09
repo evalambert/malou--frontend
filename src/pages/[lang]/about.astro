@@ -38,10 +38,6 @@ export const prerender = true;
         class='wrapper-about-actus relative md:static overflow-hidden md:overflow-visible'
     >
         <AboutComponent about={about} lang={lang} client:load />
-        <ActuComponent
-            actus={actus}
-            lang={lang}
-            client:only='react'
-        />
+        <ActuComponent actus={actus} lang={lang} client:only='react' />
     </div>
 </Layout>
