@@ -18,13 +18,13 @@ export default function MobileButtons({ lang }) {
     return (
         <div className='mobile-buttons flex h-[200px] w-full gap-6 md:hidden'>
             <button
-                className={`button-about h-fit rotate-[18.74deg] py-[13px] transition-all duration-500 ease-in-out ${active === 'actu' ? '-translate-y-0' : 'translate-y-33'}`}
+                className={`button-about mix-blend-target h-fit rotate-[18.74deg] py-[13px] transition-all duration-500 ease-in-out ${active === 'actu' ? '-translate-y-0' : 'translate-y-33'}`}
                 onClick={handleAboutClick}
             >
                 {lang === 'fr' ? 'à propos' : 'about'}
             </button>
             <button
-                className={`button-actu h-fit -rotate-45 px-[20px] py-[6px] transition-all duration-500 ease-in-out ${active === 'about' ? 'translate-y-7' : 'translate-y-25'}`}
+                className={`button-actu mix-blend-target h-fit -rotate-45 px-[20px] py-[6px] transition-all duration-500 ease-in-out ${active === 'about' ? 'translate-y-7' : 'translate-y-25'}`}
                 onClick={handleActuClick}
             >
                 {lang === 'fr' ? 'actualités' : 'news'}
