@@ -1,9 +1,12 @@
 // src/layouts/projects-lists/PoetryTitleHardLayout.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 const PoetryTitleHardLayout = ({ lang, targetHref }) => {
     // const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
+    const initialTextOverlaySerpent = useRef(null);
+    const initialTextOverlayCoquille = useRef(null);
+
 
     // // Définition des constantes
     const pathSerpentIndex =
@@ -16,20 +19,34 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         'M1 1L9 35L15.5 66L13 132L5.5 163.5L5.5 197L15.5 226.5L26.5 257.5L18.5 288L9 320.5L21.5 355L15.5 389L6.5 451L15.5 482.5L30 547.5L40.5 581L40.5 613L26.5 677L9.5 708.5L12 742L21.5 770L32 804L42.5 835.5';
     const pathCoquilleOpen =
         'M1 1L9 35L15.5 66L13 132L5.5 163.5L5.5 197L15.5 226.5L26.5 257.5L18.5 288L9 320.5L21.5 355L15.5 389L13.5 453L32 478L52 536L70.5 564.5L95 579L156.5 579L187.5 572L217.5 564.5L238.5 536L254.5 497L284 487.5';
-    const pathSerpentTitle = 'comme un serpent dans une flûte';
-    const pathCoquilleTitle = 'des coquilles et des pépins';
+
+    
 
 
     useEffect(() => {
+        const hardWrapper = document.querySelector('.hard-layout--wrapper');
         const pathSerpent = document.getElementById('myPath-hard-layout-serpent');
         const pathCoquille = document.getElementById('myPath-hard-layout-coquille');
         const textOverlaySerpent = document.getElementById('textOverlay-hard-layout-serpent');
         const textOverlayCoquille = document.getElementById('textOverlay-hard-layout-coquille');
-        
+
         console.log(targetHref);
 
         let isOpen = false;
 
+        // Stocker le contenu HTML initial de la div serpent si ce n'est pas déjà fait
+        if (textOverlaySerpent && initialTextOverlaySerpent.current === null) {
+            initialTextOverlaySerpent.current = textOverlaySerpent.innerHTML;
+            initialTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
+            console.log('Contenu initial serpent stocké:', initialTextOverlaySerpent.current);
+        }
+
+        function resetTextOverlay() {
+            textOverlaySerpent.innerHTML = initialTextOverlaySerpent.current;
+            textOverlayCoquille.innerHTML = initialTextOverlayCoquille.current;
+        }
+
+        
         // SPANS
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         ///////// Update Letters Position 
@@ -46,7 +63,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     });
                 }
                 return points;
-                
+
             }
 
             // Fonction pour convertir les coordonnées SVG en coordonnées écran
@@ -107,7 +124,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
 
         // Open and close Snake
         const openSerpentCategoryPoetry = () => {
-            pathSerpent.classList.add('animate-open-serpent');
+            hardWrapper.classList.add('animate-open-serpent');
             gsap.to(pathSerpent, {
                 duration: 0.4,
                 attr: {
@@ -118,8 +135,8 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             showCoquille();
         }
         const closeSerpentForIndex = () => {
-            if (pathSerpent.classList.contains('animate-open-serpent')) {
-                pathSerpent.classList.remove('animate-open-serpent');
+            if (hardWrapper.classList.contains('animate-open-serpent')) {
+                hardWrapper.classList.remove('animate-open-serpent');
                 gsap.to(pathSerpent, {
                     duration: 0.4,
                     attr: {
@@ -168,8 +185,17 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 updateBothPaths(0.3);
             }, 900);
         } else if (targetHref == '/fr/' || targetHref == '/en/') {
-            updateBothPaths(0);
+            // updateBothPaths(0);
             closeSerpentForIndex();
+
+            // Reset text overlay if was previously HIDDEN
+            if (hardWrapper.classList.contains('hard-layout--hidden')) {
+                resetTextOverlay();
+                hideCoquille();
+            }
+        } else {
+            hardWrapper.classList.remove('animate-open-serpent');
+            hardWrapper.classList.add('hard-layout--hidden');
         }
 
         // Initialisation
@@ -205,8 +231,8 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             // );
         };
 
-        
-        
+
+
     }, [targetHref]);
 
     // Render
@@ -231,7 +257,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             `}
             </style>
 
-            <div className={`poetry-title--wrapper`}>
+            <div className={`poetry-title--wrapper hard-layout--wrapper`}>
                 <svg
                     id='svg-hard-layout'
                     className='block h-[95vh] w-full'

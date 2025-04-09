@@ -24,9 +24,12 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
         // const halfHiddenListWidthPoetry = paintingList?.children.length > 0 ? hiddenListPoetry.offsetWidth - 160 : 0;
 
         if (url.includes(category)) {
-            console.log('ON PAGE POETRY');
+            // ON PAGE POETRY ************************************************************************************************
             setTranslateXValue(0 + 'px');
             setIsOnPoetryPage(true);
+            setIsOnIndexPage(false);
+            console.log('On page poetry');
+            console.log('TranslateXValue', translateXValue);
 
             // Création et dispatch de l'événement personnalisé
             const poetryPageEvent = new CustomEvent('poetryPageStateChange', {
@@ -36,8 +39,8 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             });
             window.dispatchEvent(poetryPageEvent);
 
-            setIsOnIndexPage(false);
         } else if (url == '/fr/' || url == '/en/') {
+            // ON PAGE INDEX ************************************************************************************************
             setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
             setTimeout(() => {
                 setOpacityValue(1);
@@ -52,10 +55,11 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             }, 50);
             setIsOnPoetryPage(false);
             setIsOnIndexPage(true);
-            // Création et dispatch de l'événement personnalisé
-            const indexPageEvent = new CustomEvent('indexPageStateChange', {});
-            window.dispatchEvent(indexPageEvent);
+            console.log('On page (index)');
+            console.log('TranslateXValue', translateXValue);
+
         } else {
+            // ON HIDDDEN ************************************************************************************************
             // console.log('HIIIIIIDDDDEN');
             setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
             setIsOnPoetryPage(false);
@@ -136,7 +140,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                     className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                 >
                     <div
-                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] opacity-0'
+                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] opacity-0 border border-amber-500'
                         style={{
                             opacity: opacityValue,
                             transform: `translateX(${translateXValue})`,

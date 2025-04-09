@@ -22,6 +22,7 @@ export default async function fetchApi({
         endpoint = endpoint.slice(1);
     }
 
+
     const API_URL = 'https://railwayapp-strapi-production-a8e8.up.railway.app'; // URL de base de votre API
     const url = new URL(`${API_URL}/api/${endpoint}`);
 
