@@ -1,6 +1,7 @@
 //src/layouts/About.jsx
 import { useEffect, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
+import gsap from 'gsap';
 import {
     activeComponent,
     toggleComponent,
@@ -13,12 +14,23 @@ export default function AboutComponent({ about, lang }) {
     const aboutRef = useRef(null);
     const actuHeight = useStore(heightActu);
     const [isMobile, setIsMobile] = useState(false);
+    const [show, setShow] = useState(false);
 
-    // Réinitialisation de activeComponent à 'about' à chaque fois que AboutPage est montée
+    /* ----- FadeIn animation onEnter AboutPage ---- */
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShow(true);
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    /* ------ Close ActuComponent onEnter AboutPage ------ */
     useEffect(() => {
         // On force la réinitialisation de activeComponent à 'about' à chaque fois que AboutPage est montée
         activeComponent.set('about');
     }, []); // Le tableau vide garantit que cet effet s'exécute seulement lors du montage de AboutPage
+
 
     /* ------actuHeight ------ */
     // Fonction pour recalculer la hauteur et vérifier la taille de l'écran
@@ -55,7 +67,7 @@ export default function AboutComponent({ about, lang }) {
                 active === 'about'
                     ? 'md:top-0 md:h-full'
                     : 'md:top-[calc(-100vh)] md:h-0'
-            } overflow-hidden transition-all duration-500 ease-in-out`}
+            } ${show ? 'opacity-100' : 'opacity-0'} overflow-hidden transition-all duration-500 ease-in-out`}
             style={
                 isMobile
                     ? { top: active === 'about' ? '0px' : `${actuHeight}px` }

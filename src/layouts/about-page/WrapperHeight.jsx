@@ -19,7 +19,7 @@ export default function WrapperHeight() {
         @media (max-width: 768px) {
           .wrapper-about-actus {
             height: ${computedHeight}px;
-            transition: height 0.5s ease-in-out;
+            transition: all 0.5s ease-in-out;
           }
         }
       `}

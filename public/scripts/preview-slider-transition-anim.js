@@ -31,4 +31,6 @@ document.addEventListener('astro:before-preparation', (event) => {
         // Scroller en haut de la page de catégorie après retour
         //window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+
 });
