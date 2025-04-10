@@ -164,7 +164,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                             transform: `translateX(${translateXValue})`,
                         }}
                     >
-                        <div className='poetry-wrapper-inner flex transition-all duration-1000' style={{ opacity: 0 }}>
+                        {/* <div className='poetry-wrapper-inner flex transition-all duration-1000' style={{ opacity: 0 }}>
                         {dataPoetry
                             .filter(
                                 (poetry) =>
@@ -196,7 +196,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                                     />
                                 </div>
                             ))} 
-                        </div>
+                        </div> */}
                         <PoetryTitleHardLayout
                             lang={lang}
                             targetHref={targetHref}
