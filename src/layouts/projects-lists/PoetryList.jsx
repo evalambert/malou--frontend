@@ -7,6 +7,23 @@ import PoetryTitle from '../../components/common/title/PoetryTitle';
 import PoetryTitleHardLayout from './PoetryTitleHardLayout';
 
 const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
+
+    const poetryWrapperInner = document.querySelector('.poetry-wrapper-inner');
+
+
+    const showPoetryWrapperInner = () => {
+        console.log('showPoetryWrapperInner');
+        poetryWrapperInner.style.opacity = 1;
+        // poetryWrapperInner.style.transform = 'translateX(0vw)';
+        poetryWrapperInner.style.transform = 'translateX(-100vw)';
+        setTimeout(() => {
+            poetryWrapperInner.style.transform = 'translateX(0vw)';
+        }, 200);
+    }
+
+
+
+
     // // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // // Toogle hidden/compact/full;
     const [translateXValue, setTranslateXValue] = useState('0px');
@@ -28,6 +45,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             setTranslateXValue(0 + 'px');
             setIsOnPoetryPage(true);
             setIsOnIndexPage(false);
+            showPoetryWrapperInner();
             // console.log('On page poetry');
             // console.log('TranslateXValue', translateXValue);
 
@@ -84,7 +102,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             const poetryWrapper = document.querySelector('.poetry-wrapper');
             if (poetryWrapper) {
                 const width = poetryWrapper.offsetWidth;
-                // console.log('Largeur de poetry-wrapper:', width);
+                
 
                 // Émission d'un événement personnalisé pour informer les autres composants
                 // de la nouvelle largeur de poetry-wrapper
@@ -140,12 +158,13 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                     className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                 >
                     <div
-                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] opacity-0 border border-amber-500'
+                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] opacity-0'
                         style={{
                             opacity: opacityValue,
                             transform: `translateX(${translateXValue})`,
                         }}
                     >
+                        <div className='poetry-wrapper-inner flex transition-all duration-1000' style={{ opacity: 0 }}>
                         {dataPoetry
                             .filter(
                                 (poetry) =>
@@ -177,7 +196,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                                     />
                                 </div>
                             ))} 
-
+                        </div>
                         <PoetryTitleHardLayout
                             lang={lang}
                             targetHref={targetHref}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 
 // Extrait les points (x, y) d'une chaîne de commande SVG (attribut "d")
@@ -43,12 +43,17 @@ const PoetryTitle = ({
     // Calcul de 'phrase' (peut être fait en dehors des effets car dépend seulement de 'title')
     const phrase = title.split('').filter((c) => c !== ' ');
 
+    // État pour suivre si l'effet a déjà été exécuté
+    const [hasLoaded, setHasLoaded] = useState(false);
+
     // --- Fonction pour placer les lettres, mémorisée avec useCallback ---
     const placeLettersOnPoints = useCallback(() => {
         // Utilise les refs pour accéder aux éléments du DOM
         const path = pathRef.current;
         const textOverlay = textOverlayRef.current;
         const svg = svgRef.current;
+
+
 
         // Vérifie si les éléments sont bien présents
         if (!path || !textOverlay || !svg) {
@@ -95,12 +100,11 @@ const PoetryTitle = ({
 
         // Configuration initiale du SVG (viewBox)
         const setupViewBox = () => {
-            if (path.getBBox ) {
-                console.log('setupViewBox');
+            if (path.getBBox) {
                 path.classList.add('b-box-setup');
                 try {
                     const bbox = path.getBBox();
-                    const widthBbox = bbox.width * 1.5;
+                    const widthBbox = bbox.width * 1.8;
                     // Ajout de vérifications pour éviter NaN ou Infinity
                     if (isFinite(widthBbox) && widthBbox > 0) {
                         svg.setAttribute('viewBox', `0 -20 ${widthBbox} 1050`);
@@ -120,8 +124,6 @@ const PoetryTitle = ({
             setupViewBox();
         }
 
-        // Placement initial des lettres
-        placeLettersOnPoints(); // Appelle la version mémorisée
 
         // Variable locale pour l'état de l'accordéon dans cet effet
         let isOpen = false;
@@ -130,22 +132,22 @@ const PoetryTitle = ({
         const handleResize = () => {
             //  setupViewBox(); // Recalculer viewBox si la taille change
             placeLettersOnPoints();
+            console.log('placeLettersOnPoints --> Resize');
         };
 
         const handleAccordionChange = (event) => {
             const pathElement = pathRef.current; // Utiliser la ref
             if (!pathElement) return;
-
-            console.log('handleAccordionChange');
+            pathElement.classList.toggle('accordion-open');
             const { isAccordionOpen } = event.detail;
             const to = isAccordionOpen ? pathOpen : pathClose;
             isOpen = isAccordionOpen;
-            console.log('isOpen', isOpen);
             gsap.to(pathElement, {
                 duration: 0.5,
                 attr: { d: to },
                 onUpdate: placeLettersOnPoints, // Appelle la version mémorisée
             });
+            console.log('placeLettersOnPoints --> Accordion');
         };
 
         // Ajout des écouteurs
@@ -157,17 +159,19 @@ const PoetryTitle = ({
 
         // Logique conditionnelle
         if (targetHref.endsWith(`/${lang}/poetry/`) || targetHref == '/fr/' || targetHref == '/en/') {
-            console.log('NOT SLUG');
-
             const pathElement = pathRef.current; // Utiliser la ref
             if (!pathElement) return;
-            gsap.to(pathElement, {
-                duration: 0.5,
-                attr: { d: pathClose },
-                onUpdate: placeLettersOnPoints, // Appelle la version mémorisée
-            });
-            placeLettersOnPoints;
-            // Potentielle logique supplémentaire si nécessaire
+            if (pathElement.classList.contains('accordion-open')) {
+                pathElement.classList.remove('accordion-open');
+                gsap.to(pathElement, {
+                    duration: 0.5,
+                    attr: { d: pathClose },
+                    onUpdate: placeLettersOnPoints, // Appelle la version mémorisée
+                });
+                console.log('placeLettersOnPoints --> Accordion CLOSE');
+                // placeLettersOnPoints;
+                // Potentielle logique supplémentaire si nécessaire
+            }
         }
 
         // Nettoyage
@@ -184,21 +188,28 @@ const PoetryTitle = ({
 
     // --- Second Effet: Écouteur 'load' ---
     useEffect(() => {
-        // Gestionnaire utilisant la fonction mémorisée
-        const handleLoad = () => placeLettersOnPoints();
+        // Ne s'exécute que si l'effet n'a pas encore été exécuté et que l'URL est '/fr/'
+        if (!hasLoaded && window.location.pathname === '/fr/') {
+            const handleLoad = () => {
+                setTimeout(() => {
+                    placeLettersOnPoints();
+                    console.log('placeLettersOnPoints --> Load');
+                }, 1500);
 
-        // Vérifie si la page est déjà chargée
-        if (document.readyState === 'complete') {
-            handleLoad(); // Appelle directement si déjà chargée
-        } else {
-            window.addEventListener('load', handleLoad);
+                setHasLoaded(true);
+            };
+
+            if (document.readyState === 'complete') {
+                handleLoad();
+            } else {
+                window.addEventListener('load', handleLoad);
+            }
+
+            return () => {
+                window.removeEventListener('load', handleLoad);
+            };
         }
-
-        // Nettoyage
-        return () => {
-            window.removeEventListener('load', handleLoad);
-        };
-    }, [placeLettersOnPoints]); // Dépendance: la fonction mémorisée
+    }, [hasLoaded, placeLettersOnPoints]);
 
     // --- Render ---
     return (
@@ -223,7 +234,7 @@ const PoetryTitle = ({
             `}
             </style>
             {/* Le JSX reste inchangé, s'assurant que les IDs correspondent ('myPath' + keyId, etc.) */}
-            <div className={`poetry-title--wrapper ${className} border border-red-500`}>
+            <div className={`poetry-title--wrapper ${className} `}>
                 <svg
                     id={'svg' + keyId} // ID utilisé pour la ref svgRef
                     className='block h-auto w-full'
