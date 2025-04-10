@@ -8,18 +8,18 @@ import PoetryTitleHardLayout from './PoetryTitleHardLayout';
 
 const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
 
-    const poetryWrapperInner = document.querySelector('.poetry-wrapper-inner');
+    // const poetryWrapperInner = document.querySelector('.poetry-wrapper-inner');
 
 
-    const showPoetryWrapperInner = () => {
-        console.log('showPoetryWrapperInner');
-        poetryWrapperInner.style.opacity = 1;
-        // poetryWrapperInner.style.transform = 'translateX(0vw)';
-        poetryWrapperInner.style.transform = 'translateX(-100vw)';
-        setTimeout(() => {
-            poetryWrapperInner.style.transform = 'translateX(0vw)';
-        }, 200);
-    }
+    // const showPoetryWrapperInner = () => {
+    //     console.log('showPoetryWrapperInner');
+    //     poetryWrapperInner.style.opacity = 1;
+    //     // poetryWrapperInner.style.transform = 'translateX(0vw)';
+    //     poetryWrapperInner.style.transform = 'translateX(-100vw)';
+    //     setTimeout(() => {
+    //         poetryWrapperInner.style.transform = 'translateX(0vw)';
+    //     }, 200);
+    // }
 
 
 
@@ -45,7 +45,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             setTranslateXValue(0 + 'px');
             setIsOnPoetryPage(true);
             setIsOnIndexPage(false);
-            showPoetryWrapperInner();
+            // showPoetryWrapperInner();
             // console.log('On page poetry');
             // console.log('TranslateXValue', translateXValue);
 
@@ -121,7 +121,6 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             'requestPoetryWrapperWidth',
             handleInitialRequest
         );
-
         // Écoute des changements de taille de la fenêtre
         window.addEventListener('resize', handleResize);
 
