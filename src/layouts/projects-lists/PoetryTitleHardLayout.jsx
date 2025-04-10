@@ -170,30 +170,32 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         const handleAccordionChange = (event) => {
             const { isAccordionOpen } = event.detail;
             isOpen = isAccordionOpen;
-
-            if (hardWrapper.classList.contains('accordion-open')) {
-                hardWrapper.classList.remove('accordion-open');
-            } else {
-                hardWrapper.classList.add('accordion-open');
+            if (document.body.classList.contains('on-slug-page')) {
+                if (hardWrapper.classList.contains('accordion-open')) {
+                    hardWrapper.classList.remove('accordion-open');
+                } else {
+                    hardWrapper.classList.add('accordion-open');
+                }
+                gsap.to(pathSerpent, {
+                    duration: 0.4,
+                    attr: {
+                        d: isAccordionOpen ? pathSerpentOpen : pathSerpentClose,
+                    },
+                    onUpdate: () => updateBothPaths(0),
+                });
+    
+                gsap.to(pathCoquille, {
+                    duration: 0.4,
+                    attr: {
+                        d: isAccordionOpen ? pathCoquilleOpen : pathCoquilleClose,
+                    },
+                    onUpdate: () => updateBothPaths(0),
+                });
+    
+                console.log('/~\/~\/~\ Accordion Change');
             }
 
-            gsap.to(pathSerpent, {
-                duration: 0.4,
-                attr: {
-                    d: isAccordionOpen ? pathSerpentOpen : pathSerpentClose,
-                },
-                onUpdate: () => updateBothPaths(0),
-            });
-
-            gsap.to(pathCoquille, {
-                duration: 0.4,
-                attr: {
-                    d: isAccordionOpen ? pathCoquilleOpen : pathCoquilleClose,
-                },
-                onUpdate: () => updateBothPaths(0),
-            });
-
-            console.log('/~\/~\/~\ Accordion Change');
+            
         };
         const closeAccordion = () => {
             if (hardWrapper.classList.contains('accordion-open')) {
