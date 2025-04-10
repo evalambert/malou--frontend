@@ -20,7 +20,6 @@ const PaintingsList = ({
         const hiddenListHeightPaintingValue = document.querySelector(
             '.hidden-list-painting'
         ).clientHeight;
-        console.log('hiddenListHeightPaintingValue', hiddenListHeightPaintingValue);
         setHiddenListHeightPainting(hiddenListHeightPaintingValue);
 
         // Title animation

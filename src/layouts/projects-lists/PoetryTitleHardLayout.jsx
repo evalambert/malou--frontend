@@ -149,7 +149,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             showCoquille();
         }
         const closeSerpentForIndex = () => {
-            if (hardWrapper.classList.contains('animate-open-serpent')) {
+            // if (hardWrapper.classList.contains('animate-open-serpent')) {
                 hardWrapper.classList.remove('animate-open-serpent');
                 gsap.to(pathSerpent, {
                     duration: 0.4,
@@ -160,7 +160,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 });
                 console.log('///-_-// Close Snake');
                 hideCoquille();
-            }
+            //  
         }
 
 
@@ -170,32 +170,29 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         const handleAccordionChange = (event) => {
             const { isAccordionOpen } = event.detail;
             isOpen = isAccordionOpen;
-            if (document.body.classList.contains('on-slug-page')) {
-                if (hardWrapper.classList.contains('accordion-open')) {
-                    hardWrapper.classList.remove('accordion-open');
-                } else {
-                    hardWrapper.classList.add('accordion-open');
-                }
-                gsap.to(pathSerpent, {
-                    duration: 0.4,
-                    attr: {
-                        d: isAccordionOpen ? pathSerpentOpen : pathSerpentClose,
-                    },
-                    onUpdate: () => updateBothPaths(0),
-                });
-    
-                gsap.to(pathCoquille, {
-                    duration: 0.4,
-                    attr: {
-                        d: isAccordionOpen ? pathCoquilleOpen : pathCoquilleClose,
-                    },
-                    onUpdate: () => updateBothPaths(0),
-                });
-    
-                console.log('/~\/~\/~\ Accordion Change');
-            }
 
-            
+            if (hardWrapper.classList.contains('accordion-open')) {
+                hardWrapper.classList.remove('accordion-open');
+            } else {
+                hardWrapper.classList.add('accordion-open');
+            }
+            gsap.to(pathSerpent, {
+                duration: 0.4,
+                attr: {
+                    d: isAccordionOpen ? pathSerpentOpen : pathSerpentClose,
+                },
+                onUpdate: () => updateBothPaths(0),
+            });
+
+            gsap.to(pathCoquille, {
+                duration: 0.4,
+                attr: {
+                    d: isAccordionOpen ? pathCoquilleOpen : pathCoquilleClose,
+                },
+                onUpdate: () => updateBothPaths(0),
+            });
+
+            console.log('/~\/~\/~\ Accordion Change');
         };
         const closeAccordion = () => {
             if (hardWrapper.classList.contains('accordion-open')) {
@@ -225,7 +222,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 resetTextOverlayCategory();
                 showCoquille();
                 hardWrapper.classList.remove('hard-layout--hidden');
-            }else{
+            } else {
                 openSerpentCategoryPoetry();
                 closeAccordion();
                 setTimeout(() => {
@@ -239,15 +236,16 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             }
         } else if (targetHref == '/fr/' || targetHref == '/en/') {
             // updateBothPaths(0);
-            closeSerpentForIndex();
-
+            // closeSerpentForIndex();
             // Reset text overlay TO FIRST INDEX STYLE if was previously HIDDEN
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
                 resetTextOverlay();
                 hideCoquille();
                 hardWrapper.classList.remove('hard-layout--hidden');
+            }else if(hardWrapper.classList.contains('animate-open-serpent')){
+                closeSerpentForIndex();
             }
-        } else {
+        } else if (!targetHref.includes('/poetry/')) {
             hardWrapper.classList.remove('animate-open-serpent');
             hardWrapper.classList.add('hard-layout--hidden');
         }
