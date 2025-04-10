@@ -288,7 +288,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             `}
             </style>
 
-            <div className={`poetry-title--wrapper hard-layout--wrapper border border-red-500`}>
+            <div className={`poetry-title--wrapper hard-layout--wrapper`}>
                 <svg
                     id='svg-hard-layout'
                     className='block h-[95vh] w-full'
@@ -325,7 +325,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     </a>
                 </svg>
 
-                <div id="textOverlay-hard-layout-serpent" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full border border-blue-500">
+                <div id="textOverlay-hard-layout-serpent" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full">
                     <span style={{ top: '38px', left: '13px' }}>c</span>
                     <span style={{ top: '67px', left: '26px' }}>o</span>
                     <span style={{ top: '92px', left: '29px' }}>m</span>
@@ -353,7 +353,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     <span style={{ top: '759px', left: '39px' }}>t</span>
                     <span style={{ top: '785px', left: '57px' }}>e</span>
                 </div>
-                <div id="textOverlay-hard-layout-coquille" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px] transition-[transform] duration-500 border border-green-500" style={{ opacity: 0, transform: 'translateX(-100vw)' }}>
+                <div id="textOverlay-hard-layout-coquille" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px] transition-[transform] duration-500" style={{ opacity: 0, transform: 'translateX(-100vw)' }}>
                     <span style={{ top: '38px', left: '13px' }}>d</span>
                     <span style={{ top: '65px', left: '19px' }}>e</span>
                     <span style={{ top: '89px', left: '24px' }}>s</span>
