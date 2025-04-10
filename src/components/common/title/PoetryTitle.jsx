@@ -1,5 +1,29 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
+
+// Extrait les points (x, y) d'une chaîne de commande SVG (attribut "d")
+function extractPointsFromD(d) {
+    const points = [];
+    const regex = /[ML]\s*([0-9.]+)[ ,]([0-9.]+)/g;
+    let match;
+    while ((match = regex.exec(d)) !== null) {
+        points.push({
+            x: parseFloat(match[1]),
+            y: parseFloat(match[2]),
+        });
+    }
+    return points;
+}
+
+// Convertit des coordonnées SVG en pixels à l'écran
+// Note: 'svg' doit être l'élément SVG
+function svgPointToScreen(svg, x, y) {
+    if (!svg) return { x: 0, y: 0 }; // Sécurité si svg n'est pas encore prêt
+    const pt = svg.createSVGPoint();
+    pt.x = x;
+    pt.y = y;
+    return pt.matrixTransform(svg.getScreenCTM());
+}
 
 const PoetryTitle = ({
     pathOpen,
@@ -9,114 +33,189 @@ const PoetryTitle = ({
     keyId,
     className,
     slug,
+    lang
 }) => {
-    // Effects
+    // Refs pour les éléments du DOM
+    const pathRef = useRef(null);
+    const textOverlayRef = useRef(null);
+    const svgRef = useRef(null);
+
+    // Calcul de 'phrase' (peut être fait en dehors des effets car dépend seulement de 'title')
+    const phrase = title.split('').filter((c) => c !== ' ');
+
+    // État pour suivre si l'effet a déjà été exécuté
+    const [hasLoaded, setHasLoaded] = useState(false);
+
+    // --- Fonction pour placer les lettres, mémorisée avec useCallback ---
+    const placeLettersOnPoints = useCallback(() => {
+        // Utilise les refs pour accéder aux éléments du DOM
+        const path = pathRef.current;
+        const textOverlay = textOverlayRef.current;
+        const svg = svgRef.current;
+
+
+
+        // Vérifie si les éléments sont bien présents
+        if (!path || !textOverlay || !svg) {
+            // console.warn("Éléments DOM non prêts pour placeLettersOnPoints");
+            return;
+        }
+
+        const d = path.getAttribute('d');
+        const points = extractPointsFromD(d || ''); // Assurer que d n'est pas null
+        textOverlay.innerHTML = ''; // vide le conteneur
+
+        const count = Math.min(phrase.length, points.length);
+
+        for (let i = 0; i < count; i++) {
+            const { x, y } = svgPointToScreen(
+                svg,
+                points[i].x,
+                points[i].y
+            );
+            const span = document.createElement('span');
+            span.textContent = phrase[i];
+            span.style.left = `${x}px`;
+            span.style.top = `${y}px`;
+            textOverlay.appendChild(span);
+        }
+    }, [phrase]); // Dépendance: 'phrase' (qui dépend de 'title')
+
+
+    // --- Premier Effet: Initialisation, Resize, Accordéon ---
     useEffect(() => {
-        // Récupération des éléments du DOM
-        const path = document.getElementById('myPath' + keyId);
-        const textOverlay = document.getElementById('textOverlay' + keyId);
-        const svg = document.getElementById('svg' + keyId);
+        // Récupération des éléments et stockage dans les refs
+        pathRef.current = document.getElementById('myPath' + keyId);
+        textOverlayRef.current = document.getElementById('textOverlay' + keyId);
+        svgRef.current = document.getElementById('svg' + keyId);
 
-        const bbox = path.getBBox();
-        const widthBbox = bbox.width * 2;
-        svg.setAttribute('viewBox', `0 -20 ${widthBbox} 1050`);
+        const path = pathRef.current;
+        const svg = svgRef.current;
 
-        // Phrase à afficher (chaque lettre séparée, sans les espaces)
-        const phrase = title.split('').filter((c) => c !== ' ');
+        // Vérification si les éléments ont été trouvés
+        if (!path || !svg) {
+            console.error("Impossible de trouver les éléments SVG requis.");
+            return;
+        }
 
-        // État courant (tracé ouvert ou fermé)
-        let isOpen = true;
-
-        // Version fermée du tracé SVG
-        const closedPath = pathOpen;
-
-        // Version ouverte du tracé SVG
-        const openPath = pathClose;
-
-        // Fonction : extrait les points (x, y) d'une chaîne de commande SVG (attribut "d")
-        function extractPointsFromD(d) {
-            const points = [];
-            const regex = /[ML]\s*([0-9.]+)[ ,]([0-9.]+)/g;
-            let match;
-            while ((match = regex.exec(d)) !== null) {
-                points.push({
-                    x: parseFloat(match[1]),
-                    y: parseFloat(match[2]),
-                });
+        // Configuration initiale du SVG (viewBox)
+        const setupViewBox = () => {
+            if (path.getBBox) {
+                path.classList.add('b-box-setup');
+                try {
+                    const bbox = path.getBBox();
+                    const widthBbox = bbox.width * 1.8;
+                    // Ajout de vérifications pour éviter NaN ou Infinity
+                    if (isFinite(widthBbox) && widthBbox > 0) {
+                        svg.setAttribute('viewBox', `0 -20 ${widthBbox} 1050`);
+                    } else {
+                        // Fallback ou valeur par défaut si bbox n'est pas calculable
+                        svg.setAttribute('viewBox', `0 -20 160 1050`); // Ou une autre valeur sûre
+                    }
+                } catch (e) {
+                    console.error("Erreur BBox:", e);
+                    svg.setAttribute('viewBox', `0 -20 160 1050`); // Fallback en cas d'erreur
+                }
             }
-            return points;
-        }
-
-        // Convertit des coordonnées SVG en pixels à l'écran
-        function svgPointToScreen(svg, x, y) {
-            const pt = svg.createSVGPoint();
-            pt.x = x;
-            pt.y = y;
-            return pt.matrixTransform(svg.getScreenCTM());
-        }
-
-        // Place les lettres sur les points du tracé actuel
-        function placeLettersOnPoints() {
-            const d = path.getAttribute('d'); // récupère l'attribut "d" du path actuel
-            const points = extractPointsFromD(d); // extrait les points
-            textOverlay.innerHTML = ''; // vide le conteneur HTML des lettres
-
-            const count = Math.min(phrase.length, points.length); // on limite au nombre de points disponibles
-            const svg = path.ownerSVGElement; // référence au SVG parent
-
-            for (let i = 0; i < count; i++) {
-                const { x, y } = svgPointToScreen(
-                    svg,
-                    points[i].x,
-                    points[i].y
-                );
-                const span = document.createElement('span');
-                span.textContent = phrase[i]; // ajoute la lettre
-                span.style.left = `${x}px`;
-                span.style.top = `${y}px`;
-                textOverlay.appendChild(span); // ajoute le span dans le DOM
-            }
-        }
-
-        // Place les lettres au chargement initial et quand on redimensionne la fenêtre
-        placeLettersOnPoints();
-        window.addEventListener('load', placeLettersOnPoints);
-        window.addEventListener('resize', placeLettersOnPoints);
-
-        // Fonction pour gérer l'animation
-        const handleAccordionChange = (event) => {
-            const { isAccordionOpen } = event.detail;
-            const to = isAccordionOpen ? closedPath : openPath;
-            isOpen = isAccordionOpen;
-
-            gsap.to(path, {
-                duration: 0.5,
-                attr: { d: to },
-                onUpdate: placeLettersOnPoints,
-            });
         };
 
-        // Écouter l'événement de l'accordéon
+        // Appeler setupViewBox une seule fois lors du chargement
+        if (!path.classList.contains('b-box-setup')) {
+            setupViewBox();
+        }
+
+
+        // Variable locale pour l'état de l'accordéon dans cet effet
+        let isOpen = false;
+
+        // Gestionnaires d'événements utilisant la fonction mémorisée
+        const handleResize = () => {
+            //  setupViewBox(); // Recalculer viewBox si la taille change
+            placeLettersOnPoints();
+            console.log('placeLettersOnPoints --> Resize');
+        };
+
+        const handleAccordionChange = (event) => {
+            const pathElement = pathRef.current; // Utiliser la ref
+            if (!pathElement) return;
+            pathElement.classList.toggle('accordion-open');
+            const { isAccordionOpen } = event.detail;
+            const to = isAccordionOpen ? pathOpen : pathClose;
+            isOpen = isAccordionOpen;
+            gsap.to(pathElement, {
+                duration: 0.5,
+                attr: { d: to },
+                onUpdate: placeLettersOnPoints, // Appelle la version mémorisée
+            });
+            console.log('placeLettersOnPoints --> Accordion');
+        };
+
+        // Ajout des écouteurs
+        window.addEventListener('resize', handleResize);
         window.addEventListener(
             'accordionDescriptionToggle',
             handleAccordionChange
         );
 
+        // Logique conditionnelle
+        if (targetHref.endsWith(`/${lang}/poetry/`) || targetHref == '/fr/' || targetHref == '/en/') {
+            const pathElement = pathRef.current; // Utiliser la ref
+            if (!pathElement) return;
+            if (pathElement.classList.contains('accordion-open')) {
+                pathElement.classList.remove('accordion-open');
+                gsap.to(pathElement, {
+                    duration: 0.5,
+                    attr: { d: pathClose },
+                    onUpdate: placeLettersOnPoints, // Appelle la version mémorisée
+                });
+                console.log('placeLettersOnPoints --> Accordion CLOSE');
+                // placeLettersOnPoints;
+                // Potentielle logique supplémentaire si nécessaire
+            }
+        }
+
         // Nettoyage
         return () => {
+            window.removeEventListener('resize', handleResize);
             window.removeEventListener(
                 'accordionDescriptionToggle',
                 handleAccordionChange
             );
         };
-    }, []);
+        // Dépendances: props utilisées + la fonction mémorisée si elle change
+    }, [keyId, pathOpen, pathClose, targetHref, lang, placeLettersOnPoints]);
 
-    // Render
+
+    // --- Second Effet: Écouteur 'load' ---
+    useEffect(() => {
+        // Ne s'exécute que si l'effet n'a pas encore été exécuté et que l'URL est '/fr/'
+        if (!hasLoaded && window.location.pathname === '/fr/') {
+            const handleLoad = () => {
+                setTimeout(() => {
+                    placeLettersOnPoints();
+                    console.log('placeLettersOnPoints --> Load');
+                }, 1500);
+
+                setHasLoaded(true);
+            };
+
+            if (document.readyState === 'complete') {
+                handleLoad();
+            } else {
+                window.addEventListener('load', handleLoad);
+            }
+
+            return () => {
+                window.removeEventListener('load', handleLoad);
+            };
+        }
+    }, [hasLoaded, placeLettersOnPoints]);
+
+    // --- Render ---
     return (
         <>
             <style>
                 {`
-
                 /* Style de chaque lettre */
                 .textOverlay span {
                     position: absolute;
@@ -125,20 +224,21 @@ const PoetryTitle = ({
                     white-space: pre;
                 }
 
-                /* Bouton toggle */
+                /* Bouton toggle (semble inutilisé ?) */
                 #toggle {
-                margin - bottom: 1rem;
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
-            }
+                    margin-bottom: 1rem;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                }
             `}
             </style>
-            <div className={`poetry-title--wrapper ${className}`}>
+            {/* Le JSX reste inchangé, s'assurant que les IDs correspondent ('myPath' + keyId, etc.) */}
+            <div className={`poetry-title--wrapper ${className} `}>
                 <svg
-                    id={'svg' + keyId}
+                    id={'svg' + keyId} // ID utilisé pour la ref svgRef
                     className='block h-auto w-full'
-                    viewBox='0 -20 160 1050'
+                    // viewBox est maintenant défini dynamiquement dans l'effet
                     preserveAspectRatio='none'
                     style={{ height: '95vh' }}
                     xmlns='http://www.w3.org/2000/svg'
@@ -149,8 +249,8 @@ const PoetryTitle = ({
                         data-type={slug}
                     >
                         <path
-                            id={'myPath' + keyId}
-                            d={pathClose}
+                            id={'myPath' + keyId} // ID utilisé pour la ref pathRef
+                            d={pathClose} // Chemin initial
                             stroke='transparent'
                             strokeWidth='30px'
                             fill='none'
@@ -158,7 +258,7 @@ const PoetryTitle = ({
                     </a>
                 </svg>
                 <div
-                    id={'textOverlay' + keyId}
+                    id={'textOverlay' + keyId} // ID utilisé pour la ref textOverlayRef
                     className='textOverlay pointer-events-none absolute top-0 left-0 h-full w-full'
                 ></div>
             </div>

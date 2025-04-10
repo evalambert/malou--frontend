@@ -30,17 +30,15 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         const textOverlaySerpent = document.getElementById('textOverlay-hard-layout-serpent');
         const textOverlayCoquille = document.getElementById('textOverlay-hard-layout-coquille');
 
-        console.log(targetHref);
+    
 
         let isOpen = false;
 
-        // Stocker le contenu HTML initial de la div serpent si ce n'est pas déjà fait
+        // RESET TO FIRST VALUEsSS
         if (textOverlaySerpent && initialTextOverlaySerpent.current === null) {
             initialTextOverlaySerpent.current = textOverlaySerpent.innerHTML;
             initialTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
-            console.log('Contenu initial serpent stocké:', initialTextOverlaySerpent.current);
         }
-
         function resetTextOverlay() {
             textOverlaySerpent.innerHTML = initialTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = initialTextOverlayCoquille.current;
@@ -172,7 +170,16 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 onUpdate: () => updateBothPaths(0),
             });
         };
-
+        const closeAccordion = () => {
+            isOpen = false;
+            gsap.to(pathCoquille, {
+                duration: 0.4,
+                attr: {
+                    d: pathCoquilleClose,
+                },
+                onUpdate: () => updateBothPaths(0),
+            });
+        };
 
 
 
@@ -181,6 +188,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         // TRIGER INITIALISATION
         if (targetHref.endsWith(`/${lang}/poetry/`)) {
             openSerpentCategoryPoetry();
+            closeAccordion();
             setTimeout(() => {
                 updateBothPaths(0.3);
             }, 900);
@@ -205,14 +213,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             'accordionDescriptionToggle',
             handleAccordionChange
         );
-        // window.addEventListener(
-        //     'poetryPageStateChange',
-        //     openSerpentCategoryPoetry
-        // );
-        // window.addEventListener(
-        //     'indexPageStateChange',
-        //     closeSerpentForIndex
-        // );
+
 
         return () => {
             // window.removeEventListener('load', updatePaths);
@@ -221,14 +222,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 'accordionDescriptionToggle',
                 handleAccordionChange
             );
-            // window.removeEventListener(
-            //     'poetryPageStateChange',
-            //     openSerpentCategoryPoetry
-            // );
-            // window.removeEventListener(
-            //     'indexPageStateChange',
-            //     closeSerpentForIndex
-            // );
+
         };
 
 
