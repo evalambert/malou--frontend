@@ -47,21 +47,43 @@ const PaintingsList = ({
 
         // Layout
         const calculateLayout = () => {
+            // NOTE ALICE :::::
+            // Le calcul se fait sur le marginLeft (addition ou soustraction du li.offsetWidth et du viewportWidth)
+            // ::::::::::::::::
             const liTitle = document.querySelectorAll('li.painting-title');
-            let previousLiWidth = 0;
-
+            let previousLiWidth = 150;
+            let reverse = false;
 
             liTitle.forEach((li) => {
                 const viewportWidth = window.matchMedia('(min-width: 48rem)')
                     .matches
-                    ? window.innerWidth - 180 // 150px = md:left-[150px] on item bellow
+                    ? window.innerWidth - 30 // 150px = md:left-[150px] on item bellow
                     : window.innerWidth - 30; // --spacing-main-x-mobile (x2)
-                if (previousLiWidth + li.offsetWidth > viewportWidth) {
+
+                // DERNIER ELEMENT À DROITE 
+                if (previousLiWidth + li.offsetWidth > viewportWidth && !reverse) {
                     let maxMarginLeft = viewportWidth - li.offsetWidth;
                     li.style.marginLeft = `${maxMarginLeft}px`;
+                    // li.style.border = '1px solid green';
+                    previousLiWidth = viewportWidth - li.offsetWidth;
+                    reverse = true;
+                    return previousLiWidth;
+                // DESCEND VERS LA GAUCHE
+                } else if (previousLiWidth < 200 && reverse) {
+                    // li.style.border = '1px solid pink';
+                    li.style.marginLeft = `0px`;
+                    previousLiWidth = li.offsetWidth;
+                    reverse = false;
+                }else if (reverse) {
+                    previousLiWidth = previousLiWidth - li.offsetWidth;
+                    li.style.marginLeft = `${previousLiWidth}px`;
+                    // li.style.border = '1px solid orange';
+                    return previousLiWidth;
+                // DESCEND VERS LA DROITE
                 } else {
                     li.style.marginLeft = `${previousLiWidth}px`;
                     previousLiWidth = previousLiWidth + li.offsetWidth;
+                    // li.style.border = '1px solid blue';
                     return previousLiWidth;
                 }
             });
