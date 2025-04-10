@@ -9,7 +9,7 @@ const WeavingTitle = ({ weaving, lang }) => {
         <div>
             <a
                 href={`/${lang}/weaving/${weaving.slug}/`}
-                className='pr-1'
+                className='md:pr-1'
                 onMouseEnter={() => {
                     const mediaUrl =
                         weaving.medias &&

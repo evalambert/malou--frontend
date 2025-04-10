@@ -137,23 +137,23 @@ const WeavingList = ({
     }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
 
     const homepageWeavingPadding = {
-        lotissement: 'pr-[442px]',
-        'fenetres-avec-vues': 'pr-[329px]',
-        'temps-libre': 'pr-[267px]',
-        'memento-i': 'pr-[303px]',
-        'memento-ii': 'pr-[371px]',
-        'loguivy-de-la-mer': 'pr-[347px]',
-        'une-ville-ou-il-fait-chaud': 'pr-[313px]',
-        'google-maps': 'pr-[253px]',
-        'chez-claude': 'pr-[191px]',
-        volcan: 'pr-[150px]',
+        lotissement: 'md:pr-[442px]',
+        'fenetres-avec-vues': 'pr-[px] md:pr-[329px] justify-center',
+        'temps-libre': 'md:pr-[267px] justify-center',
+        'memento-i': 'pr-[50px] md:pr-[303px] justify-end',
+        'memento-ii': 'md:pr-[371px] justify-end',
+        'loguivy-de-la-mer': 'md:pr-[347px] justify-center',
+        'une-ville-ou-il-fait-chaud': 'md:pr-[313px]',
+        'google-maps': 'pl-[30px] md:pr-[253px]',
+        'chez-claude': 'md:pr-[191px] justify-center',
+        volcan: 'pl-[60px] md:pr-[150px] justify-center',
     };
     const hiddenWeavingPadding = {
-        'amphore-maison': 'pr-[164px]',
-        'bouilloire-et-train-sifflant': 'pr-[192px]',
-        'la-porte-de-mes-souvenirs': 'pr-[110px]',
-        'salon-moderne': 'pr-[48px]',
-        reverie: 'pr-[0px]',
+        'amphore-maison': 'md:pr-[164px] justify-end',
+        'bouilloire-et-train-sifflant': 'md:pr-[192px] justify-start',
+        'la-porte-de-mes-souvenirs': 'md:pr-[110px] justify-end',
+        'salon-moderne': 'md:pr-[48px] justify-center',
+        reverie: 'md:pr-[0px] justify-end',
     };
 
     const orderedSlugs = [
@@ -217,7 +217,7 @@ const WeavingList = ({
                     }}
                 >
                     {/* Liste Homepage */}
-                    <ul className='flex w-fit flex-col items-end'>
+                    <ul className='flex w-[100%] max-w-[375px] flex-col items-end md:w-fit md:max-w-[unset]'>
                         {homepageWeavings.map((weaving) => {
                             const slug = weaving.slug; // ou .slug directement selon ta structure
                             const paddingClass =
@@ -226,7 +226,7 @@ const WeavingList = ({
                             return (
                                 <li
                                     key={weaving.id}
-                                    className={`weaving-title w-fit ${paddingClass}`}
+                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass}`}
                                 >
                                     <WeavingTitle
                                         weaving={weaving}
@@ -239,11 +239,11 @@ const WeavingList = ({
                     {/* (END) Liste Homepage */}
 
                     <div
-                        className={`hidden-list-weaving overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out`}
+                        className={`hidden-list-weaving w-[100%] overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out md:w-fit`}
                     >
                         {/* Liste Hidden */}
                         {/* {isOnWeavingPage && ( */}
-                        <ul className='flex w-fit flex-col items-end'>
+                        <ul className='flex w-[100%] flex-col items-end md:w-fit '>
                             {finalSortedHiddenWeavings.map((weaving) => {
                                 const slug = weaving.slug;
                                 hiddenWeavingPadding[slug] || 'pr-0';
@@ -253,7 +253,7 @@ const WeavingList = ({
 
                                 return (
                                     <li
-                                        className={`weaving-title w-fit ${paddingClass}`}
+                                        className={`weaving-title flex w-[100%] justify-end md:block md:w-fit max-w-[375px] md:max-w-[unset] ${paddingClass}`}
                                         key={weaving.id}
                                     >
                                         <WeavingTitle
