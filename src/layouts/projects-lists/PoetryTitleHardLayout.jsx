@@ -6,6 +6,8 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
     // const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
     const initialTextOverlaySerpent = useRef(null);
     const initialTextOverlayCoquille = useRef(null);
+    const onCatTextOverlaySerpent = useRef(null);
+    const onCatTextOverlayCoquille = useRef(null);
 
 
     // // Définition des constantes
@@ -20,7 +22,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
     const pathCoquilleOpen =
         'M1 1L9 35L15.5 66L13 132L5.5 163.5L5.5 197L15.5 226.5L26.5 257.5L18.5 288L9 320.5L21.5 355L15.5 389L13.5 453L32 478L52 536L70.5 564.5L95 579L156.5 579L187.5 572L217.5 564.5L238.5 536L254.5 497L284 487.5';
 
-    
+
 
 
     useEffect(() => {
@@ -30,7 +32,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         const textOverlaySerpent = document.getElementById('textOverlay-hard-layout-serpent');
         const textOverlayCoquille = document.getElementById('textOverlay-hard-layout-coquille');
 
-    
+
 
         let isOpen = false;
 
@@ -42,9 +44,15 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         function resetTextOverlay() {
             textOverlaySerpent.innerHTML = initialTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = initialTextOverlayCoquille.current;
+            console.log('^_^ RESET to first svg/spans');
+        }
+        function resetTextOverlayCategory() {
+            textOverlaySerpent.innerHTML = onCatTextOverlaySerpent.current;
+            textOverlayCoquille.innerHTML = onCatTextOverlayCoquille.current;
+            console.log('^_^ RESET to category svg/spans');
         }
 
-        
+
         // SPANS
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         ///////// Update Letters Position 
@@ -61,7 +69,6 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     });
                 }
                 return points;
-
             }
 
             // Fonction pour convertir les coordonnées SVG en coordonnées écran
@@ -93,11 +100,13 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     ease: 'none',
                 });
             }
+            console.log('/*-*/ Update Letters Position');
         }
         ///////// END Update Letters Position /////////
 
         // Fonction pour mettre à jour les deux chemins
         function updateBothPaths(duration) {
+            console.log('(8> <8) Both Paths Letter Updates');
             updateLettersPosition(pathSerpent, textOverlaySerpent, duration);
             updateLettersPosition(pathCoquille, textOverlayCoquille, duration);
         }
@@ -108,6 +117,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         // FUNCTIONS PATH AND SHAPES
 
         const hideCoquille = () => {
+            console.log('//-_-/// Hide Coquille');
             textOverlayCoquille.style.transform = 'translateX(-100vw)';
             setTimeout(() => {
                 textOverlayCoquille.style.opacity = 0;
@@ -115,6 +125,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         }
 
         const showCoquille = () => {
+            console.log('**0_0***** Show Coquille');
             textOverlayCoquille.style.opacity = 1;
             textOverlayCoquille.style.transform = 'translateX(0vw)';
         }
@@ -130,6 +141,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 },
                 onUpdate: () => updateBothPaths(0),
             });
+            console.log('*****0_0** Open Snake');
             showCoquille();
         }
         const closeSerpentForIndex = () => {
@@ -142,6 +154,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     },
                     onUpdate: () => updateBothPaths(0),
                 });
+                console.log('///-_-// Close Snake');
                 hideCoquille();
             }
         }
@@ -153,6 +166,8 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         const handleAccordionChange = (event) => {
             const { isAccordionOpen } = event.detail;
             isOpen = isAccordionOpen;
+
+            hardWrapper.classList.toggle('accordion-open');
 
             gsap.to(pathSerpent, {
                 duration: 0.4,
@@ -169,16 +184,22 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 },
                 onUpdate: () => updateBothPaths(0),
             });
+
+            console.log('/~\/~\/~\ Accordion Change');
         };
         const closeAccordion = () => {
-            isOpen = false;
-            gsap.to(pathCoquille, {
-                duration: 0.4,
-                attr: {
-                    d: pathCoquilleClose,
-                },
-                onUpdate: () => updateBothPaths(0),
-            });
+            if (hardWrapper.classList.contains('accordion-open')) {
+                hardWrapper.classList.remove('accordion-open');
+                isOpen = false;
+                gsap.to(pathCoquille, {
+                    duration: 0.4,
+                    attr: {
+                        d: pathCoquilleClose,
+                    },
+                    onUpdate: () => updateBothPaths(0),
+                });
+                console.log('//~~~~~~|| Close Accordion');
+            }
         };
 
 
@@ -187,16 +208,26 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         // TRIGER INITIALISATION
         if (targetHref.endsWith(`/${lang}/poetry/`)) {
-            openSerpentCategoryPoetry();
-            closeAccordion();
-            setTimeout(() => {
-                updateBothPaths(0.3);
-            }, 900);
+
+            // Reset text overlay TO OPEN CATEGORY STYLE if was previously HIDDEN
+            if (hardWrapper.classList.contains('hard-layout--hidden')) {
+                resetTextOverlayCategory();
+            }else{
+                openSerpentCategoryPoetry();
+                closeAccordion();
+                setTimeout(() => {
+                    updateBothPaths(0.3);
+                    if (onCatTextOverlaySerpent && onCatTextOverlaySerpent.current === null) {
+                        onCatTextOverlaySerpent.current = textOverlaySerpent.innerHTML;
+                        onCatTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
+                    }
+                }, 900);
+            }
         } else if (targetHref == '/fr/' || targetHref == '/en/') {
             // updateBothPaths(0);
             closeSerpentForIndex();
 
-            // Reset text overlay if was previously HIDDEN
+            // Reset text overlay TO FIRST INDEX STYLE if was previously HIDDEN
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
                 resetTextOverlay();
                 hideCoquille();
@@ -251,7 +282,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             `}
             </style>
 
-            <div className={`poetry-title--wrapper hard-layout--wrapper`}>
+            <div className={`poetry-title--wrapper hard-layout--wrapper border border-red-500`}>
                 <svg
                     id='svg-hard-layout'
                     className='block h-[95vh] w-full'
@@ -288,7 +319,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     </a>
                 </svg>
 
-                <div id="textOverlay-hard-layout-serpent" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full">
+                <div id="textOverlay-hard-layout-serpent" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full border border-blue-500">
                     <span style={{ top: '38px', left: '13px' }}>c</span>
                     <span style={{ top: '67px', left: '26px' }}>o</span>
                     <span style={{ top: '92px', left: '29px' }}>m</span>
@@ -316,7 +347,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     <span style={{ top: '759px', left: '39px' }}>t</span>
                     <span style={{ top: '785px', left: '57px' }}>e</span>
                 </div>
-                <div id="textOverlay-hard-layout-coquille" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px] transition-[transform] duration-500" style={{ opacity: 0, transform: 'translateX(-100vw)' }}>
+                <div id="textOverlay-hard-layout-coquille" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px] transition-[transform] duration-500 border border-green-500" style={{ opacity: 0, transform: 'translateX(-100vw)' }}>
                     <span style={{ top: '38px', left: '13px' }}>d</span>
                     <span style={{ top: '65px', left: '19px' }}>e</span>
                     <span style={{ top: '89px', left: '24px' }}>s</span>
