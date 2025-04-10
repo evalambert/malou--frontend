@@ -28,19 +28,18 @@ const VitrailList = ({
                 const wordWrapSpanLength = wordWrapperSpan.length;
 
                 wrapper.parentElement.classList.add('active');
-                wrapper.style.transition = 'height 0.5s ease-in-out';
+                wrapper.style.transition = 'all 0.5s ease-in-out';
                 wrapper.style.transitionDelay = `${wrapperIndex * 0.3}s`;
                 wrapper.style.height = `${wordWrapSpanLength * 25}px`;
 
                 const firstSpan = wordWrapperSpan[0];
                 const firstWidth = firstSpan.offsetWidth;
 
-                wrapper.parentElement.style.width = `${firstWidth * wordWrapSpanLength + 10
-                    }px`;
+                wrapper.parentElement.style.width = `${firstWidth * wordWrapSpanLength + 10}px`;
 
                 wordWrapperSpan.forEach((span, index) => {
                     span.style.width = `${firstWidth}px`;
-                    span.style.transition = 'transform 0.5s ease-in-out';
+                    span.style.transition = 'all 0.5s ease-in-out';
                     span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
                     span.style.transform = `translate(-${index * firstWidth
                         }px, ${index * 25}px)`;
@@ -57,24 +56,28 @@ const VitrailList = ({
                 const wordWrapperSpan = wrapper.querySelectorAll('span');
 
                 // Animation inverse
-                wrapper.style.transition = 'height 0.5s ease-in-out';
+                wrapper.style.transition = 'all 0.5s ease-in-out';
                 wrapper.style.transitionDelay = `${wrapperIndex * 0.3}s`;
                 wrapper.style.height = '0px';
 
+                wrapper.parentElement.style.width = `fit-content`;
+
                 wordWrapperSpan.forEach((span) => {
-                    span.style.transition = 'transform 0.5s ease-in-out';
+                    span.style.transition = 'all 0.5s ease-in-out';
+                    span.style.width = `fit-content`;
                     span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
                     span.style.transform = 'translate(0, 0)';
                 });
 
-                // Réinitialiser la largeur après l'animation
-                setTimeout(
-                    () => {
-                        wrapper.parentElement.style.width = '';
-                        wrapper.parentElement.classList.remove('active');
-                    },
-                    wrapperIndex * 300 + 650
-                );
+                // // Réinitialiser la largeur après l'animation
+                // setTimeout(
+                //     () => {
+                //         wrapper.parentElement.style.width = '';
+                //         wrapper.parentElement.classList.remove('active');
+                //         console.log('Prout');
+                //     },
+                //     wrapperIndex * 300 + 650
+                // );
             });
         };
 
@@ -167,7 +170,7 @@ const VitrailList = ({
             if (window.innerWidth < 768) {
                 setMaxWidthValue('0px');
                 setMaxHeightValue('0px');
-                settranslateYValue('0px');
+  console.log(targetHref);teYValue('0px');
                 settranslateXValue('50vw');
             } else {
                 settranslateYValue('-200vh');

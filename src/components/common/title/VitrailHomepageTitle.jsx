@@ -33,7 +33,7 @@ const VitrailHomepageTitle = ({ vitrail, lang }) => {
                             {word.split('').map((letter, j) => (
                                 <span
                                     key={j}
-                                    className='transition-all duration-300'
+                                    className='transition-all duration-300 '
                                 >
                                     {letter}
                                 </span>
