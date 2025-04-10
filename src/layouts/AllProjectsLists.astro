@@ -14,7 +14,7 @@ const { lang, enterIndex } = Astro.props;
 
 const currentPath = Astro.url.pathname || '';
 const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
-const categoryClass = categoryMatch ? `${categoryMatch[1]}` : '';
+/* const categoryClass = categoryMatch ? `${categoryMatch[1]}` : ''; */
 
 const { homepageItems: homepageVolumes, hiddenItems: hiddenVolumes } =
     await fetchSortedCategory({
@@ -29,6 +29,7 @@ const { homepageItems: homepageVitraux, hiddenItems: hiddenVitraux } =
         homepageKey: 'vitrails',
         lang,
     });
+
 
 const { homepageItems: homepagePaintings, hiddenItems: hiddenPaintings } =
     await fetchSortedCategory({

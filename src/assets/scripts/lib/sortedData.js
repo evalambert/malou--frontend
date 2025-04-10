@@ -1,3 +1,4 @@
+// src/assets/scripts/lib/sortedData.js
 import fetchApi from './strapi';
 
 export async function fetchSortedCategory({ category, homepageKey, lang }) {
