@@ -169,31 +169,46 @@ const WeavingList = ({
                 }}
             >
                 <div
-                    className={`weaving-list overflow-hidden transition-all duration-1000 ease-in-out max-md:flex max-md:flex-col max-md:items-end md:grid md:auto-cols-auto md:auto-rows-min ${!isOnWeavingPage ? 'pointer-events-none' : ''}`}
+                    className={`weaving-list flex flex-col items-end overflow-hidden transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''} border-2 border-black`}
                     style={{
                         transform: `translate(${translateXValue}, ${translateYValue})`,
                     }}
                 >
                     {/* Liste Homepage */}
-                    <ul className='flex w-fit flex-col items-end'>
-                        {homepageWeavings.map((weaving) => (
+                    <ul className='flex w-fit flex-col items-end border-2 border-red-500 px-[200px]'>
+                        <li className=''>Lotissement</li>
+                        <li className=''>Fenêtre avec vue</li>
+                        <li>Temps libre</li>
+                        <li>Memento I</li>
+                        <li>Memento II</li>
+                        <li>Longuivy de la mer</li>
+                        <li>Une ville ndcnldncndkncldnkcoù il fait chaud</li>
+                        <li>Google maps</li>
+                        <li>Chez Claude</li>
+                        <li>Volcan</li>
+                        {/* {homepageWeavings.map((weaving) => (
                             <li
                                 className='weaving-title w-fit'
                                 key={weaving.id}
                             >
                                 <WeavingTitle weaving={weaving} lang={lang} />
                             </li>
-                        ))}
+                        ))} */}
                     </ul>
                     {/* (END) Liste Homepage */}
 
                     <div
-                        className={`hidden-list-weaving col-start-2 row-start-2 overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out`}
+                        className={`hidden-list-weaving overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out`}
                     >
                         {/* Liste Hidden */}
                         {/* {isOnWeavingPage && ( */}
-                        <ul className='flex w-fit flex-col items-end'>
-                            {hiddenWeavings.map((weaving) => (
+                        <ul className='flex w-fit flex-col items-end border-2 border-blue-500'>
+                            <li>Amphore maison</li>
+                            <li>Bouilloire et train sifflant</li>
+                            <li>La porte de mes souvenirs</li>
+                            <li>Salon moderne</li>
+                            <li>Rêverie</li>
+                            {/* {hiddenWeavings.map((weaving) => (
                                 <li
                                     className='weaving-title w-fit'
                                     key={weaving.id}
@@ -203,7 +218,7 @@ const WeavingList = ({
                                         lang={lang}
                                     />
                                 </li>
-                            ))}
+                            ))} */}
                         </ul>
                         {/* )} */}
                         {/* (END) Liste Hidden */}

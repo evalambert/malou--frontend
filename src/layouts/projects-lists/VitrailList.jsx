@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 
-import VitrailTitle from '../../components/common/title/VitrailTitle.jsx';
+import VitrailHiddenTitle from '../../components/common/title/VitrailHiddenTitle.jsx';
+import VitrailHomepageTitle from '../../components/common/title/VitrailHomepageTitle.jsx';
 
 const VitrailList = ({
     homepageVitraux,
@@ -124,6 +125,7 @@ const VitrailList = ({
     const [maxHeightValue, setMaxHeightValue] = useState('initial');
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
+    const [sortedHiddenVitraux, setSortedHiddenVitraux] = useState([]);
 
     const toggleListDisplay = (url, category) => {
         if (url.includes(category)) {
@@ -169,6 +171,34 @@ const VitrailList = ({
 
     // * END * Toogle hidden/compact/full
 
+    /* --- Sort hiddenVitraux by visual width  --- */
+    useEffect(() => {
+        // Crée un container invisible
+        const container = document.createElement('div');
+        container.style.visibility = 'hidden';
+        container.style.position = 'absolute';
+        container.style.whiteSpace = 'nowrap';
+        document.body.appendChild(container);
+
+        // Calcule la largeur réelle de chaque titre
+        const sorted = [...hiddenVitraux]
+            .map((v) => {
+                const span = document.createElement('span');
+                span.textContent = v.title;
+                container.appendChild(span);
+                const width = span.getBoundingClientRect().width;
+                container.removeChild(span);
+                return { ...v, visualWidth: width };
+            })
+            .sort((a, b) => b.visualWidth - a.visualWidth);
+
+        // Nettoie le container temporaire
+        document.body.removeChild(container);
+
+        // Stocke la liste triée
+        setSortedHiddenVitraux(sorted);
+    }, [hiddenVitraux]);
+
     // Render
     return (
         <>
@@ -205,12 +235,12 @@ const VitrailList = ({
                         >
                             {/* Liste Hidden */}
                             <ul className='vitrail-list-compact overflow-visible'>
-                                {hiddenVitraux.map((vitrail) => (
+                                {sortedHiddenVitraux.map((vitrail) => (
                                     <li
                                         className='vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-100'
                                         key={vitrail.id}
                                     >
-                                        <VitrailTitle
+                                        <VitrailHiddenTitle
                                             vitrail={vitrail}
                                             lang={lang}
                                         />
@@ -227,7 +257,7 @@ const VitrailList = ({
                                     className='vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300'
                                     key={vitrail.id}
                                 >
-                                    <VitrailTitle
+                                    <VitrailHomepageTitle
                                         vitrail={vitrail}
                                         lang={lang}
                                     />

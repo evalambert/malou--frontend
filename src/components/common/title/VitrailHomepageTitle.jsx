@@ -3,7 +3,7 @@ import {
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
-const VitrailTitle = ({ vitrail, lang }) => {
+const VitrailHomepageTitle = ({ vitrail, lang }) => {
     // Render
     return (
         <div>
@@ -46,4 +46,4 @@ const VitrailTitle = ({ vitrail, lang }) => {
     );
 };
 
-export default VitrailTitle;
+export default VitrailHomepageTitle;
