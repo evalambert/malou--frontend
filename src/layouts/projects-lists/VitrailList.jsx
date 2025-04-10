@@ -14,11 +14,7 @@ const VitrailList = ({
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
 
     useEffect(() => {
-        // Afficher la hauteur de la liste cachée
-        const hiddenListHeightVitrailValue = document.querySelector(
-            '.hidden-list-vitrail'
-        ).clientHeight;
-        setHiddenListHeightVitrail(hiddenListHeightVitrailValue);
+
 
         const openAnimation = (targetTitle) => {
             console.log(':::: OPEN ANIMATION ::::');
@@ -39,17 +35,15 @@ const VitrailList = ({
                 const firstSpan = wordWrapperSpan[0];
                 const firstWidth = firstSpan.offsetWidth;
 
-                wrapper.parentElement.style.width = `${
-                    firstWidth * wordWrapSpanLength + 10
-                }px`;
+                wrapper.parentElement.style.width = `${firstWidth * wordWrapSpanLength + 10
+                    }px`;
 
                 wordWrapperSpan.forEach((span, index) => {
                     span.style.width = `${firstWidth}px`;
                     span.style.transition = 'transform 0.5s ease-in-out';
                     span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
-                    span.style.transform = `translate(-${
-                        index * firstWidth
-                    }px, ${index * 25}px)`;
+                    span.style.transform = `translate(-${index * firstWidth
+                        }px, ${index * 25}px)`;
                 });
             });
         };
@@ -98,6 +92,11 @@ const VitrailList = ({
                     if (title.getAttribute('href') === targetHref) {
                         console.log(':::: Enter slug page ::::');
                         openAnimation(title);
+                    } else {
+                        // Fermer les autres titres qui pourraient être ouverts
+                        if (title.children[0].classList.contains('active')) {
+                            closeAnimation(title);
+                        }
                     }
                 } else {
                     if (title.children[0].classList.contains('active')) {
@@ -105,9 +104,21 @@ const VitrailList = ({
                     }
                 }
             });
+
+
         };
 
         titleLayout();
+
+        // Afficher la hauteur de la liste cachée
+        setTimeout(() => {
+            const hiddenListHeightVitrailValue = document.querySelector(
+                '.hidden-list-vitrail'
+            ).clientHeight;
+            setHiddenListHeightVitrail(hiddenListHeightVitrailValue);
+            console.log('hiddenListHeightVitrailValue', hiddenListHeightVitrailValue);
+        }, 100);
+
 
         // Recalculer lors du redimensionnement
         window.addEventListener('resize', titleLayout);
@@ -166,6 +177,7 @@ const VitrailList = ({
 
     useEffect(() => {
         toggleListDisplay(targetHref, 'vitrail');
+        console.log(targetHref);
     }, [targetHref, hiddenListHeightVitrail]);
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -206,15 +218,14 @@ const VitrailList = ({
                 className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
             >
                 <div
-                    className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${
-                        !isOnVitrailPage ? 'cursor-pointer' : ''
-                    } `}
+                    className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${!isOnVitrailPage ? 'cursor-pointer' : ''
+                        } `}
                     onClick={
                         !isOnVitrailPage
                             ? () =>
-                                  navigate(`/${lang}/vitrail/`, {
-                                      history: 'push',
-                                  })
+                                navigate(`/${lang}/vitrail/`, {
+                                    history: 'push',
+                                })
                             : undefined
                     }
                     style={{
@@ -229,9 +240,8 @@ const VitrailList = ({
                         }}
                     >
                         <div
-                            className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${
-                                isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
-                            } `}
+                            className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
+                                } `}
                         >
                             {/* Liste Hidden */}
                             <ul className='vitrail-list-compact overflow-visible'>

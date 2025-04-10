@@ -128,7 +128,6 @@ const PaintingsList = ({
                 setmaxHeightValue('300vh');
             }
         } else if (url == '/fr/' || url == '/en/') {
-            console.log('hidden Height', hiddenListHeightPainting);
             if (window.innerWidth < 768) {
                 setTranslateValue('100vh');
                 setmaxHeightValue('0px');
