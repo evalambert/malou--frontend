@@ -44,13 +44,13 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             initialTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
         }
         // *(0__0)* fonction pour réinjecter les états de la homepage
-        function resetTextOverlay() {
+        const resetTextOverlay = () => {
             textOverlaySerpent.innerHTML = initialTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = initialTextOverlayCoquille.current;
             console.log('^_^ RESET to first svg/spans');
         }
         // *(0__0)* fonction pour réinjecter les états de la catégorie (récupérés plus bas)
-        function resetTextOverlayCategory() {
+        const resetTextOverlayCategory = () => {
             textOverlaySerpent.innerHTML = onCatTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = onCatTextOverlayCoquille.current;
             console.log('^_^ RESET to category svg/spans');
@@ -104,13 +104,13 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     ease: 'none',
                 });
             }
-            console.log('/*-*/ Update Letters Position');
+            // console.log('/*-*/ Update Letters Position');
         }
         ///////// END Update Letters Position /////////
 
         // Fonction pour mettre à jour les deux chemins
         function updateBothPaths(duration) {
-            console.log('(8> <8) Both Paths Letter Updates');
+            // console.log('(8> <8) Both Paths Letter Updates');
             updateLettersPosition(pathSerpent, textOverlaySerpent, duration);
             updateLettersPosition(pathCoquille, textOverlayCoquille, duration);
         }
@@ -149,7 +149,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             showCoquille();
         }
         const closeSerpentForIndex = () => {
-            if (hardWrapper.classList.contains('animate-open-serpent')) {
+            // if (hardWrapper.classList.contains('animate-open-serpent')) {
                 hardWrapper.classList.remove('animate-open-serpent');
                 gsap.to(pathSerpent, {
                     duration: 0.4,
@@ -160,7 +160,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 });
                 console.log('///-_-// Close Snake');
                 hideCoquille();
-            }
+            //  
         }
 
 
@@ -171,8 +171,11 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             const { isAccordionOpen } = event.detail;
             isOpen = isAccordionOpen;
 
-            hardWrapper.classList.toggle('accordion-open');
-
+            if (hardWrapper.classList.contains('accordion-open')) {
+                hardWrapper.classList.remove('accordion-open');
+            } else {
+                hardWrapper.classList.add('accordion-open');
+            }
             gsap.to(pathSerpent, {
                 duration: 0.4,
                 attr: {
@@ -217,7 +220,9 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
                 // *(0__0)* Si masqué, on réinjecte les états de la catégorie
                 resetTextOverlayCategory();
-            }else{
+                showCoquille();
+                hardWrapper.classList.remove('hard-layout--hidden');
+            } else {
                 openSerpentCategoryPoetry();
                 closeAccordion();
                 setTimeout(() => {
@@ -231,14 +236,16 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             }
         } else if (targetHref == '/fr/' || targetHref == '/en/') {
             // updateBothPaths(0);
-            closeSerpentForIndex();
-
+            // closeSerpentForIndex();
             // Reset text overlay TO FIRST INDEX STYLE if was previously HIDDEN
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
                 resetTextOverlay();
                 hideCoquille();
+                hardWrapper.classList.remove('hard-layout--hidden');
+            }else if(hardWrapper.classList.contains('animate-open-serpent')){
+                closeSerpentForIndex();
             }
-        } else {
+        } else if (!targetHref.includes('/poetry/')) {
             hardWrapper.classList.remove('animate-open-serpent');
             hardWrapper.classList.add('hard-layout--hidden');
         }

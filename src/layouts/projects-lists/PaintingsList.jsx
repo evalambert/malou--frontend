@@ -16,11 +16,7 @@ const PaintingsList = ({
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
 
     useEffect(() => {
-        // Afficher la hauteur de la liste cachée
-        const hiddenListHeightPaintingValue = document.querySelector(
-            '.hidden-list-painting'
-        ).clientHeight;
-        setHiddenListHeightPainting(hiddenListHeightPaintingValue);
+
 
         // Title animation
         const titleLayout = () => {
@@ -54,6 +50,7 @@ const PaintingsList = ({
             const liTitle = document.querySelectorAll('li.painting-title');
             let previousLiWidth = 0;
 
+
             liTitle.forEach((li) => {
                 const viewportWidth = window.matchMedia('(min-width: 48rem)')
                     .matches
@@ -68,6 +65,13 @@ const PaintingsList = ({
                     return previousLiWidth;
                 }
             });
+
+            // Afficher la hauteur de la liste cachée
+            const hiddenListHeightPaintingValue = document.querySelector(
+                '.hidden-list-painting'
+            ).clientHeight;
+
+            setHiddenListHeightPainting(hiddenListHeightPaintingValue);
         };
 
         // Initial calculation
@@ -124,6 +128,7 @@ const PaintingsList = ({
                 setmaxHeightValue('300vh');
             }
         } else if (url == '/fr/' || url == '/en/') {
+            console.log('hidden Height', hiddenListHeightPainting);
             if (window.innerWidth < 768) {
                 setTranslateValue('100vh');
                 setmaxHeightValue('0px');
@@ -155,9 +160,9 @@ const PaintingsList = ({
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                              navigate(`/${lang}/painting/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/painting/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
