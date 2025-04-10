@@ -163,7 +163,10 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
                             transform: `translateX(${translateXValue})`,
                         }}
                     >
-                        {/* <div className='poetry-wrapper-inner flex transition-all duration-1000' style={{ opacity: 0 }}>
+                        {/*
+                        // Piste de recherche : mémoriser certains états après executions des animations pour les réinjecter à d'autres moments
+                        // Voir exemples — suivre les *(0__0)* dans PoetryTitleHardLayout.jsx
+                        <div className='poetry-wrapper-inner flex transition-all duration-1000' style={{ opacity: 0 }}>
                         {dataPoetry
                             .filter(
                                 (poetry) =>

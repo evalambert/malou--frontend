@@ -4,8 +4,12 @@ import { gsap } from 'gsap';
 
 const PoetryTitleHardLayout = ({ lang, targetHref }) => {
     // const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
+
+    // *(0__0)* useRef pour mémoriser les états
     const initialTextOverlaySerpent = useRef(null);
     const initialTextOverlayCoquille = useRef(null);
+    const onCatTextOverlaySerpent = useRef(null);
+    const onCatTextOverlayCoquille = useRef(null);
 
 
     // // Définition des constantes
@@ -20,7 +24,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
     const pathCoquilleOpen =
         'M1 1L9 35L15.5 66L13 132L5.5 163.5L5.5 197L15.5 226.5L26.5 257.5L18.5 288L9 320.5L21.5 355L15.5 389L13.5 453L32 478L52 536L70.5 564.5L95 579L156.5 579L187.5 572L217.5 564.5L238.5 536L254.5 497L284 487.5';
 
-    
+
 
 
     useEffect(() => {
@@ -30,21 +34,29 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         const textOverlaySerpent = document.getElementById('textOverlay-hard-layout-serpent');
         const textOverlayCoquille = document.getElementById('textOverlay-hard-layout-coquille');
 
-    
+
 
         let isOpen = false;
 
-        // RESET TO FIRST VALUEsSS
+        // *(0__0)* mémorise l'état de la hoempage
         if (textOverlaySerpent && initialTextOverlaySerpent.current === null) {
             initialTextOverlaySerpent.current = textOverlaySerpent.innerHTML;
             initialTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
         }
+        // *(0__0)* fonction pour réinjecter les états de la homepage
         function resetTextOverlay() {
             textOverlaySerpent.innerHTML = initialTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = initialTextOverlayCoquille.current;
+            console.log('^_^ RESET to first svg/spans');
+        }
+        // *(0__0)* fonction pour réinjecter les états de la catégorie (récupérés plus bas)
+        function resetTextOverlayCategory() {
+            textOverlaySerpent.innerHTML = onCatTextOverlaySerpent.current;
+            textOverlayCoquille.innerHTML = onCatTextOverlayCoquille.current;
+            console.log('^_^ RESET to category svg/spans');
         }
 
-        
+
         // SPANS
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         ///////// Update Letters Position 
@@ -61,7 +73,6 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     });
                 }
                 return points;
-
             }
 
             // Fonction pour convertir les coordonnées SVG en coordonnées écran
@@ -93,11 +104,13 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     ease: 'none',
                 });
             }
+            console.log('/*-*/ Update Letters Position');
         }
         ///////// END Update Letters Position /////////
 
         // Fonction pour mettre à jour les deux chemins
         function updateBothPaths(duration) {
+            console.log('(8> <8) Both Paths Letter Updates');
             updateLettersPosition(pathSerpent, textOverlaySerpent, duration);
             updateLettersPosition(pathCoquille, textOverlayCoquille, duration);
         }
@@ -108,6 +121,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         // FUNCTIONS PATH AND SHAPES
 
         const hideCoquille = () => {
+            console.log('//-_-/// Hide Coquille');
             textOverlayCoquille.style.transform = 'translateX(-100vw)';
             setTimeout(() => {
                 textOverlayCoquille.style.opacity = 0;
@@ -115,6 +129,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         }
 
         const showCoquille = () => {
+            console.log('**0_0***** Show Coquille');
             textOverlayCoquille.style.opacity = 1;
             textOverlayCoquille.style.transform = 'translateX(0vw)';
         }
@@ -130,6 +145,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 },
                 onUpdate: () => updateBothPaths(0),
             });
+            console.log('*****0_0** Open Snake');
             showCoquille();
         }
         const closeSerpentForIndex = () => {
@@ -142,6 +158,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     },
                     onUpdate: () => updateBothPaths(0),
                 });
+                console.log('///-_-// Close Snake');
                 hideCoquille();
             }
         }
@@ -153,6 +170,8 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         const handleAccordionChange = (event) => {
             const { isAccordionOpen } = event.detail;
             isOpen = isAccordionOpen;
+
+            hardWrapper.classList.toggle('accordion-open');
 
             gsap.to(pathSerpent, {
                 duration: 0.4,
@@ -169,16 +188,22 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 },
                 onUpdate: () => updateBothPaths(0),
             });
+
+            console.log('/~\/~\/~\ Accordion Change');
         };
         const closeAccordion = () => {
-            isOpen = false;
-            gsap.to(pathCoquille, {
-                duration: 0.4,
-                attr: {
-                    d: pathCoquilleClose,
-                },
-                onUpdate: () => updateBothPaths(0),
-            });
+            if (hardWrapper.classList.contains('accordion-open')) {
+                hardWrapper.classList.remove('accordion-open');
+                isOpen = false;
+                gsap.to(pathCoquille, {
+                    duration: 0.4,
+                    attr: {
+                        d: pathCoquilleClose,
+                    },
+                    onUpdate: () => updateBothPaths(0),
+                });
+                console.log('//~~~~~~|| Close Accordion');
+            }
         };
 
 
@@ -187,16 +212,28 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         // TRIGER INITIALISATION
         if (targetHref.endsWith(`/${lang}/poetry/`)) {
-            openSerpentCategoryPoetry();
-            closeAccordion();
-            setTimeout(() => {
-                updateBothPaths(0.3);
-            }, 900);
+
+            // Reset text overlay TO OPEN CATEGORY STYLE if was previously HIDDEN
+            if (hardWrapper.classList.contains('hard-layout--hidden')) {
+                // *(0__0)* Si masqué, on réinjecte les états de la catégorie
+                resetTextOverlayCategory();
+            }else{
+                openSerpentCategoryPoetry();
+                closeAccordion();
+                setTimeout(() => {
+                    updateBothPaths(0.3);
+                    // *(0__0)* Récupération des états de la catégorie après animation
+                    if (onCatTextOverlaySerpent && onCatTextOverlaySerpent.current === null) {
+                        onCatTextOverlaySerpent.current = textOverlaySerpent.innerHTML;
+                        onCatTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
+                    }
+                }, 900);
+            }
         } else if (targetHref == '/fr/' || targetHref == '/en/') {
             // updateBothPaths(0);
             closeSerpentForIndex();
 
-            // Reset text overlay if was previously HIDDEN
+            // Reset text overlay TO FIRST INDEX STYLE if was previously HIDDEN
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
                 resetTextOverlay();
                 hideCoquille();
