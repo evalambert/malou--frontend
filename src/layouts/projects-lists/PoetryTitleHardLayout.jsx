@@ -222,6 +222,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 // *(0__0)* Si masqué, on réinjecte les états de la catégorie
                 resetTextOverlayCategory();
                 showCoquille();
+                hardWrapper.classList.remove('hard-layout--hidden');
             }else{
                 openSerpentCategoryPoetry();
                 closeAccordion();
@@ -242,6 +243,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
                 resetTextOverlay();
                 hideCoquille();
+                hardWrapper.classList.remove('hard-layout--hidden');
             }
         } else {
             hardWrapper.classList.remove('animate-open-serpent');
