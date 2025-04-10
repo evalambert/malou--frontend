@@ -92,6 +92,11 @@ const VitrailList = ({
                     if (title.getAttribute('href') === targetHref) {
                         console.log(':::: Enter slug page ::::');
                         openAnimation(title);
+                    } else {
+                        // Fermer les autres titres qui pourraient être ouverts
+                        if (title.children[0].classList.contains('active')) {
+                            closeAnimation(title);
+                        }
                     }
                 } else {
                     if (title.children[0].classList.contains('active')) {
@@ -172,6 +177,7 @@ const VitrailList = ({
 
     useEffect(() => {
         toggleListDisplay(targetHref, 'vitrail');
+        console.log(targetHref);
     }, [targetHref, hiddenListHeightVitrail]);
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
