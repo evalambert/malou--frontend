@@ -44,13 +44,13 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             initialTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
         }
         // *(0__0)* fonction pour réinjecter les états de la homepage
-        function resetTextOverlay() {
+        const resetTextOverlay = () => {
             textOverlaySerpent.innerHTML = initialTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = initialTextOverlayCoquille.current;
             console.log('^_^ RESET to first svg/spans');
         }
         // *(0__0)* fonction pour réinjecter les états de la catégorie (récupérés plus bas)
-        function resetTextOverlayCategory() {
+        const resetTextOverlayCategory = () => {
             textOverlaySerpent.innerHTML = onCatTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = onCatTextOverlayCoquille.current;
             console.log('^_^ RESET to category svg/spans');
