@@ -9,7 +9,7 @@ const VitrailHiddenTitle = ({ vitrail, lang }) => {
         <div>
             <a
                 href={`/${lang}/vitrail/${vitrail.slug}/`}
-                className={`flex gap-[6px] items-end`}
+                className={`flex gap-[6px] items-start`}
                 onMouseEnter={() => {
                     const mediaUrl =
                         vitrail.medias &&
