@@ -12,7 +12,6 @@ const WeavingList = ({
 }) => {
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
-    const [hiddenListWidthWeaving, setHiddenListWidthWeaving] = useState(0);
 
     useEffect(() => {
         // Attendre que le DOM soit prêt
@@ -20,10 +19,8 @@ const WeavingList = ({
         if (!hiddenList) return; // Protection contre les éléments null
 
         const hiddenListHeightValue = hiddenList.clientHeight;
-        const hiddenListWidthValue = hiddenList.clientWidth;
 
         setHiddenListHeightWeaving(hiddenListHeightValue);
-        setHiddenListWidthWeaving(hiddenListWidthValue);
     }, [homepageWeavings, hiddenWeavings]);
 
     /**
@@ -117,7 +114,7 @@ const WeavingList = ({
                 setmaxHeightValue('0px');
             } else {
                 setTranslateYValue(hiddenListHeightWeaving + 'px');
-                setTranslateXValue(hiddenListWidthWeaving + 'px');
+                setTranslateXValue('150px'); // 150 = padding-right de last li de la homepageList
                 setmaxHeightValue('300vh');
             }
             setIsOnWeavingPage(false);
@@ -185,12 +182,13 @@ const WeavingList = ({
     );
 
     // 4. Trier les restants par longueur de titre décroissante
-    const remainingSorted = remaining.sort(
+    /*     const remainingSorted = remaining.sort(
         (a, b) => a.title.length - b.title.length
     );
+    const finalSortedHiddenWeavings = [...manuallySorted, ...remainingSorted]; */
 
     // 5. Fusionner
-    const finalSortedHiddenWeavings = [...manuallySorted, ...remainingSorted];
+    const finalSortedHiddenWeavings = [...manuallySorted, ...remaining];
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -274,6 +272,5 @@ const WeavingList = ({
         </>
     );
 };
-
 
 export default WeavingList;
