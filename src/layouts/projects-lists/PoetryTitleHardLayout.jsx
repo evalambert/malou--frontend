@@ -4,6 +4,8 @@ import { gsap } from 'gsap';
 
 const PoetryTitleHardLayout = ({ lang, targetHref }) => {
     // const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
+
+    // *(0__0)* useRef pour mémoriser les états
     const initialTextOverlaySerpent = useRef(null);
     const initialTextOverlayCoquille = useRef(null);
     const onCatTextOverlaySerpent = useRef(null);
@@ -36,16 +38,18 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
 
         let isOpen = false;
 
-        // RESET TO FIRST VALUEsSS
+        // *(0__0)* mémorise l'état de la hoempage
         if (textOverlaySerpent && initialTextOverlaySerpent.current === null) {
             initialTextOverlaySerpent.current = textOverlaySerpent.innerHTML;
             initialTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
         }
+        // *(0__0)* fonction pour réinjecter les états de la homepage
         function resetTextOverlay() {
             textOverlaySerpent.innerHTML = initialTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = initialTextOverlayCoquille.current;
             console.log('^_^ RESET to first svg/spans');
         }
+        // *(0__0)* fonction pour réinjecter les états de la catégorie (récupérés plus bas)
         function resetTextOverlayCategory() {
             textOverlaySerpent.innerHTML = onCatTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = onCatTextOverlayCoquille.current;
@@ -211,12 +215,14 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
 
             // Reset text overlay TO OPEN CATEGORY STYLE if was previously HIDDEN
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
+                // *(0__0)* Si masqué, on réinjecte les états de la catégorie
                 resetTextOverlayCategory();
             }else{
                 openSerpentCategoryPoetry();
                 closeAccordion();
                 setTimeout(() => {
                     updateBothPaths(0.3);
+                    // *(0__0)* Récupération des états de la catégorie après animation
                     if (onCatTextOverlaySerpent && onCatTextOverlaySerpent.current === null) {
                         onCatTextOverlaySerpent.current = textOverlaySerpent.innerHTML;
                         onCatTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
