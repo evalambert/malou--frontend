@@ -19,7 +19,7 @@ const ZoomModale = ({ zoomImg = [], hidden }) => {
         } else {
             body.classList.remove('mix-blend-actif');
         }
-    }, []);
+    }, [hidden]);
 
     return (
         <>
