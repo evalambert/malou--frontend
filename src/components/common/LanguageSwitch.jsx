@@ -6,8 +6,10 @@ const LanguageSwitch = ({ currentLang, currentPath }) => {
 
     const handleLanguageChange = () => {
         const newLang = currentLang === 'fr' ? 'en' : 'fr';
-        const newPath = currentPath.replace(`/${currentLang}/`, `/${newLang}/`);
+        const newPath = currentPath.replace(`/${currentLang}/`, `/${newLang}/`);        
+        // Naviguer vers la nouvelle page
         navigate(newPath, { history: 'push' });
+
     };
 
     return (

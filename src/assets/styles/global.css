@@ -61,7 +61,8 @@ body[data-page='about'] {
     }
 }
 
-body:not(.text-white) .mix-blend-target {
+body:not(.on-slug-page) .mix-blend-target,
+body.on-slug-page.mix-blend-actif .mix-blend-target {
     mix-blend-mode: difference;
 }
 
