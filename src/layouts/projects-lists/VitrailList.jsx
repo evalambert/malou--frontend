@@ -98,7 +98,7 @@ const VitrailList = ({
 
                 if (
                     document
-                        .querySelector('body')
+                        .querySelector('body') 
                         .classList.contains('on-slug-page')
                 ) {
                     if (title.getAttribute('href') === targetHref) {
