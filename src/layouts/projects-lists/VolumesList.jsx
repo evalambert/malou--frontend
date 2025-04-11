@@ -225,7 +225,7 @@ const VolumesList = ({
                             className={`hidden-list-volume overflow-hidden transition-all delay-[0.2s] duration-500 ease-in-out`}
                         >
                             {/* Liste Hidden */}
-                            <ul className='volume-list-compact flex flex-wrap md:ml-[50px] md:gap-y-[25px] md:pb-[25px]'>
+                            <ul className='volume-list-compact flex flex-wrap justify-center md:gap-y-[25px] md:pb-[25px]'>
                                 {hiddenVolumes.map((volume) => (
                                     <li
                                         className='volume-title block w-fit'

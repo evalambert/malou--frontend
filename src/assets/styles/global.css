@@ -198,7 +198,9 @@ body:not(.category-vitrail) .swiper-pagination {
 .volume-list-compact > li:nth-child(odd) {
     @apply md:pt-[25px];
 }
-
+body.category-volume .cat-vitrail-flex-wrapper {
+    @apply md:flex-0 md:w-0;
+}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Titles */
 /* body.on-slug-page .work-list {

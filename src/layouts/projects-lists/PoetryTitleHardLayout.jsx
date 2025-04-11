@@ -47,13 +47,13 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         const resetTextOverlay = () => {
             textOverlaySerpent.innerHTML = initialTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = initialTextOverlayCoquille.current;
-            console.log('^_^ RESET to first svg/spans');
+            // console.log('^_^ RESET to first svg/spans');
         }
         // *(0__0)* fonction pour réinjecter les états de la catégorie (récupérés plus bas)
         const resetTextOverlayCategory = () => {
             textOverlaySerpent.innerHTML = onCatTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = onCatTextOverlayCoquille.current;
-            console.log('^_^ RESET to category svg/spans');
+            // console.log('^_^ RESET to category svg/spans');
         }
 
 
@@ -121,7 +121,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         // FUNCTIONS PATH AND SHAPES
 
         const hideCoquille = () => {
-            console.log('//-_-/// Hide Coquille');
+            // console.log('//-_-/// Hide Coquille');
             textOverlayCoquille.style.transform = 'translateX(-100vw)';
             setTimeout(() => {
                 textOverlayCoquille.style.opacity = 0;
@@ -129,7 +129,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
         }
 
         const showCoquille = () => {
-            console.log('**0_0***** Show Coquille');
+            // console.log('**0_0***** Show Coquille');
             textOverlayCoquille.style.opacity = 1;
             textOverlayCoquille.style.transform = 'translateX(0vw)';
         }
@@ -145,7 +145,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 },
                 onUpdate: () => updateBothPaths(0),
             });
-            console.log('*****0_0** Open Snake');
+            // console.log('*****0_0** Open Snake');
             showCoquille();
         }
         const closeSerpentForIndex = () => {
@@ -158,8 +158,8 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     },
                     onUpdate: () => updateBothPaths(0),
                 });
-                console.log('///-_-// Close Snake');
-                hideCoquille();
+            // console.log('///-_-// Close Snake');
+            hideCoquille();
             //  
         }
 
