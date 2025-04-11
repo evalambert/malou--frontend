@@ -80,7 +80,7 @@ const VitrailList = ({
                     span.style.transition = 'all 0.5s ease-in-out';
                     span.style.width = `fit-content`;
                     span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
-                    span.style.transform = 'translate(0, 0)';
+                    span.style.transform = 'translate(0, 0)';   
                 });
 
             });
