@@ -19,6 +19,7 @@ const VitrailList = ({
         const openAnimation = (targetTitle) => {
             console.log(':::: OPEN ANIMATION ::::');
 
+
             const wordWrappers = targetTitle.querySelectorAll(
                 '.vitrail-word-wrapper > div'
             );
@@ -44,6 +45,19 @@ const VitrailList = ({
                     span.style.transform = `translate(-${index * firstWidth
                         }px, ${index * 25}px)`;
                 });
+
+                let coordonates = targetTitle.getBoundingClientRect();
+                console.log(`COUCOU REF::: top: ${coordonates.top}, left: ${coordonates.left}`);
+    
+                // Copier targetTitle et le coller dans le div fixe
+                const titleOnDisplay = document.getElementById('title-on-display');
+                if (titleOnDisplay) {
+                    titleOnDisplay.innerHTML = targetTitle.innerHTML;
+                    titleOnDisplay.style.position = 'fixed';
+                    titleOnDisplay.style.top = `${coordonates.top}px`;
+                    titleOnDisplay.style.left = `${coordonates.left}px`;
+                }
+                ///////////// ************* /////////////
             });
         };
 
@@ -69,15 +83,6 @@ const VitrailList = ({
                     span.style.transform = 'translate(0, 0)';
                 });
 
-                // // Réinitialiser la largeur après l'animation
-                // setTimeout(
-                //     () => {
-                //         wrapper.parentElement.style.width = '';
-                //         wrapper.parentElement.classList.remove('active');
-                //         console.log('Prout');
-                //     },
-                //     wrapperIndex * 300 + 650
-                // );
             });
         };
 
@@ -85,8 +90,12 @@ const VitrailList = ({
         const titleLayout = () => {
             const title = document.querySelectorAll('li.vitrail-title a');
 
+
+
             // Title animation
             title.forEach((title) => {
+
+
                 if (
                     document
                         .querySelector('body')
@@ -170,7 +179,7 @@ const VitrailList = ({
             if (window.innerWidth < 768) {
                 setMaxWidthValue('0px');
                 setMaxHeightValue('0px');
-  console.log(targetHref);teYValue('0px');
+                console.log(targetHref); teYValue('0px');
                 settranslateXValue('50vw');
             } else {
                 settranslateYValue('-200vh');
@@ -217,6 +226,7 @@ const VitrailList = ({
     // Render
     return (
         <>
+            <div id="title-on-display" clasName='text-blue-800' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></div>
             <div
                 className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
             >
