@@ -10,7 +10,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export default function Slider({ medias = [], zoomImg = [] }) {
+export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
     const swiperRef = useRef(null);
     const [imageDimensions, setImageDimensions] = useState({});
     const [isHidden, setIsHidden] = useState(true);
@@ -18,19 +18,24 @@ export default function Slider({ medias = [], zoomImg = [] }) {
 
     useEffect(() => {
         const body = document.body;
-        body.classList.add('mix-blend-actif');
-        const timeoutWhite = setTimeout(() => {
+        if (!noTimeOut) {
+            body.classList.add('mix-blend-actif');
+            const timeoutWhite = setTimeout(() => {
+                body.classList.remove('mix-blend-actif');
+            }, 700);
+            const timeout = setTimeout(() => {
+                setShow(true);
+            }, 1000);
+            console.log('zoomImg:', zoomImg);
+    
+            return () => {
+                clearTimeout(timeoutWhite);
+                clearTimeout(timeout);
+            };
+        }else{
             body.classList.remove('mix-blend-actif');
-        }, 700);
-        const timeout = setTimeout(() => {
             setShow(true);
-        }, 1000);
-        console.log('zoomImg:', zoomImg);
-
-        return () => {
-            clearTimeout(timeoutWhite);
-            clearTimeout(timeout);
-        };
+        }
         
     }, []);
 

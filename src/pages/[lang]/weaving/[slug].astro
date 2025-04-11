@@ -80,7 +80,7 @@ export const prerender = true;
         transition:persist
     >
         {weaving?.medias? (
-            <Slider client:only medias={weaving.medias} zoomImg={weaving.zoomImg || []} />
+            <Slider client:only medias={weaving.medias} zoomImg={weaving.zoomImg || []} noTimeOut={false} />
         ) : (
             <ZoomModale client:only hidden={false} zoomImg={weaving.zoomImg || []} />
         )}

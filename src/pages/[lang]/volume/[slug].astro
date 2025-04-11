@@ -79,7 +79,7 @@ export const prerender = true;
         transition:persist
     >
         {volume?.medias? (
-            <Slider client:only medias={volume.medias} zoomImg={volume.zoomImg || []} />
+            <Slider client:only medias={volume.medias} zoomImg={volume.zoomImg || []} noTimeOut={false} />
         ) : (
             <ZoomModale client:only hidden={false} zoomImg={volume.zoomImg || []} />
         )}

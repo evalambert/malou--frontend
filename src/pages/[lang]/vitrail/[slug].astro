@@ -77,7 +77,7 @@ export const prerender = true;
         transition:persist
     >
         {vitrail?.medias? (
-            <Slider client:only medias={vitrail.medias} zoomImg={vitrail.zoomImg || []} />
+            <Slider client:only medias={vitrail.medias} zoomImg={vitrail.zoomImg || []} noTimeOut={false} />
         ) : (
             <ZoomModale client:only hidden={false} zoomImg={vitrail.zoomImg || []} />
         )}

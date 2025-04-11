@@ -76,7 +76,7 @@ export const prerender = true;
         transition:animate={fade({ duration: '0.5s' })}
     >
         {poetry?.medias? (
-            <Slider client:only medias={poetry.medias} zoomImg={poetry.zoomImg || []} />
+            <Slider client:only medias={poetry.medias} zoomImg={poetry.zoomImg || []} noTimeOut={false} />
         ) : (
             <ZoomModale client:only hidden={false} zoomImg={poetry.zoomImg || []} />
         )}
