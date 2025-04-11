@@ -11,9 +11,7 @@ const WeavingList = ({
     className,
 }) => {
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
-
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
-    const [hiddenListWidthWeaving, setHiddenListWidthWeaving] = useState(0);
 
     useEffect(() => {
         // Attendre que le DOM soit prêt
@@ -21,18 +19,8 @@ const WeavingList = ({
         if (!hiddenList) return; // Protection contre les éléments null
 
         const hiddenListHeightValue = hiddenList.clientHeight;
-        const hiddenListWidthValue = hiddenList.clientWidth;
 
         setHiddenListHeightWeaving(hiddenListHeightValue);
-        setHiddenListWidthWeaving(hiddenListWidthValue);
-
-        const liTitle = document.querySelectorAll('li.weaving-title');
-        liTitle.forEach((li) => {
-            if (li && li.nextElementSibling) {
-                const nextLiWidth = li.nextElementSibling.offsetWidth;
-                li.style.marginRight = `${nextLiWidth}px`;
-            }
-        });
     }, [homepageWeavings, hiddenWeavings]);
 
     /**
@@ -126,7 +114,7 @@ const WeavingList = ({
                 setmaxHeightValue('0px');
             } else {
                 setTranslateYValue(hiddenListHeightWeaving + 'px');
-                setTranslateXValue(hiddenListWidthWeaving + 'px');
+                setTranslateXValue('150px'); // 150 = padding-right de last li de la homepageList
                 setmaxHeightValue('300vh');
             }
             setIsOnWeavingPage(false);
@@ -147,6 +135,60 @@ const WeavingList = ({
     useEffect(() => {
         toggleListDisplay(targetHref, 'weaving', accordionOffsetY);
     }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
+
+    const homepageWeavingPadding = {
+        lotissement: 'md:pr-[442px]',
+        'fenetres-avec-vues': 'pr-[px] md:pr-[329px] justify-center',
+        'temps-libre': 'md:pr-[267px] justify-center',
+        'memento-i': 'pr-[50px] md:pr-[303px] justify-end',
+        'memento-ii': 'md:pr-[371px] justify-end',
+        'loguivy-de-la-mer': 'md:pr-[347px] justify-center',
+        'une-ville-ou-il-fait-chaud': 'md:pr-[313px]',
+        'google-maps': 'pl-[30px] md:pr-[253px]',
+        'chez-claude': 'md:pr-[191px] justify-center',
+        volcan: 'pl-[60px] md:pr-[150px] justify-center',
+    };
+    const hiddenWeavingPadding = {
+        'amphore-maison': 'md:pr-[164px] justify-end',
+        'bouilloire-et-train-sifflant': 'md:pr-[192px] justify-start',
+        'la-porte-de-mes-souvenirs': 'md:pr-[110px] justify-end',
+        'salon-moderne': 'md:pr-[48px] justify-center',
+        reverie: 'md:pr-[0px] justify-end',
+    };
+
+    const orderedSlugs = [
+        'amphore-maison',
+        'bouilloire-et-train-sifflant',
+        'la-porte-de-mes-souvenirs',
+        'salon-moderne',
+        'reverie',
+    ];
+
+    // 1. Extraire slug + title
+    const normalizedHidden = hiddenWeavings.map((weaving) => ({
+        ...weaving,
+        slug: weaving.slug || weaving.attributes?.slug,
+        title: weaving.title || weaving.attributes?.title,
+    }));
+
+    // 2. Trier selon l’ordre défini
+    const manuallySorted = orderedSlugs
+        .map((slug) => normalizedHidden.find((w) => w.slug === slug))
+        .filter(Boolean); // retire les undefined au cas où un slug ne matche pas
+
+    // 3. Le reste, hors de l’ordre manuel
+    const remaining = normalizedHidden.filter(
+        (w) => !orderedSlugs.includes(w.slug)
+    );
+
+    // 4. Trier les restants par longueur de titre décroissante
+    /*     const remainingSorted = remaining.sort(
+        (a, b) => a.title.length - b.title.length
+    );
+    const finalSortedHiddenWeavings = [...manuallySorted, ...remainingSorted]; */
+
+    // 5. Fusionner
+    const finalSortedHiddenWeavings = [...manuallySorted, ...remaining];
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -169,56 +211,58 @@ const WeavingList = ({
                 }}
             >
                 <div
-                    className={`weaving-list flex flex-col items-end overflow-hidden transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''} border-2 border-black`}
+                    className={`weaving-list flex flex-col items-end overflow-hidden transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''} `}
                     style={{
                         transform: `translate(${translateXValue}, ${translateYValue})`,
                     }}
                 >
                     {/* Liste Homepage */}
-                    <ul className='flex w-fit flex-col items-end border-2 border-red-500 px-[200px]'>
-                        <li className=''>Lotissement</li>
-                        <li className=''>Fenêtre avec vue</li>
-                        <li>Temps libre</li>
-                        <li>Memento I</li>
-                        <li>Memento II</li>
-                        <li>Longuivy de la mer</li>
-                        <li>Une ville ndcnldncndkncldnkcoù il fait chaud</li>
-                        <li>Google maps</li>
-                        <li>Chez Claude</li>
-                        <li>Volcan</li>
-                        {/* {homepageWeavings.map((weaving) => (
-                            <li
-                                className='weaving-title w-fit'
-                                key={weaving.id}
-                            >
-                                <WeavingTitle weaving={weaving} lang={lang} />
-                            </li>
-                        ))} */}
-                    </ul>
-                    {/* (END) Liste Homepage */}
+                    <ul className='flex w-[100%] max-w-[375px] flex-col items-end md:w-fit md:max-w-[unset]'>
+                        {homepageWeavings.map((weaving) => {
+                            const slug = weaving.slug; // ou .slug directement selon ta structure
+                            const paddingClass =
+                                homepageWeavingPadding[slug] || 'pr-0'; // fallback si non trouvé
 
-                    <div
-                        className={`hidden-list-weaving overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out`}
-                    >
-                        {/* Liste Hidden */}
-                        {/* {isOnWeavingPage && ( */}
-                        <ul className='flex w-fit flex-col items-end border-2 border-blue-500'>
-                            <li>Amphore maison</li>
-                            <li>Bouilloire et train sifflant</li>
-                            <li>La porte de mes souvenirs</li>
-                            <li>Salon moderne</li>
-                            <li>Rêverie</li>
-                            {/* {hiddenWeavings.map((weaving) => (
+                            return (
                                 <li
-                                    className='weaving-title w-fit'
                                     key={weaving.id}
+                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass}`}
                                 >
                                     <WeavingTitle
                                         weaving={weaving}
                                         lang={lang}
                                     />
                                 </li>
-                            ))} */}
+                            );
+                        })}
+                    </ul>
+                    {/* (END) Liste Homepage */}
+
+                    <div
+                        className={`hidden-list-weaving w-[100%] overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out md:w-fit`}
+                    >
+                        {/* Liste Hidden */}
+                        {/* {isOnWeavingPage && ( */}
+                        <ul className='flex w-[100%] flex-col items-end md:w-fit '>
+                            {finalSortedHiddenWeavings.map((weaving) => {
+                                const slug = weaving.slug;
+                                hiddenWeavingPadding[slug] || 'pr-0';
+                                const paddingClass =
+                                    hiddenWeavingPadding[weaving.slug] ||
+                                    'pr-0';
+
+                                return (
+                                    <li
+                                        className={`weaving-title flex w-[100%] justify-end md:block md:w-fit max-w-[375px] md:max-w-[unset] ${paddingClass}`}
+                                        key={weaving.id}
+                                    >
+                                        <WeavingTitle
+                                            weaving={weaving}
+                                            lang={lang}
+                                        />
+                                    </li>
+                                );
+                            })}
                         </ul>
                         {/* )} */}
                         {/* (END) Liste Hidden */}
