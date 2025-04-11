@@ -8,8 +8,18 @@ import ZoomableImg from './ZoomableImg.jsx';
 // Import Swiper styles
 import 'swiper/css';
 
-const ZoomModale = ({ medias = [], hidden }) => {
+const ZoomModale = ({ zoomImg = [], hidden }) => {
     const swiperRef = useRef(null);
+    
+
+    useEffect(() => {
+        const body = document.body;
+        if (!body.classList.contains('mix-blend-actif')) {
+            body.classList.add('mix-blend-actif');
+        } else {
+            body.classList.remove('mix-blend-actif');
+        }
+    }, []);
 
     return (
         <>
@@ -69,7 +79,7 @@ const ZoomModale = ({ medias = [], hidden }) => {
                         className='zoom-modale-slide'
                         key={`100`}
                     >
-                        <ZoomableImg url='https://res.cloudinary.com/dbfkv6zgf/image/upload/v1740734269/Capture_d_ecran_2025_02_28_a_09_52_13_f84f659d56.png' />
+                        <ZoomableImg url={zoomImg.url} />
                     </SwiperSlide>
                 </Swiper>
             </div>
