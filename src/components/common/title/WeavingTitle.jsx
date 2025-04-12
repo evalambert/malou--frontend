@@ -41,12 +41,12 @@ const WeavingTitle = ({ weaving, lang }) => {
     if (!weaving.title) return null;
 
     const paddings = [
-        'pr-[11px] pb-[11px]',
-        'pr-[2px] pb-[11px]',
-        'pr-[9px] pt-[11px]',
-        'pr-[9px] pt-[11px]',
-        'pr-[29px] pb-[11px]',
-        'pr-[26px] pt-[11px]',
+        'pr-[26px] pt-[13px]',
+        'pr-[29px] pt-[37px]',
+        'pr-[9px] pt-[28px]',
+        'pr-[9px] pt-[14px]',
+        'pr-[2px] pb-[9px]',
+        'pr-[11px] pb-[9px]',
     ];
 
     const words = weaving.title.trim().split(' ');
@@ -73,7 +73,7 @@ const WeavingTitle = ({ weaving, lang }) => {
                 onMouseEnter={() => mediaUrl && handleMouseEnter(mediaUrl)}
                 onMouseLeave={handleMouseLeave}
                 data-image-preview={mediaUrl}
-                className='inline-flex flex-wrap transition-all duration-500'
+                className='inline-flex flex-wrap items-center transition-all duration-500'
             >
                 {animatedLetters.map((char, i) => {
                     const paddingClass = paddings[startIndex + i];
@@ -102,4 +102,3 @@ const WeavingTitle = ({ weaving, lang }) => {
 };
 
 export default WeavingTitle;
-
