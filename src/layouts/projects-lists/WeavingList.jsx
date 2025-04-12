@@ -53,6 +53,7 @@ const WeavingList = ({
     /**
      * Gestion du décalage vertical du titre en fonction de l'accordéon
      */
+
     useEffect(() => {
         // Écoute l'événement personnalisé émis par l'accordéon
         const handleAccordionMovement = (event) => {
@@ -77,6 +78,7 @@ const WeavingList = ({
         };
     }, []);
 
+    
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateYValue, setTranslateYValue] = useState('100vh');
@@ -132,6 +134,7 @@ const WeavingList = ({
         }
     };
 
+    // Mise en page homepageWeavingList and hiddenWeavingList
     useEffect(() => {
         toggleListDisplay(targetHref, 'weaving', accordionOffsetY);
     }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
@@ -156,6 +159,7 @@ const WeavingList = ({
         reverie: 'md:pr-[0px] justify-end',
     };
 
+    // Order of hiddenWeavingList
     const orderedSlugs = [
         'amphore-maison',
         'bouilloire-et-train-sifflant',
@@ -180,14 +184,7 @@ const WeavingList = ({
     const remaining = normalizedHidden.filter(
         (w) => !orderedSlugs.includes(w.slug)
     );
-
-    // 4. Trier les restants par longueur de titre décroissante
-    /*     const remainingSorted = remaining.sort(
-        (a, b) => a.title.length - b.title.length
-    );
-    const finalSortedHiddenWeavings = [...manuallySorted, ...remainingSorted]; */
-
-    // 5. Fusionner
+    // 4. Fusionner
     const finalSortedHiddenWeavings = [...manuallySorted, ...remaining];
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -196,7 +193,7 @@ const WeavingList = ({
     return (
         <>
             <div
-                className={`work-list weaving-list-wrapper relative right-0 overflow-hidden transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-0 ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list weaving-list-wrapper relative right-0 overflow-hidden pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
@@ -219,9 +216,9 @@ const WeavingList = ({
                     {/* Liste Homepage */}
                     <ul className='flex w-[100%] max-w-[375px] flex-col items-end md:w-fit md:max-w-[unset]'>
                         {homepageWeavings.map((weaving) => {
-                            const slug = weaving.slug; // ou .slug directement selon ta structure
+                            const slug = weaving.slug;
                             const paddingClass =
-                                homepageWeavingPadding[slug] || 'pr-0'; // fallback si non trouvé
+                                homepageWeavingPadding[slug] || 'pr-0';
 
                             return (
                                 <li
@@ -243,7 +240,7 @@ const WeavingList = ({
                     >
                         {/* Liste Hidden */}
                         {/* {isOnWeavingPage && ( */}
-                        <ul className='flex w-[100%] flex-col items-end md:w-fit '>
+                        <ul className='flex w-[100%] flex-col items-end md:w-fit'>
                             {finalSortedHiddenWeavings.map((weaving) => {
                                 const slug = weaving.slug;
                                 hiddenWeavingPadding[slug] || 'pr-0';
@@ -253,7 +250,7 @@ const WeavingList = ({
 
                                 return (
                                     <li
-                                        className={`weaving-title flex w-[100%] justify-end md:block md:w-fit max-w-[375px] md:max-w-[unset] ${paddingClass}`}
+                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass}`}
                                         key={weaving.id}
                                     >
                                         <WeavingTitle
@@ -269,7 +266,7 @@ const WeavingList = ({
                     </div>
                 </div>
             </div>
-        </>   
+        </>
     );
 };
 
