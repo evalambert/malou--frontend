@@ -46,23 +46,28 @@ const VitrailList = ({
                 // Ajout d'un événement pour détecter la fin de l'animation
                 span.addEventListener('transitionend', () => {
                     if (index === wordWrapperSpan.length - 1 && wrapperIndex === wordWrappers.length - 1) {
-                        // Attendre un petit délai pour s'assurer que toutes les transitions sont terminées
                         setTimeout(() => {
-                            console.log('titleOnDisplay SHOW', isSlugPage);
                             const finalCoordinates = targetTitle.getBoundingClientRect();
-                            const titleOnDisplay = document.getElementById('title-on-display');
-
-                            if (titleOnDisplay) {
-                                titleOnDisplay.style.position = 'fixed';
-                                titleOnDisplay.style.top = `${finalCoordinates.top}px`;
-                                titleOnDisplay.style.left = `${finalCoordinates.left}px`;
-                                titleOnDisplay.style.width = `${finalCoordinates.width}px`;
-                                titleOnDisplay.style.height = `${finalCoordinates.height}px`;
-                                titleOnDisplay.style.display = 'block';
-                            }
+                            
+                            // Créer un lien pour chaque wordWrapper
+                            wordWrappers.forEach((wrapper) => {
+                                const wrapperRect = wrapper.getBoundingClientRect();
+                                const overlayLink = document.createElement('a');
+                                
+                                overlayLink.href = `/${lang}/vitrail/`;
+                                overlayLink.className = 'title-on-display bg-blue-800 opacity-[0.5]';
+                                overlayLink.style.position = 'fixed';
+                                overlayLink.style.top = `${wrapperRect.top}px`;
+                                overlayLink.style.left = `${wrapperRect.left}px`;
+                                overlayLink.style.width = `16px`;
+                                overlayLink.style.height = `${wrapperRect.height}px`;
+                                overlayLink.style.zIndex = '1000';
+                                
+                                document.body.appendChild(overlayLink);
+                            });
                         }, 50);
                     }
-                }, { once: true }); // L'événement ne sera déclenché qu'une seule fois
+                }, { once: true });
             });
         });
     };
@@ -103,17 +108,17 @@ const VitrailList = ({
         } else {
             setActiveHref(null);
             // Se boucle sur chaque mot du coup ferme même sur le slug…
-            const titleOnDisplay = document.getElementById('title-on-display');
-            console.log('titleOnDisplay HIDDEN', isSlugPage);
-            if (titleOnDisplay) {
-                // Réinitialisation complète des styles
-                titleOnDisplay.style.position = '';
-                titleOnDisplay.style.top = '';
-                titleOnDisplay.style.left = '';
-                titleOnDisplay.style.width = '';
-                titleOnDisplay.style.height = '';
-                titleOnDisplay.style.display = 'none';
-            }
+            // const titleOnDisplay = document.getElementById('title-on-display');
+            // console.log('titleOnDisplay HIDDEN', isSlugPage);
+            // if (titleOnDisplay) {
+            //     // Réinitialisation complète des styles
+            //     titleOnDisplay.style.position = '';
+            //     titleOnDisplay.style.top = '';
+            //     titleOnDisplay.style.left = '';
+            //     titleOnDisplay.style.width = '';
+            //     titleOnDisplay.style.height = '';
+            //     titleOnDisplay.style.display = 'none';
+            // }
         }
     }, [targetHref]);
 
@@ -249,7 +254,7 @@ const VitrailList = ({
     // Render
     return (
         <>
-            <a id="title-on-display" href={`/${lang}/vitrail/`} className='bg-blue-800 opacity-[0.5]' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></a>
+            
             <div
                 className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
             >
