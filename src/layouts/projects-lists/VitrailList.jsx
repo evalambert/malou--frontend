@@ -14,11 +14,8 @@ const VitrailList = ({
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
 
     useEffect(() => {
-
-
         const openAnimation = (targetTitle) => {
             console.log(':::: OPEN ANIMATION ::::');
-
 
             const wordWrappers = targetTitle.querySelectorAll(
                 '.vitrail-word-wrapper > div'
@@ -59,6 +56,7 @@ const VitrailList = ({
                 //     titleOnDisplay.style.left = `${coordonates.left}px`;
                 // }
                 // ///////////// ************* /////////////
+
             });
         };
 
@@ -91,11 +89,8 @@ const VitrailList = ({
         const titleLayout = () => {
             const title = document.querySelectorAll('li.vitrail-title a');
 
-
-
             // Title animation
             title.forEach((title) => {
-
 
                 if (
                     document
@@ -117,8 +112,6 @@ const VitrailList = ({
                     }
                 }
             });
-
-
         };
 
         titleLayout();
@@ -131,7 +124,6 @@ const VitrailList = ({
             setHiddenListHeightVitrail(hiddenListHeightVitrailValue);
             console.log('hiddenListHeightVitrailValue', hiddenListHeightVitrailValue);
         }, 100);
-
 
         // Recalculer lors du redimensionnement
         window.addEventListener('resize', titleLayout);
