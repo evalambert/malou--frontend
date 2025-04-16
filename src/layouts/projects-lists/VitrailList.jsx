@@ -249,9 +249,9 @@ const VitrailList = ({
     // Render
     return (
         <>
-            <div id="title-on-display" className='bg-blue-800 opacity-[0.5]' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></div>
+            <a id="title-on-display" href={`/${lang}/vitrail/`} className='bg-blue-800 opacity-[0.5]' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></a>
             <div
-                className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
+                className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
             >
                 <div
                     className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${!isOnVitrailPage ? 'cursor-pointer' : ''

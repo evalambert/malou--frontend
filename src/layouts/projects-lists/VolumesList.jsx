@@ -11,6 +11,7 @@ const VolumesList = ({
 }) => {
     const [hiddenListHeightVolume, setHiddenListHeightVolume] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
+    const [isSlugPage, setIsSlugPage] = useState(false);
 
     useEffect(() => {
         // Mobile Title Volume display
@@ -175,6 +176,8 @@ const VolumesList = ({
     };
 
     useEffect(() => {
+        const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
+        setIsSlugPage(isOnSlugPage);
         toggleListDisplay(targetHref, 'volume', accordionOffsetY);
     }, [targetHref, hiddenListHeightVolume, accordionOffsetY]);
 
@@ -186,7 +189,7 @@ const VolumesList = ({
             
             <a id="title-on-display" href={`/${lang}/volume/`} className='bg-blue-800 opacity-[0.5]' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></a>
             <div
-                className={`work-list max-md:relative max-md:top-[50vh] max-md:left-0 max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
+                className={`work-list max-md:relative max-md:top-[50vh] max-md:left-0 max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
             >
                 <div
                     className={`max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out`}

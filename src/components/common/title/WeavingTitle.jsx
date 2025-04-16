@@ -36,7 +36,7 @@ import {
 } from '../../../assets/scripts/utils/preview-img';
 
 const WeavingTitle = ({ weaving, lang }) => {
-    const [isOpen, setIsOpen] = useState(false);
+
 
     if (!weaving.title) return null;
 
@@ -59,11 +59,6 @@ const WeavingTitle = ({ weaving, lang }) => {
 
     const mediaUrl = weaving.medias?.[0]?.url;
 
-    const toggle = (e) => {
-        // Pour ne pas suivre le lien immédiatement
-        /* e.preventDefault(); */
-        setIsOpen((prev) => !prev);
-    };
 
     return (
         <div>

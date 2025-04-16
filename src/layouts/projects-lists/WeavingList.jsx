@@ -12,6 +12,7 @@ const WeavingList = ({
 }) => {
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
+    const [isSlugPage, setIsSlugPage] = useState(false);
 
     useEffect(() => {
         // Attendre que le DOM soit prêt
@@ -137,6 +138,7 @@ const WeavingList = ({
     // Mise en page homepageWeavingList and hiddenWeavingList
     useEffect(() => {
         toggleListDisplay(targetHref, 'weaving', accordionOffsetY);
+        setIsSlugPage(isOnSlugPage);
     }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
 
     const homepageWeavingPadding = {
@@ -192,8 +194,9 @@ const WeavingList = ({
     // Render
     return (
         <>
+            <a id="title-on-display" href={`/${lang}/weaving/`} className='bg-blue-800 opacity-[0.5]' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></a>
             <div
-                className={`work-list weaving-list-wrapper relative right-0 overflow-hidden pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list weaving-list-wrapper relative right-0 overflow-hidden pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
