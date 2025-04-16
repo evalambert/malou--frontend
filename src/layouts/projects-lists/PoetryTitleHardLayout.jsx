@@ -192,7 +192,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                 onUpdate: () => updateBothPaths(0),
             });
 
-            console.log('/~\/~\/~\ Accordion Change');
+            // console.log('/~\/~\/~\ Accordion Change');
         };
         const closeAccordion = () => {
             if (hardWrapper.classList.contains('accordion-open')) {
@@ -205,7 +205,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     },
                     onUpdate: () => updateBothPaths(0),
                 });
-                console.log('//~~~~~~|| Close Accordion');
+                // console.log('//~~~~~~|| Close Accordion');
             }
         };
 

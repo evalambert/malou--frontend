@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { navigate } from 'astro:transitions/client';
 
 import VitrailHiddenTitle from '../../components/common/title/VitrailHiddenTitle.jsx';
@@ -12,125 +12,160 @@ const VitrailList = ({
     className,
 }) => {
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
+    const [activeHref, setActiveHref] = useState(null);
+    const [isSlugPage, setIsSlugPage] = useState(false);
 
+    // ••• Animation d'ouverture du titre •••
+    const openAnimation = (targetTitle) => {
+        console.log(':::: OPEN ANIMATION ::::');
+
+        const wordWrappers = targetTitle.querySelectorAll(
+            '.vitrail-word-wrapper > div'
+        );
+
+        wordWrappers.forEach((wrapper, wrapperIndex) => {
+            const wordWrapperSpan = wrapper.querySelectorAll('span');
+            const wordWrapSpanLength = wordWrapperSpan.length;
+
+            wrapper.parentElement.classList.add('active');
+            wrapper.style.transition = 'all 0.5s ease-in-out';
+            wrapper.style.transitionDelay = `${wrapperIndex * 0.3}s`;
+            wrapper.style.height = `${wordWrapSpanLength * 25}px`;
+
+            const firstSpan = wordWrapperSpan[0];
+            const firstWidth = firstSpan.offsetWidth;
+
+            wrapper.parentElement.style.width = `${firstWidth * wordWrapSpanLength + 10}px`;
+
+            wordWrapperSpan.forEach((span, index) => {
+                span.style.width = `${firstWidth}px`;
+                span.style.transition = 'all 0.5s ease-in-out';
+                span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
+                span.style.transform = `translate(-${index * firstWidth}px, ${index * 25}px)`;
+
+                // Ajout d'un événement pour détecter la fin de l'animation
+                span.addEventListener('transitionend', () => {
+                    if (index === wordWrapperSpan.length - 1 && wrapperIndex === wordWrappers.length - 1) {
+                        setTimeout(() => {
+                            const finalCoordinates = targetTitle.getBoundingClientRect();
+                            
+                            // Créer un lien pour chaque wordWrapper
+                            wordWrappers.forEach((wrapper) => {
+                                const wrapperRect = wrapper.getBoundingClientRect();
+                                const overlayLink = document.createElement('a');
+                                
+                                overlayLink.href = `/${lang}/vitrail/`;
+                                overlayLink.className = 'title-on-display bg-blue-800 opacity-[0.5]';
+                                overlayLink.style.position = 'fixed';
+                                overlayLink.style.top = `${wrapperRect.top}px`;
+                                overlayLink.style.left = `${wrapperRect.left}px`;
+                                overlayLink.style.width = `16px`;
+                                overlayLink.style.height = `${wrapperRect.height}px`;
+                                overlayLink.style.zIndex = '1000';
+                                
+                                document.body.appendChild(overlayLink);
+                            });
+                        }, 50);
+                    }
+                }, { once: true });
+            });
+        });
+    };
+
+    // ••• Animation de fermeture du titre •••
+    const closeAnimation = (targetTitle) => {
+        console.log(':::: CLOSE ANIMATION ::::');
+        const wordWrappers = targetTitle.querySelectorAll(
+            '.vitrail-word-wrapper > div'
+        );
+
+        wordWrappers.forEach((wrapper, wrapperIndex) => {
+            const wordWrapperSpan = wrapper.querySelectorAll('span');
+
+            // Animation inverse
+            wrapper.style.transition = 'all 0.5s ease-in-out';
+            wrapper.style.transitionDelay = `${wrapperIndex * 0.3}s`;
+            wrapper.style.height = '0px';
+
+            wrapper.parentElement.style.width = `fit-content`;
+
+            wordWrapperSpan.forEach((span, index) => {
+                span.style.transition = 'all 0.5s ease-in-out';
+                span.style.width = `fit-content`;
+                span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
+                span.style.transform = 'translate(0, 0)';
+            });
+        });
+    };
+
+    // ••• Fonction titleLayout mémorisée •••
+    const titleLayout = useCallback(() => {
+        const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
+        setIsSlugPage(isOnSlugPage);
+
+        if (isOnSlugPage) {
+            setActiveHref(targetHref);
+        } else {
+            setActiveHref(null);
+            // Se boucle sur chaque mot du coup ferme même sur le slug…
+            // const titleOnDisplay = document.getElementById('title-on-display');
+            // console.log('titleOnDisplay HIDDEN', isSlugPage);
+            // if (titleOnDisplay) {
+            //     // Réinitialisation complète des styles
+            //     titleOnDisplay.style.position = '';
+            //     titleOnDisplay.style.top = '';
+            //     titleOnDisplay.style.left = '';
+            //     titleOnDisplay.style.width = '';
+            //     titleOnDisplay.style.height = '';
+            //     titleOnDisplay.style.display = 'none';
+            // }
+        }
+    }, [targetHref]);
+
+    // Effet pour les animations basées sur les états
     useEffect(() => {
-        const openAnimation = (targetTitle) => {
-            console.log(':::: OPEN ANIMATION ::::');
+        const title = document.querySelectorAll('li.vitrail-title a');
 
-            const wordWrappers = targetTitle.querySelectorAll(
-                '.vitrail-word-wrapper > div'
-            );
+        title.forEach((titleElement) => {
+            const titleHref = titleElement.getAttribute('href');
 
-            wordWrappers.forEach((wrapper, wrapperIndex) => {
-                const wordWrapperSpan = wrapper.querySelectorAll('span');
-                const wordWrapSpanLength = wordWrapperSpan.length;
-
-                wrapper.parentElement.classList.add('active');
-                wrapper.style.transition = 'all 0.5s ease-in-out';
-                wrapper.style.transitionDelay = `${wrapperIndex * 0.3}s`;
-                wrapper.style.height = `${wordWrapSpanLength * 25}px`;
-
-                const firstSpan = wordWrapperSpan[0];
-                const firstWidth = firstSpan.offsetWidth;
-
-                wrapper.parentElement.style.width = `${firstWidth * wordWrapSpanLength + 10}px`;
-
-                wordWrapperSpan.forEach((span, index) => {
-                    span.style.width = `${firstWidth}px`;
-                    span.style.transition = 'all 0.5s ease-in-out';
-                    span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
-                    span.style.transform = `translate(-${index * firstWidth
-                        }px, ${index * 25}px)`;
-                }); 
-
-                // CREATION DE LA DIV TITLE 
-                // let coordonates = targetTitle.getBoundingClientRect();
-                // console.log(`COUCOU REF::: top: ${coordonates.top}, left: ${coordonates.left}`);
-    
-                // // Copier targetTitle et le coller dans le div fixe
-                // const titleOnDisplay = document.getElementById('title-on-display');
-                // if (titleOnDisplay) {
-                //     titleOnDisplay.innerHTML = targetTitle.innerHTML;
-                //     titleOnDisplay.style.position = 'fixed';
-                //     titleOnDisplay.style.top = `${coordonates.top}px`;
-                //     titleOnDisplay.style.left = `${coordonates.left}px`;
-                // }
-                // ///////////// ************* /////////////
-
-            });
-        };
-
-        const closeAnimation = (targetTitle) => {
-            console.log(':::: CLOSE ANIMATION ::::');
-            const wordWrappers = targetTitle.querySelectorAll(
-                '.vitrail-word-wrapper > div'
-            );
-            wordWrappers.forEach((wrapper, wrapperIndex) => {
-                const wordWrapperSpan = wrapper.querySelectorAll('span');
-
-                // Animation inverse
-                wrapper.style.transition = 'all 0.5s ease-in-out';
-                wrapper.style.transitionDelay = `${wrapperIndex * 0.3}s`;
-                wrapper.style.height = '0px';
-
-                wrapper.parentElement.style.width = `fit-content`;
-
-                wordWrapperSpan.forEach((span) => {
-                    span.style.transition = 'all 0.5s ease-in-out';
-                    span.style.width = `fit-content`;
-                    span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
-                    span.style.transform = 'translate(0, 0)';   
-                });
-
-            });
-        };
-
-        // Title animation
-        const titleLayout = () => {
-            const title = document.querySelectorAll('li.vitrail-title a');
-
-            // Title animation
-            title.forEach((title) => {
-
-                if (
-                    document
-                        .querySelector('body') 
-                        .classList.contains('on-slug-page')
-                ) {
-                    if (title.getAttribute('href') === targetHref) {
-                        console.log(':::: Enter slug page ::::');
-                        openAnimation(title);
-                    } else {
-                        // Fermer les autres titres qui pourraient être ouverts
-                        if (title.children[0].classList.contains('active')) {
-                            closeAnimation(title);
-                        }
-                    }
-                } else {
-                    if (title.children[0].classList.contains('active')) {
-                        closeAnimation(title);
-                    }
+            if (isSlugPage && titleHref === activeHref) {
+                console.log(':::: Enter slug page ::::');
+                openAnimation(titleElement);
+            } else {
+                if (titleElement.children[0].classList.contains('active')) {
+                    closeAnimation(titleElement);
                 }
-            });
-        };
+            }
+        });
 
+    }, [isSlugPage, activeHref]);
+
+    // Effet pour les event listeners
+    useEffect(() => {
         titleLayout();
 
-        // Afficher la hauteur de la liste cachée
-        setTimeout(() => {
-            const hiddenListHeightVitrailValue = document.querySelector(
-                '.hidden-list-vitrail'
-            ).clientHeight;
-            setHiddenListHeightVitrail(hiddenListHeightVitrailValue);
-            console.log('hiddenListHeightVitrailValue', hiddenListHeightVitrailValue);
-        }, 100);
-
-        // Recalculer lors du redimensionnement
         window.addEventListener('resize', titleLayout);
         document.addEventListener('astro:after-swap', titleLayout);
 
-        // Nettoyage
-        return () => window.removeEventListener('resize', titleLayout);
+        return () => {
+            window.removeEventListener('resize', titleLayout);
+            document.removeEventListener('astro:after-swap', titleLayout);
+        };
+    }, [titleLayout]);
+
+    // Effet pour la hauteur de la liste cachée
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const hiddenList = document.querySelector('.hidden-list-vitrail');
+            if (hiddenList) {
+                const height = hiddenList.clientHeight;
+                setHiddenListHeightVitrail(height);
+                // console.log('hiddenListHeightVitrailValue', height);
+            }
+        }, 100);
+
+        return () => clearTimeout(timer);
     }, [homepageVitraux, hiddenVitraux]);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -219,9 +254,9 @@ const VitrailList = ({
     // Render
     return (
         <>
-            <div id="title-on-display" className='text-blue-800' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></div>
+            
             <div
-                className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
+                className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
             >
                 <div
                     className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${!isOnVitrailPage ? 'cursor-pointer' : ''
