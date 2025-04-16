@@ -15,13 +15,18 @@ const VitrailHomepageTitle = ({ vitrail, lang }) => {
                         vitrail.medias &&
                         vitrail.medias[0] &&
                         vitrail.medias[0].url;
+                    const zoomUrl = vitrail.zoomImg && vitrail.zoomImg.formats.thumbnail.url;
                     if (mediaUrl) {
-                        handleMouseEnter(mediaUrl);
+                        handleMouseEnter(mediaUrl, 'cover');
+                    }else if(zoomUrl){
+                        handleMouseEnter(zoomUrl, 'contain');
                     }
                 }}
                 onMouseLeave={handleMouseLeave}
                 data-image-preview={
                     vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url
+                        ? vitrail.medias[0].url
+                        : vitrail.zoomImg && vitrail.zoomImg.url
                 }
             >
                 {vitrail.title.split(' ').map((word, i, words) => (
