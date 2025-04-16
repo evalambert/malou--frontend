@@ -9,7 +9,7 @@ import AllProjectsLists from '../../../layouts/AllProjectsLists.astro';
 import PreviewImg from '../../../components/features/preview-image/PreviewImg.jsx';
 import AccordionReadProject from '../../../components/features/accordion-project/AccordionReadProject.jsx';
 import Slider from '../../../components/features/slider/Slider.jsx';
-
+import ZoomModale from '../../../components/features/slider/ZoomModale.jsx';
 export async function getStaticPaths() {
     const languages = ['fr', 'en'];
     const paths = [];
@@ -79,6 +79,10 @@ export const prerender = true;
         transition:animate={fade({ duration: '0.5s' })}
         transition:persist
     >
-        <Slider client:only medias={weaving?.medias || []} />
+        {weaving?.medias? (
+            <Slider client:only medias={weaving.medias} zoomImg={weaving.zoomImg || []} noTimeOut={false} />
+        ) : (
+            <ZoomModale client:only hidden={false} zoomImg={weaving.zoomImg || []} />
+        )}
     </div>
 </Layout>

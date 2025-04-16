@@ -41,19 +41,22 @@ const VitrailList = ({
                     span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
                     span.style.transform = `translate(-${index * firstWidth
                         }px, ${index * 25}px)`;
-                });
+                }); 
 
-                let coordonates = targetTitle.getBoundingClientRect();
-                console.log(`COUCOU REF::: top: ${coordonates.top}, left: ${coordonates.left}`);
+                // CREATION DE LA DIV TITLE 
+                // let coordonates = targetTitle.getBoundingClientRect();
+                // console.log(`COUCOU REF::: top: ${coordonates.top}, left: ${coordonates.left}`);
     
-                // Copier targetTitle et le coller dans le div fixe
-                const titleOnDisplay = document.getElementById('title-on-display');
-                if (titleOnDisplay) {
-                    titleOnDisplay.innerHTML = targetTitle.innerHTML;
-                    titleOnDisplay.style.position = 'fixed';
-                    titleOnDisplay.style.top = `${coordonates.top}px`;
-                    titleOnDisplay.style.left = `${coordonates.left}px`;
-                }
+                // // Copier targetTitle et le coller dans le div fixe
+                // const titleOnDisplay = document.getElementById('title-on-display');
+                // if (titleOnDisplay) {
+                //     titleOnDisplay.innerHTML = targetTitle.innerHTML;
+                //     titleOnDisplay.style.position = 'fixed';
+                //     titleOnDisplay.style.top = `${coordonates.top}px`;
+                //     titleOnDisplay.style.left = `${coordonates.left}px`;
+                // }
+                // ///////////// ************* /////////////
+
             });
         };
 
@@ -216,7 +219,7 @@ const VitrailList = ({
     // Render
     return (
         <>
-            <div id="title-on-display" clasName='text-blue-800' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></div>
+            <div id="title-on-display" className='text-blue-800' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></div>
             <div
                 className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
             >

@@ -61,7 +61,8 @@ body[data-page='about'] {
     }
 }
 
-body:not(.text-white) .mix-blend-target {
+body:not(.on-slug-page) .mix-blend-target,
+body.on-slug-page.mix-blend-actif .mix-blend-target {
     mix-blend-mode: difference;
 }
 
@@ -198,8 +199,12 @@ body:not(.category-vitrail) .swiper-pagination {
 .volume-list-compact > li:nth-child(odd) {
     @apply md:pt-[25px];
 }
+
 body.category-volume .cat-vitrail-flex-wrapper {
     @apply md:flex-0 md:w-0;
+}
+body.category-volume .cat-volume-flex-wrapper{
+    @apply md:flex-4;
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Titles */
