@@ -66,7 +66,7 @@ export const prerender = true;
             currentPath={Astro.url.pathname}
             transition:name='nav'
             transition:persist
-            client:load
+            client:only="react"
         />
     </div>
     <div class='md:flex-3 cat-volume-flex-wrapper'>
