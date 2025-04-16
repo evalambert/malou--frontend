@@ -1,4 +1,13 @@
 ---
+// src/components/common/ButtonReturn.astro
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const { to = '' } = Astro.props;
+const locale = Astro.currentLocale || 'fr';
+const url = getRelativeLocaleUrl(locale, to);
+---
+
+<!-- ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
 const { to = '' } = Astro.props;
@@ -12,3 +21,44 @@ const url = getRelativeLocaleUrl(locale, to);
 >
     {locale === 'fr' ? 'retour' : 'back'}
 </a>
+ --><!-- ---
+// src/components/common/ButtonReturn.astro
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const { to = '' } = Astro.props;
+const locale = Astro.currentLocale || 'fr';
+const url = getRelativeLocaleUrl(locale, to);
+---
+ -->
+<a
+    id='btn-return'
+    href={url}
+    class='fixed top-5 right-5 p-5 rotate-[-51.35deg] rounded-[4px] z-[999] hover:opacity-50 transition mix-blend-target'
+>
+    {locale === 'fr' ? 'retour' : 'back'}
+</a>
+<script>
+    const btn = document.getElementById('btn-return');
+    if (btn) {
+        btn.addEventListener('click', function (e) {
+            // 👉 Agit seulement si on est sur une slug page
+            if (document.body.classList.contains('on-slug-page')) {
+                e.preventDefault();
+
+                const url = (this as HTMLAnchorElement).href;
+
+                // 🔁 Ferme l'accordéon
+                window.dispatchEvent(
+                    new CustomEvent('closeAccordionDescription')
+                );
+
+                // ⏱️ Attend l'animation puis navigue
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 550);
+            }
+            // 🔁 Sinon, comportement normal (ex: about, catégories)
+            // → Laisse le lien agir normalement (pas de preventDefault)
+        });
+    }
+</script>

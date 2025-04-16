@@ -25,12 +25,36 @@ document.addEventListener('astro:before-preparation', (event) => {
             return;
         }
     }
-    if (document.body.classList.contains('on-slug-page')) {
+
+    /*  if (document.body.classList.contains('on-slug-page')) {
         // Fermer l'accordéon avant de quitter la page
         window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
         // Scroller en haut de la page de catégorie après retour
         //window.scrollTo({ top: 0, behavior: 'smooth' });
+    } */
+
+    // Si on est sur une page de projet (slug)
+    if (document.body.classList.contains('on-slug-page')) {
+        const currentPath = window.location.pathname;
+        const nextPath = event.detail.destination.url.pathname;
+
+        const getSlug = (path) =>
+            path.split('/').filter(Boolean).slice(1).join('/');
+
+        const currentSlug = getSlug(currentPath);
+        const nextSlug = getSlug(nextPath);
+
+        // Si seul le préfixe de langue change → ne pas fermer
+        if (currentSlug === nextSlug) {
+            console.log('Lang switch détecté, on NE ferme PAS');
+            return;
+        }
+
+        // Sinon (vrai changement de projet ou retour) → fermer
+        window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
     }
-
-
 });
+
+
+
+

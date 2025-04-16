@@ -10,49 +10,41 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
+export default function Slider({ medias = [] }) {
     const swiperRef = useRef(null);
     const [imageDimensions, setImageDimensions] = useState({});
     const [isHidden, setIsHidden] = useState(true);
     const [show, setShow] = useState(false);
 
     useEffect(() => {
-        const body = document.body;
-        if (!noTimeOut) {
-            body.classList.add('mix-blend-actif');
-            const timeoutWhite = setTimeout(() => {
-                body.classList.remove('mix-blend-actif');
-            }, 700);
-            const timeout = setTimeout(() => {
-                setShow(true);
-                console.log('show:itmeout');
-            }, 1000);
-            console.log('zoomImg:', zoomImg);
-    
-            return () => {
-                clearTimeout(timeoutWhite);
-                clearTimeout(timeout);
-            };
-        }else{
-            body.classList.remove('mix-blend-actif');
+        const timeoutWhite = setTimeout(() => {
+            document.body.classList.add('text-white');
+        }, 700);
+        const timeout = setTimeout(() => {
             setShow(true);
-            console.log('show:TOUTDESUITTTEE');
-        }
-        
+        }, 1000);
+
+        return () => {
+            clearTimeout(timeoutWhite);
+            clearTimeout(timeout);
+        };
     }, []);
 
     const handleSlideChange = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
-            const modaleToggleElement = document.querySelector('.modaleToogle');
-
             const swiper = swiperRef.current.swiper;
 
             const isLastSlide = swiper.activeIndex === swiper.slides.length - 2;
-            const wasLastSlide = swiper.previousIndex === swiper.slides.length - 2;
+            const wasLastSlide =
+                swiper.previousIndex === swiper.slides.length - 2;
 
-            if (modaleToggleElement && (isLastSlide || wasLastSlide)) {
-                modaleToggleElement.classList.toggle('hidden');
-                modaleToggleElement.classList.toggle('pointer-events-none');
+            if (isLastSlide || wasLastSlide) {
+                document
+                    .querySelector('.modaleToogle')
+                    .classList.toggle('hidden');
+                document
+                    .querySelector('.modaleToogle')
+                    .classList.toggle('pointer-events-none');
             }
         }
     };
@@ -64,6 +56,11 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         document
             .querySelector('.swiper-pagination')
             .classList.toggle('pagination-hidden');
+        if (document.body.classList.contains('text-white')) {
+            document.body.classList.replace('text-white', 'text-black');
+        } else {
+            document.body.classList.replace('text-black', 'text-white');
+        }
         setIsHidden((prevState) => !prevState);
     };
 
@@ -148,7 +145,6 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             <div
                 className={`${show ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
             >
-
                 <Swiper
                     ref={swiperRef}
                     slidesPerView={'auto'}
@@ -192,15 +188,10 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                         )
                     )}
                 </Swiper>
-
-                {zoomImg && zoomImg.url && (
-                    <>
-                        <button className='modaleToogle pointer-events-none fixed top-0 right-0 z-10 hidden h-full w-full cursor-pointer mix-blend-difference md:w-[50%]'>
-                            <span>close</span>
-                        </button>
-                        <ZoomModale hidden={isHidden} zoomImg={zoomImg} />
-                    </>
-                )}
+                <button className='modaleToogle pointer-events-none fixed top-0 right-0 z-10 hidden h-full w-full cursor-pointer mix-blend-difference md:w-[50%]'>
+                    <span>close</span>
+                </button>
+                <ZoomModale medias={medias} hidden={isHidden} />
             </div>
         </>
     );
