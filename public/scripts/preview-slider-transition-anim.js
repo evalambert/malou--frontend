@@ -53,6 +53,11 @@ document.addEventListener('astro:before-preparation', (event) => {
         // Sinon (vrai changement de projet ou retour) → fermer
         window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
     } */
+
+    
+    
+    
+    
 });
 
 
