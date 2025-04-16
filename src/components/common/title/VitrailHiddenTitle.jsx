@@ -22,6 +22,8 @@ const VitrailHiddenTitle = ({ vitrail, lang }) => {
                 onMouseLeave={handleMouseLeave}
                 data-image-preview={
                     vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url
+                        ? vitrail.medias[0].url
+                        : vitrail.zoomImg && vitrail.zoomImg.url
                 }
             >
                 {vitrail.title.split(' ').map((word, i, words) => (
