@@ -41,24 +41,17 @@ const url = getRelativeLocaleUrl(locale, to);
     const btn = document.getElementById('btn-return');
     if (btn) {
         btn.addEventListener('click', function (e) {
-            // 👉 Agit seulement si on est sur une slug page
-            if (document.body.classList.contains('on-slug-page')) {
-                e.preventDefault();
+            e.preventDefault();
 
-                const url = (this as HTMLAnchorElement).href;
+            const url = (this as HTMLAnchorElement).href;
 
-                // 🔁 Ferme l'accordéon
-                window.dispatchEvent(
-                    new CustomEvent('closeAccordionDescription')
-                );
+            // 🔁 Déclenche la fermeture de l'accordéon
+            window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
 
-                // ⏱️ Attend l'animation puis navigue
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 550);
-            }
-            // 🔁 Sinon, comportement normal (ex: about, catégories)
-            // → Laisse le lien agir normalement (pas de preventDefault)
+            // ⏱️ Attend la fin de l’animation avant de naviguer
+            setTimeout(() => {
+                window.location.href = url;
+            }, 550); // adapte à la durée exacte de ta transition
         });
     }
 </script>
