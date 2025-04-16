@@ -26,14 +26,14 @@ document.addEventListener('astro:before-preparation', (event) => {
         }
     }
 
-    /*  if (document.body.classList.contains('on-slug-page')) {
+     if (document.body.classList.contains('on-slug-page')) {
         // Fermer l'accordéon avant de quitter la page
         window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
         // Scroller en haut de la page de catégorie après retour
         //window.scrollTo({ top: 0, behavior: 'smooth' });
-    } */
+    }
 
-    // Si on est sur une page de projet (slug)
+/*     // Si on est sur une page de projet (slug)
     if (document.body.classList.contains('on-slug-page')) {
         const currentPath = window.location.pathname;
         const nextPath = event.detail.destination.url.pathname;
@@ -52,7 +52,7 @@ document.addEventListener('astro:before-preparation', (event) => {
 
         // Sinon (vrai changement de projet ou retour) → fermer
         window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
-    }
+    } */
 });
 
 
