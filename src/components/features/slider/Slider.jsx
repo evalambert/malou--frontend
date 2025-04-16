@@ -25,9 +25,9 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             }, 700);
             const timeout = setTimeout(() => {
                 setShow(true);
-                console.log('show:itmeout');
+                // console.log('show:itmeout');
             }, 1000);
-            console.log('zoomImg:', zoomImg);
+            // console.log('zoomImg:', zoomImg);
     
             return () => {
                 clearTimeout(timeoutWhite);
@@ -36,7 +36,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         }else{
             body.classList.remove('mix-blend-actif');
             setShow(true);
-            console.log('show:TOUTDESUITTTEE');
+            // console.log('show:TOUTDESUITTTEE');
         }
         
     }, []);
