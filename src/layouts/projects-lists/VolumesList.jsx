@@ -58,22 +58,6 @@ const VolumesList = ({
                     }
                 }
 
-                // if (title.closest('.preview-list-volume')?.querySelector('.volume-list-compact li:first-child') === title){
-                //     title.classList.add('preview-list-volume-first');
-                //     if (maxLenghtPhrase > 0 && maxLenghtPhrase < windowWidth) {
-                //         title.style.paddingLeft = `${lastTitleWidth}px`;
-                //         document.querySelector('.hidden-list-volume-last').style.paddingTop = `50px`;
-                //         document.querySelector('.preview-list-volume').style.marginTop = `-50px`;
-
-                //     }
-                // }
-
-                // if (title.closest('.hidden-list-volume')?.querySelector('.volume-list-compact li:last-child') === title) {
-                //     title.classList.add('hidden-list-volume-last');
-                //     if (titleWidth < windowWidth) {
-                //         lastTitleWidth = titleWidth;
-                //     }
-                // }
             });
         }
     });
@@ -91,6 +75,24 @@ const VolumesList = ({
             title.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
                     title.parentElement.classList.add('active');
+                    
+                    // Ajouter un écouteur d'événement pour détecter la fin de l'animation
+                    const spans = title.querySelectorAll('span');
+                    const lastSpan = spans[spans.length - 1];
+                    
+                    lastSpan.addEventListener('transitionend', () => {
+                        const finalCoordinates = title.parentElement.getBoundingClientRect();
+                        const titleOnDisplay = document.getElementById('title-on-display');
+                        console.log('titlE HAHAHAHA');
+                        if (titleOnDisplay) {
+                            titleOnDisplay.style.position = 'fixed';
+                            titleOnDisplay.style.top = `${finalCoordinates.top}px`;
+                            titleOnDisplay.style.left = `${finalCoordinates.left}px`;
+                            titleOnDisplay.style.width = `${finalCoordinates.width}px`;
+                            titleOnDisplay.style.height = `${finalCoordinates.height}px`;
+                            titleOnDisplay.style.display = 'block';
+                        }
+                    }, { once: true }); // L'événement ne sera déclenché qu'une seule fois
                 } else {
                     title.parentElement.classList.remove('active');
                 }
@@ -176,27 +178,13 @@ const VolumesList = ({
         toggleListDisplay(targetHref, 'volume', accordionOffsetY);
     }, [targetHref, hiddenListHeightVolume, accordionOffsetY]);
 
-    // RECHERCHE ::: Copy le titre ACTIF et le place en Fixed / Relative on mobile
-    // useEffect(() => {
-    //     const activeTitle = document.querySelector('.work-list .active');
-    //     if (activeTitle) {
-    //         setTimeout(() => {
-    //             const titleBound = activeTitle.getBoundingClientRect();
-    //             const fixedTitle = activeTitle.cloneNode(true);
-    //             const fixedTitleContainer = document.createElement('div');
-    //             fixedTitleContainer.id = 'fixed-title';
-    //             fixedTitleContainer.style.position = window.innerWidth < 768 ? 'relative' : 'fixed';
-    //             fixedTitleContainer.style.top = `${titleBound.top}px`;
-    //             fixedTitleContainer.style.left = `${titleBound.left}px`;
-    //             fixedTitleContainer.appendChild(fixedTitle);
-    //             document.body.appendChild(fixedTitleContainer);
-    //         }, 1000);
-    //     }
-    // }, []); // Exécuté une fois au montage du composant
+
 
     // Render
     return (
         <>
+            
+            <a id="title-on-display" href={`/${lang}/volume/`} className='bg-blue-800 opacity-[0.5]' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></a>
             <div
                 className={`work-list max-md:relative max-md:top-[50vh] max-md:left-0 max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''}`}
             >
@@ -205,9 +193,9 @@ const VolumesList = ({
                     onClick={
                         !isOnVolumePage
                             ? () =>
-                                  navigate(`/${lang}/volume/`, {
-                                      history: 'push',
-                                  })
+                                navigate(`/${lang}/volume/`, {
+                                    history: 'push',
+                                })
                             : undefined
                     }
                     style={{
