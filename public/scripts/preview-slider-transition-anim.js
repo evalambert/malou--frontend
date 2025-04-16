@@ -33,7 +33,7 @@ document.addEventListener('astro:before-preparation', (event) => {
         //window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-/*     // Si on est sur une page de projet (slug)
+   /*  // Si on est sur une page de projet (slug)
     if (document.body.classList.contains('on-slug-page')) {
         const currentPath = window.location.pathname;
         const nextPath = event.detail.destination.url.pathname;
@@ -54,6 +54,7 @@ document.addEventListener('astro:before-preparation', (event) => {
         window.dispatchEvent(new CustomEvent('closeAccordionDescription'));
     } */
 });
+
 
 
 
