@@ -1,7 +1,6 @@
-//src/layouts/About.jsx
 import { useEffect, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
-import gsap from 'gsap';
+import { fadeState } from '../../assets/scripts/utils/fadeMemory.js';
 import {
     activeComponent,
     toggleComponent,
@@ -14,49 +13,62 @@ export default function AboutComponent({ about, lang }) {
     const aboutRef = useRef(null);
     const actuHeight = useStore(heightActu);
     const [isMobile, setIsMobile] = useState(false);
-    const [show, setShow] = useState(false);
-    const [fadeOut, setFadeOut] = useState(false);
+    const [show, setShow] = useState(fadeState.about);
 
-    /* ----- FadeIn animation onEnter AboutPage ---- */
+    /* ------ FadeIn animation onEnter on AboutPage ------ */
     useEffect(() => {
-        const timer = setTimeout(() => {
+        // Si fadeState.about est false, on lance le fade-in
+        if (!fadeState.about) {
+            const timer = setTimeout(() => {
+                setShow(true);
+                fadeState.about = true;
+            }, 500); // ou la durée que tu veux
+            return () => clearTimeout(timer);
+        } else {
+            // Si fadeState.about est déjà true, on ne fait rien
             setShow(true);
-        }, 1000);
-
-        return () => clearTimeout(timer);
+        }
     }, []);
 
-    /* ------ Close ActuComponent onEnter AboutPage ------ */
+    /* ------ Reset fadeIn onLeave AboutPage ------ */
     useEffect(() => {
-        // On force la réinitialisation de activeComponent à 'about' à chaque fois que AboutPage est montée
+        return () => {
+            const stillOnAbout = window.location.pathname.includes('/about');
+            if (!stillOnAbout) {
+                console.log('[AboutComponent] 👋 On quitte la page About');
+                fadeState.about = false;
+            } else {
+                console.log(
+                    '[AboutComponent] ⏹ Toujours sur About, pas de reset'
+                );
+            }
+        };
+    }, []);
+
+    /* ------ Forcer "about" actif ------ */
+    useEffect(() => {
         activeComponent.set('about');
-    }, []); // Le tableau vide garantit que cet effet s'exécute seulement lors du montage de AboutPage
+    }, []);
 
-    /* ------actuHeight ------ */
-    // Fonction pour recalculer la hauteur et vérifier la taille de l'écran
-    const updateHeight = () => {
-        if (aboutRef.current) {
-            heightAbout.set(aboutRef.current.scrollHeight);
-        }
-    };
-
-    // Mettre à jour la hauteur lors du montage et du resize
+    /* ------ Calcul hauteur ------ */
     useEffect(() => {
+        const updateHeight = () => {
+            if (aboutRef.current) {
+                heightAbout.set(aboutRef.current.scrollHeight);
+            }
+        };
         updateHeight();
         window.addEventListener('resize', updateHeight);
         return () => window.removeEventListener('resize', updateHeight);
     }, []);
 
-    /* ------ isMobile ------ */
+    /* ------ Détection mobile ------ */
     useEffect(() => {
-        // Vérifie si window est accessible et met à jour isMobile
         const checkIsMobile = () => {
             setIsMobile(window.innerWidth < 768);
         };
-
-        checkIsMobile(); // Exécute au montage
+        checkIsMobile();
         window.addEventListener('resize', checkIsMobile);
-
         return () => window.removeEventListener('resize', checkIsMobile);
     }, []);
 
@@ -67,9 +79,7 @@ export default function AboutComponent({ about, lang }) {
                 active === 'about'
                     ? 'md:top-0 md:h-full'
                     : 'md:top-[calc(-100vh)] md:h-0'
-            } ${show ? 'opacity-100' : 'opacity-0'} ${
-                fadeOut ? 'opacity-0 transition-opacity duration-1000' : ''
-            } overflow-hidden transition-all duration-500 ease-in-out`}
+            } ${show ? 'opacity-100' : 'opacity-0'} overflow-hidden transition-all duration-500 ease-in-out`}
             style={
                 isMobile
                     ? { top: active === 'about' ? '0px' : `${actuHeight}px` }
@@ -82,10 +92,12 @@ export default function AboutComponent({ about, lang }) {
             >
                 {lang === 'fr' ? 'à propos' : 'about'}
             </button>
+
             <div className='wrapper--bio flex md:order-2'>
                 <div className='fake-nav hidden w-[170px] flex-none md:block'></div>
                 <p className='bio'>{about.bio}</p>
             </div>
+
             <div className='wrapper--email flex md:order-1'>
                 <div className='fake-nav hidden h-[131px] w-[270px] flex-none md:block'></div>
                 <div className='email flex flex-1 items-center justify-center'>
@@ -94,12 +106,13 @@ export default function AboutComponent({ about, lang }) {
                     </p>
                 </div>
             </div>
+
             <div className='wrappper--phone flex justify-end md:order-3 md:justify-start'>
-                {/*  <p>{about.studio}, {about.city}</p> */}
                 <p className='rotate-[15.72deg] pt-[8px] pb-[24px] md:rotate-45 md:ps-[47px] md:pt-[31px]'>
                     {about.phone}
                 </p>
             </div>
+
             <div className='wrapper--credits flex flex-1 flex-col items-center justify-end text-center md:order-4 md:items-end md:pe-20'>
                 <div className='flex h-fit rotate-[-16deg] flex-col items-center justify-center pt-[5px] pb-[50px] md:px-4 md:py-12'>
                     <p>©{about.update}</p>
