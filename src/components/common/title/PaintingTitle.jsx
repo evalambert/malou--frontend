@@ -24,27 +24,35 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
 
         const container = document.getElementById('floating-title-container');
         if (container) {
-            let titleElement = document.getElementById('title-on-display');
+            // Supprimer les anciens liens s'ils existent
+            const existingLinks = container.querySelectorAll('.letter-link');
+            existingLinks.forEach(link => link.remove());
             
-            if (!titleElement) {
-                titleElement = document.createElement('a');
-                titleElement.id = 'title-on-display';
-                titleElement.href = `/${lang}/painting/`;
-                titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
-                container.appendChild(titleElement);
-            }
-            
-            Object.assign(titleElement.style, {
-                top: `${positionRef.current.top + window.scrollY}px`,
-                left: `${positionRef.current.left + window.scrollX}px`,
-                width: `${positionRef.current.width}px`,
-                height: `${positionRef.current.height}px`,
-                cursor: 'pointer'
+            // Créer un lien pour chaque lettre
+            const letters = linkRef.current.querySelectorAll('.paint--letter');
+            letters.forEach((letter) => {
+                const letterRect = letter.getBoundingClientRect();
+                const overlayLink = document.createElement('a');
+                
+                overlayLink.href = `/${lang}/painting/${painting.slug}/`;
+                overlayLink.className = 'letter-link fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
+                overlayLink.style.top = `${letterRect.top + window.scrollY}px`;
+                overlayLink.style.left = `${letterRect.left + window.scrollX}px`;
+                overlayLink.style.width = `${letterRect.width}px`;
+                overlayLink.style.height = `${letterRect.height}px`;
+                overlayLink.style.cursor = 'pointer';
+                
+                // Ajouter les événements de survol pour l'aperçu
+                overlayLink.onmouseenter = () => {
+                    const mediaUrl = painting.medias?.[0]?.url;
+                    if (mediaUrl) {
+                        handleMouseEnter(mediaUrl);
+                    }
+                };
+                overlayLink.onmouseleave = handleMouseLeave;
+                
+                container.appendChild(overlayLink);
             });
-
-            return () => {
-                titleElement.remove();
-            };
         }
     };
 
@@ -60,15 +68,27 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                 const newTitleHeight = firstSpanTranslateY + 32;
                 title.style.height = `${newTitleHeight}px`;
                 
-                setTimeout(() => {
-                    updatePosition();
-                    const cleanup = createFloatingTitle();
-                    title.querySelectorAll('span').forEach((span, index) => {
-                        const translateY = (spansLength - 1 - index) * 15;
-                        span.style.transform = `translateY(-${translateY}px)`;
-                    });
-                    return () => cleanup && cleanup();
-                }, 500);
+                // On met à jour la position immédiatement
+                updatePosition();
+                
+                requestAnimationFrame(() => {
+                    const spans = title.querySelectorAll('span');
+                    const lastSpan = spans[spans.length - 1];
+           
+                    // On applique les transformations avec un délai
+                    setTimeout(() => {
+                        spans.forEach((span, index) => {
+                            const translateY = (spansLength - 1 - index) * 15;
+                            span.style.transform = `translateY(-${translateY}px)`;
+                            if (index === spans.length - 1) {
+                                setTimeout(() => {
+                                    createFloatingTitle();
+                                }, 1000);
+                            }
+                        });
+                        
+                    }, 50); // Réduit à 50ms pour être plus réactif
+                });
             }
         } else {
             setShouldAnimate(false);
@@ -84,10 +104,11 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
 
     // Effet pour gérer accordionOffsetY
     useEffect(() => {
-        const titleElement = document.getElementById('title-on-display');
-        if (titleElement) {
+        console.log('accordionOffsetY', accordionOffsetY);
+        const titleElements = document.querySelectorAll('.letter-link');
+        titleElements.forEach(titleElement => {
             titleElement.style.transform = `translateY(${accordionOffsetY}px)`;
-        }
+        });
     }, [isActive, accordionOffsetY]);
 
     // Effet pour gérer le resize
@@ -126,7 +147,7 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
             >
                 {painting.title.split('').map((letter, index) => (
                     <span
-                        className={`inline-block transition-all duration-500`}
+                        className={`paint--letter inline-block transition-all duration-500`}
                         key={index}
                     >
                         {letter}

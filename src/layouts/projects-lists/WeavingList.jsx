@@ -277,6 +277,7 @@ const WeavingList = ({
                                             weaving={weaving}
                                             lang={lang}
                                             isActive={isActive}
+                                            accordionOffsetY={accordionOffsetY}
                                         />
                                     </li>
                                 );
