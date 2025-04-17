@@ -1,34 +1,3 @@
-/* import {
-    handleMouseEnter,
-    handleMouseLeave,
-} from '../../../assets/scripts/utils/preview-img';
-
-const WeavingTitle = ({ weaving, lang }) => {
-    return (
-        <div>
-            <a
-                href={`/${lang}/weaving/${weaving.slug}/`}
-                onMouseEnter={() => {
-                    const mediaUrl =
-                        weaving.medias &&
-                        weaving.medias[0] &&
-                        weaving.medias[0].url;
-                    if (mediaUrl) {
-                        handleMouseEnter(mediaUrl);
-                    }
-                }}
-                onMouseLeave={handleMouseLeave}
-                data-image-preview={
-                    weaving.medias && weaving.medias[0] && weaving.medias[0].url
-                }
-            >
-                {weaving.title}
-            </a>
-        </div>
-    );
-};
-export default WeavingTitle; */
-
 import { useState, useEffect, useRef } from 'react';
 import {
     handleMouseEnter,
@@ -40,6 +9,30 @@ const WeavingTitle = ({ weaving, lang, isActive }) => {
     const [shouldAnimate, setShouldAnimate] = useState(false);
     const [linkPosition, setLinkPosition] = useState(null);
     const linkRef = useRef(null);
+
+    const createFloatingTitle = () => {
+        if (!isActive || !linkPosition) return;
+
+        const container = document.getElementById('floating-title-container');
+        if (container) {
+            const titleElement = document.createElement('a');
+            titleElement.id = 'title-on-display';
+            titleElement.href = `/${lang}/weaving/`;
+            titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000]';
+            Object.assign(titleElement.style, { 
+                top: `${linkPosition.top + window.scrollY}px`,
+                left: `${linkPosition.left + window.scrollX}px`,
+                width: `${linkPosition.width}px`,
+                height: `${linkPosition.height}px`,
+                cursor: 'pointer'
+            });
+            container.appendChild(titleElement);
+
+            return () => {
+                titleElement.remove();
+            };
+        }
+    };
 
     useEffect(() => {
         setIsOpen(isActive);
@@ -62,27 +55,21 @@ const WeavingTitle = ({ weaving, lang, isActive }) => {
     }, [isActive]);
 
     useEffect(() => {
-        if (isActive && linkPosition) {
-            const container = document.getElementById('floating-title-container');
-            if (container) {
-                const titleElement = document.createElement('a');
-                titleElement.id = 'title-on-display';
-                titleElement.href = `/${lang}/weaving/`;
-                titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000]';
-                Object.assign(titleElement.style, { 
-                    top: `${linkPosition.top + window.scrollY}px`,
-                    left: `${linkPosition.left + window.scrollX}px`,
-                    width: `${linkPosition.width}px`,
-                    height: `${linkPosition.height}px`,
-                    cursor: 'pointer'
-                });
-                container.appendChild(titleElement);
+        const cleanup = createFloatingTitle();
 
-                return () => {
-                    titleElement.remove();
-                };
+        const handleResize = () => {
+            if (linkRef.current) {
+                const rect = linkRef.current.getBoundingClientRect();
+                setLinkPosition(rect);
             }
-        }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            cleanup && cleanup();
+            window.removeEventListener('resize', handleResize);
+        };
     }, [isActive, linkPosition, lang]);
 
     if (!weaving.title) return null;
@@ -106,7 +93,6 @@ const WeavingTitle = ({ weaving, lang, isActive }) => {
 
     const mediaUrl = weaving.medias?.[0]?.url;
 
-
     return (
         <>
             <div>
@@ -123,8 +109,7 @@ const WeavingTitle = ({ weaving, lang, isActive }) => {
                         return (
                             <span
                                 key={i}
-                                className={`inline-block transition-all duration-500 ${isOpen && shouldAnimate ? paddingClass : ''
-                                    }`}
+                                className={`inline-block transition-all duration-500 ${isOpen && shouldAnimate ? paddingClass : ''}`}
                             >
                                 {char}
                             </span>
