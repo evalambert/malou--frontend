@@ -29,7 +29,7 @@ const WeavingTitle = ({ weaving, lang }) => {
 };
 export default WeavingTitle; */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
     handleMouseEnter,
     handleMouseLeave,
@@ -38,6 +38,8 @@ import {
 const WeavingTitle = ({ weaving, lang, isActive }) => {
     const [isOpen, setIsOpen] = useState(isActive);
     const [shouldAnimate, setShouldAnimate] = useState(false);
+    const [linkPosition, setLinkPosition] = useState(null);
+    const linkRef = useRef(null);
 
     useEffect(() => {
         setIsOpen(isActive);
@@ -45,12 +47,43 @@ const WeavingTitle = ({ weaving, lang, isActive }) => {
         if (isActive) {
             const timer = setTimeout(() => {
                 setShouldAnimate(true);
+                setTimeout(() => {
+                    if (linkRef.current) {
+                        const rect = linkRef.current.getBoundingClientRect();
+                        setLinkPosition(rect);
+                    }
+                }, 500);
             }, 50);
             return () => clearTimeout(timer);
         } else {
             setShouldAnimate(false);
+            setLinkPosition(null);
         }
     }, [isActive]);
+
+    useEffect(() => {
+        if (isActive && linkPosition) {
+            const container = document.getElementById('floating-title-container');
+            if (container) {
+                const titleElement = document.createElement('a');
+                titleElement.id = 'title-on-display';
+                titleElement.href = `/${lang}/weaving/`;
+                titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000]';
+                Object.assign(titleElement.style, { 
+                    top: `${linkPosition.top + window.scrollY}px`,
+                    left: `${linkPosition.left + window.scrollX}px`,
+                    width: `${linkPosition.width}px`,
+                    height: `${linkPosition.height}px`,
+                    cursor: 'pointer'
+                });
+                container.appendChild(titleElement);
+
+                return () => {
+                    titleElement.remove();
+                };
+            }
+        }
+    }, [isActive, linkPosition, lang]);
 
     if (!weaving.title) return null;
 
@@ -78,12 +111,12 @@ const WeavingTitle = ({ weaving, lang, isActive }) => {
         <>
             <div>
                 <a
+                    ref={linkRef}
                     href={`/${lang}/weaving/${weaving.slug}/`}
                     onMouseEnter={() => mediaUrl && handleMouseEnter(mediaUrl)}
                     onMouseLeave={handleMouseLeave}
                     data-image-preview={mediaUrl}
-                    className={`inline-flex flex-wrap items-center transition-all duration-500 ${isActive ? 'active' : ''
-                        }`}
+                    className={`inline-flex flex-wrap items-center transition-all duration-500 ${isActive ? 'active' : ''}`}
                 >
                     {animatedLetters.map((char, i) => {
                         const paddingClass = paddings[startIndex + i];

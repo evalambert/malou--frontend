@@ -207,38 +207,12 @@ const WeavingList = ({
         setActiveWeavingSlug(slug);
     }, [targetHref]);
 
-    useEffect(() => {
-        const titleLayout = () => {
-            const title = document.querySelectorAll('li.volume-title a');
-            title.forEach((title) => {
-                if (title.getAttribute('href') === targetHref) {
-                    // Ajouter un écouteur d'événement pour détecter la fin de l'animation
-                    const spans = title.querySelectorAll('span');
-                    const lastSpan = spans[spans.length - 1];
-
-                    lastSpan.addEventListener('transitionend', () => {
-                        const finalCoordinates = title.parentElement.getBoundingClientRect();
-                        const titleOnDisplay = document.getElementById('title-on-display');
-                        if (titleOnDisplay) {
-                            titleOnDisplay.style.position = 'fixed';
-                            titleOnDisplay.style.top = `${finalCoordinates.top}px`;
-                            titleOnDisplay.style.left = `${finalCoordinates.left}px`;
-                            titleOnDisplay.style.width = `${finalCoordinates.width}px`;
-                            titleOnDisplay.style.height = `${finalCoordinates.height}px`;
-                            titleOnDisplay.style.display = 'block';
-                        }
-                    }, { once: true }); // L'événement ne sera déclenché qu'une seule fois
-                }
-            })
-        };
-        titleLayout();
-    }, [targetHref]);
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Render
     return (
         <>
-            <a id="title-on-display" href={`/${lang}/weaving/`} className='bg-blue-800 opacity-[0.5]' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></a>
+            {/* <a id="title-on-display" href={`/${lang}/weaving/`} className='bg-blue-800 opacity-[0.5]' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></a> */}
             <div
                 className={`work-list weaving-list-wrapper relative right-0 overflow-hidden pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
                 onClick={

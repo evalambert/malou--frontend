@@ -51,6 +51,7 @@ const categoryClass = (categoryMatch ? `category-${categoryMatch[1]}` : '') + ''
         <main>
             {showReturn && <ButtonReturn to={returnTo} />}
             <slot />
+            <div id="floating-title-container"></div>
         </main>
     </body>
 </html>
