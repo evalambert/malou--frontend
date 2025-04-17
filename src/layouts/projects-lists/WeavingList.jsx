@@ -213,7 +213,7 @@ const WeavingList = ({
     return (
         <>
             <div
-                className={`work-list weaving-list-wrapper relative right-0 overflow-hidden pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list weaving-list-wrapper relative right-0 overflow-visible pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
@@ -249,6 +249,7 @@ const WeavingList = ({
                                         weaving={weaving}
                                         lang={lang}
                                         isActive={isActive}
+                                        accordionOffsetY={accordionOffsetY}
                                     />
                                 </li>
                             );

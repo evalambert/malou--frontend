@@ -1,32 +1,52 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
     handleMouseEnter,
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
-const WeavingTitle = ({ weaving, lang, isActive }) => {
+const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
     const [isOpen, setIsOpen] = useState(isActive);
     const [shouldAnimate, setShouldAnimate] = useState(false);
-    const [linkPosition, setLinkPosition] = useState(null);
     const linkRef = useRef(null);
+    const positionRef = useRef(null);
+
+    const updatePosition = () => {
+        if (linkRef.current) {
+            const rect = linkRef.current.getBoundingClientRect();
+            positionRef.current = rect;
+            return rect;
+        }
+        return null;
+    };
+
 
     const createFloatingTitle = () => {
-        if (!isActive || !linkPosition) return;
+        if (!isActive || !positionRef.current) return;
 
         const container = document.getElementById('floating-title-container');
         if (container) {
-            const titleElement = document.createElement('a');
-            titleElement.id = 'title-on-display';
-            titleElement.href = `/${lang}/weaving/`;
-            titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000]';
-            Object.assign(titleElement.style, { 
-                top: `${linkPosition.top + window.scrollY}px`,
-                left: `${linkPosition.left + window.scrollX}px`,
-                width: `${linkPosition.width}px`,
-                height: `${linkPosition.height}px`,
+            
+            // Vérifier si le titre existe déjà
+            let titleElement = document.getElementById('title-on-display');
+            
+            if (!titleElement) {
+                // Créer un nouveau titre s'il n'existe pas
+                titleElement = document.createElement('a');
+                titleElement.id = 'title-on-display';
+                titleElement.href = `/${lang}/weaving/`;
+                titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
+                container.appendChild(titleElement);
+            }
+
+            
+            // Mettre à jour les propriétés de style (que le titre soit nouveau ou existant)
+            Object.assign(titleElement.style, {
+                top: `${positionRef.current.top + window.scrollY}px`,
+                left: `${positionRef.current.left + window.scrollX}px`,
+                width: `${positionRef.current.width}px`,
+                height: `${positionRef.current.height}px`,
                 cursor: 'pointer'
             });
-            container.appendChild(titleElement);
 
             return () => {
                 titleElement.remove();
@@ -34,43 +54,55 @@ const WeavingTitle = ({ weaving, lang, isActive }) => {
         }
     };
 
+    // Effet pour gérer l'état active et l'animation
     useEffect(() => {
         setIsOpen(isActive);
-
         if (isActive) {
-            const timer = setTimeout(() => {
-                setShouldAnimate(true);
-                setTimeout(() => {
-                    if (linkRef.current) {
-                        const rect = linkRef.current.getBoundingClientRect();
-                        setLinkPosition(rect);
-                    }
-                }, 500);
-            }, 50);
-            return () => clearTimeout(timer);
+            setShouldAnimate(true);
+            
+            // Attendre la fin de l'animation avant de créer le titre flottant
+            const animationTimeout = setTimeout(() => {
+                updatePosition(); // Mettre à jour la position APRÈS l'animation
+                const cleanup = createFloatingTitle();
+                return () => cleanup && cleanup();
+            }, 500); // 500ms correspond à la durée de l'animation (duration-500)
+
+            return () => clearTimeout(animationTimeout);
         } else {
             setShouldAnimate(false);
-            setLinkPosition(null);
         }
     }, [isActive]);
 
+    // Modifier l'effet existant pour ne gérer que le resize
+    // Effet pour gérer accordionOffsetY
     useEffect(() => {
-        const cleanup = createFloatingTitle();
+        
+        console.log('accordionOffsetY', accordionOffsetY);
+        // Mettre à jour la position Y du titre flottant en fonction de accordionOffsetY
+        const titleElement = document.getElementById('title-on-display');
+        if (titleElement) {
+            titleElement.style.transform = `translateY(${accordionOffsetY}px)`;
+        }
+
+    }, [isActive, accordionOffsetY]);
+
+    // Effet séparé pour gérer le resize
+    useEffect(() => {
+        if (!isActive) return;
 
         const handleResize = () => {
-            if (linkRef.current) {
-                const rect = linkRef.current.getBoundingClientRect();
-                setLinkPosition(rect);
-            }
+            updatePosition();
+            const cleanup = createFloatingTitle();
+            return () => cleanup && cleanup();
         };
 
         window.addEventListener('resize', handleResize);
 
         return () => {
-            cleanup && cleanup();
             window.removeEventListener('resize', handleResize);
         };
-    }, [isActive, linkPosition, lang]);
+    }, [isActive, lang]);
+
 
     if (!weaving.title) return null;
 
