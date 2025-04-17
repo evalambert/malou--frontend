@@ -15,11 +15,11 @@ const VitrailHomepageTitle = ({ vitrail, lang }) => {
                         vitrail.medias &&
                         vitrail.medias[0] &&
                         vitrail.medias[0].url;
-                    const zoomUrl = vitrail.zoomImg && vitrail.zoomImg.formats.thumbnail.url;
+                    const zoomUrl = vitrail.zoomImg && vitrail.zoomImg.url;
                     if (mediaUrl) {
-                        handleMouseEnter(mediaUrl, 'cover');
-                    }else if(zoomUrl){
-                        handleMouseEnter(zoomUrl, 'contain');
+                        handleMouseEnter(mediaUrl);
+                    } else if (zoomUrl) {
+                        handleMouseEnter(zoomUrl);
                     }
                 }}
                 onMouseLeave={handleMouseLeave}
@@ -38,7 +38,7 @@ const VitrailHomepageTitle = ({ vitrail, lang }) => {
                             {word.split('').map((letter, j) => (
                                 <span
                                     key={j}
-                                    className='transition-all duration-300 '
+                                    className='transition-all duration-300'
                                 >
                                     {letter}
                                 </span>
