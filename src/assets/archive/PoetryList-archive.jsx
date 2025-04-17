@@ -37,7 +37,6 @@ const PoetryList = ({
     //         letters: poetry.title.split('')
     //     }));
 
-    //     // console.log(poetryTitlesLetters);
 
     //     // module aliases
     //     var Engine = Matter.Engine,
@@ -105,7 +104,6 @@ const PoetryList = ({
     //                     density: 0.5,
     //                     frictionAir: 0.03
     //                 });
-    //                 // console.log('Rectangle body:', body); // Ajout du console.log
     //                 return body;
     //             }
     //         );
