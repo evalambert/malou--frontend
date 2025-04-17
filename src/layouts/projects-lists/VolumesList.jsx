@@ -190,7 +190,7 @@ const VolumesList = ({
             }
         }
     };
-
+ 
     useEffect(() => {
         const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
         setIsSlugPage(isOnSlugPage);
@@ -200,11 +200,9 @@ const VolumesList = ({
     // Effet pour le redimensionnement
     useEffect(() => {
         const handleResize = () => {
-            console.log(':::: Resize event ::::');
             const titles = document.querySelectorAll('li.volume-title a');
             titles.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
-                    console.log(':::: Active title found ::::');
                     createOverlayLinks(title, lang);
                 }
             });
