@@ -5,7 +5,7 @@ export const handleMouseEnter = (imageUrl, objectFit) => {
 
 
     if (
-        !document.body.classList.contains('on-slug-page') &&
+        !document.querySelector('body').classList.contains('on-slug-page') &&
         !wrapperElement.classList.contains('preview-image--wrapper-visible')
     ) {
         if (imageElement) {
@@ -32,6 +32,6 @@ export const handleMouseLeave = () => {
         ) {
             wrapperElement.style.opacity = '0';
         }
-        imageElement.style.objectFit = 'unset';
+        // imageElement.style.objectFit = 'unset';
     }
 };

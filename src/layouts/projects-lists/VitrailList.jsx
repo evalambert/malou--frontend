@@ -15,13 +15,38 @@ const VitrailList = ({
     const [activeHref, setActiveHref] = useState(null);
     const [isSlugPage, setIsSlugPage] = useState(false);
 
+    // ••• Creation du liens de superposition •••
+    const createOverlayLinks = (wordWrappers, lang) => {
+        const container = document.getElementById('floating-title-container');
+        if (container) {
+            // Supprimer les anciens liens de superposition
+            const existingOverlays = container.querySelectorAll('.title-on-display');
+            existingOverlays.forEach(overlay => overlay.remove());
+
+            // Créer les nouveaux liens
+            wordWrappers.forEach((wrapper) => {
+                const wrapperRect = wrapper.getBoundingClientRect();
+                const overlayLink = document.createElement('a');
+                
+                overlayLink.href = `/${lang}/vitrail/`;
+                overlayLink.className = 'title-on-display bg-blue-800 opacity-[0.5]';
+                overlayLink.style.position = 'fixed';
+                overlayLink.style.top = `${wrapperRect.top}px`;
+                overlayLink.style.left = `${wrapperRect.left}px`;
+                overlayLink.style.width = `16px`;
+                overlayLink.style.height = `${wrapperRect.height}px`;
+                overlayLink.style.zIndex = '1000';
+                
+                container.appendChild(overlayLink);
+            });
+        }
+    };
+    
     // ••• Animation d'ouverture du titre •••
     const openAnimation = (targetTitle) => {
         console.log(':::: OPEN ANIMATION ::::');
 
-        const wordWrappers = targetTitle.querySelectorAll(
-            '.vitrail-word-wrapper > div'
-        );
+        const wordWrappers = targetTitle.querySelectorAll('.vitrail-word-wrapper > div');
 
         wordWrappers.forEach((wrapper, wrapperIndex) => {
             const wordWrapperSpan = wrapper.querySelectorAll('span');
@@ -43,28 +68,10 @@ const VitrailList = ({
                 span.style.transitionDelay = `${wrapperIndex * 0.3}s`;
                 span.style.transform = `translate(-${index * firstWidth}px, ${index * 25}px)`;
 
-                // Ajout d'un événement pour détecter la fin de l'animation
                 span.addEventListener('transitionend', () => {
                     if (index === wordWrapperSpan.length - 1 && wrapperIndex === wordWrappers.length - 1) {
                         setTimeout(() => {
-                            const finalCoordinates = targetTitle.getBoundingClientRect();
-                            
-                            // Créer un lien pour chaque wordWrapper
-                            wordWrappers.forEach((wrapper) => {
-                                const wrapperRect = wrapper.getBoundingClientRect();
-                                const overlayLink = document.createElement('a');
-                                
-                                overlayLink.href = `/${lang}/vitrail/`;
-                                overlayLink.className = 'title-on-display bg-blue-800 opacity-[0.5]';
-                                overlayLink.style.position = 'fixed';
-                                overlayLink.style.top = `${wrapperRect.top}px`;
-                                overlayLink.style.left = `${wrapperRect.left}px`;
-                                overlayLink.style.width = `16px`;
-                                overlayLink.style.height = `${wrapperRect.height}px`;
-                                overlayLink.style.zIndex = '1000';
-                                
-                                document.body.appendChild(overlayLink);
-                            });
+                            createOverlayLinks(wordWrappers, lang);
                         }, 50);
                     }
                 }, { once: true });
@@ -107,18 +114,6 @@ const VitrailList = ({
             setActiveHref(targetHref);
         } else {
             setActiveHref(null);
-            // Se boucle sur chaque mot du coup ferme même sur le slug…
-            // const titleOnDisplay = document.getElementById('title-on-display');
-            // console.log('titleOnDisplay HIDDEN', isSlugPage);
-            // if (titleOnDisplay) {
-            //     // Réinitialisation complète des styles
-            //     titleOnDisplay.style.position = '';
-            //     titleOnDisplay.style.top = '';
-            //     titleOnDisplay.style.left = '';
-            //     titleOnDisplay.style.width = '';
-            //     titleOnDisplay.style.height = '';
-            //     titleOnDisplay.style.display = 'none';
-            // }
         }
     }, [targetHref]);
 
@@ -251,10 +246,23 @@ const VitrailList = ({
         setSortedHiddenVitraux(sorted);
     }, [hiddenVitraux]);
 
+    // Ajouter un gestionnaire de redimensionnement
+    useEffect(() => {
+        const handleResize = () => {
+            const activeTitle = document.querySelector('.vitrail-word-wrapper.active');
+            if (activeTitle) {
+                const wordWrappers = activeTitle.parentElement.querySelectorAll('.vitrail-word-wrapper > div');
+                createOverlayLinks(wordWrappers, lang);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [lang]);
+
     // Render
     return (
         <>
-            
             <div
                 className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
             >
