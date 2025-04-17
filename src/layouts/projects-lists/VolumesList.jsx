@@ -13,6 +13,32 @@ const VolumesList = ({
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [isSlugPage, setIsSlugPage] = useState(false);
 
+    // ••• Création du lien de superposition •••
+    const createOverlayLinks = (title, lang) => {
+        const finalCoordinates = title.parentElement.getBoundingClientRect();
+        const container = document.getElementById('floating-title-container');
+        if (container) {
+            // Supprimer les anciens liens de superposition
+            const existingOverlay = container.querySelector('#title-on-display');
+            if (existingOverlay) {
+                existingOverlay.remove();
+            }
+
+            const titleElement = document.createElement('a');
+            titleElement.id = 'title-on-display';
+            titleElement.href = `/${lang}/volume/`;
+            titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000]';
+            Object.assign(titleElement.style, {
+                top: `${finalCoordinates.top + window.scrollY}px`,
+                left: `${finalCoordinates.left + window.scrollX}px`,
+                width: `${finalCoordinates.width}px`,
+                height: `${finalCoordinates.height}px`,
+                cursor: 'pointer'
+            });
+            container.appendChild(titleElement);
+        }
+    };
+
     useEffect(() => {
         // Mobile Title Volume display
         if (window.innerWidth < 768) {
@@ -77,49 +103,20 @@ const VolumesList = ({
                 if (title.getAttribute('href') === targetHref) {
                     title.parentElement.classList.add('active');
 
-                    // Ajouter un écouteur d'événement pour détecter la fin de l'animation
                     const spans = title.querySelectorAll('span');
                     const lastSpan = spans[spans.length - 1];
 
                     lastSpan.addEventListener('transitionend', () => {
-                        const finalCoordinates = title.parentElement.getBoundingClientRect();
-                        const container = document.getElementById('floating-title-container');
-                        if (container) {
-                            const titleElement = document.createElement('a');
-                            titleElement.id = 'title-on-display';
-                            titleElement.href = `/${lang}/volume/`;
-                            titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000]';
-                            Object.assign(titleElement.style, {
-                                top: `${finalCoordinates.top + window.scrollY}px`,
-                                left: `${finalCoordinates.left + window.scrollX}px`,
-                                width: `${finalCoordinates.width}px`,
-                                height: `${finalCoordinates.height}px`,
-                                cursor: 'pointer'
-                            });
-                            container.appendChild(titleElement);
-
-                            return () => {
-                                titleElement.remove();
-                            };
-                        }
-                        // const finalCoordinates = title.parentElement.getBoundingClientRect();
-                        // const titleOnDisplay = document.getElementById('title-on-display');
-                        // if (titleOnDisplay) {
-                        //     titleOnDisplay.style.position = 'fixed';
-                        //     titleOnDisplay.style.top = `${finalCoordinates.top}px`;
-                        //     titleOnDisplay.style.left = `${finalCoordinates.left}px`;
-                        //     titleOnDisplay.style.width = `${finalCoordinates.width}px`;
-                        //     titleOnDisplay.style.height = `${finalCoordinates.height}px`;
-                        //     titleOnDisplay.style.display = 'block';
-                        // }
-                    }, { once: true }); // L'événement ne sera déclenché qu'une seule fois
+                        createOverlayLinks(title, lang);
+                    }, { once: true });
                 } else {
                     title.parentElement.classList.remove('active');
                 }
             });
         };
+
         titleLayout();
-    });
+    }, [targetHref, lang]);
 
     /**
      * Gestion du décalage vertical du titre en fonction de l'accordéon
@@ -200,7 +197,22 @@ const VolumesList = ({
         toggleListDisplay(targetHref, 'volume', accordionOffsetY);
     }, [targetHref, hiddenListHeightVolume, accordionOffsetY]);
 
+    // Effet pour le redimensionnement
+    useEffect(() => {
+        const handleResize = () => {
+            console.log(':::: Resize event ::::');
+            const titles = document.querySelectorAll('li.volume-title a');
+            titles.forEach((title) => {
+                if (title.getAttribute('href') === targetHref) {
+                    console.log(':::: Active title found ::::');
+                    createOverlayLinks(title, lang);
+                }
+            });
+        };
 
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [lang, targetHref]);
 
     // Render
     return (
