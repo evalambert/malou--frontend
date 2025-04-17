@@ -212,7 +212,6 @@ const WeavingList = ({
     // Render
     return (
         <>
-            {/* <a id="title-on-display" href={`/${lang}/weaving/`} className='bg-blue-800 opacity-[0.5]' style={{ position: 'fixed', top: '0', right: '0', zIndex: '1000' }}></a> */}
             <div
                 className={`work-list weaving-list-wrapper relative right-0 overflow-hidden pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
                 onClick={
