@@ -70,24 +70,6 @@ const VitrailList = ({
                                     titleElement.remove();
                                 };
                             }
-                            // const finalCoordinates = targetTitle.getBoundingClientRect();
-                            
-                            // // Créer un lien pour chaque wordWrapper
-                            // wordWrappers.forEach((wrapper) => {
-                            //     const wrapperRect = wrapper.getBoundingClientRect();
-                            //     const overlayLink = document.createElement('a');
-                                
-                            //     overlayLink.href = `/${lang}/vitrail/`;
-                            //     overlayLink.className = 'title-on-display bg-blue-800 opacity-[0.5]';
-                            //     overlayLink.style.position = 'fixed';
-                            //     overlayLink.style.top = `${wrapperRect.top}px`;
-                            //     overlayLink.style.left = `${wrapperRect.left}px`;
-                            //     overlayLink.style.width = `16px`;
-                            //     overlayLink.style.height = `${wrapperRect.height}px`;
-                            //     overlayLink.style.zIndex = '1000';
-                                
-                            //     document.body.appendChild(overlayLink);
-                            // });
                         }, 50);
                     }
                 }, { once: true });
