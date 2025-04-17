@@ -14,6 +14,9 @@ const WeavingList = ({
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
     const [isSlugPage, setIsSlugPage] = useState(false);
 
+    // Ajout d'un state pour tracker le tissage actif
+    const [activeWeavingSlug, setActiveWeavingSlug] = useState(null);
+
     useEffect(() => {
         // Attendre que le DOM soit prêt
         const hiddenList = document.querySelector('.hidden-list-weaving');
@@ -79,7 +82,7 @@ const WeavingList = ({
         };
     }, []);
 
-    
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateYValue, setTranslateYValue] = useState('100vh');
@@ -137,8 +140,9 @@ const WeavingList = ({
 
     // Mise en page homepageWeavingList and hiddenWeavingList
     useEffect(() => {
-        toggleListDisplay(targetHref, 'weaving', accordionOffsetY);
+        const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
         setIsSlugPage(isOnSlugPage);
+        toggleListDisplay(targetHref, 'weaving', accordionOffsetY);
     }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
 
     const homepageWeavingPadding = {
@@ -177,18 +181,58 @@ const WeavingList = ({
         title: weaving.title || weaving.attributes?.title,
     }));
 
-    // 2. Trier selon l’ordre défini
+    // 2. Trier selon l'ordre défini
     const manuallySorted = orderedSlugs
         .map((slug) => normalizedHidden.find((w) => w.slug === slug))
         .filter(Boolean); // retire les undefined au cas où un slug ne matche pas
 
-    // 3. Le reste, hors de l’ordre manuel
+    // 3. Le reste, hors de l'ordre manuel
     const remaining = normalizedHidden.filter(
         (w) => !orderedSlugs.includes(w.slug)
     );
     // 4. Fusionner
     const finalSortedHiddenWeavings = [...manuallySorted, ...remaining];
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // IMPLEMENTATION OF ACTIVE TITLE
+    // Fonction pour extraire le slug de l'URL
+    const extractSlugFromUrl = (url) => {
+        const match = url.match(/\/weaving\/([^/]+)/);
+        return match ? match[1] : null;
+    };
+
+    // Effet pour mettre à jour le tissage actif basé sur l'URL
+    useEffect(() => {
+        const slug = extractSlugFromUrl(targetHref);
+        setActiveWeavingSlug(slug);
+    }, [targetHref]);
+
+    useEffect(() => {
+        const titleLayout = () => {
+            const title = document.querySelectorAll('li.volume-title a');
+            title.forEach((title) => {
+                if (title.getAttribute('href') === targetHref) {
+                    // Ajouter un écouteur d'événement pour détecter la fin de l'animation
+                    const spans = title.querySelectorAll('span');
+                    const lastSpan = spans[spans.length - 1];
+
+                    lastSpan.addEventListener('transitionend', () => {
+                        const finalCoordinates = title.parentElement.getBoundingClientRect();
+                        const titleOnDisplay = document.getElementById('title-on-display');
+                        if (titleOnDisplay) {
+                            titleOnDisplay.style.position = 'fixed';
+                            titleOnDisplay.style.top = `${finalCoordinates.top}px`;
+                            titleOnDisplay.style.left = `${finalCoordinates.left}px`;
+                            titleOnDisplay.style.width = `${finalCoordinates.width}px`;
+                            titleOnDisplay.style.height = `${finalCoordinates.height}px`;
+                            titleOnDisplay.style.display = 'block';
+                        }
+                    }, { once: true }); // L'événement ne sera déclenché qu'une seule fois
+                }
+            })
+        };
+        titleLayout();
+    }, [targetHref]);
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Render
@@ -200,9 +244,9 @@ const WeavingList = ({
                 onClick={
                     !isOnWeavingPage
                         ? () =>
-                              navigate(`/${lang}/weaving/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/weaving/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
                 style={{
@@ -220,8 +264,8 @@ const WeavingList = ({
                     <ul className='flex w-[100%] max-w-[375px] flex-col items-end md:w-fit md:max-w-[unset]'>
                         {homepageWeavings.map((weaving) => {
                             const slug = weaving.slug;
-                            const paddingClass =
-                                homepageWeavingPadding[slug] || 'pr-0';
+                            const paddingClass = homepageWeavingPadding[slug] || 'pr-0';
+                            const isActive = slug === activeWeavingSlug;
 
                             return (
                                 <li
@@ -231,6 +275,7 @@ const WeavingList = ({
                                     <WeavingTitle
                                         weaving={weaving}
                                         lang={lang}
+                                        isActive={isActive}
                                     />
                                 </li>
                             );
@@ -246,10 +291,8 @@ const WeavingList = ({
                         <ul className='flex w-[100%] flex-col items-end md:w-fit'>
                             {finalSortedHiddenWeavings.map((weaving) => {
                                 const slug = weaving.slug;
-                                hiddenWeavingPadding[slug] || 'pr-0';
-                                const paddingClass =
-                                    hiddenWeavingPadding[weaving.slug] ||
-                                    'pr-0';
+                                const paddingClass = hiddenWeavingPadding[slug] || 'pr-0';
+                                const isActive = slug === activeWeavingSlug;
 
                                 return (
                                     <li
@@ -259,6 +302,7 @@ const WeavingList = ({
                                         <WeavingTitle
                                             weaving={weaving}
                                             lang={lang}
+                                            isActive={isActive}
                                         />
                                     </li>
                                 );

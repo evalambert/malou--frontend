@@ -29,14 +29,28 @@ const WeavingTitle = ({ weaving, lang }) => {
 };
 export default WeavingTitle; */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     handleMouseEnter,
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
-const WeavingTitle = ({ weaving, lang }) => {
+const WeavingTitle = ({ weaving, lang, isActive }) => {
+    const [isOpen, setIsOpen] = useState(isActive);
+    const [shouldAnimate, setShouldAnimate] = useState(false);
 
+    useEffect(() => {
+        setIsOpen(isActive);
+
+        if (isActive) {
+            const timer = setTimeout(() => {
+                setShouldAnimate(true);
+            }, 50);
+            return () => clearTimeout(timer);
+        } else {
+            setShouldAnimate(false);
+        }
+    }, [isActive]);
 
     if (!weaving.title) return null;
 
@@ -61,38 +75,39 @@ const WeavingTitle = ({ weaving, lang }) => {
 
 
     return (
-        <div>
-            <a
-                href={`/${lang}/weaving/${weaving.slug}/`}
-                onClick={toggle}
-                onMouseEnter={() => mediaUrl && handleMouseEnter(mediaUrl)}
-                onMouseLeave={handleMouseLeave}
-                data-image-preview={mediaUrl}
-                className='inline-flex flex-wrap items-center transition-all duration-500'
-            >
-                {animatedLetters.map((char, i) => {
-                    const paddingClass = paddings[startIndex + i];
-                    return (
-                        <span
-                            key={i}
-                            className={`inline-block transition-all duration-500 ${
-                                isOpen ? paddingClass : ''
-                            }`}
-                        >
-                            {char}
+        <>
+            <div>
+                <a
+                    href={`/${lang}/weaving/${weaving.slug}/`}
+                    onMouseEnter={() => mediaUrl && handleMouseEnter(mediaUrl)}
+                    onMouseLeave={handleMouseLeave}
+                    data-image-preview={mediaUrl}
+                    className={`inline-flex flex-wrap items-center transition-all duration-500 ${isActive ? 'active' : ''
+                        }`}
+                >
+                    {animatedLetters.map((char, i) => {
+                        const paddingClass = paddings[startIndex + i];
+                        return (
+                            <span
+                                key={i}
+                                className={`inline-block transition-all duration-500 ${isOpen && shouldAnimate ? paddingClass : ''
+                                    }`}
+                            >
+                                {char}
+                            </span>
+                        );
+                    })}
+                    {remainingFirstWord && (
+                        <span className='inline-block'>{remainingFirstWord}</span>
+                    )}
+                    {restOfWords && (
+                        <span className='ml-2 inline-block'>
+                            {' ' + restOfWords}
                         </span>
-                    );
-                })}
-                {remainingFirstWord && (
-                    <span className='inline-block'>{remainingFirstWord}</span>
-                )}
-                {restOfWords && (
-                    <span className='ml-2 inline-block'>
-                        {' ' + restOfWords}
-                    </span>
-                )}
-            </a>
-        </div>
+                    )}
+                </a>
+            </div>
+        </>
     );
 };
 
