@@ -12,7 +12,6 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
 
 
     // const showPoetryWrapperInner = () => {
-    //     console.log('showPoetryWrapperInner');
     //     poetryWrapperInner.style.opacity = 1;
     //     // poetryWrapperInner.style.transform = 'translateX(0vw)';
     //     poetryWrapperInner.style.transform = 'translateX(-100vw)';
@@ -46,8 +45,6 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             setIsOnPoetryPage(true);
             setIsOnIndexPage(false);
             // showPoetryWrapperInner();
-            // console.log('On page poetry');
-            // console.log('TranslateXValue', translateXValue);
 
             // Création et dispatch de l'événement personnalisé
             const poetryPageEvent = new CustomEvent('poetryPageStateChange', {
@@ -73,12 +70,9 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             }, 50);
             setIsOnPoetryPage(false);
             setIsOnIndexPage(true);
-            // console.log('On page (index)');
-            // console.log('TranslateXValue', translateXValue);
 
         } else {
             // ON HIDDDEN ************************************************************************************************
-            // console.log('HIIIIIIDDDDEN');
             setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
             setIsOnPoetryPage(false);
             setIsOnIndexPage(false);

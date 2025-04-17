@@ -77,7 +77,6 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
     // Effet pour gérer accordionOffsetY
     useEffect(() => {
         
-        console.log('accordionOffsetY', accordionOffsetY);
         // Mettre à jour la position Y du titre flottant en fonction de accordionOffsetY
         const titleElement = document.getElementById('title-on-display');
         if (titleElement) {

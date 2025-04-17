@@ -44,7 +44,6 @@ const VitrailList = ({
     
     // ••• Animation d'ouverture du titre •••
     const openAnimation = (targetTitle) => {
-        console.log(':::: OPEN ANIMATION ::::');
 
         const wordWrappers = targetTitle.querySelectorAll('.vitrail-word-wrapper > div');
 
@@ -81,7 +80,6 @@ const VitrailList = ({
 
     // ••• Animation de fermeture du titre •••
     const closeAnimation = (targetTitle) => {
-        console.log(':::: CLOSE ANIMATION ::::');
         const wordWrappers = targetTitle.querySelectorAll(
             '.vitrail-word-wrapper > div'
         );
@@ -125,7 +123,6 @@ const VitrailList = ({
             const titleHref = titleElement.getAttribute('href');
 
             if (isSlugPage && titleHref === activeHref) {
-                console.log(':::: Enter slug page ::::');
                 openAnimation(titleElement);
             } else {
                 if (titleElement.children[0].classList.contains('active')) {
@@ -156,7 +153,6 @@ const VitrailList = ({
             if (hiddenList) {
                 const height = hiddenList.clientHeight;
                 setHiddenListHeightVitrail(height);
-                // console.log('hiddenListHeightVitrailValue', height);
             }
         }, 100);
 
@@ -202,7 +198,6 @@ const VitrailList = ({
             if (window.innerWidth < 768) {
                 setMaxWidthValue('0px');
                 setMaxHeightValue('0px');
-                console.log(targetHref); teYValue('0px');
                 settranslateXValue('50vw');
             } else {
                 settranslateYValue('-200vh');
@@ -212,7 +207,6 @@ const VitrailList = ({
 
     useEffect(() => {
         toggleListDisplay(targetHref, 'vitrail');
-        console.log(targetHref);
     }, [targetHref, hiddenListHeightVitrail]);
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
