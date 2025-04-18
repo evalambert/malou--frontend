@@ -29,10 +29,14 @@ const PaintingsList = ({
                     const newTitleHeight =
                         firstSpanTranslateY + spansLenght * 10;
                     title.style.height = `${newTitleHeight}px`;
-                    title.querySelectorAll('span').forEach((span, index) => {
-                        const translateY = (spansLenght - 1 - index) * 15;
-                        span.style.transform = `translateY(-${translateY}px)`;
-                    });
+                    setTimeout(() => {
+                        const titleSpan = title.querySelectorAll('span');
+                        titleSpan.forEach((span, index) => {
+                            const translateY = (spansLenght - 1 - index) * 15;
+                            span.style.transform = `translateY(-${translateY}px)`;
+                        });
+                    }, 300);
+                
                 } else {
                     title.parentElement.classList.remove('active');
                     title.style.height = '32px';
@@ -68,18 +72,18 @@ const PaintingsList = ({
                     previousLiWidth = viewportWidth - li.offsetWidth;
                     reverse = true;
                     return previousLiWidth;
-                // DESCEND VERS LA GAUCHE
+                    // DESCEND VERS LA GAUCHE
                 } else if (previousLiWidth < 200 && reverse) {
                     // li.style.border = '1px solid pink';
                     li.style.marginLeft = `0px`;
                     previousLiWidth = li.offsetWidth;
                     reverse = false;
-                }else if (reverse) {
+                } else if (reverse) {
                     previousLiWidth = previousLiWidth - li.offsetWidth;
                     li.style.marginLeft = `${previousLiWidth}px`;
                     // li.style.border = '1px solid orange';
                     return previousLiWidth;
-                // DESCEND VERS LA DROITE
+                    // DESCEND VERS LA DROITE
                 } else {
                     li.style.marginLeft = `${previousLiWidth}px`;
                     previousLiWidth = previousLiWidth + li.offsetWidth;
