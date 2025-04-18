@@ -34,10 +34,8 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
             letters.forEach((letter) => {
                 const letterRect = letter.getBoundingClientRect();
                 const overlayLink = document.createElement('a');
-
-                overlayLink.href = `/${lang}/painting/${painting.slug}/`;
-                overlayLink.className =
-                    'letter-link fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
+                overlayLink.href = `/${lang}/painting/`;
+                overlayLink.className = 'letter-link fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
                 overlayLink.style.top = `${letterRect.top + window.scrollY}px`;
                 overlayLink.style.left = `${letterRect.left + window.scrollX}px`;
                 overlayLink.style.width = `${letterRect.width}px`;
