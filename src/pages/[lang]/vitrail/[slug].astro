@@ -48,12 +48,15 @@ export async function getStaticPaths() {
 
 const { vitrail } = Astro.props;
 const { lang } = Astro.params;
+const currentPath = Astro.url.pathname || '';
 export const prerender = true;
 ---
 
 <Layout title='Vitrail' showReturn returnTo={`/vitrail`}>
     <AllProjectsLists lang={lang} enterIndex={false} />
-    <div id="floating-title-container" class="fixed top-0 left-0 w-full h-0 z-[1000]"></div>
+    <div
+        id='floating-title-container'
+        class='fixed top-0 left-0 w-full h-0 z-[1000]'></div>
     <AccordionReadProject
         lang={lang}
         client:only
@@ -70,14 +73,37 @@ export const prerender = true;
         transition:persist
         client:only
     />
-    <div
-        class='fixed top-0 left-0 w-screen h-screen'
-        transition:persist
-    >
-        {vitrail?.medias? (
-            <Slider client:only medias={vitrail.medias} zoomImg={vitrail.zoomImg || []} noTimeOut={false} />
-        ) : (
-            <ZoomModale client:only hidden={false} zoomImg={vitrail.zoomImg || []} />
-        )}
+    <div class='fixed top-0 left-0 w-screen h-screen' transition:persist>
+        {
+            vitrail?.medias ? (
+                <Slider
+                    client:only='react'
+                    medias={vitrail.medias}
+                    zoomImg={vitrail.zoomImg || []}
+                    noTimeOut={false}
+                />
+            ) : (
+                <ZoomModale
+                    client:only='react'
+                    hidden={false}
+                    zoomImg={vitrail.zoomImg || []}
+                    insideSlider={false}
+                />
+            )
+        }
     </div>
 </Layout>
+
+<script define:vars={{ hasMedias: !!vitrail?.medias }}>
+    document.addEventListener("astro:page-load", (event) => {
+        if (!hasMedias) {
+            const body = document.body;
+            if (body) {
+                body.classList.toggle('mix-blend-actif');
+            } else {
+                console.error("L'élément body n'a pas été trouvé.");
+            }
+        }
+    });
+</script>
+

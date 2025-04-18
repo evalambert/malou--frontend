@@ -8,16 +8,18 @@ import ZoomableImg from './ZoomableImg.jsx';
 // Import Swiper styles
 import 'swiper/css';
 
-const ZoomModale = ({ zoomImg = [], hidden }) => {
+const ZoomModale = ({ zoomImg = [], hidden, insideSlider }) => {
     const swiperRef = useRef(null);
-    
+
 
     useEffect(() => {
-        const body = document.body;
-        if (!body.classList.contains('mix-blend-actif')) {
-            body.classList.add('mix-blend-actif');
-        } else {
-            body.classList.remove('mix-blend-actif');
+        if (insideSlider) {
+            const body = document.body;
+            if (!body.classList.contains('mix-blend-actif')) {
+                body.classList.add('mix-blend-actif');
+            } else {
+                body.classList.remove('mix-blend-actif');
+            }
         }
     }, [hidden]);
 

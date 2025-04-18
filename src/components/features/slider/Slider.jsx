@@ -198,7 +198,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                         <button className='modaleToogle pointer-events-none fixed top-0 right-0 z-10 hidden h-full w-full cursor-pointer mix-blend-difference md:w-[50%]'>
                             <span>close</span>
                         </button>
-                        <ZoomModale hidden={isHidden} zoomImg={zoomImg} />
+                        <ZoomModale hidden={isHidden} zoomImg={zoomImg} insideSlider={true}/>
                     </>
                 )}
             </div>
