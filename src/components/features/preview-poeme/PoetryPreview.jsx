@@ -139,7 +139,6 @@ export default function PoetryPreview({ poems = {} }) {
             projectTriggers.forEach((project) => {
                 const type = project.dataset.type;
                 project.addEventListener('mouseenter', () => {
-                    // console.log('inject Poetry on MouseEnter <:-)');
                     const collection = poems[type];
                     if (!collection) return;
                     const poem = getRandom(collection);

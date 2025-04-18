@@ -142,7 +142,6 @@ const PoetryTitleHardLayout = ({ lang }) => {
             });
         };
         const handlePoetryPageStateChange = (event) => {
-            console.log('handlePoetryPageStateChange');
             setTimeout(() => {
                 const textOverlayCoquille = document.getElementById(
                     'textOverlay-hard-layout-coquille'

@@ -57,7 +57,6 @@ const PoetryTitle = ({
 
         // Vérifie si les éléments sont bien présents
         if (!path || !textOverlay || !svg) {
-            // console.warn("Éléments DOM non prêts pour placeLettersOnPoints");
             return;
         }
 
@@ -94,7 +93,6 @@ const PoetryTitle = ({
 
         // Vérification si les éléments ont été trouvés
         if (!path || !svg) {
-            console.error("Impossible de trouver les éléments SVG requis.");
             return;
         }
 
@@ -113,7 +111,6 @@ const PoetryTitle = ({
                         svg.setAttribute('viewBox', `0 -20 160 1050`); // Ou une autre valeur sûre
                     }
                 } catch (e) {
-                    console.error("Erreur BBox:", e);
                     svg.setAttribute('viewBox', `0 -20 160 1050`); // Fallback en cas d'erreur
                 }
             }
@@ -132,7 +129,6 @@ const PoetryTitle = ({
         const handleResize = () => {
             //  setupViewBox(); // Recalculer viewBox si la taille change
             placeLettersOnPoints();
-            console.log('placeLettersOnPoints --> Resize');
         };
 
         const handleAccordionChange = (event) => {
@@ -147,7 +143,6 @@ const PoetryTitle = ({
                 attr: { d: to },
                 onUpdate: placeLettersOnPoints, // Appelle la version mémorisée
             });
-            console.log('placeLettersOnPoints --> Accordion');
         };
 
         // Ajout des écouteurs
@@ -168,7 +163,6 @@ const PoetryTitle = ({
                     attr: { d: pathClose },
                     onUpdate: placeLettersOnPoints, // Appelle la version mémorisée
                 });
-                console.log('placeLettersOnPoints --> Accordion CLOSE');
                 // placeLettersOnPoints;
                 // Potentielle logique supplémentaire si nécessaire
             }
@@ -193,7 +187,6 @@ const PoetryTitle = ({
             const handleLoad = () => {
                 setTimeout(() => {
                     placeLettersOnPoints();
-                    console.log('placeLettersOnPoints --> Load');
                 }, 1500);
 
                 setHasLoaded(true);

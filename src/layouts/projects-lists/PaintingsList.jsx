@@ -14,8 +14,13 @@ const PaintingsList = ({
 }) => {
     const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
+    const [activePaintingSlug, setActivePaintingSlug] = useState(null);
 
-    useEffect(() => {
+    // Fonction pour extraire le slug de l'URL
+    const extractSlugFromUrl = (url) => {
+        const match = url.match(/\/painting\/([^/]+)/);
+        return match ? match[1] : null;
+    };
 
 
         // Title animation
@@ -49,50 +54,49 @@ const PaintingsList = ({
             setTimeout(calculateLayout, 500);
         };
 
-        // Layout
+    // Effet pour mettre à jour la peinture active basée sur l'URL
+    useEffect(() => {
+        const slug = extractSlugFromUrl(targetHref);
+        setActivePaintingSlug(slug);
+    }, [targetHref]);
+
+
+    useEffect(() => {
         const calculateLayout = () => {
-            // NOTE ALICE :::::
-            // Le calcul se fait sur le marginLeft (addition ou soustraction du li.offsetWidth et du viewportWidth)
-            // ::::::::::::::::
             const liTitle = document.querySelectorAll('li.painting-title');
             let previousLiWidth = 150;
             let reverse = false;
 
             liTitle.forEach((li) => {
-                const viewportWidth = window.matchMedia('(min-width: 48rem)')
-                    .matches
-                    ? window.innerWidth - 30 // 150px = md:left-[150px] on item bellow
-                    : window.innerWidth - 30; // --spacing-main-x-mobile (x2)
+                const viewportWidth = window.matchMedia('(min-width: 48rem)').matches
+                    ? window.innerWidth - 30
+                    : window.innerWidth - 30;
 
-                // DERNIER ELEMENT À DROITE 
                 if (previousLiWidth + li.offsetWidth > viewportWidth && !reverse) {
                     let maxMarginLeft = viewportWidth - li.offsetWidth;
                     li.style.marginLeft = `${maxMarginLeft}px`;
-                    // li.style.border = '1px solid green';
                     previousLiWidth = viewportWidth - li.offsetWidth;
                     reverse = true;
                     return previousLiWidth;
+
                     // DESCEND VERS LA GAUCHE
                 } else if (previousLiWidth < 200 && reverse) {
-                    // li.style.border = '1px solid pink';
                     li.style.marginLeft = `0px`;
                     previousLiWidth = li.offsetWidth;
                     reverse = false;
                 } else if (reverse) {
                     previousLiWidth = previousLiWidth - li.offsetWidth;
                     li.style.marginLeft = `${previousLiWidth}px`;
-                    // li.style.border = '1px solid orange';
                     return previousLiWidth;
+
                     // DESCEND VERS LA DROITE
                 } else {
                     li.style.marginLeft = `${previousLiWidth}px`;
                     previousLiWidth = previousLiWidth + li.offsetWidth;
-                    // li.style.border = '1px solid blue';
                     return previousLiWidth;
                 }
             });
 
-            // Afficher la hauteur de la liste cachée
             const hiddenListHeightPaintingValue = document.querySelector(
                 '.hidden-list-painting'
             ).clientHeight;
@@ -101,7 +105,6 @@ const PaintingsList = ({
         };
 
         // Initial calculation
-        titleLayout();
         setTimeout(calculateLayout, 100);
 
         // Add resize event listener
@@ -200,17 +203,24 @@ const PaintingsList = ({
                 >
                     {/* Liste Homepage */}
                     <ul className='painting-list-compact transition-all duration-500 ease-in-out'>
-                        {homepagePaintings.map((painting) => (
-                            <li
-                                className='painting-title w-fit'
-                                key={painting.id}
-                            >
-                                <PaintingTitle
-                                    painting={painting}
-                                    lang={lang}
-                                />
-                            </li>
-                        ))}
+                        {homepagePaintings.map((painting) => {
+                            const slug = painting.slug;
+                            const isActive = slug === activePaintingSlug;
+                            
+                            return (
+                                <li
+                                    className='painting-title w-fit !overflow-visible'
+                                    key={painting.id}
+                                >
+                                    <PaintingTitle
+                                        painting={painting}
+                                        lang={lang}
+                                        isActive={isActive}
+                                        accordionOffsetY={accordionOffsetY}
+                                    />
+                                </li>
+                            );
+                        })}
                     </ul>
                     {/* (END) Liste Homepage */}
 
@@ -219,17 +229,24 @@ const PaintingsList = ({
                     >
                         {/* Liste Hidden */}
                         <ul>
-                            {hiddenPaintings.map((painting) => (
-                                <li
-                                    className='painting-title block w-fit'
-                                    key={painting.id}
-                                >
-                                    <PaintingTitle
-                                        painting={painting}
-                                        lang={lang}
-                                    />
-                                </li>
-                            ))}
+                            {hiddenPaintings.map((painting) => {
+                                const slug = painting.slug;
+                                const isActive = slug === activePaintingSlug;
+                                
+                                return (
+                                    <li
+                                        className='painting-title block w-fit'
+                                        key={painting.id}
+                                    >
+                                        <PaintingTitle
+                                            painting={painting}
+                                            lang={lang}
+                                            isActive={isActive}
+                                            accordionOffsetY={accordionOffsetY}
+                                        />
+                                    </li>
+                                );
+                            })}
                         </ul>
                         {/* (END) Liste Hidden */}
                     </div>
