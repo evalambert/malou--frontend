@@ -1,5 +1,6 @@
 import {
     handleMouseEnter,
+    handleMouseClick,
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
@@ -20,6 +21,18 @@ const VitrailHomepageTitle = ({ vitrail, lang }) => {
                         handleMouseEnter(mediaUrl);
                     } else if (zoomUrl) {
                         handleMouseEnter(zoomUrl);
+                    }
+                }}
+                onClick={() => {
+                    const mediaUrl =
+                        vitrail.medias &&
+                        vitrail.medias[0] &&
+                        vitrail.medias[0].url;
+                    const zoomUrl = vitrail.zoomImg && vitrail.zoomImg.url;
+                    if (mediaUrl) {
+                        handleMouseClick(mediaUrl);
+                    } else if (zoomUrl) {
+                        handleMouseClick(zoomUrl);
                     }
                 }}
                 onMouseLeave={handleMouseLeave}

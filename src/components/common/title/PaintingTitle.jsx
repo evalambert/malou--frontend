@@ -138,19 +138,37 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                 href={`/${lang}/painting/${painting.slug}/`}
                 className={`block !overflow-visible whitespace-nowrap transition-all duration-500 ${isActive ? 'active' : ''}`}
                 onMouseEnter={() => {
-                    const mediaUrl = painting.medias?.[0]?.url;
+                    const mediaUrl =
+                        painting.medias &&
+                        painting.medias[0] &&
+                        painting.medias[0].url;
+                    const zoomUrl = painting.zoomImg && painting.zoomImg.url;
                     if (mediaUrl) {
                         handleMouseEnter(mediaUrl);
+                    } else if (zoomUrl) {
+                        handleMouseEnter(zoomUrl);
                     }
                 }}
                 onClick={() => {
-                    const mediaUrl = painting.medias?.[0]?.url;
+                    const mediaUrl =
+                        painting.medias &&
+                        painting.medias[0] &&
+                        painting.medias[0].url;
+                    const zoomUrl = painting.zoomImg && painting.zoomImg.url;
                     if (mediaUrl) {
                         handleMouseClick(mediaUrl);
+                    } else if (zoomUrl) {
+                        handleMouseClick(zoomUrl);
                     }
                 }}
                 onMouseLeave={handleMouseLeave}
-                data-image-preview={painting.medias?.[0]?.url}
+                data-image-preview={
+                    painting.medias &&
+                    painting.medias[0] &&
+                    painting.medias[0].url
+                        ? painting.medias[0].url
+                        : painting.zoomImg && painting.zoomImg.url
+                }
             >
                 {painting.title.split('').map((letter, index) => (
                     <span
