@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import {
     handleMouseEnter,
+    handleMouseClick,
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
@@ -26,14 +27,13 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
         if (container) {
             // Supprimer les anciens liens s'ils existent
             const existingLinks = container.querySelectorAll('.letter-link');
-            existingLinks.forEach(link => link.remove());
-            
+            existingLinks.forEach((link) => link.remove());
+
             // Créer un lien pour chaque lettre
             const letters = linkRef.current.querySelectorAll('.paint--letter');
             letters.forEach((letter) => {
                 const letterRect = letter.getBoundingClientRect();
                 const overlayLink = document.createElement('a');
-                
                 overlayLink.href = `/${lang}/painting/`;
                 overlayLink.className = 'letter-link fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
                 overlayLink.style.top = `${letterRect.top + window.scrollY}px`;
@@ -41,7 +41,7 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                 overlayLink.style.width = `${letterRect.width}px`;
                 overlayLink.style.height = `${letterRect.height}px`;
                 overlayLink.style.cursor = 'pointer';
-                
+
                 // Ajouter les événements de survol pour l'aperçu
                 overlayLink.onmouseenter = () => {
                     const mediaUrl = painting.medias?.[0]?.url;
@@ -50,7 +50,7 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                     }
                 };
                 overlayLink.onmouseleave = handleMouseLeave;
-                
+
                 container.appendChild(overlayLink);
             });
         }
@@ -67,14 +67,14 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                 const firstSpanTranslateY = (spansLength - 1) * 15;
                 const newTitleHeight = firstSpanTranslateY + 32;
                 title.style.height = `${newTitleHeight}px`;
-                
+
                 // On met à jour la position immédiatement
                 updatePosition();
-                
+
                 requestAnimationFrame(() => {
                     const spans = title.querySelectorAll('span');
                     const lastSpan = spans[spans.length - 1];
-           
+
                     // On applique les transformations avec un délai
                     setTimeout(() => {
                         spans.forEach((span, index) => {
@@ -86,7 +86,6 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                                 }, 1000);
                             }
                         });
-                        
                     }, 50); // Réduit à 50ms pour être plus réactif
                 });
             }
@@ -106,7 +105,7 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
     useEffect(() => {
         console.log('accordionOffsetY', accordionOffsetY);
         const titleElements = document.querySelectorAll('.letter-link');
-        titleElements.forEach(titleElement => {
+        titleElements.forEach((titleElement) => {
             titleElement.style.transform = `translateY(${accordionOffsetY}px)`;
         });
     }, [isActive, accordionOffsetY]);
@@ -114,7 +113,7 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
     // Effet pour gérer le resize
     useEffect(() => {
         if (!isActive) return;
-        
+
         const handleResize = () => {
             setTimeout(() => {
                 updatePosition();
@@ -135,11 +134,17 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
             <a
                 ref={linkRef}
                 href={`/${lang}/painting/${painting.slug}/`}
-                className={`block whitespace-nowrap transition-all duration-500 !overflow-visible ${isActive ? 'active' : ''}`}
+                className={`block !overflow-visible whitespace-nowrap transition-all duration-500 ${isActive ? 'active' : ''}`}
                 onMouseEnter={() => {
                     const mediaUrl = painting.medias?.[0]?.url;
                     if (mediaUrl) {
                         handleMouseEnter(mediaUrl);
+                    }
+                }}
+                onClick={() => {
+                    const mediaUrl = painting.medias?.[0]?.url;
+                    if (mediaUrl) {
+                        handleMouseClick(mediaUrl);
                     }
                 }}
                 onMouseLeave={handleMouseLeave}
