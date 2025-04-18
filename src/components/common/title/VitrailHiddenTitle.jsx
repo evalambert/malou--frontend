@@ -20,7 +20,7 @@ const VitrailHiddenTitle = ({ vitrail, lang }) => {
                     if (mediaUrl) {
                         handleMouseEnter(mediaUrl);
                     } else if (zoomUrl) {
-                        handleMouseClick(zoomUrl);
+                        handleMouseEnter(zoomUrl);
                     }
                 }}
                 onClick={() => {
