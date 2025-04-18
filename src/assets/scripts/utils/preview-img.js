@@ -26,6 +26,27 @@ export const handleMouseEnter = (imageUrl, objectFit) => {
     }
 };
 
+export const handleMouseClick = (imageUrl) => { 
+    const imageElement = document.querySelector('.dynamic-image');
+    const wrapperElement = document.querySelector('.preview-image--wrapper');
+
+    if (
+        !document.querySelector('body').classList.contains('on-slug-page') &&
+        !wrapperElement.classList.contains('preview-image--wrapper-visible')
+    ) {
+        if (imageElement) {
+            // ✅ Appel version allégée depuis Cloudinary
+            const transitionUrl = getCloudinaryUrl(imageUrl, { width: 2000 });
+            imageElement.src = transitionUrl;
+            imageElement.dataset.lastImage = transitionUrl;
+            console.log('Image clicked:', transitionUrl);
+        }
+        if (wrapperElement) {
+            wrapperElement.style.opacity = '1';
+        }
+    }
+};
+
 export const handleMouseLeave = () => {
     const wrapperElement = document.querySelector('.preview-image--wrapper');
     if (!document.body.classList.contains('on-slug-page')) {
