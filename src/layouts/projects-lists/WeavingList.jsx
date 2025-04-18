@@ -96,22 +96,25 @@ const WeavingList = ({
 
     const toggleListDisplay = (url, category, accordionY) => {
         if (url.includes(category)) {
-            setTranslateYValue(accordionY + 'px');
+            if (document.querySelector('body').classList.contains('on-slug-page')) {
+                setTranslateYValue(accordionY + 'px');
+            } else {
+                setTranslateYValue(0 + 'px');
+            }
             setTranslateXValue(0);
             setIsOnWeavingPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                let weavingListHeight =
-                    document.querySelector('.weaving-list').clientHeight;
+                let weavingListHeight = document.querySelector('.weaving-list').clientHeight;
                 setmaxHeightValue(weavingListHeight + 'px');
-                setTranslateXValue('0px');
                 if (weavingListHeight > window.innerHeight / 2) {
                     setMobileTopValue('50vh');
                 } else {
-                    let newMobileTopValue =
-                        window.innerHeight - (weavingListHeight + 50);
+                    let newMobileTopValue = window.innerHeight - (weavingListHeight + 50);
                     setMobileTopValue(newMobileTopValue + 'px');
                 }
+            } else {
+                setmaxHeightValue('unset');
             }
         } else if (url == '/fr/' || url == '/en/') {
             if (window.innerWidth < 768) {
@@ -125,7 +128,10 @@ const WeavingList = ({
             }
             setIsOnWeavingPage(false);
             setIsOnIndexPage(true);
+            
         } else {
+            // Réinitialiser accordionOffsetY quand on quitte une page de slug
+            setAccordionOffsetY(0);
             setTranslateYValue('100vh');
             if (window.innerWidth < 768) {
                 setTranslateXValue('0px');
