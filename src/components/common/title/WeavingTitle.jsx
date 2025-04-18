@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import {
     handleMouseEnter,
+    handleMouseClick,
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
@@ -19,33 +20,31 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
         return null;
     };
 
-
     const createFloatingTitle = () => {
         if (!isActive || !positionRef.current) return;
 
         const container = document.getElementById('floating-title-container');
         if (container) {
-            
             // Vérifier si le titre existe déjà
             let titleElement = document.getElementById('title-on-display');
-            
+
             if (!titleElement) {
                 // Créer un nouveau titre s'il n'existe pas
                 titleElement = document.createElement('a');
                 titleElement.id = 'title-on-display';
                 titleElement.href = `/${lang}/weaving/`;
-                titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
+                titleElement.className =
+                    'fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
                 container.appendChild(titleElement);
             }
 
-            
             // Mettre à jour les propriétés de style (que le titre soit nouveau ou existant)
             Object.assign(titleElement.style, {
                 top: `${positionRef.current.top + window.scrollY}px`,
                 left: `${positionRef.current.left + window.scrollX}px`,
                 width: `${positionRef.current.width}px`,
                 height: `${positionRef.current.height}px`,
-                cursor: 'pointer'
+                cursor: 'pointer',
             });
 
             return () => {
@@ -59,7 +58,7 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
         setIsOpen(isActive);
         if (isActive) {
             setShouldAnimate(true);
-            
+
             // Attendre la fin de l'animation avant de créer le titre flottant
             const animationTimeout = setTimeout(() => {
                 updatePosition(); // Mettre à jour la position APRÈS l'animation
@@ -76,13 +75,11 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
     // Modifier l'effet existant pour ne gérer que le resize
     // Effet pour gérer accordionOffsetY
     useEffect(() => {
-        
         // Mettre à jour la position Y du titre flottant en fonction de accordionOffsetY
         const titleElement = document.getElementById('title-on-display');
         if (titleElement) {
             titleElement.style.transform = `translateY(${accordionOffsetY}px)`;
         }
-
     }, [isActive, accordionOffsetY]);
 
     // Effet séparé pour gérer le resize
@@ -101,7 +98,6 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
             window.removeEventListener('resize', handleResize);
         };
     }, [isActive, lang]);
-
 
     if (!weaving.title) return null;
 
@@ -122,17 +118,44 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
 
     const startIndex = 6 - animatedLetters.length;
 
-    const mediaUrl = weaving.medias?.[0]?.url;
-
     return (
         <>
             <div>
                 <a
                     ref={linkRef}
                     href={`/${lang}/weaving/${weaving.slug}/`}
-                    onMouseEnter={() => mediaUrl && handleMouseEnter(mediaUrl)}
+                    onMouseEnter={() => {
+                        const mediaUrl =
+                            weaving.medias &&
+                            weaving.medias[0] &&
+                            weaving.medias[0].url;
+                        const zoomUrl = weaving.zoomImg && weaving.zoomImg.url;
+                        if (mediaUrl) {
+                            handleMouseEnter(mediaUrl);
+                        } else if (zoomUrl) {
+                            handleMouseEnter(zoomUrl);
+                        }
+                    }}
+                    onClick={() => {
+                        const mediaUrl =
+                            weaving.medias &&
+                            weaving.medias[0] &&
+                            weaving.medias[0].url;
+                        const zoomUrl = weaving.zoomImg && weaving.zoomImg.url;
+                        if (mediaUrl) {
+                            handleMouseClick(mediaUrl);
+                        } else if (zoomUrl) {
+                            handleMouseClick(zoomUrl);
+                        }
+                    }}
                     onMouseLeave={handleMouseLeave}
-                    data-image-preview={mediaUrl}
+                    data-image-preview={
+                        weaving.medias &&
+                        weaving.medias[0] &&
+                        weaving.medias[0].url
+                            ? weaving.medias[0].url
+                            : weaving.zoomImg && weaving.zoomImg.url
+                    }
                     className={`inline-flex flex-wrap items-center transition-all duration-500 ${isActive ? 'active' : ''}`}
                 >
                     {animatedLetters.map((char, i) => {
@@ -147,7 +170,9 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
                         );
                     })}
                     {remainingFirstWord && (
-                        <span className='inline-block'>{remainingFirstWord}</span>
+                        <span className='inline-block'>
+                            {remainingFirstWord}
+                        </span>
                     )}
                     {restOfWords && (
                         <span className='ml-2 inline-block'>

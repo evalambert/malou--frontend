@@ -1,5 +1,6 @@
 import {
     handleMouseEnter,
+    handleMouseClick,
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
@@ -9,21 +10,36 @@ const VitrailHiddenTitle = ({ vitrail, lang }) => {
         <div>
             <a
                 href={`/${lang}/vitrail/${vitrail.slug}/`}
-                className={`flex gap-[6px] items-start`}
+                className={`flex items-start gap-[6px]`}
                 onMouseEnter={() => {
                     const mediaUrl =
                         vitrail.medias &&
                         vitrail.medias[0] &&
                         vitrail.medias[0].url;
+                    const zoomUrl = vitrail.zoomImg && vitrail.zoomImg.url;
                     if (mediaUrl) {
                         handleMouseEnter(mediaUrl);
+                    } else if (zoomUrl) {
+                        handleMouseEnter(zoomUrl);
+                    }
+                }}
+                onClick={() => {
+                    const mediaUrl =
+                        vitrail.medias &&
+                        vitrail.medias[0] &&
+                        vitrail.medias[0].url;
+                    const zoomUrl = vitrail.zoomImg && vitrail.zoomImg.url;
+                    if (mediaUrl) {
+                        handleMouseClick(mediaUrl);
+                    } else if (zoomUrl) {
+                        handleMouseClick(zoomUrl);
                     }
                 }}
                 onMouseLeave={handleMouseLeave}
                 data-image-preview={
                     vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url
                         ? vitrail.medias[0].url
-                        : vitrail.zoomImg && vitrail.zoomImg.url
+                        : vitrail.zoomImg && vitrail.zoomImg.url 
                 }
             >
                 {vitrail.title.split(' ').map((word, i, words) => (
