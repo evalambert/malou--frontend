@@ -22,11 +22,44 @@ const PaintingsList = ({
         return match ? match[1] : null;
     };
 
+
+        // Title animation
+        const titleLayout = () => {
+            const title = document.querySelectorAll('li.painting-title a');
+            title.forEach((title) => {
+                if (title.getAttribute('href') === targetHref) {
+                    title.parentElement.classList.add('active');
+                    const spansLenght = title.querySelectorAll('span').length;
+                    const firstSpanTranslateY = (spansLenght - 1) * 10;
+                    const newTitleHeight =
+                        firstSpanTranslateY + spansLenght * 10;
+                    title.style.height = `${newTitleHeight}px`;
+                    setTimeout(() => {
+                        const titleSpan = title.querySelectorAll('span');
+                        titleSpan.forEach((span, index) => {
+                            const translateY = (spansLenght - 1 - index) * 15;
+                            span.style.transform = `translateY(-${translateY}px)`;
+                        });
+                    }, 300);
+                
+                } else {
+                    title.parentElement.classList.remove('active');
+                    title.style.height = '32px';
+                    title.querySelectorAll('span').forEach((span) => {
+                        span.style.transform = 'translateY(0)';
+                    });
+                }
+            });
+            // Attendre que l'animation de transition soit terminée (500ms selon votre CSS)
+            setTimeout(calculateLayout, 500);
+        };
+
     // Effet pour mettre à jour la peinture active basée sur l'URL
     useEffect(() => {
         const slug = extractSlugFromUrl(targetHref);
         setActivePaintingSlug(slug);
     }, [targetHref]);
+
 
     useEffect(() => {
         const calculateLayout = () => {
@@ -45,6 +78,8 @@ const PaintingsList = ({
                     previousLiWidth = viewportWidth - li.offsetWidth;
                     reverse = true;
                     return previousLiWidth;
+
+                    // DESCEND VERS LA GAUCHE
                 } else if (previousLiWidth < 200 && reverse) {
                     li.style.marginLeft = `0px`;
                     previousLiWidth = li.offsetWidth;
@@ -53,6 +88,8 @@ const PaintingsList = ({
                     previousLiWidth = previousLiWidth - li.offsetWidth;
                     li.style.marginLeft = `${previousLiWidth}px`;
                     return previousLiWidth;
+
+                    // DESCEND VERS LA DROITE
                 } else {
                     li.style.marginLeft = `${previousLiWidth}px`;
                     previousLiWidth = previousLiWidth + li.offsetWidth;
