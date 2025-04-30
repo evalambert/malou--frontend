@@ -7,6 +7,7 @@ const WeavingList = ({
     homepageWeavings,
     hiddenWeavings,
     targetHref,
+    state,
     lang,
     className,
 }) => {
@@ -94,8 +95,8 @@ const WeavingList = ({
     const [isOnWeavingPage, setIsOnWeavingPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
 
-    const toggleListDisplay = (url, category, accordionY) => {
-        if (url.includes(category)) {
+    const toggleListDisplay = (category, accordionY) => {
+        if (state == category) {
             if (document.querySelector('body').classList.contains('on-slug-page')) {
                 setTranslateYValue(accordionY + 'px');
             } else {
@@ -116,7 +117,7 @@ const WeavingList = ({
             } else {
                 setmaxHeightValue('unset');
             }
-        } else if (url == '/fr/' || url == '/en/') {
+        } else if (state == 'home') {
             if (window.innerWidth < 768) {
                 setTranslateYValue('100vh');
                 setTranslateXValue('0px');
@@ -148,7 +149,7 @@ const WeavingList = ({
     useEffect(() => {
         const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
         setIsSlugPage(isOnSlugPage);
-        toggleListDisplay(targetHref, 'weaving', accordionOffsetY);
+        toggleListDisplay('weaving', accordionOffsetY);
     }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
 
     const homepageWeavingPadding = {

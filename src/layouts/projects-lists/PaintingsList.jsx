@@ -9,6 +9,7 @@ const PaintingsList = ({
     homepagePaintings,
     hiddenPaintings,
     targetHref,
+    state,
     lang,
     className,
 }) => {
@@ -149,15 +150,16 @@ const PaintingsList = ({
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
     const [sortedHiddenPaintings, setSortedHiddenPaintings] = useState([]);
 
-    const toggleListDisplay = (url, category, accordionY) => {
-        if (url.includes(category)) {
+    const toggleListDisplay = (category, accordionY) => {
+        if (state == category) {
             setTranslateValue(accordionY + 'px');
             setIsOnPaintingPage(true);
             setIsOnIndexPage(false);
+            setmaxHeightValue('100vh');
             if (window.innerWidth < 768) {
                 setmaxHeightValue('300vh');
             }
-        } else if (url == '/fr/' || url == '/en/') {
+        } else if (state == 'home') {
             if (window.innerWidth < 768) {
                 setTranslateValue('100vh');
                 setmaxHeightValue('0px');
@@ -175,7 +177,7 @@ const PaintingsList = ({
     };
 
     useEffect(() => {
-        toggleListDisplay(targetHref, 'painting', accordionOffsetY);
+        toggleListDisplay('painting', accordionOffsetY);
     }, [targetHref, hiddenListHeightPainting, accordionOffsetY]);
 
     // sort hidden paintings by visual width
@@ -202,6 +204,10 @@ const PaintingsList = ({
         setSortedHiddenPaintings(sorted);
     }, [hiddenPaintings]);
 
+
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+    // console.log('hello <:-° status dans painting list', state);
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Render
