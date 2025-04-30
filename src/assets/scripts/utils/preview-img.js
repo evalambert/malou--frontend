@@ -55,6 +55,7 @@ export const handleMouseClick = (imageUrl) => {
 
 export const handleMouseLeave = () => {
     const wrapperElement = document.querySelector('.preview-image--wrapper');
+    imageElement.style.objectFit = '';
     if (!document.body.classList.contains('on-slug-page')) {
         if (
             wrapperElement &&
