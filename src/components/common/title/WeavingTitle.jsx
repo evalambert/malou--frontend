@@ -131,9 +131,9 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
                             weaving.medias[0].url;
                         const zoomUrl = weaving.zoomImg && weaving.zoomImg.url;
                         if (mediaUrl) {
-                            handleMouseEnter(mediaUrl);
+                            handleMouseEnter(mediaUrl, 'cover');
                         } else if (zoomUrl) {
-                            handleMouseEnter(zoomUrl);
+                            handleMouseEnter(zoomUrl, 'contain');
                         }
                     }}
                     onClick={() => {
@@ -143,9 +143,9 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
                             weaving.medias[0].url;
                         const zoomUrl = weaving.zoomImg && weaving.zoomImg.url;
                         if (mediaUrl) {
-                            handleMouseClick(mediaUrl);
+                            handleMouseEnter(mediaUrl, 'cover');
                         } else if (zoomUrl) {
-                            handleMouseClick(zoomUrl);
+                            handleMouseEnter(zoomUrl, 'contain');
                         }
                     }}
                     onMouseLeave={handleMouseLeave}

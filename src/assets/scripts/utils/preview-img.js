@@ -24,13 +24,12 @@ export const handleMouseEnter = (imageUrl, objectFit) => {
     if (wrapperElement) {
         wrapperElement.style.opacity = '1';
     }
-    // if (objectFit === 'cover') {
-    //     imageElement.style.objectFit = 'cover';
-    // } else if (objectFit === 'contain') {
-    //     imageElement.style.objectFit = 'contain';
-    // }
+    if (objectFit === 'cover') {
+        imageElement.style.objectFit = 'cover';
+    } else if (objectFit === 'contain') {
+         imageElement.style.objectFit = 'contain';
+     }
 };
-
 
 export const handleMouseClick = (imageUrl) => { 
     const imageElement = document.querySelector('.dynamic-image');
@@ -46,7 +45,6 @@ export const handleMouseClick = (imageUrl) => {
             imageElement.src = transitionUrl;
             imageElement.dataset.lastImage = transitionUrl;
             console.log('Image clicked:', transitionUrl);
-
         }
         if (wrapperElement) {
             wrapperElement.style.opacity = '1';
