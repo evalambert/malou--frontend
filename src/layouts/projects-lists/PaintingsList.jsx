@@ -22,44 +22,40 @@ const PaintingsList = ({
         return match ? match[1] : null;
     };
 
-
-        // Title animation
-        const titleLayout = () => {
-            const title = document.querySelectorAll('li.painting-title a');
-            title.forEach((title) => {
-                if (title.getAttribute('href') === targetHref) {
-                    title.parentElement.classList.add('active');
-                    const spansLenght = title.querySelectorAll('span').length;
-                    const firstSpanTranslateY = (spansLenght - 1) * 10;
-                    const newTitleHeight =
-                        firstSpanTranslateY + spansLenght * 10;
-                    title.style.height = `${newTitleHeight}px`;
-                    setTimeout(() => {
-                        const titleSpan = title.querySelectorAll('span');
-                        titleSpan.forEach((span, index) => {
-                            const translateY = (spansLenght - 1 - index) * 15;
-                            span.style.transform = `translateY(-${translateY}px)`;
-                        });
-                    }, 300);
-                
-                } else {
-                    title.parentElement.classList.remove('active');
-                    title.style.height = '32px';
-                    title.querySelectorAll('span').forEach((span) => {
-                        span.style.transform = 'translateY(0)';
+    // Title animation
+    const titleLayout = () => {
+        const title = document.querySelectorAll('li.painting-title a');
+        title.forEach((title) => {
+            if (title.getAttribute('href') === targetHref) {
+                title.parentElement.classList.add('active');
+                const spansLenght = title.querySelectorAll('span').length;
+                const firstSpanTranslateY = (spansLenght - 1) * 10;
+                const newTitleHeight = firstSpanTranslateY + spansLenght * 10;
+                title.style.height = `${newTitleHeight}px`;
+                setTimeout(() => {
+                    const titleSpan = title.querySelectorAll('span');
+                    titleSpan.forEach((span, index) => {
+                        const translateY = (spansLenght - 1 - index) * 15;
+                        span.style.transform = `translateY(-${translateY}px)`;
                     });
-                }
-            });
-            // Attendre que l'animation de transition soit terminée (500ms selon votre CSS)
-            setTimeout(calculateLayout, 500);
-        };
+                }, 300);
+            } else {
+                title.parentElement.classList.remove('active');
+                title.style.height = '32px';
+                title.querySelectorAll('span').forEach((span) => {
+                    span.style.transform = 'translateY(0)';
+                });
+            }
+        });
+        // Attendre que l'animation de transition soit terminée (500ms selon votre CSS)
+        setTimeout(calculateLayout, 500);
+    };
 
     // Effet pour mettre à jour la peinture active basée sur l'URL
     useEffect(() => {
         const slug = extractSlugFromUrl(targetHref);
         setActivePaintingSlug(slug);
     }, [targetHref]);
-
 
     useEffect(() => {
         const calculateLayout = () => {
@@ -68,11 +64,15 @@ const PaintingsList = ({
             let reverse = false;
 
             liTitle.forEach((li) => {
-                const viewportWidth = window.matchMedia('(min-width: 48rem)').matches
+                const viewportWidth = window.matchMedia('(min-width: 48rem)')
+                    .matches
                     ? window.innerWidth - 30
                     : window.innerWidth - 30;
 
-                if (previousLiWidth + li.offsetWidth > viewportWidth && !reverse) {
+                if (
+                    previousLiWidth + li.offsetWidth > viewportWidth &&
+                    !reverse
+                ) {
                     let maxMarginLeft = viewportWidth - li.offsetWidth;
                     li.style.marginLeft = `${maxMarginLeft}px`;
                     previousLiWidth = viewportWidth - li.offsetWidth;
@@ -188,9 +188,9 @@ const PaintingsList = ({
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                            navigate(`/${lang}/painting/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/painting/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
@@ -206,7 +206,7 @@ const PaintingsList = ({
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;
                             const isActive = slug === activePaintingSlug;
-                            
+
                             return (
                                 <li
                                     className='painting-title w-fit !overflow-visible'
@@ -232,7 +232,7 @@ const PaintingsList = ({
                             {hiddenPaintings.map((painting) => {
                                 const slug = painting.slug;
                                 const isActive = slug === activePaintingSlug;
-                                
+
                                 return (
                                     <li
                                         className='painting-title block w-fit'

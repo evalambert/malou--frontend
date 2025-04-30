@@ -252,9 +252,7 @@ const PoetryTitleHardLayout = ({ lang }) => {
                 <div
                     id={'textOverlay-hard-layout-serpent'}
                     className='textOverlay pointer-events-none absolute top-0 left-0 h-full w-full'
-                >
-                    
-                </div>
+                ></div>
                 <div
                     id={'textOverlay-hard-layout-coquille'}
                     className='textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px]'

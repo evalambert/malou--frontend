@@ -3,6 +3,7 @@ import {
     handleMouseEnter,
     handleMouseClick,
     handleMouseLeave,
+    addTouchPreloadListener,
 } from '../../../assets/scripts/utils/preview-img';
 
 const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
@@ -35,7 +36,8 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                 const letterRect = letter.getBoundingClientRect();
                 const overlayLink = document.createElement('a');
                 overlayLink.href = `/${lang}/painting/`;
-                overlayLink.className = 'letter-link fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
+                overlayLink.className =
+                    'letter-link fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
                 overlayLink.style.top = `${letterRect.top + window.scrollY}px`;
                 overlayLink.style.left = `${letterRect.left + window.scrollX}px`;
                 overlayLink.style.width = `${letterRect.width}px`;
@@ -56,6 +58,15 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
         }
     };
 
+    // Effet pour gérer le préchargement de l'image
+    const imageUrl = painting.medias?.[0]?.url || painting.zoomImg?.url;
+
+    useEffect(() => {
+        if (linkRef.current && imageUrl) {
+            addTouchPreloadListener(linkRef.current, imageUrl);
+        }
+    }, [imageUrl]);
+
     // Effet pour gérer l'état active et l'animation
     useEffect(() => {
         setIsOpen(isActive);
@@ -69,7 +80,6 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                 title.style.height = `${newTitleHeight}px`;
 
                 // On met à jour la position immédiatement
-                updatePosition();
 
                 requestAnimationFrame(() => {
                     const spans = title.querySelectorAll('span');
