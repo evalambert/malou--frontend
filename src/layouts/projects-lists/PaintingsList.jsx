@@ -147,6 +147,7 @@ const PaintingsList = ({
     const [maxHeightValue, setmaxHeightValue] = useState('0px');
     const [isOnPaintingPage, setIsOnPaintingPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
+    const [sortedHiddenPaintings, setSortedHiddenPaintings] = useState([]);
 
     const toggleListDisplay = (url, category, accordionY) => {
         if (url.includes(category)) {
@@ -176,6 +177,29 @@ const PaintingsList = ({
     useEffect(() => {
         toggleListDisplay(targetHref, 'painting', accordionOffsetY);
     }, [targetHref, hiddenListHeightPainting, accordionOffsetY]);
+
+    useEffect(() => {
+        const container = document.createElement('div');
+        container.style.visibility = 'hidden';
+        container.style.position = 'absolute';
+        container.style.whiteSpace = 'nowrap';
+        document.body.appendChild(container);
+
+        const sorted = [...hiddenPaintings]
+            .map((p) => {
+                const span = document.createElement('span');
+                span.textContent = p.title;
+                container.appendChild(span);
+                const width = span.getBoundingClientRect().width;
+                container.removeChild(span);
+                return { ...p, visualWidth: width };
+            })
+            .sort((a, b) => a.visualWidth - b.visualWidth); // ordre croissant
+
+        document.body.removeChild(container);
+
+        setSortedHiddenPaintings(sorted);
+    }, [hiddenPaintings]);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -229,7 +253,7 @@ const PaintingsList = ({
                     >
                         {/* Liste Hidden */}
                         <ul>
-                            {hiddenPaintings.map((painting) => {
+                            {sortedHiddenPaintings.map((painting) => {
                                 const slug = painting.slug;
                                 const isActive = slug === activePaintingSlug;
 
