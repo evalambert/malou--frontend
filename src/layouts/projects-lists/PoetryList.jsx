@@ -6,7 +6,7 @@ import { navigate } from 'astro:transitions/client';
 import PoetryTitle from '../../components/common/title/PoetryTitle';
 import PoetryTitleHardLayout from './PoetryTitleHardLayout';
 
-const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
+const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
 
     // const poetryWrapperInner = document.querySelector('.poetry-wrapper-inner');
 
@@ -32,14 +32,14 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
 
     // const hiddenListHeightPoetry = 100;
 
-    const toggleListDisplay = (url, category) => {
+    const toggleListDisplay = (category) => {
         const hiddenListPoetry = document.querySelector('.poetry-wrapper');
         const hiddenListWidthPoetry = hiddenListPoetry.offsetWidth;
         const halfHiddenListWidthPoetry = 0; // /!\ Calcul n'est pas le même si elle as plus de livre -- a tester !
         // const paintingList = document.querySelector('.painting-list');
         // const halfHiddenListWidthPoetry = paintingList?.children.length > 0 ? hiddenListPoetry.offsetWidth - 160 : 0;
 
-        if (url.includes(category)) {
+        if (state == category) {
             // ON PAGE POETRY ************************************************************************************************
             setTranslateXValue(0 + 'px');
             setIsOnPoetryPage(true);
@@ -54,7 +54,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
             });
             window.dispatchEvent(poetryPageEvent);
 
-        } else if (url == '/fr/' || url == '/en/') {
+        } else if (state == 'home') {
             // ON PAGE INDEX ************************************************************************************************
             setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
             setTimeout(() => {
@@ -80,7 +80,7 @@ const PoetryList = ({ dataPoetry, targetHref, lang, className }) => {
     };
 
     useEffect(() => {
-        toggleListDisplay(targetHref, 'poetry');
+        toggleListDisplay('poetry');
 
         // // ANIMATION ON DIRECT ENTERING POETRY PAGE
         // if (targetHref.endsWith(`/${lang}/poetry/`) ) {
