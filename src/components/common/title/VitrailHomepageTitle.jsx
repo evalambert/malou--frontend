@@ -30,9 +30,9 @@ const VitrailHomepageTitle = ({ vitrail, lang }) => {
                         vitrail.medias[0].url;
                     const zoomUrl = vitrail.zoomImg && vitrail.zoomImg.url;
                     if (mediaUrl) {
-                        handleMouseEnter(mediaUrl, 'cover');
+                        handleMouseClick(mediaUrl, 'cover');
                     } else if (zoomUrl) {
-                        handleMouseEnter(zoomUrl, 'contain');
+                        handleMouseClick(zoomUrl, 'contain');
                     }
                 }}
                 onMouseLeave={handleMouseLeave}

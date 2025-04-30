@@ -30,9 +30,9 @@ const VolumeTitle = ({ volume, lang }) => {
                         volume.medias[0].url;
                     const zoomUrl = volume.zoomImg && volume.zoomImg.url;
                     if (mediaUrl) {
-                        handleMouseEnter(mediaUrl, 'cover');
+                        handleMouseClick(mediaUrl, 'cover');
                     } else if (zoomUrl) {
-                        handleMouseEnter(zoomUrl, 'contain');
+                        handleMouseClick(zoomUrl, 'contain');
                     }
                 }}
                 onMouseLeave={handleMouseLeave}

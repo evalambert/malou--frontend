@@ -143,9 +143,9 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
                             weaving.medias[0].url;
                         const zoomUrl = weaving.zoomImg && weaving.zoomImg.url;
                         if (mediaUrl) {
-                            handleMouseEnter(mediaUrl, 'cover');
+                            handleMouseClick(mediaUrl, 'cover');
                         } else if (zoomUrl) {
-                            handleMouseEnter(zoomUrl, 'contain');
+                            handleMouseClick(zoomUrl, 'contain');
                         }
                     }}
                     onMouseLeave={handleMouseLeave}
