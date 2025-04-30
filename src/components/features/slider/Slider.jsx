@@ -22,20 +22,28 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             body.classList.add('mix-blend-actif');
             const timeoutWhite = setTimeout(() => {
                 body.classList.remove('mix-blend-actif');
+                
             }, 700);
             const timeout = setTimeout(() => {
                 setShow(true);
+            }, 900);
+            const timeoutPreviewHide = setTimeout(() => {
+                // hide preview
+                const wrapperElement = document.querySelector('.preview-image--wrapper');
+                wrapperElement.style.opacity = '0';
+                wrapperElement.classList.remove('preview-image--wrapper-visible');
             }, 1000);
-    
+
             return () => {
                 clearTimeout(timeoutWhite);
                 clearTimeout(timeout);
+                clearTimeout(timeoutPreviewHide);
             };
-        }else{
+        } else {
             body.classList.remove('mix-blend-actif');
             setShow(true);
         }
-        
+
     }, []);
 
     const handleSlideChange = () => {
@@ -195,7 +203,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                         <button className='modaleToogle pointer-events-none fixed top-0 right-0 z-10 hidden h-full w-full cursor-pointer mix-blend-difference md:w-[50%]'>
                             <span>close</span>
                         </button>
-                        <ZoomModale hidden={isHidden} zoomImg={zoomImg} insideSlider={true}/>
+                        <ZoomModale hidden={isHidden} zoomImg={zoomImg} insideSlider={true} />
                     </>
                 )}
             </div>

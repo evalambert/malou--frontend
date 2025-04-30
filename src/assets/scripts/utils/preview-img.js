@@ -46,9 +46,11 @@ export const handleMouseClick = (imageUrl) => {
             imageElement.src = transitionUrl;
             imageElement.dataset.lastImage = transitionUrl;
             console.log('Image clicked:', transitionUrl);
+
         }
         if (wrapperElement) {
             wrapperElement.style.opacity = '1';
+            wrapperElement.classList.add('preview-image--wrapper-visible');
         }
     }
 };

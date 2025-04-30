@@ -113,7 +113,6 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
 
     // Effet pour gérer accordionOffsetY
     useEffect(() => {
-        console.log('accordionOffsetY', accordionOffsetY);
         const titleElements = document.querySelectorAll('.letter-link');
         titleElements.forEach((titleElement) => {
             titleElement.style.transform = `translateY(${accordionOffsetY}px)`;
