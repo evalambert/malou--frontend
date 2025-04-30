@@ -58,15 +58,6 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
         }
     };
 
-    // Effet pour gérer le préchargement de l'image
-    const imageUrl = painting.medias?.[0]?.url || painting.zoomImg?.url;
-
-    useEffect(() => {
-        if (linkRef.current && imageUrl) {
-            addTouchPreloadListener(linkRef.current, imageUrl);
-        }
-    }, [imageUrl]);
-
     // Effet pour gérer l'état active et l'animation
     useEffect(() => {
         setIsOpen(isActive);

@@ -64,19 +64,3 @@ export const handleMouseLeave = () => {
         }
     }
 };
-
-
-export const addTouchPreloadListener = (element, imageUrl) => {
-    const mediumUrl = getCloudinaryUrl(imageUrl, { width: 2000 });
-
-    // ✅ Vérifie si le listener est déjà attaché
-    if (element.dataset.touchPreloadAttached === 'true') return;
-
-    const preloadImage = () => {
-        const preloadImg = new Image();
-        preloadImg.src = mediumUrl;
-    };
-
-    element.addEventListener('touchstart', preloadImage, { passive: true });
-    element.dataset.touchPreloadAttached = 'true';
-};
