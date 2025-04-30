@@ -178,7 +178,6 @@ const PaintingsList = ({
         toggleListDisplay(targetHref, 'painting', accordionOffsetY);
     }, [targetHref, hiddenListHeightPainting, accordionOffsetY]);
 
-    // sort hidden paintings by visual width
     useEffect(() => {
         const container = document.createElement('div');
         container.style.visibility = 'hidden';
