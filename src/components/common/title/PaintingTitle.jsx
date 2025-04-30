@@ -153,9 +153,9 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                         painting.medias[0].url;
                     const zoomUrl = painting.zoomImg && painting.zoomImg.url;
                     if (mediaUrl) {
-                        handleMouseEnter(mediaUrl, 'cover');
+                        handleMouseClick(mediaUrl, 'cover');
                     } else if (zoomUrl) {
-                        handleMouseEnter(zoomUrl, 'contain');
+                        handleMouseClick(zoomUrl, 'contain');
                     }
                 }}
                 onMouseLeave={handleMouseLeave}
