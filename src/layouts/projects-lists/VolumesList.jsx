@@ -6,6 +6,7 @@ const VolumesList = ({
     homepageVolumes,
     hiddenVolumes,
     targetHref,
+    state,
     lang,
     className,
 }) => {
@@ -154,8 +155,8 @@ const VolumesList = ({
     const [isOnVolumePage, setIsOnVolumePage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
 
-    const toggleListDisplay = (url, category, accordionY) => {
-        if (url.includes(category)) {
+    const toggleListDisplay = (category, accordionY) => {
+        if (state == category) {
             settranslateYValue('0px');
             setIsOnVolumePage(true);
             setIsOnIndexPage(false);
@@ -166,7 +167,7 @@ const VolumesList = ({
                     setMaxWidthValue('100vw');
                 }, 400);
             }
-        } else if (url == '/fr/' || url == '/en/') {
+        } else if (state == 'home') {
             setIsOnIndexPage(true);
             setIsOnVolumePage(false);
             if (window.innerWidth < 768) {
@@ -194,7 +195,7 @@ const VolumesList = ({
     useEffect(() => {
         const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
         setIsSlugPage(isOnSlugPage);
-        toggleListDisplay(targetHref, 'volume', accordionOffsetY);
+        toggleListDisplay('volume', accordionOffsetY);
     }, [targetHref, hiddenListHeightVolume, accordionOffsetY]);
 
     // Effet pour le redimensionnement
