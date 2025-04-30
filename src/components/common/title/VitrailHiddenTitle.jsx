@@ -18,9 +18,9 @@ const VitrailHiddenTitle = ({ vitrail, lang }) => {
                         vitrail.medias[0].url;
                     const zoomUrl = vitrail.zoomImg && vitrail.zoomImg.url;
                     if (mediaUrl) {
-                        handleMouseEnter(mediaUrl);
+                        handleMouseEnter(mediaUrl, 'cover');
                     } else if (zoomUrl) {
-                        handleMouseEnter(zoomUrl);
+                        handleMouseEnter(zoomUrl, 'contain');
                     }
                 }}
                 onClick={() => {
@@ -30,16 +30,16 @@ const VitrailHiddenTitle = ({ vitrail, lang }) => {
                         vitrail.medias[0].url;
                     const zoomUrl = vitrail.zoomImg && vitrail.zoomImg.url;
                     if (mediaUrl) {
-                        handleMouseClick(mediaUrl);
+                        handleMouseEnter(mediaUrl, 'cover');
                     } else if (zoomUrl) {
-                        handleMouseClick(zoomUrl);
+                        handleMouseEnter(zoomUrl, 'contain');
                     }
                 }}
                 onMouseLeave={handleMouseLeave}
                 data-image-preview={
                     vitrail.medias && vitrail.medias[0] && vitrail.medias[0].url
                         ? vitrail.medias[0].url
-                        : vitrail.zoomImg && vitrail.zoomImg.url 
+                        : vitrail.zoomImg && vitrail.zoomImg.url
                 }
             >
                 {vitrail.title.split(' ').map((word, i, words) => (
@@ -62,6 +62,6 @@ const VitrailHiddenTitle = ({ vitrail, lang }) => {
             </a>
         </div>
     );
-};
+};  
 
 export default VitrailHiddenTitle;

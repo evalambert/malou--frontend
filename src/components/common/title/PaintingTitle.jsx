@@ -141,9 +141,9 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                         painting.medias[0].url;
                     const zoomUrl = painting.zoomImg && painting.zoomImg.url;
                     if (mediaUrl) {
-                        handleMouseEnter(mediaUrl);
+                        handleMouseEnter(mediaUrl, 'cover');
                     } else if (zoomUrl) {
-                        handleMouseEnter(zoomUrl);
+                        handleMouseEnter(zoomUrl, 'contain');
                     }
                 }}
                 onClick={() => {
@@ -153,9 +153,9 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                         painting.medias[0].url;
                     const zoomUrl = painting.zoomImg && painting.zoomImg.url;
                     if (mediaUrl) {
-                        handleMouseClick(mediaUrl);
+                        handleMouseEnter(mediaUrl, 'cover');
                     } else if (zoomUrl) {
-                        handleMouseClick(zoomUrl);
+                        handleMouseEnter(zoomUrl, 'contain');
                     }
                 }}
                 onMouseLeave={handleMouseLeave}
