@@ -15,16 +15,22 @@ export const handleMouseEnter = (imageUrl, objectFit) => {
             imageElement.src = smallUrl;
             imageElement.dataset.lastImage = smallUrl;
         }
-        if (wrapperElement) {
-            wrapperElement.style.opacity = '1';
-        }
-        // if (objectFit === 'cover') {
-        //     imageElement.style.objectFit = 'cover';
-        // } else if (objectFit === 'contain') {
-        //     imageElement.style.objectFit = 'contain';
-        // }
+         // ✅ Préchargement propre sans DOM
+         const mediumUrl = getCloudinaryUrl(imageUrl, { width: 2000 });
+         const preloadImg = new Image();
+         preloadImg.src = mediumUrl;
+        // Le navigateur le mettra en cache automatiquement
     }
+    if (wrapperElement) {
+        wrapperElement.style.opacity = '1';
+    }
+    // if (objectFit === 'cover') {
+    //     imageElement.style.objectFit = 'cover';
+    // } else if (objectFit === 'contain') {
+    //     imageElement.style.objectFit = 'contain';
+    // }
 };
+
 
 export const handleMouseClick = (imageUrl) => { 
     const imageElement = document.querySelector('.dynamic-image');
@@ -57,4 +63,20 @@ export const handleMouseLeave = () => {
             wrapperElement.style.opacity = '0';
         }
     }
+};
+
+
+export const addTouchPreloadListener = (element, imageUrl) => {
+    const mediumUrl = getCloudinaryUrl(imageUrl, { width: 2000 });
+
+    // ✅ Vérifie si le listener est déjà attaché
+    if (element.dataset.touchPreloadAttached === 'true') return;
+
+    const preloadImage = () => {
+        const preloadImg = new Image();
+        preloadImg.src = mediumUrl;
+    };
+
+    element.addEventListener('touchstart', preloadImage, { passive: true });
+    element.dataset.touchPreloadAttached = 'true';
 };
