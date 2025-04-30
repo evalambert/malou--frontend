@@ -18,33 +18,35 @@ document.addEventListener('astro:before-preparation', (event) => {
     const link = clickedElement?.closest('a'); // Trouve le lien parent si clic sur un élément dans <a>
 
     // --- 1. Gestion spécifique au clic sur .work-list ---
-    const workList = document.querySelectorAll('.work-list');
-    let isWorkListClick = false;
-    for (const work of workList) {
-        if (work.contains(clickedElement)) {
-            isWorkListClick = true;
-            // Garde l'image de prévisualisation visible (logique existante)
-            const wrapperElement = document.querySelector(
-                '.preview-image--wrapper'
-            );
-            if (wrapperElement) {
-                // console.log('Work list item clicked, handling preview image.');
-                wrapperElement.style.opacity = '1';
-                wrapperElement.classList.add('preview-image--wrapper-visible');
-                // Note: Le timeout original était de 5000ms ici
-                setTimeout(() => {
-                    wrapperElement.style.opacity = '0';
-                    wrapperElement.classList.remove(
-                        'preview-image--wrapper-visible'
-                    );
-                }, 5000);
-            }
-            // Important: Décidez si un clic sur work-list doit aussi être intercepté par l'accordéon.
-            // Si oui, ne pas 'return' ici. Si non, vous pourriez 'return' ici.
-            // Pour l'instant, on continue pour potentiellement appliquer la logique accordéon aussi.
-            break;
-        }
-    }
+    // const workList = document.querySelectorAll('.work-list');
+    // let isWorkListClick = false;
+    // for (const work of workList) {
+    //     if (work.contains(clickedElement)) {
+    //         isWorkListClick = true;
+    //         // Garde l'image de prévisualisation visible (logique existante)
+    //         const wrapperElement = document.querySelector(
+    //             '.preview-image--wrapper'
+    //         );
+    //         if (wrapperElement) {
+    //             console.log('Work list item clicked, handling preview image.');
+    //             console.log('hello preview');
+    //             wrapperElement.style.opacity = '1';
+    //             wrapperElement.classList.add('preview-image--wrapper-visible');
+    //             // Note: Le timeout original était de 5000ms ici
+    //             setTimeout(() => {
+    //                 wrapperElement.style.opacity = '0';
+    //                 console.log('byebye preview');
+    //                 wrapperElement.classList.remove(
+    //                     'preview-image--wrapper-visible'
+    //                 );
+    //             }, 5000);
+    //         }
+    //         // Important: Décidez si un clic sur work-list doit aussi être intercepté par l'accordéon.
+    //         // Si oui, ne pas 'return' ici. Si non, vous pourriez 'return' ici.
+    //         // Pour l'instant, on continue pour potentiellement appliquer la logique accordéon aussi.
+    //         break;
+    //     }
+    // }
 
     // --- 2. Interception de navigation sur slug page si accordéon ouvert ---
     if (document.body.classList.contains('on-slug-page') && link) {
@@ -76,11 +78,10 @@ document.addEventListener('astro:before-preparation', (event) => {
                 // Utilise Astro.navigate si disponible (mieux pour View Transitions)
                 if (typeof Astro !== 'undefined' && Astro.navigate) {
                     console.log('8i8 -> Astro.navigate');
-                    // Astro.navigate(navigateToUrl);
-                    window.location.href = navigateToUrl;
+                    Astro.navigate(navigateToUrl);
                 } else {
                     console.log('8i8 -> window.location.href');
-                    // window.location.href = navigateToUrl; // Fallback
+                    window.location.href = navigateToUrl; // Fallback uniquement si Astro.navigate n'est pas disponible
                 }
             };
 
@@ -100,7 +101,7 @@ document.addEventListener('astro:before-preparation', (event) => {
                     console.log('8i8 -> Astro.navigate');
                 } else {
                     console.log('8i8 -> window.location.href');
-                    window.location.href = navigateToUrl; // Fallback
+                    window.location.href = navigateToUrl; // Fallback uniquement si Astro.navigate n'est pas disponible
                 }
             }, 800); // Timeout (ajuster si besoin)
 
