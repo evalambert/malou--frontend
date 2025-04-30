@@ -58,6 +58,11 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             if (modaleToggleElement && (isLastSlide || wasLastSlide)) {
                 modaleToggleElement.classList.toggle('hidden');
                 modaleToggleElement.classList.toggle('pointer-events-none');
+                // Ici pour précharger l'image du slider Zoom
+                if (zoomImg && zoomImg.url) {
+                    const img = new window.Image();
+                    img.src = zoomImg.url;
+                }
             }
         }
     };

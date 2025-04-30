@@ -10,6 +10,7 @@ import 'swiper/css';
 
 const ZoomModale = ({ zoomImg = [], hidden, insideSlider }) => {
     const swiperRef = useRef(null);
+    const [show, setShow] = useState(false);
 
 
     useEffect(() => {
@@ -21,6 +22,20 @@ const ZoomModale = ({ zoomImg = [], hidden, insideSlider }) => {
                 body.classList.remove('mix-blend-actif');
             }
         }
+        const timeout = setTimeout(() => {
+            setShow(true);
+        }, 900);
+        const timeoutPreviewHide = setTimeout(() => {
+            // hide preview
+            const wrapperElement = document.querySelector('.preview-image--wrapper');
+            wrapperElement.style.opacity = '0';
+            wrapperElement.classList.remove('preview-image--wrapper-visible');
+        }, 1000);
+
+        return () => {
+            clearTimeout(timeout);
+            clearTimeout(timeoutPreviewHide);
+        };
     }, [hidden]);
 
     return (
@@ -61,7 +76,7 @@ const ZoomModale = ({ zoomImg = [], hidden, insideSlider }) => {
                 }
             `}
             </style>
-            <div className='zoom-modale'>
+            <div className={`zoom-modale ${show ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
                 <Swiper
                     ref={swiperRef}
                     slidesPerView={'auto'}
