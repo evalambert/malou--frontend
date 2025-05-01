@@ -218,7 +218,7 @@ const VolumesList = ({
         <>
 
             <div
-                className={`work-list max-md:relative max-md:top-[50vh] max-md:left-0 max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list volume-list-wrapper ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
             >
                 <div
                     className={`max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out`}
@@ -258,11 +258,15 @@ const VolumesList = ({
                                     </li>
                                 ))}
                             </ul>
+
                             {/* (END) Liste Hidden */}
                         </div>
 
                         {/* Liste Homepage */}
                         <ul className='volume-list-compact preview-list-volume flex flex-wrap md:gap-y-[25px]'>
+                            <li>Fake content</li>
+                            <li>Fake content</li>
+                            <li>Fake content</li>
                             {homepageVolumes.map((volume) => (
                                 <li
                                     className='volume-title w-fit'
