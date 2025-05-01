@@ -66,7 +66,7 @@ export const handleMouseLeave = () => {
         }
         if (imageElement) {
             imageElement.style.objectFit = '';
-            imageElement.src = ''; 
+            //imageElement.src = ''; 
         }
     }
 };
