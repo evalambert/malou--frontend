@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { navigate } from 'astro:transitions/client';
+import { gsap } from 'gsap';
 
 import VitrailHiddenTitle from '../../components/common/title/VitrailHiddenTitle.jsx';
 import VitrailHomepageTitle from '../../components/common/title/VitrailHomepageTitle.jsx';
