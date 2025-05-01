@@ -268,3 +268,10 @@ body.category-volume .cat-volume-flex-wrapper {
 [data-transition-fade] {
     animation: test-fade 1s ease forwards;
 }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/* Slug Page – Hidden title list   */
+
+body.on-slug-page .weaving-title > div:has(a:not(.active)) {
+    @apply block opacity-0 transition-opacity delay-[1s] duration-1000 ease-in-out;
+}
