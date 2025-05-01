@@ -346,7 +346,7 @@ const VitrailList = ({
     return (
         <>
             <div
-                className={`work-list vitrail-list-wrapper relative top-[70vh] w-full md:fixed md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll pb-[30px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isOnVitrailPage ? '' : 'pointer-events-none'}`}
+                className={`work-list vitrail-list-wrapper relative top-[70vh] w-full md:fixed md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll pb-[30px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${isOnVitrailPage ? '' : 'pointer-events-none'}`}
             >
                 <div
                     className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${!isOnVitrailPage ? 'cursor-pointer' : ''

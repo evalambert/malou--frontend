@@ -157,7 +157,11 @@ const VolumesList = ({
 
     const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
-            settranslateYValue('0px');
+            settranslateYValue(accordionY + 'px');
+            console.log('coucou hey' + accordionY);
+            if (document.getElementById('floating-title-container')) {
+                document.getElementById('floating-title-container').style.transform = `translateY(${accordionY}px)`;
+            }
             setIsOnVolumePage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
@@ -191,7 +195,7 @@ const VolumesList = ({
             }
         }
     };
- 
+
     useEffect(() => {
         const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
         setIsSlugPage(isOnSlugPage);
@@ -218,25 +222,25 @@ const VolumesList = ({
         <>
 
             <div
-                className={`work-list volume-list-wrapper ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list volume-list-wrapper ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${isOnVolumePage ? '' : 'pointer-events-none'} `}
             >
                 <div
                     className={`max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out`}
-                    onClick={
-                        !isOnVolumePage
-                            ? () =>
-                                navigate(`/${lang}/volume/`, {
-                                    history: 'push',
-                                })
-                            : undefined
-                    }
+                    // onClick={
+                    //     !isOnVolumePage
+                    //         ? () =>
+                    //             navigate(`/${lang}/volume/`, {
+                    //                 history: 'push',
+                    //             })
+                    //         : undefined
+                    // }
                     style={{
                         maxWidth: `${maxWidthValue}`,
                         maxHeight: `${maxHeightValue}`,
                     }}
                 >
                     <div
-                        className={`pt-body-p-y transition-all duration-500 ease-in-out max-md:w-[calc(100vw-40px)] ${!isOnVolumePage ? 'pointer-events-none' : ''}`}
+                        className={`pt-body-p-y transition-all duration-500 ease-in-out max-md:w-[calc(100vw-40px)]`}
                         style={{
                             transform: `translate(${translateXValue}, ${translateYValue})`,
                         }}
