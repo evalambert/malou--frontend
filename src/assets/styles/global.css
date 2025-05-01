@@ -268,3 +268,12 @@ body.category-volume .cat-volume-flex-wrapper {
 [data-transition-fade] {
     animation: test-fade 1s ease forwards;
 }
+
+/* body.on-slug-page .weaving-title > div {
+    @apply opacity-3000 transition-opacity duration-1000 ease-in-out;
+}
+
+body.on-slug-page .weaving-title > div:has(a:not(.active)) {
+    @apply opacity-0 delay-3000;
+}
+ */
