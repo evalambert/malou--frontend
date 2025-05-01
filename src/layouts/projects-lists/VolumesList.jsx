@@ -264,9 +264,6 @@ const VolumesList = ({
 
                         {/* Liste Homepage */}
                         <ul className='volume-list-compact preview-list-volume flex flex-wrap md:gap-y-[25px]'>
-                            <li>Fake content</li>
-                            <li>Fake content</li>
-                            <li>Fake content</li>
                             {homepageVolumes.map((volume) => (
                                 <li
                                     className='volume-title w-fit'

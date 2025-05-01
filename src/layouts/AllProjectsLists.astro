@@ -79,7 +79,7 @@ export const prerender = true;
 />
 
 <VolumesList
-    className='relative md:fixed top-[50vh] md:top-body-p-y left-0 z-50 md:z-10 md:pl-[300px] mix-blend-target max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden max-h-screen overflow-scroll pb-[30px]'
+    className='pointer-events-none relative md:fixed top-[50vh] md:top-body-p-y left-0 z-50 md:z-10 md:pl-[300px] mix-blend-target max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden max-h-screen overflow-scroll pb-[30px]'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -103,7 +103,7 @@ export const prerender = true;
 />
 
 <PoetryList
-    className='mix-blend-target'
+    className='pointer-events-none mix-blend-target'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -113,7 +113,7 @@ export const prerender = true;
     client:only='react'
 />
 <PaintingsList
-    className='relative md:fixed max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target'
+    className='relative md:fixed max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target w-full md:max-h-screen pt-[50px] pb-body-p-y transition-all delay-[0.2s] duration-500 ease-in-out'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -124,7 +124,7 @@ export const prerender = true;
     client:only='react'
 />
 <WeavingList
-    className='z-50 mix-blend-target'
+    className='pointer-events-none z-50 mix-blend-target w-full md:max-h-screen pt-[30px]'
     targetHref={currentPath}
     state={state}
     lang={lang}
