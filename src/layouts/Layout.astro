@@ -13,11 +13,14 @@ const isIndexPage = currentPath == '/fr/' || currentPath == '/en/';
 
 // Find the category of the current page and add it to the body tag
 const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
-const categoryClass = (categoryMatch ? `category-${categoryMatch[1]}` : '') + '' + (isIndexPage ? 'index-page' : '');
+const categoryClass =
+    (categoryMatch ? `category-${categoryMatch[1]}` : '') +
+    '' +
+    (isIndexPage ? 'index-page' : '');
 ---
 
 <!doctype html>
-<html lang={currentLocale} transition:name='root' transition:animate='none'>
+<html lang={currentLocale} transition:name='root'>
     <head>
         <meta charset='UTF-8' />
         <meta name='viewport' content='width=device-width' />
@@ -50,5 +53,5 @@ const categoryClass = (categoryMatch ? `category-${categoryMatch[1]}` : '') + ''
             {showReturn && <ButtonReturn to={returnTo} />}
             <slot />
         </main>
-    </body>
-</html>
+    </body></html
+>

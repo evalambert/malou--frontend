@@ -1,7 +1,6 @@
 //src/layouts/About.jsx
 import { useEffect, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
-import gsap from 'gsap';
 import {
     activeComponent,
     toggleComponent,
@@ -14,18 +13,23 @@ export default function AboutComponent({ about, lang }) {
     const aboutRef = useRef(null);
     const actuHeight = useStore(heightActu);
     const [isMobile, setIsMobile] = useState(false);
-    const [show, setShow] = useState(false);
-    const [fadeOut, setFadeOut] = useState(false);
+    //const [show, setShow] = useState(false);
 
     /* ----- FadeIn animation onEnter AboutPage ---- */
-    useEffect(() => {
+   /*  useEffect(() => {
         const timer = setTimeout(() => {
             setShow(true);
         }, 1000);
 
         return () => clearTimeout(timer);
+    }, []); */
+
+
+    useEffect(() => {
+        console.log('[about] AboutComponent mounted (entrée page)');
     }, []);
 
+    
     /* ------ Close ActuComponent onEnter AboutPage ------ */
     useEffect(() => {
         // On force la réinitialisation de activeComponent à 'about' à chaque fois que AboutPage est montée
@@ -67,9 +71,7 @@ export default function AboutComponent({ about, lang }) {
                 active === 'about'
                     ? 'md:top-0 md:h-full'
                     : 'md:top-[calc(-100vh)] md:h-0'
-            } ${show ? 'opacity-100' : 'opacity-0'} ${
-                fadeOut ? 'opacity-0 transition-opacity duration-1000' : ''
-            } overflow-hidden transition-all duration-500 ease-in-out`}
+            } overflow-hidden transition-all duration-500 ease-in-out`} /* ${show ? 'opacity-100' : 'opacity-0'} */
             style={
                 isMobile
                     ? { top: active === 'about' ? '0px' : `${actuHeight}px` }

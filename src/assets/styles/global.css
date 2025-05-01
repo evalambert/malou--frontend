@@ -201,9 +201,9 @@ body:not(.category-vitrail) .swiper-pagination {
 }
 
 body.category-volume .cat-vitrail-flex-wrapper {
-    @apply md:flex-0 md:w-0;
+    @apply md:w-0 md:flex-0;
 }
-body.category-volume .cat-volume-flex-wrapper{
+body.category-volume .cat-volume-flex-wrapper {
     @apply md:flex-4;
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
@@ -251,4 +251,20 @@ body.category-volume .cat-volume-flex-wrapper{
 .vitrail-word-wrapper.active span {
     text-align: center;
     display: inline-block;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/* About Page – Transition   */
+
+@keyframes test-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+[data-transition-fade] {
+    animation: test-fade 1s ease forwards;
 }
