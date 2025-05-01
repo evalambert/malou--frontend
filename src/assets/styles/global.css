@@ -200,12 +200,6 @@ body:not(.category-vitrail) .swiper-pagination {
     @apply md:pt-[25px];
 }
 
-body.category-volume .cat-vitrail-flex-wrapper {
-    @apply md:flex-0 md:w-0;
-}
-body.category-volume .cat-volume-flex-wrapper{
-    @apply md:flex-4;
-}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Titles */
 /* body.on-slug-page .work-list {
