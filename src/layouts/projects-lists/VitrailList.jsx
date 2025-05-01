@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { navigate } from 'astro:transitions/client';
 import { gsap } from 'gsap';
 
@@ -16,6 +16,19 @@ const VitrailList = ({
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
     const [activeHref, setActiveHref] = useState(null);
     const [isSlugPage, setIsSlugPage] = useState(false);
+
+    const renderedCount = useRef(0); // compteur de composants montés
+    const [allRendered, setAllRendered] = useState(false); // état déclencheur
+    const previousHeightRef = useRef(null); // hauteur précédente
+
+    const [translateYValue, settranslateYValue] = useState('-200vh');
+    // const [translateYValue, settranslateYValue] = useState('-' + hiddenListHeightVitrail + 'px');
+    const [translateXValue, settranslateXValue] = useState('0px');
+    const [maxWidthValue, setMaxWidthValue] = useState('initial');
+    const [maxHeightValue, setMaxHeightValue] = useState('initial');
+    const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
+    const [isOnIndexPage, setIsOnIndexPage] = useState(false);
+    const [sortedHiddenVitraux, setSortedHiddenVitraux] = useState([]);
 
     // ••• Creation du liens de superposition •••
     const createOverlayLinks = (wordWrappers, lang) => {
@@ -148,54 +161,91 @@ const VitrailList = ({
         };
     }, [titleLayout]);
 
-    // Effet pour la hauteur de la liste cachée
+    // ••• Effet pour la hauteur de la liste cachée •••
+    // 1. Met à jour la hauteur quand tout est rendu ou la langue change
     useEffect(() => {
-        const timer = setTimeout(() => {
+        renderedCount.current = 0;
+        setAllRendered(false);
+        // Garde la hauteur précédente pendant le re-rendu
+        previousHeightRef.current = hiddenListHeightVitrail;
+    }, [lang]);
+
+    // Effet pour mettre à jour la hauteur
+    useEffect(() => {
+        if (allRendered) {
             const hiddenList = document.querySelector('.hidden-list-vitrail');
             if (hiddenList) {
-                const height = hiddenList.clientHeight;
+                const height = hiddenList.getBoundingClientRect().height;
                 setHiddenListHeightVitrail(height);
+                console.log('lang', lang);
+                console.log('Height hidden list Vitrail *_*', height);
             }
-        }, 100);
-
-        return () => clearTimeout(timer);
-    }, [homepageVitraux, hiddenVitraux]);
+        } else {
+            // Utilise la hauteur précédente pendant le re-rendu
+            if (previousHeightRef.current !== null) {
+                setHiddenListHeightVitrail(previousHeightRef.current);
+            }
+        }
+    }, [allRendered, lang]);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
-    const [translateYValue, settranslateYValue] = useState('-200vh');
-    const [translateXValue, settranslateXValue] = useState('0px');
-    const [maxWidthValue, setMaxWidthValue] = useState('initial');
-    const [maxHeightValue, setMaxHeightValue] = useState('initial');
-    const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
-    const [isOnIndexPage, setIsOnIndexPage] = useState(false);
-    const [sortedHiddenVitraux, setSortedHiddenVitraux] = useState([]);
 
-  
+
     const toggleListDisplay = (category) => {
         if (state == category) {
+            // ••• CATEGORY •••
             settranslateYValue('0px');
             setIsOnVitrailPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
                 setMaxHeightValue('initial');
+                console.log('anim Catgory');
                 setTimeout(() => {
-                    settranslateXValue('0px');
+                    // settranslateXValue('0px');
                     setMaxWidthValue('100vw');
                 }, 400);
+
+            } else {
+                settranslateYValue('0px');
+                // gsap.to('.vitrail-list--slide-wrapper',
+                //     {
+                //         y: '0px',
+                //         duration: 0.5,
+                //         ease: "power2.out",
+                //     }
+                // );
             }
         } else if (state == 'home') {
+            // ••• HOMEPAGE •••
             setIsOnVitrailPage(false);
             setIsOnIndexPage(true);
             if (window.innerWidth < 768) {
+                // mobile
                 settranslateYValue('0px');
                 settranslateXValue('50vw');
                 setMaxWidthValue('0px');
                 setMaxHeightValue('0px');
             } else {
-                settranslateYValue('-' + hiddenListHeightVitrail + 'px');
+                const targetY = `-${hiddenListHeightVitrail || previousHeightRef.current}px`;
+                console.log('TRANSLATE targetY =>', targetY);
+                settranslateYValue(targetY);
+                // -> Le problème venait du fait que l'animation GSAP utilisait la valeur de translateYValue qui n'était pas encore mise à jour au moment de l'animation, à cause de la nature asynchrone des mises à jour d'état dans React.
+                // -> En utilisant directement la valeur calculée (targetY), nous nous assurons que GSAP utilise la bonne valeur immédiatement, sans dépendre de la mise à jour d'état de React.
+                // const targetY = `-${hiddenListHeightVitrail}px`;
+                // gsap.fromTo('.vitrail-list--slide-wrapper',
+                //     {
+                //         y: '-200vh'
+                //     },
+                //     {
+                //         y: targetY,
+                //         duration: 0.8,
+                //         ease: "power2.out",
+                //     }
+                // );
             }
         } else {
+            // ••• HIDDEN •••
             setIsOnVitrailPage(false);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
@@ -266,7 +316,7 @@ const VitrailList = ({
     return (
         <>
             <div
-                className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list vitrail-list-wrapper max-md:relative max-md:top-[70vh] max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
             >
                 <div
                     className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${!isOnVitrailPage ? 'cursor-pointer' : ''
@@ -285,13 +335,13 @@ const VitrailList = ({
                     }}
                 >
                     <div
-                        className={`pt-body-p-y flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
+                        className={`vitrail-list--slide-wrapper pt-body-p-y flex flex-col items-end transition-all duration-500 ease-in-out  ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
                         style={{
                             transform: `translate(${translateXValue}, ${translateYValue})`,
                         }}
                     >
                         <div
-                            className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
+                            className={`hidden-list-vitrail flex flex-col items-end max-md:order-2 transition-all delay-[0.2s] duration-1000 ease-in-out ${isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
                                 } `}
                         >
                             {/* Liste Hidden */}
@@ -304,6 +354,12 @@ const VitrailList = ({
                                         <VitrailHiddenTitle
                                             vitrail={vitrail}
                                             lang={lang}
+                                            onMount={() => {
+                                                renderedCount.current += 1;
+                                                if (renderedCount.current === sortedHiddenVitraux.length) {
+                                                    setAllRendered(true);
+                                                }
+                                            }}
                                         />
                                     </li>
                                 ))}

@@ -4,6 +4,7 @@ import fetchApi from '../assets/scripts/lib/strapi.js';
 import { fetchSortedCategory } from '../assets/scripts/lib/sortedData.js';
 import { pageState } from '../assets/scripts/lib/store.js';
 
+
 import Nav from './Nav.jsx';
 import PaintingsList from './projects-lists/PaintingsList.jsx';
 import VitrailList from './projects-lists/VitrailList.jsx';
@@ -61,6 +62,7 @@ function getPageState(currentPath) {
     return null;
 }
 const state = getPageState(currentPath);
+
 // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 export const prerender = true;

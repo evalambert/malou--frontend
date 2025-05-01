@@ -41,10 +41,12 @@ if (typeof window !== 'undefined') {
     initialPathname = window.location.pathname;
 }
 export const pageState = atom(getPageState(initialPathname));
+export const previousPageState = atom(null);
 
 // Fonction pour mettre à jour le store lors d'un changement d'URL
 export function updatePageState() {
     if (typeof window !== 'undefined') {
+        
         pageState.set(getPageState(window.location.pathname));
     }
 }
