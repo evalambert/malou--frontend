@@ -1,5 +1,5 @@
 // src/assets/scripts/utils/preview-img.js
-import { getCloudinaryUrl } from '../lib/cloudinary';
+import { getCloudinaryUrl } from '../lib/cloudinary';  
 
 export const handleMouseEnter = (imageUrl, objectFit) => {
     const imageElement = document.querySelector('.dynamic-image');
