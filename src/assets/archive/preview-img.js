@@ -32,6 +32,6 @@ export const handleMouseLeave = () => {
         ) {
             wrapperElement.style.opacity = '0';
         }
-        // imageElement.style.objectFit = 'unset';
+        //imageElement.style.objectFit = 'unset';
     }
 };
