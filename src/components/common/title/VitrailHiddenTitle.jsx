@@ -5,10 +5,10 @@ import {
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
-const VitrailHiddenTitle = ({ vitrail, lang, onMount }) => {
+const VitrailHiddenTitle = ({ vitrail, lang, onMount}) => {
     useEffect(() => {
         onMount?.(); // Appelle la fonction si elle est définie
-      }, []);
+    }, []);
     // Render
     return (
         <div>
@@ -66,6 +66,6 @@ const VitrailHiddenTitle = ({ vitrail, lang, onMount }) => {
             </a>
         </div>
     );
-};  
+};
 
 export default VitrailHiddenTitle;

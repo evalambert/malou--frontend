@@ -14,6 +14,7 @@ const VitrailList = ({
     className,
 }) => {
     const [hiddenListHeightVitrail, setHiddenListHeightVitrail] = useState(0);
+    const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [activeHref, setActiveHref] = useState(null);
     const [isSlugPage, setIsSlugPage] = useState(false);
 
@@ -188,26 +189,55 @@ const VitrailList = ({
         }
     }, [allRendered, lang]);
 
+    /**
+ * Gestion du décalage vertical du titre en fonction de l'accordéon
+ */
+    useEffect(() => {
+        // Écoute l'événement personnalisé émis par l'accordéon
+        const handleAccordionMovement = (event) => {
+            // Récupère l'état de l'accordéon et sa hauteur depuis l'événement
+            const { isAccordionOpen, accordionHeight } = event.detail;
+            // Applique un décalage négatif égal à la hauteur de l'accordéon si ouvert, sinon revient à 0
+            setAccordionOffsetY(isAccordionOpen ? -accordionHeight : 0);
+        };
+
+        // Ajout de l'écouteur d'événement
+        window.addEventListener(
+            'accordionDescriptionToggle',
+            handleAccordionMovement
+        );
+
+        // Nettoyage de l'écouteur lors du démontage du composant
+        return () => {
+            window.removeEventListener(
+                'accordionDescriptionToggle',
+                handleAccordionMovement
+            );
+        };
+    }, []);
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
 
 
-    const toggleListDisplay = (category) => {
+    const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
             // ••• CATEGORY •••
-            settranslateYValue('0px');
+
             setIsOnVitrailPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
                 setMaxHeightValue('initial');
-                console.log('anim Catgory');
                 setTimeout(() => {
                     // settranslateXValue('0px');
                     setMaxWidthValue('100vw');
                 }, 400);
 
             } else {
-                settranslateYValue('0px');
+                settranslateYValue(accordionY + 'px');
+                console.log('coucou hey' + accordionY);
+                if (document.getElementById('floating-title-container')) {
+                    document.getElementById('floating-title-container').style.transform = `translateY(${accordionY}px)`;
+                }
                 // gsap.to('.vitrail-list--slide-wrapper',
                 //     {
                 //         y: '0px',
@@ -260,8 +290,8 @@ const VitrailList = ({
 
 
     useEffect(() => {
-        toggleListDisplay('vitrail');
-    }, [targetHref, hiddenListHeightVitrail]);
+        toggleListDisplay('vitrail', accordionOffsetY);
+    }, [targetHref, hiddenListHeightVitrail, accordionOffsetY]);
 
     // // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // console.log('hello <:-° status dans vitrail list', state);
@@ -316,7 +346,7 @@ const VitrailList = ({
     return (
         <>
             <div
-                className={`work-list vitrail-list-wrapper relative top-[70vh] w-full md:fixed md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll pb-[30px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list vitrail-list-wrapper relative top-[70vh] w-full md:fixed md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll pb-[30px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVitrailPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isOnVitrailPage ? '' : 'pointer-events-none'}`}
             >
                 <div
                     className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${!isOnVitrailPage ? 'cursor-pointer' : ''
