@@ -247,7 +247,7 @@ const VitrailList = ({
     // Toogle hidden/compact/full
 
   
-    const toggleListDisplay = (category) => {
+    const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
             // ••• CATEGORY •••
 
