@@ -18,6 +18,7 @@ const PaintingsList = ({
     const [activePaintingSlug, setActivePaintingSlug] = useState(null);
     const [isSlugPage, setIsSlugPage] = useState(false);
     const [firstRender, setFirstRender] = useState(false);
+    const [mobileTopValue, setMobileTopValue] = useState('unset');
 
     const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
 
@@ -110,10 +111,10 @@ const PaintingsList = ({
         };
 
         // Initial calculation
-        if (state == 'home' && firstRender){
+        if (state == 'home' && firstRender) {
             calculateLayout();
             setTimeout(calculateLayout, 100);
-        }else{
+        } else {
             setTimeout(calculateLayout, 100);
         }
 
@@ -163,18 +164,33 @@ const PaintingsList = ({
         if (state == category) {
             settailwindSlideTrans(true);
             setFirstRender(false);
-            setTranslateValue(accordionY + 'px');
             setIsOnPaintingPage(true);
             setIsOnIndexPage(false);
-            setmaxHeightValue('100vh');
             if (window.innerWidth < 768) {
-                setmaxHeightValue('300vh');
+                setTranslateValue('0px');
+                // MOBILE
+                let paintingListHeight =
+                    document.querySelector('.painting-list-wrapper > div').getBoundingClientRect().height;
+                setmaxHeightValue(paintingListHeight + 'px');
+                if (paintingListHeight > window.innerHeight / 2) {
+                    setMobileTopValue('calc(50vh - 130px)');
+                    setmaxHeightValue('unset');
+                } else {
+                    let newMobileTopValue = (paintingListHeight + 50);
+                    setMobileTopValue('calc(100vh - ' + newMobileTopValue + 'px)');
+                    setmaxHeightValue('unset');
+                    console.log('MOBILE to small');
+                }
+            }else{
+                setTranslateValue(accordionY + 'px');
+                setmaxHeightValue('100vh');
             }
         } else if (state == 'home') {
             setFirstRender(true);
             if (window.innerWidth < 768) {
-                setTranslateValue('100vh');
+                setTranslateValue('0px');
                 setmaxHeightValue('0px');
+                setMobileTopValue('calc(100vh - 130px)');
             } else {
                 setTranslateValue(hiddenListHeightPainting + 'px');
                 setmaxHeightValue('300vh');
@@ -183,10 +199,17 @@ const PaintingsList = ({
             setIsOnPaintingPage(false);
         } else {
             settailwindSlideTrans(true);
-            setFirstRender(false);
-            setTranslateValue('100vh');
+            setFirstRender(false);            
             setIsOnPaintingPage(false);
             setIsOnIndexPage(false);
+            if (window.innerWidth < 768) {
+                setTranslateValue('0px');
+                setmaxHeightValue('0px');
+                setMobileTopValue('calc(100vh - 130px)');
+                setTranslateValue('0px');
+            }else{
+                setTranslateValue('100vh');
+            }
         }
     };
 
@@ -241,10 +264,11 @@ const PaintingsList = ({
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list painting-list-wrapper border ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer w-[500px]' : 'md:pt-[50px]'} overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                className={`work-list painting-list-wrapper border ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer md:w-[500px]' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
                 style={{
                     transform: `translateY(${translateValue})`,
                     maxHeight: `${maxHeightValue}`,
+                    top: `${mobileTopValue}`,
                 }}
                 onClick={
                     !isOnPaintingPage
@@ -267,11 +291,10 @@ const PaintingsList = ({
 
                             return (
                                 <li
-                                    className={`painting-title w-fit !overflow-visible transition-opacity duration-500 ease-in-out ${
-                                        activePaintingSlug && !isActive
+                                    className={`painting-title w-fit !overflow-visible transition-opacity duration-500 ease-in-out ${activePaintingSlug && !isActive
                                             ? 'pointer-events-none opacity-0'
                                             : 'opacity-100'
-                                    } ${isActive ? 'delay-100' : ''}`}
+                                        } ${isActive ? 'delay-100' : ''}`}
                                     key={painting.id}
                                 >
                                     <PaintingTitle
@@ -297,11 +320,10 @@ const PaintingsList = ({
 
                                 return (
                                     <li
-                                        className={`painting-title block w-fit transition-opacity duration-500 ease-in-out ${
-                                            activePaintingSlug && !isActive
+                                        className={`painting-title block w-fit transition-opacity duration-500 ease-in-out ${activePaintingSlug && !isActive
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-100'
-                                        } ${isActive ? 'delay-100' : ''}`}
+                                            } ${isActive ? 'delay-100' : ''}`}
                                         key={painting.id}
                                     >
                                         <PaintingTitle
