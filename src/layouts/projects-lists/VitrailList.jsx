@@ -17,6 +17,7 @@ const VitrailList = ({
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [activeHref, setActiveHref] = useState(null);
     const [isSlugPage, setIsSlugPage] = useState(false);
+    const [firstRender, setFirstRender] = useState(false);
 
     const renderedCount = useRef(0); // compteur de composants montés
     const [allRendered, setAllRendered] = useState(false); // état déclencheur
@@ -30,7 +31,11 @@ const VitrailList = ({
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
     const [sortedHiddenVitraux, setSortedHiddenVitraux] = useState([]);
+    
+    const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
 
+
+    
     // ••• Creation du liens de superposition •••
     const createOverlayLinks = (wordWrappers, lang) => {
         const container = document.getElementById('floating-title-container');
@@ -185,6 +190,7 @@ const VitrailList = ({
                 setHiddenListHeightVitrail(previousHeightRef.current);
             }
         }
+  
     }, [allRendered, lang]);
 
     /**
@@ -247,6 +253,7 @@ const VitrailList = ({
             // ••• HOMEPAGE •••
             setIsOnVitrailPage(false);
             setIsOnIndexPage(true);
+            setFirstRender(true);
             if (window.innerWidth < 768) {
                 // mobile
                 settranslateYValue('0px');
@@ -283,11 +290,27 @@ const VitrailList = ({
             }
         }
     };
-
+    
 
     useEffect(() => {
         toggleListDisplay('vitrail', accordionOffsetY);
     }, [targetHref, hiddenListHeightVitrail, accordionOffsetY]);
+
+    useEffect(() => {
+        if (state == 'home' && firstRender){
+            settailwindSlideTrans(false);
+        }
+    }, [lang]);
+    // useEffect(() => {
+    //     if (state == 'home' && firstRender){
+    //         setTimeout(() => {
+    //             settailwindSlideTrans(true);
+    //             const targetY = `-${hiddenListHeightVitrail || previousHeightRef.current}px`;
+    //             settranslateYValue(targetY);
+    //             console.log('changement de laaannnnngue' + translateYValue);
+    //         }, 1000);
+    //     }
+    // }, [translateYValue]);
 
     // // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // console.log('hello <:-° status dans vitrail list', state);
@@ -342,7 +365,7 @@ const VitrailList = ({
     return (
 
         <div
-            className={`work-list vitrail-list-wrapper border relative top-[70vh] w-fit md:fixed md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll pb-[30px] transition-[transform] delay-[0.2s] duration-1000 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
+            className={`work-list vitrail-list-wrapper border relative top-[70vh] w-fit md:fixed md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll pb-[30px] ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out':''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
             onClick={
                 !isOnVitrailPage
                     ? () =>

@@ -14,6 +14,9 @@ const WeavingList = ({
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [hiddenListHeightWeaving, setHiddenListHeightWeaving] = useState(0);
     const [isSlugPage, setIsSlugPage] = useState(false);
+    const [firstRender, setFirstRender] = useState(false);
+
+    const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
 
     // Ajout d'un state pour tracker le tissage actif
     const [activeWeavingSlug, setActiveWeavingSlug] = useState(null);
@@ -96,6 +99,8 @@ const WeavingList = ({
 
     const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
+            settailwindSlideTrans(true);
+            setFirstRender(false);
             if (
                 document
                     .querySelector('body')
@@ -123,6 +128,7 @@ const WeavingList = ({
                 setmaxHeightValue('100vh');
             }
         } else if (state == 'home') {
+            setFirstRender(true);
             if (window.innerWidth < 768) {
                 setTranslateYValue('100vh');
                 setTranslateXValue('0px');
@@ -136,6 +142,8 @@ const WeavingList = ({
             setIsOnIndexPage(true);
 
         } else {
+            settailwindSlideTrans(true);
+            setFirstRender(false);
             // Réinitialiser accordionOffsetY quand on quitte une page de slug
             setAccordionOffsetY(0);
             setTranslateYValue('100vh');
@@ -223,11 +231,20 @@ const WeavingList = ({
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    // Remove transition anim on langSwitch
+    useEffect(() => {
+        if (state == 'home' && firstRender){
+            settailwindSlideTrans(false);
+        }else{
+            settailwindSlideTrans(true);
+        }
+    }, [lang]);
+
     // Render
     return (
         <>
             <div
-                className={`work-list weaving-list-wrapper border relative right-0  pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px] w-full'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''}overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                className={`work-list weaving-list-wrapper border relative right-0  pr-[6px]  md:fixed md:!top-[unset] md:bottom-[6px] ${className}  ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px] w-full'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''}overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
                 style={{
                     maxHeight: `${maxHeightValue}`,
                     top: `${mobileTopValue}`,
