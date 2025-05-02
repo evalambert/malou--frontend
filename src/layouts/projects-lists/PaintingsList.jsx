@@ -204,7 +204,6 @@ const PaintingsList = ({
         setSortedHiddenPaintings(sorted);
     }, [hiddenPaintings]);
 
-
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // console.log('hello <:-° status dans painting list', state);
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -240,7 +239,11 @@ const PaintingsList = ({
 
                             return (
                                 <li
-                                    className='painting-title w-fit !overflow-visible'
+                                    className={`painting-title w-fit !overflow-visible transition-opacity duration-500 ease-in-out ${
+                                        activePaintingSlug && !isActive
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-100'
+                                    } ${isActive ? 'delay-100' : ''}`}
                                     key={painting.id}
                                 >
                                     <PaintingTitle
@@ -266,7 +269,11 @@ const PaintingsList = ({
 
                                 return (
                                     <li
-                                        className='painting-title block w-fit'
+                                        className={`painting-title block w-fit transition-opacity duration-500 ease-in-out ${
+                                            activePaintingSlug && !isActive
+                                                ? 'pointer-events-none opacity-0'
+                                                : 'opacity-100'
+                                        } ${isActive ? 'delay-100' : ''}`}
                                         key={painting.id}
                                     >
                                         <PaintingTitle

@@ -13,6 +13,20 @@ const VolumesList = ({
     const [hiddenListHeightVolume, setHiddenListHeightVolume] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [isSlugPage, setIsSlugPage] = useState(false);
+    const [activeVolumeSlug, setActiveVolumeSlug] = useState(null);
+
+    // •••  Hidden title list onSlugPage •••
+    // Extrait le slug d’un volume à partir de l’URL
+    const extractSlugFromUrl = (url) => {
+        const match = url.match(/\/volume\/([^/]+)/);
+        return match ? match[1] : null;
+    };
+
+    // Met à jour le slug actif lorsque l'URL change
+    useEffect(() => {
+        const slug = extractSlugFromUrl(targetHref);
+        setActiveVolumeSlug(slug);
+    }, [targetHref]);
 
     // ••• Création du lien de superposition •••
     const createOverlayLinks = (title, lang) => {
@@ -20,7 +34,8 @@ const VolumesList = ({
         const container = document.getElementById('floating-title-container');
         if (container) {
             // Supprimer les anciens liens de superposition
-            const existingOverlay = container.querySelector('#title-on-display');
+            const existingOverlay =
+                container.querySelector('#title-on-display');
             if (existingOverlay) {
                 existingOverlay.remove();
             }
@@ -34,7 +49,7 @@ const VolumesList = ({
                 left: `${finalCoordinates.left + window.scrollX}px`,
                 width: `${finalCoordinates.width}px`,
                 height: `${finalCoordinates.height}px`,
-                cursor: 'pointer'
+                cursor: 'pointer',
             });
             container.appendChild(titleElement);
         }
@@ -85,7 +100,6 @@ const VolumesList = ({
                         title.classList.add('max-md:mt-[50px]');
                     }
                 }
-
             });
         }
     });
@@ -107,9 +121,13 @@ const VolumesList = ({
                     const spans = title.querySelectorAll('span');
                     const lastSpan = spans[spans.length - 1];
 
-                    lastSpan.addEventListener('transitionend', () => {
-                        createOverlayLinks(title, lang);
-                    }, { once: true });
+                    lastSpan.addEventListener(
+                        'transitionend',
+                        () => {
+                            createOverlayLinks(title, lang);
+                        },
+                        { once: true }
+                    );
                 } else {
                     title.parentElement.classList.remove('active');
                 }
@@ -191,9 +209,11 @@ const VolumesList = ({
             }
         }
     };
- 
+
     useEffect(() => {
-        const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
+        const isOnSlugPage = document
+            .querySelector('body')
+            .classList.contains('on-slug-page');
         setIsSlugPage(isOnSlugPage);
         toggleListDisplay('volume', accordionOffsetY);
     }, [targetHref, hiddenListHeightVolume, accordionOffsetY]);
@@ -216,7 +236,6 @@ const VolumesList = ({
     // Render
     return (
         <>
-
             <div
                 className={`work-list max-md:relative max-md:top-[50vh] max-md:left-0 max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnVolumePage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
             >
@@ -225,9 +244,9 @@ const VolumesList = ({
                     onClick={
                         !isOnVolumePage
                             ? () =>
-                                navigate(`/${lang}/volume/`, {
-                                    history: 'push',
-                                })
+                                  navigate(`/${lang}/volume/`, {
+                                      history: 'push',
+                                  })
                             : undefined
                     }
                     style={{
@@ -248,8 +267,12 @@ const VolumesList = ({
                             <ul className='volume-list-compact flex flex-wrap justify-center md:gap-y-[25px] md:pb-[25px]'>
                                 {hiddenVolumes.map((volume) => (
                                     <li
-                                        className='volume-title block w-fit'
-                                        key={volume.id}
+                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
+                                            activeVolumeSlug &&
+                                            volume.slug !== activeVolumeSlug
+                                                ? 'pointer-events-none opacity-0'
+                                                : 'opacity-100'
+                                        }`}
                                     >
                                         <VolumeTitle
                                             volume={volume}
@@ -265,8 +288,12 @@ const VolumesList = ({
                         <ul className='volume-list-compact preview-list-volume flex flex-wrap md:gap-y-[25px]'>
                             {homepageVolumes.map((volume) => (
                                 <li
-                                    className='volume-title w-fit'
-                                    key={volume.id}
+                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
+                                        activeVolumeSlug &&
+                                        volume.slug !== activeVolumeSlug
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-100'
+                                    }`}
                                 >
                                     <VolumeTitle volume={volume} lang={lang} />
                                 </li>
