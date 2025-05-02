@@ -173,8 +173,11 @@ const PaintingsList = ({
         } else if (state == 'home') {
             setFirstRender(true);
             if (window.innerWidth < 768) {
-                setTranslateValue('100vh');
-                setmaxHeightValue('0px');
+
+                setTranslateValue('0px');
+                setmaxHeightValue('100vh');
+                // setTranslateValue('100vh');
+                // setmaxHeightValue('0px');
             } else {
                 setTranslateValue(hiddenListHeightPainting + 'px');
                 setmaxHeightValue('300vh');
@@ -241,7 +244,7 @@ const PaintingsList = ({
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list painting-list-wrapper border ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer w-[500px]' : 'md:pt-[50px]'} overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                className={`work-list painting-list-wrapper border ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer md:w-[500px]' : 'md:pt-[50px]'} overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
                 style={{
                     transform: `translateY(${translateValue})`,
                     maxHeight: `${maxHeightValue}`,

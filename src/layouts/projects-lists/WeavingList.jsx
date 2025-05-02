@@ -114,9 +114,10 @@ const WeavingList = ({
             setIsOnWeavingPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                let weavingListHeight =
-                    document.querySelector('.weaving-list').clientHeight;
-                setmaxHeightValue(weavingListHeight + 'px');
+                // MOBILE
+                // let weavingListHeight =
+                //     document.querySelector('.weaving-list').clientHeight;
+                // setmaxHeightValue(weavingListHeight + 'px');
                 if (weavingListHeight > window.innerHeight / 2) {
                     setMobileTopValue('50vh');
                 } else {
@@ -130,7 +131,9 @@ const WeavingList = ({
         } else if (state == 'home') {
             setFirstRender(true);
             if (window.innerWidth < 768) {
-                setTranslateYValue('100vh');
+                // MOBILE
+                setTranslateYValue('0vh');
+                // setTranslateYValue('100vh');
                 setTranslateXValue('0px');
                 setmaxHeightValue('0px');
             } else {
@@ -148,6 +151,7 @@ const WeavingList = ({
             setAccordionOffsetY(0);
             setTranslateYValue('100vh');
             if (window.innerWidth < 768) {
+                // MOBILE
                 setTranslateXValue('0px');
                 setmaxHeightValue('0px');
             } else {

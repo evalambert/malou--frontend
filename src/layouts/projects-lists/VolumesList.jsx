@@ -206,6 +206,7 @@ const VolumesList = ({
             setIsOnVolumePage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
+                // MOBILE
                 setMaxHeightValue('initial');
                 setTimeout(() => {
                     settranslateXValue('0px');
@@ -217,10 +218,14 @@ const VolumesList = ({
             setIsOnIndexPage(true);
             setIsOnVolumePage(false);
             if (window.innerWidth < 768) {
+                // MOBILE
                 settranslateYValue('0px');
-                settranslateXValue('50vw');
-                setMaxWidthValue('0px');
-                setMaxHeightValue('0px');
+                settranslateXValue('0vw');
+                setMaxWidthValue('100vw');
+                setMaxHeightValue('100vh');
+                // settranslateXValue('50vw');
+                // setMaxWidthValue('0px');
+                // setMaxHeightValue('0px');
             } else {
                 
                 const targetY = `-${hiddenListHeightVolume || previousHeightRef.current}px`;
@@ -234,10 +239,12 @@ const VolumesList = ({
             setIsOnVolumePage(false);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
+                // MOBILE
                 setMaxWidthValue('0px');
                 setMaxHeightValue('0px');
                 settranslateYValue('0px');
-                settranslateXValue('50vw');
+                settranslateXValue('0vw');
+                // settranslateXValue('50vw');
             } else {
                 settranslateYValue('-200vh');
             }
@@ -309,7 +316,7 @@ const VolumesList = ({
     return (
         <>
             <div
-                className={`work-list volume-list-wrapper w-[700px] border ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-500 ease-in-out' : ''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''} `}
+                className={`work-list volume-list-wrapper md:w-[700px] border ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-500 ease-in-out' : ''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''} `}
                 style={{
                     transform: `translate(${translateXValue}, ${translateYValue})`,
                 }}
