@@ -30,9 +30,12 @@ const VitrailList = ({
     const [maxHeightValue, setMaxHeightValue] = useState('initial');
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
-    const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
     const [sortedHiddenVitraux, setSortedHiddenVitraux] = useState([]);
+    
+    const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
 
+
+    
     // ••• Creation du liens de superposition •••
     const createOverlayLinks = (wordWrappers, lang) => {
         const container = document.getElementById('floating-title-container');
