@@ -494,8 +494,8 @@ const VitrailList = ({
                     </div>
                 </div>
             </div>
-        </>
-    );
+        </div>
+    ); 
 };
 
 export default VitrailList;
