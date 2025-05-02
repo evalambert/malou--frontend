@@ -16,16 +16,16 @@ export default function ActuComponent({ actus, lang }) {
     const actuRef = useRef(null);
     const aboutHeight = useStore(heightAbout);
     const [isMobile, setIsMobile] = useState(false);
-    const [show, setShow] = useState(false);
+    //const [show, setShow] = useState(false);
 
     /* ----- FadeIn animation onEnter AboutPage ---- */
-    useEffect(() => {
+    /* useEffect(() => {
         const timer = setTimeout(() => {
             setShow(true);
         }, 1000);
 
         return () => clearTimeout(timer);
-    }, []);
+    }, []); */
 
     /* ------ aboutHeight ------ */
     // Fonction pour recalculer la hauteur
@@ -68,7 +68,7 @@ export default function ActuComponent({ actus, lang }) {
                 active === 'actu'
                     ? 'overflow-y-auto md:top-[30vh] md:h-full'
                     : 'overflow-hidden md:top-[calc(100vh-70px)] md:h-[70px]'
-            } ${show ? 'opacity-100' : 'opacity-0'} transition-all duration-500 ease-in-out`}
+            } transition-all duration-500 ease-in-out`} /* ${show ? 'opacity-100' : 'opacity-0'} */
             style={
                 isMobile
                     ? { top: active === 'actu' ? '0px' : `${aboutHeight}px` }

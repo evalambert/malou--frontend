@@ -1,10 +1,8 @@
 ---
-//pages/[lang]/about.astro
-import fetchApi from '../../assets/scripts/lib/strapi.js';
-import { fade } from 'astro:transitions';
+//src/pages/[lang]/about.astro
 
+import fetchApi from '../../assets/scripts/lib/strapi.js';
 import Layout from '../../layouts/Layout.astro';
-import Nav from '../../layouts/Nav.jsx';
 import AboutComponent from '../../layouts/about-page/AboutComponent.jsx';
 import ActuComponent from '../../layouts/about-page/ActuComponent.jsx';
 import MobileButtons from '../../layouts/about-page/MobileButtons.jsx';
@@ -39,7 +37,20 @@ export const prerender = true;
     <div
         class='wrapper-about-actus relative md:static overflow-hidden md:overflow-visible'
     >
-        <AboutComponent about={about} lang={lang} client:load />
-        <ActuComponent actus={actus} lang={lang} client:only='react' />
+        <script>
+            console.log('[astro] transition:animate=fade a été injectée');
+        </script>
+        <AboutComponent
+            about={about}
+            lang={lang}
+            client:load
+            transition:animate='fade'
+        />
+        <ActuComponent
+            actus={actus}
+            lang={lang}
+            client:only='react'
+            transition:animate='fade'
+        />
     </div>
 </Layout>

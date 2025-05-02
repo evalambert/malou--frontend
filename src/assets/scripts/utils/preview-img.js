@@ -1,5 +1,5 @@
 // src/assets/scripts/utils/preview-img.js
-import { getCloudinaryUrl } from '../lib/cloudinary';
+import { getCloudinaryUrl } from '../lib/cloudinary';  
 
 export const handleMouseEnter = (imageUrl, objectFit) => {
     const imageElement = document.querySelector('.dynamic-image');
@@ -54,14 +54,19 @@ export const handleMouseClick = (imageUrl) => {
 };
 
 export const handleMouseLeave = () => {
+    const imageElement = document.querySelector('.dynamic-image');
     const wrapperElement = document.querySelector('.preview-image--wrapper');
-    imageElement.style.objectFit = '';
+
     if (!document.body.classList.contains('on-slug-page')) {
         if (
             wrapperElement &&
             !wrapperElement.classList.contains('preview-image--wrapper-visible')
         ) {
             wrapperElement.style.opacity = '0';
+        }
+        if (imageElement) {
+            imageElement.style.objectFit = '';
+            //imageElement.src = ''; 
         }
     }
 };

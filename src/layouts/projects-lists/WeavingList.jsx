@@ -83,7 +83,6 @@ const WeavingList = ({
         };
     }, []);
 
-
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
     const [translateYValue, setTranslateYValue] = useState('100vh');
@@ -97,7 +96,11 @@ const WeavingList = ({
 
     const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
-            if (document.querySelector('body').classList.contains('on-slug-page')) {
+            if (
+                document
+                    .querySelector('body')
+                    .classList.contains('on-slug-page')
+            ) {
                 setTranslateYValue(accordionY + 'px');
             } else {
                 setTranslateYValue(0 + 'px');
@@ -106,12 +109,14 @@ const WeavingList = ({
             setIsOnWeavingPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                let weavingListHeight = document.querySelector('.weaving-list').clientHeight;
+                let weavingListHeight =
+                    document.querySelector('.weaving-list').clientHeight;
                 setmaxHeightValue(weavingListHeight + 'px');
                 if (weavingListHeight > window.innerHeight / 2) {
                     setMobileTopValue('50vh');
                 } else {
-                    let newMobileTopValue = window.innerHeight - (weavingListHeight + 50);
+                    let newMobileTopValue =
+                        window.innerHeight - (weavingListHeight + 50);
                     setMobileTopValue(newMobileTopValue + 'px');
                 }
             } else {
@@ -147,7 +152,9 @@ const WeavingList = ({
 
     // Mise en page homepageWeavingList and hiddenWeavingList
     useEffect(() => {
-        const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
+        const isOnSlugPage = document
+            .querySelector('body')
+            .classList.contains('on-slug-page');
         setIsSlugPage(isOnSlugPage);
         toggleListDisplay('weaving', accordionOffsetY);
     }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
@@ -229,9 +236,9 @@ const WeavingList = ({
                 onClick={
                     !isOnWeavingPage
                         ? () =>
-                            navigate(`/${lang}/weaving/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/weaving/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
@@ -242,13 +249,18 @@ const WeavingList = ({
                     <ul className='flex w-[100%] max-w-[375px] flex-col items-end md:w-fit md:max-w-[unset]'>
                         {homepageWeavings.map((weaving) => {
                             const slug = weaving.slug;
-                            const paddingClass = homepageWeavingPadding[slug] || 'pr-0';
+                            const paddingClass =
+                                homepageWeavingPadding[slug] || 'pr-0';
                             const isActive = slug === activeWeavingSlug;
 
                             return (
                                 <li
                                     key={weaving.id}
-                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass}`}
+                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${
+                                        isSlugPage && !isActive
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-300'
+                                    } ${isActive ? 'delay-100' : ''}`}
                                 >
                                     <WeavingTitle
                                         weaving={weaving}
@@ -270,12 +282,17 @@ const WeavingList = ({
                         <ul className='flex w-[100%] flex-col items-end md:w-fit'>
                             {finalSortedHiddenWeavings.map((weaving) => {
                                 const slug = weaving.slug;
-                                const paddingClass = hiddenWeavingPadding[slug] || 'pr-0';
+                                const paddingClass =
+                                    hiddenWeavingPadding[slug] || 'pr-0';
                                 const isActive = slug === activeWeavingSlug;
 
                                 return (
                                     <li
-                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass}`}
+                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${
+                                            isSlugPage && !isActive
+                                                ? 'pointer-events-none opacity-0'
+                                                : 'opacity-300'
+                                        } ${isActive ? 'delay-100' : ''}`}
                                         key={weaving.id}
                                     >
                                         <WeavingTitle
