@@ -303,7 +303,7 @@ const VolumesList = ({
 
                     >
                         <div
-                            className={`hidden-list-volume transition-all delay-[0.2s] duration-500 ease-in-out`}
+                            className={`hidden-list-volume border transition-all delay-[0.2s] duration-500 ease-in-out`}
                         >
                             {/* Liste Hidden */}
                             <ul className={`volume-list-compact flex flex-wrap justify-center md:gap-y-[25px] ${isOnVolumePage ? 'md:pb-[25px]' : ''}`}>
@@ -337,7 +337,7 @@ const VolumesList = ({
                         </div>
 
                         {/* Liste Homepage */}
-                        <ul className='volume-list-compact preview-list-volume flex flex-wrap md:gap-y-[25px]'>
+                        <ul className='volume-list-compact border preview-list-volume flex flex-wrap md:gap-y-[25px]'>
                             {homepageVolumes.map((volume) => (
                                 <li
                                     key={volume.id || volume.slug}
