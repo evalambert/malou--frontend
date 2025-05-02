@@ -305,9 +305,7 @@ const VolumesList = ({
             </div>
         </>
     );
-};
-
-
+};    
 
 export default VolumesList;
 
