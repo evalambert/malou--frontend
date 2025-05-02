@@ -200,12 +200,7 @@ body:not(.category-vitrail) .swiper-pagination {
     @apply md:pt-[25px];
 }
 
-body.category-volume .cat-vitrail-flex-wrapper {
-    @apply md:w-0 md:flex-0;
-}
-body.category-volume .cat-volume-flex-wrapper {
-    @apply md:flex-4;
-}
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Titles */
 /* body.on-slug-page .work-list {
@@ -253,6 +248,7 @@ body.category-volume .cat-volume-flex-wrapper {
     display: inline-block;
 }
 
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* About Page – Transition   */
 
@@ -269,11 +265,22 @@ body.category-volume .cat-volume-flex-wrapper {
     animation: test-fade 1s ease forwards;
 }
 
-/* body.on-slug-page .weaving-title > div {
-    @apply opacity-3000 transition-opacity duration-1000 ease-in-out;
+
+
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/* About Page – Transition   */
+
+@keyframes test-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-body.on-slug-page .weaving-title > div:has(a:not(.active)) {
-    @apply opacity-0 delay-3000;
+[data-transition-fade] {
+    animation: test-fade 1s ease forwards;
 }
- */

@@ -16,6 +16,7 @@ const PaintingsList = ({
     const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [activePaintingSlug, setActivePaintingSlug] = useState(null);
+    const [isSlugPage, setIsSlugPage] = useState(false);
 
     // Fonction pour extraire le slug de l'URL
     const extractSlugFromUrl = (url) => {
@@ -177,8 +178,12 @@ const PaintingsList = ({
     };
 
     useEffect(() => {
+        const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
+        setIsSlugPage(isOnSlugPage);
         toggleListDisplay('painting', accordionOffsetY);
     }, [targetHref, hiddenListHeightPainting, accordionOffsetY]);
+
+
 
     // sort hidden paintings by visual width
     useEffect(() => {
@@ -215,25 +220,26 @@ const PaintingsList = ({
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list painting-list-wrapper pb-body-p-y fixed bottom-0 transition-all delay-[0.2s] duration-500 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list painting-list-wrapper border ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer w-[500px]' : 'md:pt-[50px]'} overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                style={{
+                    transform: `translateY(${translateValue})`,
+                    maxHeight: `${maxHeightValue}`,
+                }}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                              navigate(`/${lang}/painting/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/painting/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
                 <div
-                    className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''}`}
-                    style={{
-                        transform: `translateY(${translateValue})`,
-                        maxHeight: `${maxHeightValue}`,
-                    }}
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
+               
                 >
                     {/* Liste Homepage */}
-                    <ul className='painting-list-compact transition-all duration-500 ease-in-out'>
+                    <ul className='painting-list-compact transition-all duration-500 ease-in-out w-fit border'>
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;
                             const isActive = slug === activePaintingSlug;

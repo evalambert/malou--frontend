@@ -120,7 +120,7 @@ const WeavingList = ({
                     setMobileTopValue(newMobileTopValue + 'px');
                 }
             } else {
-                setmaxHeightValue('unset');
+                setmaxHeightValue('100vh');
             }
         } else if (state == 'home') {
             if (window.innerWidth < 768) {
@@ -134,6 +134,7 @@ const WeavingList = ({
             }
             setIsOnWeavingPage(false);
             setIsOnIndexPage(true);
+
         } else {
             // Réinitialiser accordionOffsetY quand on quitte une page de slug
             setAccordionOffsetY(0);
@@ -142,7 +143,7 @@ const WeavingList = ({
                 setTranslateXValue('0px');
                 setmaxHeightValue('0px');
             } else {
-                setmaxHeightValue('unset');
+                setmaxHeightValue('100vh');
             }
             setIsOnWeavingPage(false);
             setIsOnIndexPage(false);
@@ -226,7 +227,12 @@ const WeavingList = ({
     return (
         <>
             <div
-                className={`work-list weaving-list-wrapper relative right-0 overflow-visible pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list weaving-list-wrapper border relative right-0  pr-[6px] transition-all duration-1000 ease-in-out md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px] w-full'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''}overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                style={{
+                    maxHeight: `${maxHeightValue}`,
+                    top: `${mobileTopValue}`,
+                    transform: `translate(${translateXValue}, ${translateYValue})`,
+                }}
                 onClick={
                     !isOnWeavingPage
                         ? () =>
@@ -235,16 +241,9 @@ const WeavingList = ({
                               })
                         : undefined
                 }
-                style={{
-                    maxHeight: `${maxHeightValue}`,
-                    top: `${mobileTopValue}`,
-                }}
             >
                 <div
                     className={`weaving-list flex flex-col items-end overflow-hidden transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''} `}
-                    style={{
-                        transform: `translate(${translateXValue}, ${translateYValue})`,
-                    }}
                 >
                     {/* Liste Homepage */}
                     <ul className='flex w-[100%] max-w-[375px] flex-col items-end md:w-fit md:max-w-[unset]'>
