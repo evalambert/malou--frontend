@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { navigate } from 'astro:transitions/client';
 
 import WeavingTitle from '../../components/common/title/WeavingTitle.jsx';
@@ -140,7 +140,6 @@ const WeavingList = ({
             }
             setIsOnWeavingPage(false);
             setIsOnIndexPage(true);
-
         } else {
             settailwindSlideTrans(true);
             setFirstRender(false);
@@ -233,18 +232,63 @@ const WeavingList = ({
 
     // Remove transition anim on langSwitch
     useEffect(() => {
-        if (state == 'home' && firstRender){
+        if (state == 'home' && firstRender) {
             settailwindSlideTrans(false);
-        }else{
+        } else {
             settailwindSlideTrans(true);
         }
     }, [lang]);
+
+
+    //  ••••••••••••  TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
+    const weavingListRef = useRef(null);
+    const [dynamicHomepageWidth, setDynamicHomepageWidth] = useState(null);
+
+    useEffect(() => {
+        if (state === 'home') {
+            const tryGetWidth = () => {
+                if (weavingListRef.current) {
+                    const width =
+                        weavingListRef.current.getBoundingClientRect().width;
+                    if (width > 0) {
+                        setDynamicHomepageWidth(`${width}px`);
+                        console.log(
+                            '📏 Largeur WeavingList mesurée :',
+                            width,
+                            'px'
+                        );
+                    } else {
+                        setTimeout(tryGetWidth, 100);
+                    }
+                } else {
+                    setTimeout(tryGetWidth, 100);
+                }
+            };
+
+            tryGetWidth();
+        }
+    }, [state, lang, homepageWeavings]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (state === 'home' && weavingListRef.current) {
+                const width =
+                    weavingListRef.current.getBoundingClientRect().width;
+                setDynamicHomepageWidth(`${width}px`);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [state]);
+
+    //  •••••••••••• (END) TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
 
     // Render
     return (
         <>
             <div
-                className={`work-list weaving-list-wrapper border relative right-0  pr-[6px]  md:fixed md:!top-[unset] md:bottom-[6px] ${className}  ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px] w-full'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''}overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                className={`work-list weaving-list-wrapper relative right-0 border pr-[6px] md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full md:pt-[50px]'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''}overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
                 style={{
                     maxHeight: `${maxHeightValue}`,
                     top: `${mobileTopValue}`,
@@ -263,7 +307,7 @@ const WeavingList = ({
                     className={`weaving-list flex flex-col items-end overflow-hidden transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''} `}
                 >
                     {/* Liste Homepage */}
-                    <ul className='flex w-[100%] max-w-[375px] flex-col items-end md:w-fit md:max-w-[unset]'>
+                    <ul className='flex w-[100%] max-w-[375px] flex-col items-end border md:w-fit md:max-w-[unset]'>
                         {homepageWeavings.map((weaving) => {
                             const slug = weaving.slug;
                             const paddingClass =

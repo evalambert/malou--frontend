@@ -31,13 +31,12 @@ const VitrailList = ({
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
     const [sortedHiddenVitraux, setSortedHiddenVitraux] = useState([]);
-    
+
     const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
 
+    const [activeVitrailSlug, setActiveVitrailSlug] = useState(null);
 
-        const [activeVitrailSlug, setActiveVitrailSlug] = useState(null);
-
-    // •••  Hidden title list onSlugPage ••• 
+    // •••  Hidden title list onSlugPage •••
     // Extrait le slug d’un vitrial à partir de l’URL
     const extractSlugFromUrl = (url) => {
         const match = url.match(/\/vitrail\/([^/]+)/);
@@ -214,12 +213,11 @@ const VitrailList = ({
                 setHiddenListHeightVitrail(previousHeightRef.current);
             }
         }
-  
     }, [allRendered, lang]);
 
     /**
- * Gestion du décalage vertical du titre en fonction de l'accordéon
- */
+     * Gestion du décalage vertical du titre en fonction de l'accordéon
+     */
     useEffect(() => {
         // Écoute l'événement personnalisé émis par l'accordéon
         const handleAccordionMovement = (event) => {
@@ -246,7 +244,6 @@ const VitrailList = ({
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
 
-  
     const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
             // ••• CATEGORY •••
@@ -259,11 +256,12 @@ const VitrailList = ({
                     // settranslateXValue('0px');
                     setMaxWidthValue('100vw');
                 }, 400);
-
             } else {
                 settranslateYValue(accordionY + 'px');
                 if (document.getElementById('floating-title-container')) {
-                    document.getElementById('floating-title-container').style.transform = `translateY(${accordionY}px)`;
+                    document.getElementById(
+                        'floating-title-container'
+                    ).style.transform = `translateY(${accordionY}px)`;
                 }
                 // gsap.to('.vitrail-list--slide-wrapper',
                 //     {
@@ -314,14 +312,13 @@ const VitrailList = ({
             }
         }
     };
-    
 
     useEffect(() => {
         toggleListDisplay('vitrail', accordionOffsetY);
     }, [targetHref, hiddenListHeightVitrail, accordionOffsetY]);
 
     useEffect(() => {
-        if (state == 'home' && firstRender){
+        if (state == 'home' && firstRender) {
             settailwindSlideTrans(false);
         }
     }, [lang]);
@@ -389,33 +386,86 @@ const VitrailList = ({
         return () => window.removeEventListener('resize', handleResize);
     }, [lang]);
 
+    //  ••••••••••••  TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
+    const vitrailListRef = useRef(null);
+
+    useEffect(() => {
+        if (vitrailListRef.current) {
+            const width = vitrailListRef.current.getBoundingClientRect().width;
+            console.log('Largeur de vitrail-list-compact :', width, 'px');
+        }
+    }, [sortedHiddenVitraux, homepageVitraux, isOnVitrailPage]);
+
+    const [dynamicCompactWidth, setDynamicCompactWidth] = useState(null);
+
+    useEffect(() => {
+        if (state === 'home') {
+            const tryGetWidth = () => {
+                if (vitrailListRef.current) {
+                    const width =
+                        vitrailListRef.current.getBoundingClientRect().width;
+                    if (width > 0) {
+                        setDynamicCompactWidth(`${width}px`);
+                        console.log(
+                            '✅ Largeur dynamique mesurée :',
+                            width,
+                            'px'
+                        );
+                    } else {
+                        setTimeout(tryGetWidth, 100);
+                    }
+                } else {
+                    setTimeout(tryGetWidth, 100);
+                }
+            };
+
+            tryGetWidth();
+        }
+    }, [state, lang, sortedHiddenVitraux]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (state === 'home' && vitrailListRef.current) {
+                const width =
+                    vitrailListRef.current.getBoundingClientRect().width;
+                setDynamicCompactWidth(`${width}px`);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [state]);
+    //  •••••••••••• (END)  TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
+
     // Render
     return (
-
         <div
-            className={`work-list vitrail-list-wrapper border relative top-[70vh] w-fit md:fixed md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll pb-[30px] ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out':''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
+            className={`work-list vitrail-list-wrapper md:pt-body-p-y md:right-main-x relative top-[70vh] max-h-screen w-fit overflow-scroll border pb-[30px] max-md:flex max-md:flex-col max-md:items-end md:fixed md:top-0 ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
             onClick={
                 !isOnVitrailPage
                     ? () =>
-                        navigate(`/${lang}/vitrail/`, {
-                            history: 'push',
-                        })
+                          navigate(`/${lang}/vitrail/`, {
+                              history: 'push',
+                          })
                     : undefined
             }
             style={{
-                maxWidth: `${maxWidthValue}`,
+                /* maxWidth: `${maxWidthValue}`, */
+                maxWidth:
+                    isOnIndexPage && dynamicCompactWidth
+                        ? dynamicCompactWidth
+                        : maxWidthValue,
                 maxHeight: `${maxHeightValue}`,
                 transform: `translate(${translateXValue}, ${translateYValue})`,
             }}
         >
             <div
                 className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${isOnIndexPage ? 'cursor-pointer' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
-
             >
                 <div
-                    className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${!isOnVitrailPage ? 'cursor-pointer' : ''
-                        } `}
-
+                    className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${
+                        !isOnVitrailPage ? 'cursor-pointer' : ''
+                    } `}
                     style={{
                         maxWidth: `${maxWidthValue}`,
                         maxHeight: `${maxHeightValue}`,
@@ -450,7 +500,10 @@ const VitrailList = ({
                                                 isActive={isActive}
                                                 onMount={() => {
                                                     renderedCount.current += 1;
-                                                    if (renderedCount.current === sortedHiddenVitraux.length) {
+                                                    if (
+                                                        renderedCount.current ===
+                                                        sortedHiddenVitraux.length
+                                                    ) {
                                                         setAllRendered(true);
                                                     }
                                                 }}
@@ -464,7 +517,10 @@ const VitrailList = ({
                         </div>
 
                         {/* Liste Homepage */}
-                        <ul className='vitrail-list-compact max-md:order-1'>
+                        <ul
+                            ref={vitrailListRef}
+                            className='vitrail-list-compact border max-md:order-1'
+                        >
                             {homepageVitraux.map((vitrail) => {
                                 const isActive =
                                     vitrail.slug === activeVitrailSlug;
@@ -492,7 +548,7 @@ const VitrailList = ({
                 </div>
             </div>
         </div>
-    ); 
+    );
 };
 
 export default VitrailList;

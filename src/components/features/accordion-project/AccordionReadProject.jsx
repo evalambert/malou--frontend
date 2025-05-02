@@ -71,15 +71,14 @@ export default function AccordionReadProject({
         window.dispatchEvent(accordionMovementEvent);
     }, [isOpen, contentHeight]);
 
-
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     // ✅ Confirme que l'accordéon est bien fermé
     useEffect(() => {
         if (!isOpen) {
-            const confirmClose = new CustomEvent('accordionClosedConfirmed')
-            window.dispatchEvent(confirmClose)
+            const confirmClose = new CustomEvent('accordionClosedConfirmed');
+            window.dispatchEvent(confirmClose);
         }
-    }, [isOpen])
+    }, [isOpen]);
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
     // 🎯 Calcule la position verticale de l'accordéon
