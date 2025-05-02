@@ -358,12 +358,11 @@ const VitrailList = ({
             }}
         >
             <div
-                className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${!isOnVitrailPage ? 'cursor-pointer' : 'pointer-events-none'
-                    } `}
+                className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${isOnIndexPage ? 'cursor-pointer' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
 
             >
                 <div
-                    className={`vitrail-list--slide-wrapper pt-body-p-y flex flex-col items-end transition-all duration-500 ease-in-out  ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
+                    className={`vitrail-list--slide-wrapper pt-body-p-y flex flex-col items-end transition-all duration-500 ease-in-out  ${isOnIndexPage ? 'pointer-events-none' : ''}`}
                 >
                     <div
                         className={`hidden-list-vitrail flex flex-col items-end max-md:order-2  ${isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'

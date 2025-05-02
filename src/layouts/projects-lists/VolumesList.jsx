@@ -238,21 +238,22 @@ const VolumesList = ({
         <>
 
             <div
-                className={`work-list volume-list-wrapper w-[700px] border transition-[transform] duration-500 ease-in-out  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isOnVolumePage ? '' : 'pointer-events-none'} `}
+                className={`work-list volume-list-wrapper w-[700px] border transition-[transform] duration-500 ease-in-out  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''} `}
                 style={{
                     transform: `translate(${translateXValue}, ${translateYValue})`,
                 }}
+                onClick={
+                    !isOnVolumePage
+                        ? () =>
+                            navigate(`/${lang}/volume/`, {
+                                history: 'push',
+                            })
+                        : undefined
+                }
             >
                 <div
-                    className={`max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out`}
-                    // onClick={
-                    //     !isOnVolumePage
-                    //         ? () =>
-                    //             navigate(`/${lang}/volume/`, {
-                    //                 history: 'push',
-                    //             })
-                    //         : undefined
-                    // }
+                    className={`max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${isOnVolumePage ? '' : 'pointer-events-none'}`}
+
                     style={{
                         maxWidth: `${maxWidthValue}`,
                         maxHeight: `${maxHeightValue}`,
