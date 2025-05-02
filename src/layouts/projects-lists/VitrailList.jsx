@@ -423,9 +423,6 @@ const VitrailList = ({
                 >
                     <div
                         className={`pt-body-p-y flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
-                        style={{
-                            transform: `translate(${translateXValue}, ${translateYValue})`,
-                        }}
                     >
                         <div
                             className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${
