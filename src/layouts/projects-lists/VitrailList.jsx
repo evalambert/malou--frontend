@@ -38,7 +38,7 @@ const VitrailList = ({
         const [activeVitrailSlug, setActiveVitrailSlug] = useState(null);
 
     // •••  Hidden title list onSlugPage ••• 
-    // Extrait le slug d’un vitrial à partir de l’URL
+    // Extrait le slug d'un vitrial à partir de l'URL
     const extractSlugFromUrl = (url) => {
         const match = url.match(/\/vitrail\/([^/]+)/);
         return match ? match[1] : null;
@@ -317,8 +317,14 @@ const VitrailList = ({
     
 
     useEffect(() => {
-        toggleListDisplay('vitrail', accordionOffsetY);
-    }, [targetHref, hiddenListHeightVitrail, accordionOffsetY]);
+        if (allRendered) {
+            const isOnSlugPage = document
+                .querySelector('body')
+                .classList.contains('on-slug-page');
+            setIsSlugPage(isOnSlugPage);
+            toggleListDisplay('vitrail', accordionOffsetY);
+        }
+    }, [allRendered, targetHref, hiddenListHeightVitrail, accordionOffsetY]);
 
     useEffect(() => {
         if (state == 'home' && firstRender){
