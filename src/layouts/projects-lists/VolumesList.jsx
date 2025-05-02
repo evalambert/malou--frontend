@@ -272,7 +272,6 @@ const VolumesList = ({
                                 </li>
                             ))}
                         </ul>
-
                         {/* (END) Liste Homepage */}
                     </div>
                 </div>
