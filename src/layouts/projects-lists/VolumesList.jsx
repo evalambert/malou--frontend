@@ -13,10 +13,13 @@ const VolumesList = ({
     const [hiddenListHeightVolume, setHiddenListHeightVolume] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [isSlugPage, setIsSlugPage] = useState(false);
+    const [firstRender, setFirstRender] = useState(false);
 
     const renderedCount = useRef(0); // compteur de composants montés
     const [allRendered, setAllRendered] = useState(false); // état déclencheur
     const previousHeightRef = useRef(null); // hauteur précédente
+
+    const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
 
     const [translateYValue, settranslateYValue] = useState('-200vh');
     const [translateXValue, settranslateXValue] = useState('0px');
@@ -173,6 +176,8 @@ const VolumesList = ({
 
     const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
+            settailwindSlideTrans(true);
+            setFirstRender(false);
             settranslateYValue(accordionY + 'px');
             if (document.getElementById('floating-title-container')) {
                 document.getElementById('floating-title-container').style.transform = `translateY(${accordionY}px)`;
@@ -187,6 +192,7 @@ const VolumesList = ({
                 }, 400);
             }
         } else if (state == 'home') {
+            setFirstRender(true);
             setIsOnIndexPage(true);
             setIsOnVolumePage(false);
             if (window.innerWidth < 768) {
@@ -199,6 +205,8 @@ const VolumesList = ({
                 settranslateYValue(targetY);
             }
         } else {
+            settailwindSlideTrans(true);
+            setFirstRender(false);
             setIsOnVolumePage(false);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
@@ -233,12 +241,21 @@ const VolumesList = ({
         return () => window.removeEventListener('resize', handleResize);
     }, [lang, targetHref]);
 
+    // Remove transition anim on langSwitch
+    useEffect(() => {
+        if (state == 'home' && firstRender) {
+            settailwindSlideTrans(false);
+        } else {
+            settailwindSlideTrans(true);
+        }
+    }, [lang]);
+
     // Render
     return (
         <>
 
             <div
-                className={`work-list volume-list-wrapper w-[700px] border transition-[transform] duration-500 ease-in-out  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''} `}
+                className={`work-list volume-list-wrapper w-[700px] border ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-500 ease-in-out' : ''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''} `}
                 style={{
                     transform: `translate(${translateXValue}, ${translateYValue})`,
                 }}
