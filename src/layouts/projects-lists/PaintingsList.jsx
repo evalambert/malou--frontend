@@ -69,35 +69,36 @@ const PaintingsList = ({
             let reverse = false;
 
             liTitle.forEach((li) => {
+                const liWidth = li.getBoundingClientRect().width;
                 const viewportWidth = window.matchMedia('(min-width: 48rem)')
                     .matches
                     ? window.innerWidth - 30
                     : window.innerWidth - 30;
 
                 if (
-                    previousLiWidth + li.offsetWidth > viewportWidth &&
+                    previousLiWidth + liWidth > viewportWidth &&
                     !reverse
                 ) {
-                    let maxMarginLeft = viewportWidth - li.offsetWidth;
+                    let maxMarginLeft = viewportWidth - liWidth;
                     li.style.marginLeft = `${maxMarginLeft}px`;
-                    previousLiWidth = viewportWidth - li.offsetWidth;
+                    previousLiWidth = viewportWidth - liWidth;
                     reverse = true;
                     return previousLiWidth;
 
                     // DESCEND VERS LA GAUCHE
                 } else if (previousLiWidth < 200 && reverse) {
                     li.style.marginLeft = `0px`;
-                    previousLiWidth = li.offsetWidth;
+                    previousLiWidth = liWidth;
                     reverse = false;
                 } else if (reverse) {
-                    previousLiWidth = previousLiWidth - li.offsetWidth;
+                    previousLiWidth = previousLiWidth - liWidth;
                     li.style.marginLeft = `${previousLiWidth}px`;
                     return previousLiWidth;
 
                     // DESCEND VERS LA DROITE
                 } else {
                     li.style.marginLeft = `${previousLiWidth}px`;
-                    previousLiWidth = previousLiWidth + li.offsetWidth;
+                    previousLiWidth = previousLiWidth + liWidth;
                     return previousLiWidth;
                 }
             });
@@ -252,11 +253,11 @@ const PaintingsList = ({
                 }
             >
                 <div
-                    className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
+                    className={`overflow-hidden ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
 
                 >
                     {/* Liste Homepage */}
-                    <ul className='painting-list-compact transition-all duration-500 ease-in-out w-fit border'>
+                    <ul className='painting-list-compact w-fit border'>
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;
                             const isActive = slug === activePaintingSlug;

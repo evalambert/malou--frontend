@@ -221,9 +221,6 @@ body:not(.category-vitrail) .swiper-pagination {
     @apply flex min-w-[13px] items-center justify-center;
 }
 
-.painting-title {
-    transition: all 0.1s;
-}
 
 .painting-title a {
     display: flex;
