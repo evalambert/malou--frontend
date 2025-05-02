@@ -32,7 +32,7 @@ const VolumesList = ({
     const [activeVolumeSlug, setActiveVolumeSlug] = useState(null);
 
     // •••  Hidden title list onSlugPage •••
-    // Extrait le slug d’un volume à partir de l’URL
+    // Extrait le slug d'un volume à partir de l'URL
     const extractSlugFromUrl = (url) => {
         const match = url.match(/\/volume\/([^/]+)/);
         return match ? match[1] : null;
@@ -128,7 +128,7 @@ const VolumesList = ({
     // Effet pour mettre à jour la hauteur
     useEffect(() => {
         if (allRendered) {
-            const hiddenList = document.querySelector('.hidden-list-volume');
+            const hiddenList = document.querySelector('.hidden-list-volume .volume-list-compact');
             if (hiddenList) {
                 const height = hiddenList.getBoundingClientRect().height;
                 setHiddenListHeightVolume(height);
@@ -222,8 +222,11 @@ const VolumesList = ({
                 setMaxWidthValue('0px');
                 setMaxHeightValue('0px');
             } else {
-                const targetY = `-${hiddenListHeightVolume}px`;
+                
+                const targetY = `-${hiddenListHeightVolume || previousHeightRef.current}px`;
                 settranslateYValue(targetY);
+                console.log('targetY sur state = home', targetY);
+                
             }
         } else {
             settailwindSlideTrans(true);
@@ -247,11 +250,16 @@ const VolumesList = ({
             .classList.contains('on-slug-page');
         setIsSlugPage(isOnSlugPage);
         toggleListDisplay('volume', accordionOffsetY);
-    }, [targetHref, hiddenListHeightVolume, accordionOffsetY]);
+    }, [targetHref, accordionOffsetY]);
+
+    useEffect(() => {
+        console.log('changement de hauteur de la liste cachée', hiddenListHeightVolume);
+    },[hiddenListHeightVolume])
 
     // Effet pour le redimensionnement
     useEffect(() => {
         const handleResize = () => {
+            toggleListDisplay('volume', accordionOffsetY);
             const titles = document.querySelectorAll('li.volume-title a');
             titles.forEach((title) => {
                 if (title.getAttribute('href') === targetHref) {
@@ -272,6 +280,30 @@ const VolumesList = ({
             settailwindSlideTrans(true);
         }
     }, [lang]);
+
+    // Effet pour mettre à jour translateYValue selon la hauteur de la liste cachée
+    useEffect(() => {
+        // Fonction pour récupérer la hauteur et appliquer le translateY
+        const updateTranslateYWithListHeight = () => {
+            const hiddenList = document.querySelector('.hidden-list-volume .volume-list-compact');
+            if (hiddenList) {
+                const height = hiddenList.getBoundingClientRect().height;
+                const targetY = `-${height}px`;
+                settranslateYValue(targetY);
+            }
+        };
+
+        // Appel initial
+        updateTranslateYWithListHeight();
+
+        // Optionnel : réagir au resize pour garder la valeur à jour
+        window.addEventListener('resize', updateTranslateYWithListHeight);
+
+        // Nettoyage
+        return () => {
+            window.removeEventListener('resize', updateTranslateYWithListHeight);
+        };
+    }, [allRendered, lang]); // Dépendances : quand la liste est rendue ou la langue change
 
     // Render
     return (
@@ -325,7 +357,7 @@ const VolumesList = ({
                                                 renderedCount.current += 1;
                                                 if (renderedCount.current === hiddenVolumes.length) {
                                                     setAllRendered(true);
-                                                    // console.log('allRendered ====', allRendered);
+                                                    console.log('allRendered ====>>', allRendered);
                                                 }
                                             }}
                                         />

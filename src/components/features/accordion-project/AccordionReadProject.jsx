@@ -11,6 +11,7 @@ export default function AccordionReadProject({
     height,
     lang,
     year,
+    credit,
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const [contentHeight, setContentHeight] = useState(0);
@@ -138,7 +139,12 @@ export default function AccordionReadProject({
                         <div className='triangle-left'></div>
                         <div className='triangle-right'></div>
                         <p>{description}</p>
-
+                        <p className=''>
+                            {lang === 'fr'
+                                ? ' Crédit photo '
+                                : ' Photo credit '}
+                            ©{credit}
+                        </p>
                         <div className='py-[11px]'>
                             <p>
                                 {technique}, {materials}

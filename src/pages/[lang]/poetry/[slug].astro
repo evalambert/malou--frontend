@@ -53,7 +53,7 @@ export const prerender = true;
 
 <Layout title='Poetry' showReturn returnTo={`/poetry`}>
     <div transition:name='all-projects-lists' transition:persist>
-        <AllProjectsLists lang={lang} enterIndex={false}/>
+        <AllProjectsLists lang={lang} enterIndex={false} />
     </div>
 
     <AccordionReadProject
@@ -66,19 +66,29 @@ export const prerender = true;
         width={poetry?.width || 'Largeur non disponible'}
         height={poetry?.height || 'Hauteur non disponible'}
         year={poetry?.year || 'Année non disponible'}
+        credit={poetry?.credit || 'Crédit non disponible'}
     />
     <PreviewImg
         transition:name='preview-image'
         transition:persist
         client:only
     />
-    <div
-        class='fixed top-0 left-0 w-screen h-screen'
-    >
-        {poetry?.medias? (
-            <Slider client:only medias={poetry.medias} zoomImg={poetry.zoomImg || []} noTimeOut={true} />
-        ) : (
-            <ZoomModale client:only hidden={false} zoomImg={poetry.zoomImg || []} />
-        )}
+    <div class='fixed top-0 left-0 w-screen h-screen'>
+        {
+            poetry?.medias ? (
+                <Slider
+                    client:only
+                    medias={poetry.medias}
+                    zoomImg={poetry.zoomImg || []}
+                    noTimeOut={true}
+                />
+            ) : (
+                <ZoomModale
+                    client:only
+                    hidden={false}
+                    zoomImg={poetry.zoomImg || []}
+                />
+            )
+        }
     </div>
 </Layout>
