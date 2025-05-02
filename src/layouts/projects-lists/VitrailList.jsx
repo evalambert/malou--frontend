@@ -264,13 +264,7 @@ const VitrailList = ({
                         'floating-title-container'
                     ).style.transform = `translateY(${accordionY}px)`;
                 }
-                // gsap.to('.vitrail-list--slide-wrapper',
-                //     {
-                //         y: '0px',
-                //         duration: 0.5,
-                //         ease: "power2.out",
-                //     }
-                // );
+
             }
         } else if (state == 'home') {
             // ••• HOMEPAGE •••
@@ -280,9 +274,11 @@ const VitrailList = ({
             if (window.innerWidth < 768) {
                 // mobile
                 settranslateYValue('0px');
-                settranslateXValue('50vw');
-                setMaxWidthValue('0px');
-                setMaxHeightValue('0px');
+                setMaxWidthValue('100vw');
+                setMaxHeightValue('100vh');
+                //settranslateXValue('50vw');
+                //setMaxWidthValue('0px');
+                //setMaxHeightValue('0px');
             } else {
                 const targetY = `-${hiddenListHeightVitrail || previousHeightRef.current}px`;
                 settranslateYValue(targetY);
@@ -305,9 +301,9 @@ const VitrailList = ({
             setIsOnVitrailPage(false);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                setMaxWidthValue('0px');
-                setMaxHeightValue('0px');
-                settranslateXValue('50vw');
+                settranslateYValue('0px');
+                setMaxWidthValue('0vw');
+                setMaxHeightValue('100vh');
             } else {
                 settranslateYValue('-200vh');
             }
@@ -447,7 +443,7 @@ const VitrailList = ({
     // Render
     return (
         <div
-            className={`work-list vitrail-list-wrapper md:pt-body-p-y md:right-main-x relative top-[70vh] max-h-screen w-fit overflow-scroll border pb-[30px] max-md:flex max-md:flex-col max-md:items-end md:fixed md:top-0 ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
+            className={`work-list vitrail-list-wrapper ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out':''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
             onClick={
                 !isOnVitrailPage
                     ? () =>
