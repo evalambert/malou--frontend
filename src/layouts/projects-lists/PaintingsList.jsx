@@ -16,6 +16,10 @@ const PaintingsList = ({
     const [hiddenListHeightPainting, setHiddenListHeightPainting] = useState(0);
     const [accordionOffsetY, setAccordionOffsetY] = useState(0); // Décalage causé par l'accordéon
     const [activePaintingSlug, setActivePaintingSlug] = useState(null);
+    const [isSlugPage, setIsSlugPage] = useState(false);
+    const [firstRender, setFirstRender] = useState(false);
+
+    const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
 
     // Fonction pour extraire le slug de l'URL
     const extractSlugFromUrl = (url) => {
@@ -152,6 +156,8 @@ const PaintingsList = ({
 
     const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
+            settailwindSlideTrans(true);
+            setFirstRender(false);
             setTranslateValue(accordionY + 'px');
             setIsOnPaintingPage(true);
             setIsOnIndexPage(false);
@@ -160,6 +166,7 @@ const PaintingsList = ({
                 setmaxHeightValue('300vh');
             }
         } else if (state == 'home') {
+            setFirstRender(true);
             if (window.innerWidth < 768) {
                 setTranslateValue('100vh');
                 setmaxHeightValue('0px');
@@ -170,6 +177,8 @@ const PaintingsList = ({
             setIsOnIndexPage(true);
             setIsOnPaintingPage(false);
         } else {
+            settailwindSlideTrans(true);
+            setFirstRender(false);
             setTranslateValue('100vh');
             setIsOnPaintingPage(false);
             setIsOnIndexPage(false);
@@ -177,8 +186,12 @@ const PaintingsList = ({
     };
 
     useEffect(() => {
+        const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
+        setIsSlugPage(isOnSlugPage);
         toggleListDisplay('painting', accordionOffsetY);
     }, [targetHref, hiddenListHeightPainting, accordionOffsetY]);
+
+
 
     // sort hidden paintings by visual width
     useEffect(() => {
@@ -207,6 +220,15 @@ const PaintingsList = ({
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // console.log('hello <:-° status dans painting list', state);
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+    // Remove transition anim on langSwitch
+    useEffect(() => {
+        if (state == 'home' && firstRender) {
+            settailwindSlideTrans(false);
+        } else {
+            settailwindSlideTrans(true);
+        }
+    }, [lang]);
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Render
@@ -214,25 +236,26 @@ const PaintingsList = ({
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list painting-list-wrapper pb-body-p-y fixed bottom-0 transition-all delay-[0.2s] duration-500 ease-in-out ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${!isOnPaintingPage && !isOnIndexPage ? 'pointer-events-none' : ''} `}
+                className={`work-list painting-list-wrapper border ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer w-[500px]' : 'md:pt-[50px]'} overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                style={{
+                    transform: `translateY(${translateValue})`,
+                    maxHeight: `${maxHeightValue}`,
+                }}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                              navigate(`/${lang}/painting/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/painting/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
                 <div
-                    className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''}`}
-                    style={{
-                        transform: `translateY(${translateValue})`,
-                        maxHeight: `${maxHeightValue}`,
-                    }}
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
+
                 >
                     {/* Liste Homepage */}
-                    <ul className='painting-list-compact transition-all duration-500 ease-in-out'>
+                    <ul className='painting-list-compact transition-all duration-500 ease-in-out w-fit border'>
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;
                             const isActive = slug === activePaintingSlug;

@@ -1,10 +1,14 @@
+import React, { useEffect } from 'react';
 import {
     handleMouseEnter,
     handleMouseClick,
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
-const VolumeTitle = ({ volume, lang }) => {
+const VolumeTitle = ({ volume, lang, onMount }) => {
+    useEffect(() => {
+        if (onMount) onMount();
+    }, []);
     // Render
     return (
         <div>

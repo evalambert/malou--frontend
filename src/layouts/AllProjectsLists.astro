@@ -11,7 +11,7 @@ import VolumesList from './projects-lists/VolumesList.jsx';
 import PoetryList from './projects-lists/PoetryList.jsx';
 import WeavingList from './projects-lists/WeavingList.jsx';
 
-const { lang, enterIndex} = Astro.props;
+const { lang, enterIndex } = Astro.props;
 
 const currentPath = Astro.url.pathname || '';
 const categoryMatch = currentPath.match(/^\/[a-z]{2}\/([^\/]+)/);
@@ -61,55 +61,49 @@ function getPageState(currentPath) {
     return null;
 }
 const state = getPageState(currentPath);
+
 // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 export const prerender = true;
 ---
 
-<div class={`header-wrapper w-full md:flex justify-between gap-x-[20px]`}>
-    <div class='md:flex-1'>
-        <Nav
-            className={`z-50 mix-blend-target ${
-                Astro.url.pathname === `/${lang}/about/`
-                    ? 'md:fixed'
-                    : 'relative'
-            }`}
-            lang={lang}
-            currentPath={Astro.url.pathname}
-            transition:name='nav'
-            transition:persist
-            client:only='react'
-        />
-    </div>
-    <div class='md:flex-3 cat-volume-flex-wrapper'>
-        <VolumesList
-            className='relative z-50 mix-blend-target'
-            targetHref={currentPath}
-            state={state}
-            lang={lang}
-            homepageVolumes={homepageVolumes}
-            hiddenVolumes={hiddenVolumes}
-            transition:name='volumeslist'
-            transition:persist
-            client:only='react'
-        />
-    </div>
-    <div class='cat-vitrail-flex-wrapper md:flex-1'>
-        <VitrailList
-            className='relative z-50 mix-blend-target'
-            targetHref={currentPath}
-            state={state}
-            lang={lang}
-            homepageVitraux={homepageVitraux}
-            hiddenVitraux={hiddenVitraux}
-            transition:name='vitrailist'
-            transition:persist
-            client:only='react'
-        />
-    </div>
-</div>
+<Nav
+    className={`z-50 mix-blend-target md:fixed md:top-body-p-y md:left-main-x ${
+        Astro.url.pathname === `/${lang}/about/` ? 'md:fixed' : 'relative'
+    }`}
+    lang={lang}
+    currentPath={Astro.url.pathname}
+    transition:name='nav'
+    transition:persist
+    client:only='react'
+/>
+
+<VolumesList
+    className='relative md:fixed top-[50vh] md:top-body-p-y left-0 z-50 md:z-10 md:pl-[300px] mix-blend-target max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden max-h-screen overflow-scroll pb-[30px]'
+    targetHref={currentPath}
+    state={state}
+    lang={lang}
+    homepageVolumes={homepageVolumes}
+    hiddenVolumes={hiddenVolumes}
+    transition:name='volumeslist'
+    transition:persist
+    client:only='react'
+/> 
+
+<VitrailList
+    className='relative z-50 mix-blend-target'
+    targetHref={currentPath}
+    state={state}
+    lang={lang}
+    homepageVitraux={homepageVitraux}
+    hiddenVitraux={hiddenVitraux}
+    transition:name='vitrailist'
+    transition:persist
+    client:only='react'
+/>
+
 <PoetryList
-    className='mix-blend-target'
+    className='pointer-events-none mix-blend-target'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -119,7 +113,7 @@ export const prerender = true;
     client:only='react'
 />
 <PaintingsList
-    className='relative md:fixed max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target'
+    className='relative md:fixed max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target md:max-h-screen pb-body-p-y'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -130,7 +124,7 @@ export const prerender = true;
     client:only='react'
 />
 <WeavingList
-    className='z-50 mix-blend-target'
+    className='z-50 mix-blend-target  md:max-h-screen '
     targetHref={currentPath}
     state={state}
     lang={lang}

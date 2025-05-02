@@ -22,7 +22,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             body.classList.add('mix-blend-actif');
             const timeoutWhite = setTimeout(() => {
                 body.classList.remove('mix-blend-actif');
-                
+                // Code qui masque le reste des listes
             }, 700);
             const timeout = setTimeout(() => {
                 setShow(true);
