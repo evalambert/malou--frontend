@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { navigate } from 'astro:transitions/client';
 
 import WeavingTitle from '../../components/common/title/WeavingTitle.jsx';
@@ -146,7 +146,6 @@ const WeavingList = ({
             }
             setIsOnWeavingPage(false);
             setIsOnIndexPage(true);
-
         } else {
             settailwindSlideTrans(true);
             setFirstRender(false);
@@ -249,6 +248,51 @@ const WeavingList = ({
         }
     }, [lang]);
 
+
+    //  ••••••••••••  TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
+    const weavingListRef = useRef(null);
+    const [dynamicHomepageWidth, setDynamicHomepageWidth] = useState(null);
+
+    useEffect(() => {
+        if (state === 'home') {
+            const tryGetWidth = () => {
+                if (weavingListRef.current) {
+                    const width =
+                        weavingListRef.current.getBoundingClientRect().width;
+                    if (width > 0) {
+                        setDynamicHomepageWidth(`${width}px`);
+                        console.log(
+                            '📏 Largeur WeavingList mesurée :',
+                            width,
+                            'px'
+                        );
+                    } else {
+                        setTimeout(tryGetWidth, 100);
+                    }
+                } else {
+                    setTimeout(tryGetWidth, 100);
+                }
+            };
+
+            tryGetWidth();
+        }
+    }, [state, lang, homepageWeavings]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (state === 'home' && weavingListRef.current) {
+                const width =
+                    weavingListRef.current.getBoundingClientRect().width;
+                setDynamicHomepageWidth(`${width}px`);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [state]);
+
+    //  •••••••••••• (END) TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
+
     // Render
     return (
         <>
@@ -272,7 +316,7 @@ const WeavingList = ({
                     className={`weaving-list flex flex-col items-end overflow-hidden transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''} `}
                 >
                     {/* Liste Homepage */}
-                    <ul className='flex w-[100%] max-w-[375px] flex-col items-end md:w-fit md:max-w-[unset]'>
+                    <ul className='flex w-[100%] max-w-[375px] flex-col items-end border md:w-fit md:max-w-[unset]'>
                         {homepageWeavings.map((weaving) => {
                             const slug = weaving.slug;
                             const paddingClass =
