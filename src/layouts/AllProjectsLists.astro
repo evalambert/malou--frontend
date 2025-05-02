@@ -79,7 +79,7 @@ export const prerender = true;
 />
 
 <VolumesList
-    className='md:fixed md:top-body-p-y md:left-0 z-50 md:z-10 md:pl-[300px] mix-blend-target max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden max-h-screen overflow-scroll pb-[30px]'
+    className='!hidden md:fixed md:top-body-p-y md:left-0 z-50 md:z-10 md:pl-[300px] mix-blend-target max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden max-h-screen overflow-scroll pb-[30px]'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -91,7 +91,7 @@ export const prerender = true;
 /> 
 
 <VitrailList
-    className='z-50 mix-blend-target'
+    className='!hidden z-50 mix-blend-target'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -103,7 +103,7 @@ export const prerender = true;
 />
 
 <PoetryList
-    className='pointer-events-none mix-blend-target'
+    className='hidden pointer-events-none mix-blend-target'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -113,7 +113,7 @@ export const prerender = true;
     client:only='react'
 />
 <PaintingsList
-    className='md:fixed max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target md:max-h-screen pb-body-p-y'
+    className='absolute md:fixed max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target md:max-h-screen pb-body-p-y'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -124,7 +124,7 @@ export const prerender = true;
     client:only='react'
 />
 <WeavingList
-    className='z-50 mix-blend-target  md:max-h-screen '
+    className='absolute z-50 mix-blend-target  md:max-h-screen '
     targetHref={currentPath}
     state={state}
     lang={lang}

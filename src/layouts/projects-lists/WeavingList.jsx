@@ -115,15 +115,18 @@ const WeavingList = ({
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
                 // MOBILE
-                // let weavingListHeight =
-                //     document.querySelector('.weaving-list').clientHeight;
-                // setmaxHeightValue(weavingListHeight + 'px');
-                if (weavingListHeight > window.innerHeight / 2) {
-                    setMobileTopValue('50vh');
+
+                let weavingListHeight =
+                    document.querySelector('.weaving-list').getBoundingClientRect().height;
+                setmaxHeightValue(weavingListHeight + 'px');
+                if (weavingListHeight < ((window.innerHeight / 2) - 130)) {
+                    setMobileTopValue('calc(50vh - 130px)');
+                    setmaxHeightValue('unset');
                 } else {
                     let newMobileTopValue =
                         window.innerHeight - (weavingListHeight + 50);
                     setMobileTopValue(newMobileTopValue + 'px');
+                    setmaxHeightValue('unset');
                 }
             } else {
                 setmaxHeightValue('100vh');
@@ -132,10 +135,10 @@ const WeavingList = ({
             setFirstRender(true);
             if (window.innerWidth < 768) {
                 // MOBILE
-                setTranslateYValue('0vh');
-                // setTranslateYValue('100vh');
+                setTranslateYValue('0px');
                 setTranslateXValue('0px');
                 setmaxHeightValue('0px');
+                setMobileTopValue('calc(100vh - 130px)');
             } else {
                 setTranslateYValue(hiddenListHeightWeaving + 'px');
                 setTranslateXValue('150px'); // 150 = padding-right de last li de la homepageList
@@ -149,13 +152,15 @@ const WeavingList = ({
             setFirstRender(false);
             // Réinitialiser accordionOffsetY quand on quitte une page de slug
             setAccordionOffsetY(0);
-            setTranslateYValue('100vh');
             if (window.innerWidth < 768) {
                 // MOBILE
+                setTranslateYValue('0px');
                 setTranslateXValue('0px');
                 setmaxHeightValue('0px');
+                setMobileTopValue('calc(100vh - 130px)');
             } else {
                 setmaxHeightValue('100vh');
+                setTranslateYValue('100vh');
             }
             setIsOnWeavingPage(false);
             setIsOnIndexPage(false);
@@ -237,9 +242,9 @@ const WeavingList = ({
 
     // Remove transition anim on langSwitch
     useEffect(() => {
-        if (state == 'home' && firstRender){
+        if (state == 'home' && firstRender) {
             settailwindSlideTrans(false);
-        }else{
+        } else {
             settailwindSlideTrans(true);
         }
     }, [lang]);
@@ -248,7 +253,7 @@ const WeavingList = ({
     return (
         <>
             <div
-                className={`work-list weaving-list-wrapper border relative right-0  pr-[6px]  md:fixed md:!top-[unset] md:bottom-[6px] ${className}  ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px] w-full'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''}overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                className={`work-list weaving-list-wrapper border relative right-0  pr-[6px]  md:fixed md:!top-[unset] md:bottom-[6px] ${className}  ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px] w-full'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
                 style={{
                     maxHeight: `${maxHeightValue}`,
                     top: `${mobileTopValue}`,
@@ -257,9 +262,9 @@ const WeavingList = ({
                 onClick={
                     !isOnWeavingPage
                         ? () =>
-                              navigate(`/${lang}/weaving/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/weaving/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
@@ -277,11 +282,10 @@ const WeavingList = ({
                             return (
                                 <li
                                     key={weaving.id}
-                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${
-                                        isSlugPage && !isActive
+                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${isSlugPage && !isActive
                                             ? 'pointer-events-none opacity-0'
                                             : 'opacity-300'
-                                    } ${isActive ? 'delay-100' : ''}`}
+                                        } ${isActive ? 'delay-100' : ''}`}
                                 >
                                     <WeavingTitle
                                         weaving={weaving}
@@ -309,11 +313,10 @@ const WeavingList = ({
 
                                 return (
                                     <li
-                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${
-                                            isSlugPage && !isActive
+                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${isSlugPage && !isActive
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-300'
-                                        } ${isActive ? 'delay-100' : ''}`}
+                                            } ${isActive ? 'delay-100' : ''}`}
                                         key={weaving.id}
                                     >
                                         <WeavingTitle
