@@ -278,11 +278,11 @@ const VolumesList = ({
                                             volume={volume}
                                             lang={lang}
                                             onMount={() => {
-                                                console.log('VolumeTitle monté', volume.id);
+                                                // console.log('VolumeTitle monté', volume.id);
                                                 renderedCount.current += 1;
                                                 if (renderedCount.current === hiddenVolumes.length) {
                                                     setAllRendered(true);
-                                                    console.log('allRendered ====', allRendered);
+                                                    // console.log('allRendered ====', allRendered);
                                                 }
                                             }}
                                         />
