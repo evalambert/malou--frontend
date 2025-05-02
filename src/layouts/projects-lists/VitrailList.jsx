@@ -303,11 +303,8 @@ const VitrailList = ({
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
                 settranslateYValue('0px');
-                setMaxWidthValue('100vw');
+                setMaxWidthValue('0vw');
                 setMaxHeightValue('100vh');
-                // setMaxWidthValue('0px');
-                // setMaxHeightValue('0px');
-                // settranslateXValue('50vw');
             } else {
                 settranslateYValue('-200vh');
             }
@@ -398,7 +395,7 @@ const VitrailList = ({
     return (
 
         <div
-            className={`work-list vitrail-list-wrapper border w-fit md:fixed md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll pb-[30px] ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out':''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
+            className={`work-list vitrail-list-wrapper ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out':''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
             onClick={
                 !isOnVitrailPage
                     ? () =>
