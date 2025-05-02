@@ -310,12 +310,12 @@ const VolumesList = ({
 
                                 {hiddenVolumes.map((volume) => (
                                     <li
-                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
-                                            activeVolumeSlug &&
+                                        key={volume.id || volume.slug}
+                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
                                             volume.slug !== activeVolumeSlug
-                                                ? 'pointer-events-none opacity-0'
-                                                : 'opacity-100'
-                                        }`}
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-100'
+                                            }`}
                                     >
                                         <VolumeTitle
                                             volume={volume}
@@ -340,12 +340,12 @@ const VolumesList = ({
                         <ul className='volume-list-compact preview-list-volume flex flex-wrap md:gap-y-[25px]'>
                             {homepageVolumes.map((volume) => (
                                 <li
-                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
-                                        activeVolumeSlug &&
+                                    key={volume.id || volume.slug}
+                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
                                         volume.slug !== activeVolumeSlug
-                                            ? 'pointer-events-none opacity-0'
-                                            : 'opacity-100'
-                                    }`}
+                                        ? 'pointer-events-none opacity-0'
+                                        : 'opacity-100'
+                                        }`}
                                 >
                                     <VolumeTitle volume={volume} lang={lang} />
                                 </li>
@@ -357,9 +357,8 @@ const VolumesList = ({
             </div>
         </>
     );
-};    
+};
 
 export default VolumesList;
 
 
-    
