@@ -306,7 +306,7 @@ const VolumesList = ({
                             className={`hidden-list-volume border transition-all delay-[0.2s] duration-500 ease-in-out`}
                         >
                             {/* Liste Hidden */}
-                            <ul className={`volume-list-compact flex flex-wrap justify-center md:gap-y-[25px] ${isOnVolumePage ? 'md:pb-[25px]' : ''}`}>
+                            <ul className={`volume-list-compact flex flex-wrap justify-center md:gap-y-[25px] md:w-[calc(100vw_-_320px)] ${isOnVolumePage ? 'md:pb-[25px] opacity-100' : 'opacity-0'}`}>
 
                                 {hiddenVolumes.map((volume) => (
                                     <li
