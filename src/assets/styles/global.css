@@ -229,7 +229,7 @@ body:not(.category-vitrail) .swiper-pagination {
     display: flex;
     align-items: flex-end;
     transition: height 0.1s 0.3s ease-in-out;
-}
+} 
 
 /* .active .volume-word-wrapper>div {
     display: flex;
