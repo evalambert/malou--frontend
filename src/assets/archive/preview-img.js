@@ -24,7 +24,9 @@ export const handleMouseEnter = (imageUrl, objectFit) => {
 };
 
 export const handleMouseLeave = () => {
+    const imageElement = document.querySelector('.dynamic-image');
     const wrapperElement = document.querySelector('.preview-image--wrapper');
+
     if (!document.body.classList.contains('on-slug-page')) {
         if (
             wrapperElement &&
@@ -32,6 +34,9 @@ export const handleMouseLeave = () => {
         ) {
             wrapperElement.style.opacity = '0';
         }
-        // imageElement.style.objectFit = 'unset';
+        if (imageElement) {
+            imageElement.style.objectFit = '';
+            //imageElement.src = ''; 
+        }
     }
 };

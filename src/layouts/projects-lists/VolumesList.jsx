@@ -222,7 +222,9 @@ const VolumesList = ({
         <>
 
             <div
-                className={`work-list volume-list-wrapper ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${isOnVolumePage ? '' : 'pointer-events-none'} `}
+                className={`work-list volume-list-wrapper w-[700px] border transition-[transform] duration-500 ease-in-out  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isOnVolumePage ? '' : 'pointer-events-none'} `}
+
+                
             >
                 <div
                     className={`max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out`}
@@ -240,7 +242,7 @@ const VolumesList = ({
                     }}
                 >
                     <div
-                        className={`pt-body-p-y transition-all duration-500 ease-in-out max-md:w-[calc(100vw-40px)]`}
+                        className={`pt-body-p-y max-md:w-[calc(100vw-40px)]`}
                         style={{
                             transform: `translate(${translateXValue}, ${translateYValue})`,
                         }}

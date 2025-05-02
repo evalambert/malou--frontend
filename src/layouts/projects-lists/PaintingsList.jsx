@@ -220,7 +220,11 @@ const PaintingsList = ({
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list painting-list-wrapper ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
+                className={`work-list painting-list-wrapper border ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer w-[500px]' : 'md:pt-[50px]'} overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                style={{
+                    transform: `translateY(${translateValue})`,
+                    maxHeight: `${maxHeightValue}`,
+                }}
                 onClick={
                     !isOnPaintingPage
                         ? () =>
@@ -232,13 +236,10 @@ const PaintingsList = ({
             >
                 <div
                     className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
-                    style={{
-                        transform: `translateY(${translateValue})`,
-                        maxHeight: `${maxHeightValue}`,
-                    }}
+               
                 >
                     {/* Liste Homepage */}
-                    <ul className='painting-list-compact transition-all duration-500 ease-in-out'>
+                    <ul className='painting-list-compact transition-all duration-500 ease-in-out w-fit border'>
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;
                             const isActive = slug === activePaintingSlug;
