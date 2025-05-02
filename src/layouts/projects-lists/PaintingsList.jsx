@@ -73,31 +73,32 @@ const PaintingsList = ({
                     .matches
                     ? window.innerWidth - 30
                     : window.innerWidth - 30;
-
+                const liWidth = li.getBoundingClientRect().width;
+                console.log('liWidth', liWidth);
                 if (
-                    previousLiWidth + li.offsetWidth > viewportWidth &&
+                    previousLiWidth + liWidth > viewportWidth &&
                     !reverse
                 ) {
-                    let maxMarginLeft = viewportWidth - li.offsetWidth;
+                    let maxMarginLeft = viewportWidth - liWidth;
                     li.style.marginLeft = `${maxMarginLeft}px`;
-                    previousLiWidth = viewportWidth - li.offsetWidth;
+                    previousLiWidth = viewportWidth - liWidth;
                     reverse = true;
                     return previousLiWidth;
 
                     // DESCEND VERS LA GAUCHE
                 } else if (previousLiWidth < 200 && reverse) {
                     li.style.marginLeft = `0px`;
-                    previousLiWidth = li.offsetWidth;
+                    previousLiWidth = liWidth;
                     reverse = false;
                 } else if (reverse) {
-                    previousLiWidth = previousLiWidth - li.offsetWidth;
+                    previousLiWidth = previousLiWidth - liWidth;
                     li.style.marginLeft = `${previousLiWidth}px`;
                     return previousLiWidth;
 
                     // DESCEND VERS LA DROITE
                 } else {
                     li.style.marginLeft = `${previousLiWidth}px`;
-                    previousLiWidth = previousLiWidth + li.offsetWidth;
+                    previousLiWidth = previousLiWidth + liWidth;
                     return previousLiWidth;
                 }
             });
@@ -110,7 +111,12 @@ const PaintingsList = ({
         };
 
         // Initial calculation
-        setTimeout(calculateLayout, 100);
+        if (state == 'home' && firstRender){
+            calculateLayout();
+            setTimeout(calculateLayout, 100);
+        }else{
+            setTimeout(calculateLayout, 100);
+        }
 
         // Add resize event listener
         window.addEventListener('resize', calculateLayout);
@@ -172,6 +178,7 @@ const PaintingsList = ({
                 setmaxHeightValue('0px');
             } else {
                 setTranslateValue(hiddenListHeightPainting + 'px');
+                console.log('homeslide value', hiddenListHeightPainting);
                 setmaxHeightValue('300vh');
             }
             setIsOnIndexPage(true);

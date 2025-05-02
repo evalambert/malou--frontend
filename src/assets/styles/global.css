@@ -220,16 +220,16 @@ body:not(.category-vitrail) .swiper-pagination {
 .painting-title.active a span {
     @apply flex min-w-[13px] items-center justify-center;
 }
-
+/* 
 .painting-title {
     transition: all 0.1s;
-}
+} */
 
 .painting-title a {
     display: flex;
     align-items: flex-end;
     transition: height 0.1s 0.3s ease-in-out;
-}
+} 
 
 /* .active .volume-word-wrapper>div {
     display: flex;
