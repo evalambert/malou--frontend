@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import {
+    useEffect,
+    useRef,
+    useState,
+    useCallback,
+    useLayoutEffect,
+} from 'react';
 import { navigate } from 'astro:transitions/client';
 import { gsap } from 'gsap';
 
@@ -264,7 +270,6 @@ const VitrailList = ({
                         'floating-title-container'
                     ).style.transform = `translateY(${accordionY}px)`;
                 }
-
             }
         } else if (state == 'home') {
             // ••• HOMEPAGE •••
@@ -390,60 +395,52 @@ const VitrailList = ({
     }, [lang]);
 
     //  ••••••••••••  TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
+
     const vitrailListRef = useRef(null);
+    const dynamicCompactWidth = useMeasuredWidth(
+        vitrailListRef,
+        state === 'home'
+    );
 
-    useEffect(() => {
-        if (vitrailListRef.current) {
-            const width = vitrailListRef.current.getBoundingClientRect().width;
-            console.log('Largeur de vitrail-list-compact :', width, 'px');
-        }
-    }, [sortedHiddenVitraux, homepageVitraux, isOnVitrailPage]);
+    function useMeasuredWidth(ref, enabled = true) {
+        const [width, setWidth] = useState(null);
 
-    const [dynamicCompactWidth, setDynamicCompactWidth] = useState(null);
+        useLayoutEffect(() => {
+            if (!enabled || !ref.current) return;
 
-    useEffect(() => {
-        if (state === 'home') {
-            const tryGetWidth = () => {
-                if (vitrailListRef.current) {
-                    const width =
-                        vitrailListRef.current.getBoundingClientRect().width;
-                    if (width > 0) {
-                        setDynamicCompactWidth(`${width}px`);
-                        console.log(
-                            '✅ Largeur dynamique mesurée :',
-                            width,
-                            'px'
-                        );
-                    } else {
-                        setTimeout(tryGetWidth, 100);
-                    }
+            const node = ref.current;
+
+            const measure = () => {
+                const w = node.getBoundingClientRect().width;
+                if (w > 0) {
+                    setWidth(`${w}px`);
                 } else {
-                    setTimeout(tryGetWidth, 100);
+                    setTimeout(measure, 50);
                 }
             };
 
-            tryGetWidth();
-        }
-    }, [state, lang, sortedHiddenVitraux]);
+            measure();
 
-    useEffect(() => {
-        const handleResize = () => {
-            if (state === 'home' && vitrailListRef.current) {
-                const width =
-                    vitrailListRef.current.getBoundingClientRect().width;
-                setDynamicCompactWidth(`${width}px`);
-            }
-        };
+            const observer = new ResizeObserver((entries) => {
+                const w = entries[0].contentRect.width;
+                if (w > 0 && `${w}px` !== width) {
+                    setWidth(`${w}px`);
+                }
+            });
 
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, [state]);
+            observer.observe(node);
+
+            return () => observer.disconnect();
+        }, [ref, enabled]);
+
+        return width;
+    }
     //  •••••••••••• (END)  TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
 
     // Render
     return (
         <div
-            className={`work-list vitrail-list-wrapper ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out':''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
+            className={`work-list vitrail-list-wrapper ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
             onClick={
                 !isOnVitrailPage
                     ? () =>
@@ -457,7 +454,8 @@ const VitrailList = ({
                 maxWidth:
                     isOnIndexPage && dynamicCompactWidth
                         ? dynamicCompactWidth
-                        : maxWidthValue,
+                        : //: maxWidthValue,
+                          '10vw', // fallback temporaire
                 maxHeight: `${maxHeightValue}`,
                 transform: `translate(${translateXValue}, ${translateYValue})`,
             }}
