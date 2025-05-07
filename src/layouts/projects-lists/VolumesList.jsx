@@ -211,7 +211,6 @@ const VolumesList = ({
             } else {
                 const targetY = `-${hiddenListHeightVolume}px`;
                 settranslateYValue(targetY);
-                console.log('targetY sur state = home', targetY);
             }
         } else {
             settranslateYValue('-200vh');
@@ -248,7 +247,6 @@ const VolumesList = ({
     }, [allRendered, state]);
 
     const handleChange = () => {
-        console.log('handleResize');
         const titles = document.querySelectorAll('li.volume-title a');
         titles.forEach((title) => {
             if (title.getAttribute('href') === targetHref) {
