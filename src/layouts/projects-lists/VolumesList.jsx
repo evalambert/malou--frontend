@@ -198,6 +198,9 @@ const VolumesList = ({
         } else if (state == 'home') {
             const targetY = `-${hiddenListHeight}px`;
             settranslateYValue(targetY);
+            setTimeout(() => {
+                setFirstRender(true);
+            }, 400);
             if (window.innerWidth < 768) {
                 // MOBILE
                 settranslateYValue('0px');
@@ -254,9 +257,9 @@ const VolumesList = ({
             }
         });
         if (state == 'home' && firstRender) {
-            settailwindSlideTrans(true);
-        } else {
             settailwindSlideTrans(false);
+        } else {
+            settailwindSlideTrans(true);
         }
         const hiddenList = document.querySelector('.hidden-list-volume');
         const height = hiddenList.getBoundingClientRect().height;
