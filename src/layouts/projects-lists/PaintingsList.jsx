@@ -283,7 +283,7 @@ const PaintingsList = ({
                     className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
                 >
                     {/* Liste Homepage */}
-                    <ul className='painting-list-compact w-fit border transition-all duration-500 ease-in-out'>
+                    <ul className='painting-list-compact w-fit transition-all duration-500 ease-in-out'>
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;
                             const isActive = slug === activePaintingSlug;
