@@ -73,6 +73,8 @@ const VolumesList = ({
         }
     };
 
+
+
     useEffect(() => {
         // Mobile Title Volume display
         if (window.innerWidth < 768) {
@@ -126,20 +128,20 @@ const VolumesList = ({
     // 1. Met à jour la hauteur quand tout est rendu ou la langue change
 
     // Effet pour mettre à jour la hauteur
-    useEffect(() => {
-        if (allRendered) {
-            const hiddenList = document.querySelector(
-                '.hidden-list-volume .volume-list-compact'
-            );
-            if (hiddenList) {
-                const height = hiddenList.getBoundingClientRect().height;
-                setHiddenListHeightVolume(height);
-            }
-        }
-    }, [allRendered, lang]);
+    // useEffect(() => {
+    //     if (allRendered) {
+    //         const hiddenList = document.querySelector(
+    //             '.hidden-list-volume .volume-list-compact'
+    //         );
+    //         if (hiddenList) {
+    //             const height = hiddenList.getBoundingClientRect().height;
+    //             setHiddenListHeightVolume(height);
+    //         }
+    //     }
+    // }, [allRendered, lang]);
 
+    // Title animation
     useEffect(() => {
-        // Title animation
         const titleLayout = () => {
             const title = document.querySelectorAll('li.volume-title a');
             title.forEach((title) => {
@@ -194,17 +196,9 @@ const VolumesList = ({
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
-
-    const toggleListDisplay = (category, accordionY) => {
+    const toggleListDisplay = (category, accordionY, hiddenListHeight) => {
         if (state == category) {
-            settailwindSlideTrans(true);
-            setFirstRender(false);
             settranslateYValue(accordionY + 'px');
-            if (document.getElementById('floating-title-container')) {
-                document.getElementById(
-                    'floating-title-container'
-                ).style.transform = `translateY(${accordionY}px)`;
-            }
             setIsOnVolumePage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
@@ -217,10 +211,8 @@ const VolumesList = ({
                 }, 400);
             }
         } else if (state == 'home') {
-            setFirstRender(true);
-            setIsOnIndexPage(true);
-            setIsOnVolumePage(false);
-            
+            const targetY = `-${hiddenListHeight}px`;
+            settranslateYValue(targetY);
             if (window.innerWidth < 768) {
                 // MOBILE
                 settranslateYValue('0px');
@@ -237,10 +229,9 @@ const VolumesList = ({
                 console.log('targetY sur state = home', targetY);
             }
         } else {
-            settailwindSlideTrans(true);
-            setFirstRender(false);
-            setIsOnVolumePage(false);
+            settranslateYValue('-200vh');
             setIsOnIndexPage(false);
+            setIsOnVolumePage(false);
             if (window.innerWidth < 768) {
                 // MOBILE
                 setMaxWidthValue('0px');
@@ -255,74 +246,157 @@ const VolumesList = ({
         }
     };
 
-    useEffect(() => {
-        const isOnSlugPage = document
-            .querySelector('body')
-            .classList.contains('on-slug-page');
-        setIsSlugPage(isOnSlugPage);
-        toggleListDisplay('volume', accordionOffsetY);
-    }, [targetHref, accordionOffsetY]);
 
     useEffect(() => {
-        console.log(
-            'changement de hauteur de la liste cachée',
-            hiddenListHeightVolume
-        );
-    }, [hiddenListHeightVolume]);
-
-    // Effet pour le redimensionnement
-    useEffect(() => {
-        const handleResize = () => {
-            toggleListDisplay('volume', accordionOffsetY);
-            const titles = document.querySelectorAll('li.volume-title a');
-            titles.forEach((title) => {
-                if (title.getAttribute('href') === targetHref) {
-                    createOverlayLinks(title, lang);
-                }
-            });
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, [lang, targetHref]);
-
-    // Remove transition anim on langSwitch
-    useEffect(() => {
-        if (state == 'home' && firstRender) {
-            settailwindSlideTrans(false);
-        } else {
-            settailwindSlideTrans(true);
-        }
-    }, [lang]);
-
-    // Effet pour mettre à jour translateYValue selon la hauteur de la liste cachée
-    useEffect(() => {
-        // Fonction pour récupérer la hauteur et appliquer le translateY
-        const updateTranslateYWithListHeight = () => {
-            const hiddenList = document.querySelector(
-                '.hidden-list-volume .volume-list-compact'
-            );
+        if (allRendered) {
+            const hiddenList = document.querySelector('.hidden-list-volume');
             if (hiddenList) {
                 const height = hiddenList.getBoundingClientRect().height;
-                const targetY = `-${height}px`;
-                settranslateYValue(targetY);
+                setHiddenListHeightVolume(height);
+                // Mettre à jour la valeur de translation une fois que nous avons la hauteur
+                if (state === 'home') {
+                    const targetY = `-${height}px`;
+                    settranslateYValue(targetY);
+                }
             }
-        };
+        }
+    }, [allRendered, state]);
 
-        // Appel initial
-        updateTranslateYWithListHeight();
+    useEffect(() => {
+        if (allRendered) {
+            toggleListDisplay('volume', accordionOffsetY, hiddenListHeightVolume);
+        }
+    }, [targetHref, accordionOffsetY, lang, allRendered, hiddenListHeightVolume]);
 
-        // Optionnel : réagir au resize pour garder la valeur à jour
-        window.addEventListener('resize', updateTranslateYWithListHeight);
 
-        // Nettoyage
-        return () => {
-            window.removeEventListener(
-                'resize',
-                updateTranslateYWithListHeight
-            );
-        };
-    }, [allRendered, lang]); // Dépendances : quand la liste est rendue ou la langue change
+    // const toggleListDisplay = (category, accordionY) => {
+    //     if (state == category) {
+    //         settailwindSlideTrans(true);
+    //         setFirstRender(false);
+    //         settranslateYValue(accordionY + 'px');
+    //         if (document.getElementById('floating-title-container')) {
+    //             document.getElementById(
+    //                 'floating-title-container'
+    //             ).style.transform = `translateY(${accordionY}px)`;
+    //         }
+    //         setIsOnVolumePage(true);
+    //         setIsOnIndexPage(false);
+    //         if (window.innerWidth < 768) {
+    //             // MOBILE
+    //             setMaxHeightValue('initial');
+    //             setTimeout(() => {
+    //                 settranslateXValue('0px');
+    //                 setMaxWidthValue('100vw');
+    //                 setMobileTranslateXValue('0px');
+    //             }, 400);
+    //         }
+    //     } else if (state == 'home') {
+    //         setFirstRender(true);
+    //         setIsOnIndexPage(true);
+    //         setIsOnVolumePage(false);
+
+    //         if (window.innerWidth < 768) {
+    //             // MOBILE
+    //             settranslateYValue('0px');
+    //             settranslateXValue('0px');
+    //             setMaxWidthValue('0px');
+    //             setMobileTranslateXValue('100vw');
+    //             setMaxHeightValue('initial');
+    //             // settranslateXValue('50vw');
+    //             // setMaxWidthValue('0px');
+    //             // setMaxHeightValue('0px');
+    //         } else {
+    //             const targetY = `-${hiddenListHeightVolume || previousHeightRef.current}px`;
+    //             settranslateYValue(targetY);
+    //             console.log('targetY sur state = home', targetY);
+    //         }
+    //     } else {
+    //         settailwindSlideTrans(true);
+    //         setFirstRender(false);
+    //         setIsOnVolumePage(false);
+    //         setIsOnIndexPage(false);
+    //         if (window.innerWidth < 768) {
+    //             // MOBILE
+    //             setMaxWidthValue('0px');
+    //             setMaxHeightValue('initial');
+    //             settranslateYValue('0px');
+    //             settranslateXValue('0vw');
+    //             setMobileTranslateXValue('100vw');
+    //             // settranslateXValue('50vw');
+    //         } else {
+    //             settranslateYValue('-200vh');
+    //         }
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     const isOnSlugPage = document
+    //         .querySelector('body')
+    //         .classList.contains('on-slug-page');
+    //     setIsSlugPage(isOnSlugPage);
+    //     toggleListDisplay('volume', accordionOffsetY);
+    // }, [targetHref, accordionOffsetY]);
+
+    // useEffect(() => {
+    //     console.log(
+    //         'changement de hauteur de la liste cachée',
+    //         hiddenListHeightVolume
+    //     );
+    // }, [hiddenListHeightVolume]);
+
+    // // Effet pour le redimensionnement
+    // useEffect(() => {
+    //     const handleResize = () => {
+    //         toggleListDisplay('volume', accordionOffsetY);
+    //         const titles = document.querySelectorAll('li.volume-title a');
+    //         titles.forEach((title) => {
+    //             if (title.getAttribute('href') === targetHref) {
+    //                 createOverlayLinks(title, lang);
+    //             }
+    //         });
+    //     };
+
+    //     window.addEventListener('resize', handleResize);
+    //     return () => window.removeEventListener('resize', handleResize);
+    // }, [lang, targetHref]);
+
+    // Remove transition anim on langSwitch
+    // useEffect(() => {
+    //     if (state == 'home' && firstRender) {
+    //         settailwindSlideTrans(false);
+    //     } else {
+    //         settailwindSlideTrans(true);
+    //     }
+    // }, [lang]);
+
+    // // Effet pour mettre à jour translateYValue selon la hauteur de la liste cachée
+    // useEffect(() => {
+    //     // Fonction pour récupérer la hauteur et appliquer le translateY
+    //     const updateTranslateYWithListHeight = () => {
+    //         const hiddenList = document.querySelector(
+    //             '.hidden-list-volume .volume-list-compact'
+    //         );
+    //         if (hiddenList) {
+    //             const height = hiddenList.getBoundingClientRect().height;
+    //             const targetY = `-${height}px`;
+    //             settranslateYValue(targetY);
+    //         }
+    //     };
+
+    //     // Appel initial
+    //     updateTranslateYWithListHeight();
+
+    //     // Optionnel : réagir au resize pour garder la valeur à jour
+    //     window.addEventListener('resize', updateTranslateYWithListHeight);
+
+    //     // Nettoyage
+    //     return () => {
+    //         window.removeEventListener(
+    //             'resize',
+    //             updateTranslateYWithListHeight
+    //         );
+    //     };
+    // }, [allRendered, lang]); // Dépendances : quand la liste est rendue ou la langue change
 
     // Render
     return (
@@ -337,9 +411,9 @@ const VolumesList = ({
                 onClick={
                     !isOnVolumePage
                         ? () =>
-                              navigate(`/${lang}/volume/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/volume/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
@@ -364,12 +438,11 @@ const VolumesList = ({
                                 {hiddenVolumes.map((volume) => (
                                     <li
                                         key={volume.id || volume.slug}
-                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
-                                            activeVolumeSlug &&
+                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
                                             volume.slug !== activeVolumeSlug
-                                                ? 'pointer-events-none opacity-0'
-                                                : 'opacity-100'
-                                        }`}
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-100'
+                                            }`}
                                     >
                                         <VolumeTitle
                                             volume={volume}
@@ -401,12 +474,11 @@ const VolumesList = ({
                             {homepageVolumes.map((volume) => (
                                 <li
                                     key={volume.id || volume.slug}
-                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
-                                        activeVolumeSlug &&
+                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
                                         volume.slug !== activeVolumeSlug
-                                            ? 'pointer-events-none opacity-0'
-                                            : 'opacity-100'
-                                    }`}
+                                        ? 'pointer-events-none opacity-0'
+                                        : 'opacity-100'
+                                        }`}
                                 >
                                     <VolumeTitle volume={volume} lang={lang} />
                                 </li>
