@@ -284,3 +284,10 @@ body:not(.category-vitrail) .swiper-pagination {
 [data-transition-fade] {
     animation: test-fade 1s ease forwards;
 }
+
+
+/* //////////////////// */
+/* // MOBILE */
+body.on-slug-page .work-list {
+    @apply max-md:fixed;
+}

@@ -36,5 +36,5 @@ export const prerender = true;
     <div class="mix-blend-target" transition:name='all-projects-lists' transition:persist>
         <AllProjectsLists lang={lang} enterIndex={false} />
     </div>
-    <PoetryPreview client:only poems={poems} />
+    <PoetryPreview client:only="react" poems={poems} />
 </Layout>
