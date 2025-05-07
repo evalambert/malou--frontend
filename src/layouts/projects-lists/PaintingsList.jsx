@@ -264,7 +264,7 @@ const PaintingsList = ({
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list painting-list-wrapper border ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer md:w-[500px]' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
+                className={`work-list painting-list-wrapper  ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer md:w-[500px]' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
                 style={{
                     transform: `translateY(${translateValue})`,
                     maxHeight: `${maxHeightValue}`,
@@ -283,7 +283,7 @@ const PaintingsList = ({
                     className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
                 >
                     {/* Liste Homepage */}
-                    <ul className='painting-list-compact w-fit border transition-all duration-500 ease-in-out'>
+                    <ul className='painting-list-compact w-fit transition-all duration-500 ease-in-out'>
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;
                             const isActive = slug === activePaintingSlug;

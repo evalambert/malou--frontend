@@ -253,7 +253,7 @@ const WeavingList = ({
     return (
         <>
             <div
-                className={`work-list weaving-list-wrapper relative right-0 border pr-[6px] md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full md:pt-[50px]'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
+                className={`work-list weaving-list-wrapper relative right-0 pr-[6px] md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full md:pt-[50px]'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
                 style={{
                     maxHeight: `${maxHeightValue}`,
                     top: `${mobileTopValue}`,
