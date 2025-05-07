@@ -137,7 +137,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
     return (
         <>
             <div
-                className={`poetry-wrapper-wrap fixed top-0 left-0 z-[9] h-screen ${className} ${isOnIndexPage ? 'pointer-events-auto w-[80px] cursor-pointer' : ''} ${!isOnPoetryPage && !isOnIndexPage ? 'pointer-events-none w-fit' : ''}`}
+                className={`poetry-wrapper-wrap fixed top-0 left-0 z-[9] h-screen border ${className} ${isOnIndexPage ? 'pointer-events-auto w-[80px] cursor-pointer' : ''} ${!isOnPoetryPage && !isOnIndexPage ? 'pointer-events-none w-fit' : ''}`}
                 onClick={
                     !isOnPoetryPage
                         ? () =>
@@ -151,7 +151,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
                     className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                 >
                     <div
-                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] opacity-0'
+                        className='poetry-wrapper border px-body-p-x fixed top-0 left-0 flex translate-y-[20px] opacity-0'
                         style={{
                             opacity: opacityValue,
                             transform: `translateX(${translateXValue})`,
