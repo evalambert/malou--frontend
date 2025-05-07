@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
 
 import WeavingTitle from '../../components/common/title/WeavingTitle.jsx';
@@ -116,10 +116,11 @@ const WeavingList = ({
             if (window.innerWidth < 768) {
                 // MOBILE
 
-                let weavingListHeight =
-                    document.querySelector('.weaving-list').getBoundingClientRect().height;
+                let weavingListHeight = document
+                    .querySelector('.weaving-list')
+                    .getBoundingClientRect().height;
                 setmaxHeightValue(weavingListHeight + 'px');
-                if (weavingListHeight < ((window.innerHeight / 2) - 130)) {
+                if (weavingListHeight < window.innerHeight / 2 - 130) {
                     setMobileTopValue('calc(50vh - 130px)');
                     setmaxHeightValue('unset');
                 } else {
@@ -248,56 +249,11 @@ const WeavingList = ({
         }
     }, [lang]);
 
-
-    //  ••••••••••••  TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
-    const weavingListRef = useRef(null);
-    const [dynamicHomepageWidth, setDynamicHomepageWidth] = useState(null);
-
-    useEffect(() => {
-        if (state === 'home') {
-            const tryGetWidth = () => {
-                if (weavingListRef.current) {
-                    const width =
-                        weavingListRef.current.getBoundingClientRect().width;
-                    if (width > 0) {
-                        setDynamicHomepageWidth(`${width}px`);
-                        console.log(
-                            '📏 Largeur WeavingList mesurée :',
-                            width,
-                            'px'
-                        );
-                    } else {
-                        setTimeout(tryGetWidth, 100);
-                    }
-                } else {
-                    setTimeout(tryGetWidth, 100);
-                }
-            };
-
-            tryGetWidth();
-        }
-    }, [state, lang, homepageWeavings]);
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (state === 'home' && weavingListRef.current) {
-                const width =
-                    weavingListRef.current.getBoundingClientRect().width;
-                setDynamicHomepageWidth(`${width}px`);
-            }
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, [state]);
-
-    //  •••••••••••• (END) TEST ZONE CLICKABLE HOMEPAGE ••••••••••••
-
     // Render
     return (
         <>
             <div
-                className={`work-list weaving-list-wrapper border relative right-0  pr-[6px]  md:fixed md:!top-[unset] md:bottom-[6px] ${className}  ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px] w-full'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                className={`work-list weaving-list-wrapper relative right-0 border pr-[6px] md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full md:pt-[50px]'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
                 style={{
                     maxHeight: `${maxHeightValue}`,
                     top: `${mobileTopValue}`,
@@ -306,9 +262,9 @@ const WeavingList = ({
                 onClick={
                     !isOnWeavingPage
                         ? () =>
-                            navigate(`/${lang}/weaving/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/weaving/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
@@ -316,7 +272,7 @@ const WeavingList = ({
                     className={`weaving-list flex flex-col items-end overflow-hidden transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''} `}
                 >
                     {/* Liste Homepage */}
-                    <ul className='flex w-[100%] max-w-[375px] flex-col items-end border md:w-fit md:max-w-[unset]'>
+                    <ul className='flex w-[100%] max-w-[375px] flex-col items-end md:w-fit md:max-w-[unset]'>
                         {homepageWeavings.map((weaving) => {
                             const slug = weaving.slug;
                             const paddingClass =
@@ -326,10 +282,11 @@ const WeavingList = ({
                             return (
                                 <li
                                     key={weaving.id}
-                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${isSlugPage && !isActive
+                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${
+                                        isSlugPage && !isActive
                                             ? 'pointer-events-none opacity-0'
                                             : 'opacity-300'
-                                        } ${isActive ? 'delay-100' : ''}`}
+                                    } ${isActive ? 'delay-100' : ''}`}
                                 >
                                     <WeavingTitle
                                         weaving={weaving}
@@ -357,10 +314,11 @@ const WeavingList = ({
 
                                 return (
                                     <li
-                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${isSlugPage && !isActive
+                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${
+                                            isSlugPage && !isActive
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-300'
-                                            } ${isActive ? 'delay-100' : ''}`}
+                                        } ${isActive ? 'delay-100' : ''}`}
                                         key={weaving.id}
                                     >
                                         <WeavingTitle
