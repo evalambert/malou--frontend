@@ -75,7 +75,7 @@ const PaintingsList = ({
                     ? window.innerWidth - 30
                     : window.innerWidth - 30;
                 const liWidth = li.getBoundingClientRect().width;
-                console.log('liWidth', liWidth);
+                // console.log('liWidth', liWidth);
                 if (
                     previousLiWidth + liWidth > viewportWidth &&
                     !reverse
@@ -191,7 +191,7 @@ const PaintingsList = ({
             if (window.innerWidth < 768) {
                 setTranslateValue('0px');
                 setmaxHeightValue('0px');
-                setMobileTopValue('calc(100vh - 130px)');
+                setMobileTopValue('100dvh');
             } else {
                 setTranslateValue(hiddenListHeightPainting + 'px');
                 console.log('homeslide value', hiddenListHeightPainting);

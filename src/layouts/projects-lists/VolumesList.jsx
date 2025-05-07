@@ -24,10 +24,12 @@ const VolumesList = ({
 
     const [translateYValue, settranslateYValue] = useState('-200vh');
     const [translateXValue, settranslateXValue] = useState('0px');
+    const [mobileTranslateXValue, setMobileTranslateXValue] = useState('0px');
     const [maxWidthValue, setMaxWidthValue] = useState('initial');
     const [maxHeightValue, setMaxHeightValue] = useState('initial');
     const [isOnVolumePage, setIsOnVolumePage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
+
 
     const [activeVolumeSlug, setActiveVolumeSlug] = useState(null);
 
@@ -211,18 +213,21 @@ const VolumesList = ({
                 setTimeout(() => {
                     settranslateXValue('0px');
                     setMaxWidthValue('100vw');
+                    setMobileTranslateXValue('0px');
                 }, 400);
             }
         } else if (state == 'home') {
             setFirstRender(true);
             setIsOnIndexPage(true);
             setIsOnVolumePage(false);
+            
             if (window.innerWidth < 768) {
                 // MOBILE
                 settranslateYValue('0px');
-                settranslateXValue('0vw');
-                setMaxWidthValue('100vw');
-                setMaxHeightValue('100vh');
+                settranslateXValue('0px');
+                setMaxWidthValue('0px');
+                setMobileTranslateXValue('100vw');
+                setMaxHeightValue('initial');
                 // settranslateXValue('50vw');
                 // setMaxWidthValue('0px');
                 // setMaxHeightValue('0px');
@@ -241,9 +246,10 @@ const VolumesList = ({
             if (window.innerWidth < 768) {
                 // MOBILE
                 setMaxWidthValue('0px');
-                setMaxHeightValue('0px');
+                setMaxHeightValue('initial');
                 settranslateYValue('0px');
                 settranslateXValue('0vw');
+                setMobileTranslateXValue('100vw');
                 // settranslateXValue('50vw');
             } else {
                 settranslateYValue('-200vh');
@@ -316,9 +322,11 @@ const VolumesList = ({
     return (
         <>
             <div
-                className={`work-list volume-list-wrapper md:w-[700px] border ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-500 ease-in-out' : ''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''} `}
+                className={`work-list volume-list-wrapper border md:w-[700px] ${tailwindSlideTrans ? 'md:transition-[transform] delay-[0.2s] duration-500 ease-in-out' : ''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''} `}
                 style={{
                     transform: `translate(${translateXValue}, ${translateYValue})`,
+                    maxWidth: `${maxWidthValue}`,
+                    maxHeight: `${maxHeightValue}`,
                 }}
                 onClick={
                     !isOnVolumePage
@@ -330,19 +338,17 @@ const VolumesList = ({
                 }
             >
                 <div
-                    className={`max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${isOnVolumePage ? '' : 'pointer-events-none'}`}
-
+                    className={`max-md:pr-main-x-mobile max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out ${isOnVolumePage ? '' : 'pointer-events-none'}`}
                     style={{
-                        maxWidth: `${maxWidthValue}`,
-                        maxHeight: `${maxHeightValue}`,
+                        transform: `translate(${mobileTranslateXValue})`,
                     }}
                 >
                     <div
-                        className={`pt-body-p-y max-md:w-[calc(100vw-40px)]`}
+                        className={`pt-body-p-y max-md:w-[calc(100dvw-30px)]`}
 
                     >
                         <div
-                            className={`hidden-list-volume border transition-all delay-[0.2s] duration-500 ease-in-out`}
+                            className={`hidden-list-volume transition-all delay-[0.2s] duration-500 ease-in-out`}
                         >
                             {/* Liste Hidden */}
                             <ul className={`volume-list-compact flex flex-wrap justify-center md:gap-y-[25px] md:w-[calc(100vw_-_320px)] ${isOnVolumePage ? 'md:pb-[25px] opacity-100' : 'opacity-0'}`}>
@@ -376,7 +382,7 @@ const VolumesList = ({
                         </div>
 
                         {/* Liste Homepage */}
-                        <ul className='volume-list-compact border preview-list-volume flex flex-wrap md:gap-y-[25px]'>
+                        <ul className='volume-list-compact preview-list-volume flex flex-wrap md:gap-y-[25px]'>
                             {homepageVolumes.map((volume) => (
                                 <li
                                     key={volume.id || volume.slug}
