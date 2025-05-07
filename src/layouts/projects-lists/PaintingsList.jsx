@@ -75,11 +75,7 @@ const PaintingsList = ({
                     ? window.innerWidth - 30
                     : window.innerWidth - 30;
                 const liWidth = li.getBoundingClientRect().width;
-                console.log('liWidth', liWidth);
-                if (
-                    previousLiWidth + liWidth > viewportWidth &&
-                    !reverse
-                ) {
+                if (previousLiWidth + liWidth > viewportWidth && !reverse) {
                     let maxMarginLeft = viewportWidth - liWidth;
                     li.style.marginLeft = `${maxMarginLeft}px`;
                     previousLiWidth = viewportWidth - liWidth;
@@ -170,19 +166,22 @@ const PaintingsList = ({
             if (window.innerWidth < 768) {
                 setTranslateValue('0px');
                 // MOBILE
-                let paintingListHeight =
-                    document.querySelector('.painting-list-wrapper > div').getBoundingClientRect().height;
+                let paintingListHeight = document
+                    .querySelector('.painting-list-wrapper > div')
+                    .getBoundingClientRect().height;
                 setmaxHeightValue(paintingListHeight + 'px');
                 if (paintingListHeight > window.innerHeight / 2) {
                     setMobileTopValue('calc(50vh - 130px)');
                     setmaxHeightValue('unset');
                 } else {
-                    let newMobileTopValue = (paintingListHeight + 50);
-                    setMobileTopValue('calc(100vh - ' + newMobileTopValue + 'px)');
+                    let newMobileTopValue = paintingListHeight + 50;
+                    setMobileTopValue(
+                        'calc(100vh - ' + newMobileTopValue + 'px)'
+                    );
                     setmaxHeightValue('unset');
                     console.log('MOBILE to small');
                 }
-            }else{
+            } else {
                 setTranslateValue(accordionY + 'px');
                 setmaxHeightValue('100vh');
             }
@@ -194,14 +193,13 @@ const PaintingsList = ({
                 setMobileTopValue('calc(100vh - 130px)');
             } else {
                 setTranslateValue(hiddenListHeightPainting + 'px');
-                console.log('homeslide value', hiddenListHeightPainting);
                 setmaxHeightValue('300vh');
             }
             setIsOnIndexPage(true);
             setIsOnPaintingPage(false);
         } else {
             settailwindSlideTrans(true);
-            setFirstRender(false);            
+            setFirstRender(false);
             setIsOnPaintingPage(false);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
@@ -209,19 +207,19 @@ const PaintingsList = ({
                 setmaxHeightValue('0px');
                 setMobileTopValue('calc(100vh - 130px)');
                 setTranslateValue('0px');
-            }else{
+            } else {
                 setTranslateValue('100vh');
             }
         }
     };
 
     useEffect(() => {
-        const isOnSlugPage = document.querySelector('body').classList.contains('on-slug-page');
+        const isOnSlugPage = document
+            .querySelector('body')
+            .classList.contains('on-slug-page');
         setIsSlugPage(isOnSlugPage);
         toggleListDisplay('painting', accordionOffsetY);
     }, [targetHref, hiddenListHeightPainting, accordionOffsetY]);
-
-
 
     // sort hidden paintings by visual width
     useEffect(() => {
@@ -266,7 +264,7 @@ const PaintingsList = ({
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list painting-list-wrapper border ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer md:w-[500px]' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll '}`}
+                className={`work-list painting-list-wrapper border ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer md:w-[500px]' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
                 style={{
                     transform: `translateY(${translateValue})`,
                     maxHeight: `${maxHeightValue}`,
@@ -275,28 +273,28 @@ const PaintingsList = ({
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                            navigate(`/${lang}/painting/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/painting/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
                 <div
                     className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
-
                 >
                     {/* Liste Homepage */}
-                    <ul className='painting-list-compact transition-all duration-500 ease-in-out w-fit border'>
+                    <ul className='painting-list-compact w-fit border transition-all duration-500 ease-in-out'>
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;
                             const isActive = slug === activePaintingSlug;
 
                             return (
                                 <li
-                                    className={`painting-title w-fit !overflow-visible transition-opacity duration-500 ease-in-out ${activePaintingSlug && !isActive
+                                    className={`painting-title w-fit !overflow-visible transition-opacity duration-500 ease-in-out ${
+                                        activePaintingSlug && !isActive
                                             ? 'pointer-events-none opacity-0'
                                             : 'opacity-100'
-                                        } ${isActive ? 'delay-100' : ''}`}
+                                    } ${isActive ? 'delay-100' : ''}`}
                                     key={painting.id}
                                 >
                                     <PaintingTitle
@@ -322,10 +320,11 @@ const PaintingsList = ({
 
                                 return (
                                     <li
-                                        className={`painting-title block w-fit transition-opacity duration-500 ease-in-out ${activePaintingSlug && !isActive
+                                        className={`painting-title block w-fit transition-opacity duration-500 ease-in-out ${
+                                            activePaintingSlug && !isActive
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-100'
-                                            } ${isActive ? 'delay-100' : ''}`}
+                                        } ${isActive ? 'delay-100' : ''}`}
                                         key={painting.id}
                                     >
                                         <PaintingTitle
