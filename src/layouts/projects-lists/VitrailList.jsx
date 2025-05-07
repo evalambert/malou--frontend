@@ -26,16 +26,18 @@ const VitrailList = ({
     const [translateYValue, settranslateYValue] = useState('-200vh');
     // const [translateYValue, settranslateYValue] = useState('-' + hiddenListHeightVitrail + 'px');
     const [translateXValue, settranslateXValue] = useState('0px');
+    const [mobileTranslateXValue, setMobileTranslateXValue] = useState('0px');
+    const [mobileTopValue, setMobileTopValue] = useState('unset');
     const [maxWidthValue, setMaxWidthValue] = useState('initial');
     const [maxHeightValue, setMaxHeightValue] = useState('initial');
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
     const [sortedHiddenVitraux, setSortedHiddenVitraux] = useState([]);
-    
+
     const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
 
 
-        const [activeVitrailSlug, setActiveVitrailSlug] = useState(null);
+    const [activeVitrailSlug, setActiveVitrailSlug] = useState(null);
 
     // •••  Hidden title list onSlugPage ••• 
     // Extrait le slug d'un vitrial à partir de l'URL
@@ -214,7 +216,7 @@ const VitrailList = ({
                 setHiddenListHeightVitrail(previousHeightRef.current);
             }
         }
-  
+
     }, [allRendered, lang]);
 
     /**
@@ -246,19 +248,33 @@ const VitrailList = ({
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
 
-  
+
     const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
             // ••• CATEGORY •••
-
             setIsOnVitrailPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                setMaxHeightValue('initial');
-                setTimeout(() => {
-                    // settranslateXValue('0px');
-                    setMaxWidthValue('100vw');
-                }, 400);
+                settranslateYValue('0px');
+                let vitrailListHeight = document
+                    .querySelector('.vitrail-list-wrapper')
+                    .getBoundingClientRect().height;
+                setMaxHeightValue(vitrailListHeight + 'px');
+                setMaxWidthValue('initial');
+                if (vitrailListHeight < window.innerHeight / 2) {
+                    let newMobileTopValue =
+                        window.innerHeight - (vitrailListHeight);
+                    setMobileTopValue(newMobileTopValue + 'px');
+                    setTimeout(() => {
+                        setMobileTranslateXValue('0px');
+                        setMaxWidthValue('100vw');
+                    }, 400);
+                } else {
+
+                    setMobileTopValue('calc(50vh - 30px)');
+                    setMobileTranslateXValue('0px');
+                    setMaxHeightValue('unset');
+                }
 
             } else {
                 settranslateYValue(accordionY + 'px');
@@ -275,8 +291,20 @@ const VitrailList = ({
             if (window.innerWidth < 768) {
                 // mobile
                 settranslateYValue('0px');
-                setMaxWidthValue('100vw');
+                setMaxWidthValue('0px');
                 setMaxHeightValue('100vh');
+                setMobileTranslateXValue('100%'); ``
+                let vitrailListHeight = document
+                    .querySelector('.vitrail-list-wrapper')
+                    .getBoundingClientRect().height;
+                if (vitrailListHeight < window.innerHeight / 2 - 130) {
+                    let newMobileTopValue =
+                        window.innerHeight - (vitrailListHeight);
+                    setMobileTopValue(newMobileTopValue + 'px');
+                    setMaxHeightValue('unset');
+                } else {
+                    setMobileTopValue('calc(50vh - 30px)');
+                }
                 //settranslateXValue('50vw');
                 //setMaxWidthValue('0px');
                 //setMaxHeightValue('0px');
@@ -305,12 +333,13 @@ const VitrailList = ({
                 settranslateYValue('0px');
                 setMaxWidthValue('0vw');
                 setMaxHeightValue('100vh');
+                setMobileTranslateXValue('100%');
             } else {
                 settranslateYValue('-200vh');
             }
         }
     };
-    
+
 
     useEffect(() => {
         if (allRendered) {
@@ -323,7 +352,7 @@ const VitrailList = ({
     }, [allRendered, targetHref, hiddenListHeightVitrail, accordionOffsetY]);
 
     useEffect(() => {
-        if (state == 'home' && firstRender){
+        if (state == 'home' && firstRender) {
             settailwindSlideTrans(false);
         }
     }, [lang]);
@@ -395,7 +424,7 @@ const VitrailList = ({
     return (
 
         <div
-            className={`work-list vitrail-list-wrapper ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out':''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
+            className={`work-list vitrail-list-wrapper max-md:right-0 ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out' : ''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'}`}
             onClick={
                 !isOnVitrailPage
                     ? () =>
@@ -405,31 +434,30 @@ const VitrailList = ({
                     : undefined
             }
             style={{
+                top: `${mobileTopValue}`,
                 maxWidth: `${maxWidthValue}`,
                 maxHeight: `${maxHeightValue}`,
                 transform: `translate(${translateXValue}, ${translateYValue})`,
             }}
         >
             <div
-                className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${isOnIndexPage ? 'cursor-pointer' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
+                className={`flex flex-col items-end max-md:overflow-hidden ${isOnIndexPage ? 'cursor-pointer' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
 
             >
                 <div
-                    className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[max-width] max-md:duration-1000 max-md:ease-in-out ${!isOnVitrailPage ? 'cursor-pointer' : ''
+                    className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out max-md:pr-main-x-mobile ${!isOnVitrailPage ? 'cursor-pointer' : ''
                         } `}
 
                     style={{
-                        maxWidth: `${maxWidthValue}`,
-                        maxHeight: `${maxHeightValue}`,
+                        transform: `translateX(${mobileTranslateXValue})`,
                     }}
                 >
                     <div
                         className={`pt-body-p-y flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
                     >
                         <div
-                            className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${
-                                isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
-                            } `}
+                            className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
+                                } `}
                         >
                             {/* Liste Hidden */}
                             <ul className='vitrail-list-compact overflow-visible'>
@@ -439,11 +467,10 @@ const VitrailList = ({
 
                                     return (
                                         <li
-                                            className={`vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300 ${
-                                                activeVitrailSlug && !isActive
-                                                    ? 'pointer-events-none opacity-0'
-                                                    : 'opacity-100'
-                                            }`}
+                                            className={`vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300 ${activeVitrailSlug && !isActive
+                                                ? 'pointer-events-none opacity-0'
+                                                : 'opacity-100'
+                                                }`}
                                             key={vitrail.id}
                                         >
                                             <VitrailHiddenTitle
@@ -473,11 +500,10 @@ const VitrailList = ({
 
                                 return (
                                     <li
-                                        className={`vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300 ${
-                                            activeVitrailSlug && !isActive
-                                                ? 'pointer-events-none opacity-0'
-                                                : 'opacity-100'
-                                        }`}
+                                        className={`vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300 ${activeVitrailSlug && !isActive
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-100'
+                                            }`}
                                         key={vitrail.id}
                                     >
                                         <VitrailHomepageTitle
@@ -494,7 +520,7 @@ const VitrailList = ({
                 </div>
             </div>
         </div>
-    ); 
+    );
 };
 
 export default VitrailList;
