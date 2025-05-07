@@ -36,9 +36,6 @@ const VitrailList = ({
 
     const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
 
-
-    const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
-
     const [activeVitrailSlug, setActiveVitrailSlug] = useState(null);
 
     // •••  Hidden title list onSlugPage •••
