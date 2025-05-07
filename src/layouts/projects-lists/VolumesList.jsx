@@ -46,7 +46,6 @@ const VolumesList = ({
         setActiveVolumeSlug(slug);
     }, [targetHref]);
 
-
     // ••• Création du lien de superposition •••
     const createOverlayLinks = (title, lang) => {
         const finalCoordinates = title.parentElement.getBoundingClientRect();
@@ -126,11 +125,12 @@ const VolumesList = ({
     // ••• Effet pour la hauteur de la liste cachée •••
     // 1. Met à jour la hauteur quand tout est rendu ou la langue change
 
-
     // Effet pour mettre à jour la hauteur
     useEffect(() => {
         if (allRendered) {
-            const hiddenList = document.querySelector('.hidden-list-volume .volume-list-compact');
+            const hiddenList = document.querySelector(
+                '.hidden-list-volume .volume-list-compact'
+            );
             if (hiddenList) {
                 const height = hiddenList.getBoundingClientRect().height;
                 setHiddenListHeightVolume(height);
@@ -139,7 +139,6 @@ const VolumesList = ({
     }, [allRendered, lang]);
 
     useEffect(() => {
-
         // Title animation
         const titleLayout = () => {
             const title = document.querySelectorAll('li.volume-title a');
@@ -196,14 +195,15 @@ const VolumesList = ({
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
 
-
     const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
             settailwindSlideTrans(true);
             setFirstRender(false);
             settranslateYValue(accordionY + 'px');
             if (document.getElementById('floating-title-container')) {
-                document.getElementById('floating-title-container').style.transform = `translateY(${accordionY}px)`;
+                document.getElementById(
+                    'floating-title-container'
+                ).style.transform = `translateY(${accordionY}px)`;
             }
             setIsOnVolumePage(true);
             setIsOnIndexPage(false);
@@ -232,11 +232,9 @@ const VolumesList = ({
                 // setMaxWidthValue('0px');
                 // setMaxHeightValue('0px');
             } else {
-                
                 const targetY = `-${hiddenListHeightVolume || previousHeightRef.current}px`;
                 settranslateYValue(targetY);
                 console.log('targetY sur state = home', targetY);
-                
             }
         } else {
             settailwindSlideTrans(true);
@@ -266,8 +264,11 @@ const VolumesList = ({
     }, [targetHref, accordionOffsetY]);
 
     useEffect(() => {
-        console.log('changement de hauteur de la liste cachée', hiddenListHeightVolume);
-    },[hiddenListHeightVolume])
+        console.log(
+            'changement de hauteur de la liste cachée',
+            hiddenListHeightVolume
+        );
+    }, [hiddenListHeightVolume]);
 
     // Effet pour le redimensionnement
     useEffect(() => {
@@ -298,7 +299,9 @@ const VolumesList = ({
     useEffect(() => {
         // Fonction pour récupérer la hauteur et appliquer le translateY
         const updateTranslateYWithListHeight = () => {
-            const hiddenList = document.querySelector('.hidden-list-volume .volume-list-compact');
+            const hiddenList = document.querySelector(
+                '.hidden-list-volume .volume-list-compact'
+            );
             if (hiddenList) {
                 const height = hiddenList.getBoundingClientRect().height;
                 const targetY = `-${height}px`;
@@ -314,7 +317,10 @@ const VolumesList = ({
 
         // Nettoyage
         return () => {
-            window.removeEventListener('resize', updateTranslateYWithListHeight);
+            window.removeEventListener(
+                'resize',
+                updateTranslateYWithListHeight
+            );
         };
     }, [allRendered, lang]); // Dépendances : quand la liste est rendue ou la langue change
 
@@ -331,13 +337,14 @@ const VolumesList = ({
                 onClick={
                     !isOnVolumePage
                         ? () =>
-                            navigate(`/${lang}/volume/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/volume/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
                 <div
+
                     className={`max-md:pr-main-x-mobile max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out ${isOnVolumePage ? '' : 'pointer-events-none'}`}
                     style={{
                         transform: `translate(${mobileTranslateXValue})`,
@@ -351,16 +358,18 @@ const VolumesList = ({
                             className={`hidden-list-volume transition-all delay-[0.2s] duration-500 ease-in-out`}
                         >
                             {/* Liste Hidden */}
-                            <ul className={`volume-list-compact flex flex-wrap justify-center md:gap-y-[25px] md:w-[calc(100vw_-_320px)] ${isOnVolumePage ? 'md:pb-[25px] opacity-100' : 'opacity-0'}`}>
-
+                            <ul
+                                className={`volume-list-compact flex flex-wrap justify-center md:w-[calc(100vw_-_320px)] md:gap-y-[25px] ${isOnVolumePage ? 'opacity-100 md:pb-[25px]' : 'opacity-0'}`}
+                            >
                                 {hiddenVolumes.map((volume) => (
                                     <li
                                         key={volume.id || volume.slug}
-                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
+                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
+                                            activeVolumeSlug &&
                                             volume.slug !== activeVolumeSlug
-                                            ? 'pointer-events-none opacity-0'
-                                            : 'opacity-100'
-                                            }`}
+                                                ? 'pointer-events-none opacity-0'
+                                                : 'opacity-100'
+                                        }`}
                                     >
                                         <VolumeTitle
                                             volume={volume}
@@ -368,9 +377,15 @@ const VolumesList = ({
                                             onMount={() => {
                                                 // console.log('VolumeTitle monté', volume.id);
                                                 renderedCount.current += 1;
-                                                if (renderedCount.current === hiddenVolumes.length) {
+                                                if (
+                                                    renderedCount.current ===
+                                                    hiddenVolumes.length
+                                                ) {
                                                     setAllRendered(true);
-                                                    console.log('allRendered ====>>', allRendered);
+                                                    console.log(
+                                                        'allRendered ====>>',
+                                                        allRendered
+                                                    );
                                                 }
                                             }}
                                         />
@@ -386,11 +401,12 @@ const VolumesList = ({
                             {homepageVolumes.map((volume) => (
                                 <li
                                     key={volume.id || volume.slug}
-                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
+                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
+                                        activeVolumeSlug &&
                                         volume.slug !== activeVolumeSlug
-                                        ? 'pointer-events-none opacity-0'
-                                        : 'opacity-100'
-                                        }`}
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-100'
+                                    }`}
                                 >
                                     <VolumeTitle volume={volume} lang={lang} />
                                 </li>
@@ -405,5 +421,3 @@ const VolumesList = ({
 };
 
 export default VolumesList;
-
-
