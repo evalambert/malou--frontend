@@ -156,7 +156,7 @@ const WeavingList = ({
                 setTranslateYValue('0px');
                 setTranslateXValue('0px');
                 setmaxHeightValue('0px');
-                setMobileTopValue('calc(100vh - 130px)');
+                setMobileTopValue('calc(100vh - 30px)');
             } else {
                 setmaxHeightValue('100vh');
                 setTranslateYValue('100vh');
