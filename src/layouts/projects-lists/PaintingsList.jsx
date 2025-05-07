@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { navigate } from 'astro:transitions/client';
+import { useRef } from 'react';
 
 import PaintingTitle from '../../components/common/title/PaintingTitle.jsx';
 
@@ -257,15 +258,49 @@ const PaintingsList = ({
             settailwindSlideTrans(true);
         }
     }, [lang]);
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // •••••••••••••••••••• ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
+
+    const homepageRef = useRef(null);
+    const wrapperRef = useRef(null);
+    const [wrapperWidth, setWrapperWidth] = useState('auto');
+
+    useEffect(() => {
+        if (!isOnPaintingPage && homepageRef.current) {
+            const el = homepageRef.current;
+
+            const updateWidth = () => {
+                const width = el.getBoundingClientRect().width;
+                console.log('[WRAPPER WIDTH EXACTE PAINTINGS]', width + 'px');
+                if (width > 0) {
+                    setWrapperWidth(`${width}px`);
+                }
+            };
+            // Lancer après un render complet
+            requestAnimationFrame(() => {
+                updateWidth();
+            });
+
+            // Optionnel : observer les changements de contenu
+            const observer = new ResizeObserver(updateWidth);
+            observer.observe(el);
+
+            return () => observer.disconnect();
+        }
+    }, [isOnPaintingPage, homepagePaintings]);
+
+    // •••••••••••••••••••• (END) ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
 
     // Render
     return (
         <>
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
-                className={`work-list painting-list-wrapper border ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer md:w-[500px]' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
+                ref={wrapperRef}
+                className={`work-list painting-list-wrapper border border-green-500 ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
                 style={{
+                    display: wrapperWidth ? 'block' : 'none',
+                    width: !isOnPaintingPage ? wrapperWidth : undefined,
                     transform: `translateY(${translateValue})`,
                     maxHeight: `${maxHeightValue}`,
                     top: `${mobileTopValue}`,
@@ -283,7 +318,10 @@ const PaintingsList = ({
                     className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
                 >
                     {/* Liste Homepage */}
-                    <ul className='painting-list-compact w-fit border transition-all duration-500 ease-in-out'>
+                    <ul
+                        ref={homepageRef}
+                        className='painting-list-compact w-fit border border-amber-500 transition-all duration-500 ease-in-out'
+                    >
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;
                             const isActive = slug === activePaintingSlug;
