@@ -190,7 +190,7 @@ const PaintingsList = ({
             if (window.innerWidth < 768) {
                 setTranslateValue('0px');
                 setmaxHeightValue('0px');
-                setMobileTopValue('calc(100vh - 130px)');
+                setMobileTopValue('100dvh');
             } else {
                 setTranslateValue(hiddenListHeightPainting + 'px');
                 setmaxHeightValue('300vh');
@@ -205,7 +205,7 @@ const PaintingsList = ({
             if (window.innerWidth < 768) {
                 setTranslateValue('0px');
                 setmaxHeightValue('0px');
-                setMobileTopValue('calc(100vh - 130px)');
+                setMobileTopValue('100vh');
                 setTranslateValue('0px');
             } else {
                 setTranslateValue('100vh');
