@@ -292,7 +292,7 @@ const VolumesList = ({
     return (
         <>
             <div
-                className={`work-list volume-list-wrapper border md:w-[700px] ${tailwindSlideTrans ? 'md:transition-[transform] delay-[0.2s] duration-500 ease-in-out' : ''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''} `}
+                className={`work-list volume-list-wrapper md:w-[700px] ${tailwindSlideTrans ? 'md:transition-[transform] delay-[0.2s] duration-500 ease-in-out' : ''}  ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''} `}
                 style={{
                     transform: `translate(${translateXValue}, ${translateYValue})`,
                     maxWidth: `${maxWidthValue}`,
