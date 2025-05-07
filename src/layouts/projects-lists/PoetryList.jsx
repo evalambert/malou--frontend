@@ -26,7 +26,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
     // // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // // Toogle hidden/compact/full;
     const [translateXValue, setTranslateXValue] = useState('0px');
-    const [opacityValue, setOpacityValue] = useState(0);
+    const [opacityValue, setOpacityValue] = useState(1);
     const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
 
@@ -34,7 +34,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
 
     const toggleListDisplay = (category) => {
         const hiddenListPoetry = document.querySelector('.poetry-wrapper');
-        const hiddenListWidthPoetry = hiddenListPoetry.offsetWidth;
+        const hiddenListWidthPoetry = hiddenListPoetry.getBoundingClientRect().width;
         const halfHiddenListWidthPoetry = 0; // /!\ Calcul n'est pas le même si elle as plus de livre -- a tester !
         // const paintingList = document.querySelector('.painting-list');
         // const halfHiddenListWidthPoetry = paintingList?.children.length > 0 ? hiddenListPoetry.offsetWidth - 160 : 0;

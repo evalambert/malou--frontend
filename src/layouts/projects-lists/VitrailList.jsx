@@ -255,12 +255,21 @@ const VitrailList = ({
             setIsOnVitrailPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                settranslateYValue('0px');
+                
                 let vitrailListHeight = document
                     .querySelector('.vitrail-list-wrapper')
                     .getBoundingClientRect().height;
                 setMaxHeightValue(vitrailListHeight + 'px');
                 setMaxWidthValue('initial');
+                if (isSlugPage){
+                    settranslateYValue(accordionY + 'px');
+                    if (document.getElementById('floating-title-container')) {
+                        document.getElementById('floating-title-container').style.transform = `translateY(${accordionY}px)`;
+                    }
+                }else{
+                    settranslateYValue('0px');
+                }
+
                 if (vitrailListHeight < window.innerHeight / 2) {
                     let newMobileTopValue =
                         window.innerHeight - (vitrailListHeight);

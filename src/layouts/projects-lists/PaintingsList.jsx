@@ -171,7 +171,7 @@ const PaintingsList = ({
                     .getBoundingClientRect().height;
                 setmaxHeightValue(paintingListHeight + 'px');
                 if (paintingListHeight > window.innerHeight / 2) {
-                    setMobileTopValue('calc(50vh - 130px)');
+                    setMobileTopValue('50dvhchshchc');
                     setmaxHeightValue('unset');
                 } else {
                     let newMobileTopValue = paintingListHeight + 50;
