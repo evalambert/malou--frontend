@@ -261,7 +261,7 @@ const WeavingList = ({
 
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width + 10;
-                console.log('[DEBUG] Mesure width weaving', width);
+                // console.log('[DEBUG] Mesure width weaving', width);
                 if (width > 0) {
                     setWrapperWidth(`${width}px`);
                 }

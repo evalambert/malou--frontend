@@ -21,8 +21,6 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
     // }
 
 
-
-
     // // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // // Toogle hidden/compact/full;
     const [translateXValue, setTranslateXValue] = useState('0px');
@@ -95,7 +93,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
         const handleResize = () => {
             const poetryWrapper = document.querySelector('.poetry-wrapper');
             if (poetryWrapper) {
-                const width = poetryWrapper.offsetWidth;
+                const width = poetryWrapper.getBoundingClientRect().width;
                 
 
                 // Émission d'un événement personnalisé pour informer les autres composants
