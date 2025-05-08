@@ -441,7 +441,7 @@ const VitrailList = ({
 
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width;
-                console.log('[DEBUG] Mesure width VitrailList', width + 'px');
+                // console.log('[DEBUG] Mesure width VitrailList', width + 'px');
 
                 if (width > 0) {
                     setWrapperWidth(`${width}px`);
