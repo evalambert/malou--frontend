@@ -271,7 +271,7 @@ const PaintingsList = ({
 
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width;
-                // console.log('[WRAPPER WIDTH EXACTE PAINTINGS]', width + 'px');
+                console.log('[DEBUG] Mesure width PaintingList', width + 'px');
                 if (width > 0) {
                     setWrapperWidth(`${width}px`);
                 }
@@ -297,7 +297,7 @@ const PaintingsList = ({
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
                 ref={wrapperRef}
-                className={`work-list painting-list-wrapper border border-green-500 ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
+                className={`work-list painting-list-wrapper border border-green-500 ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : ''}`}
                 style={{
                     display: wrapperWidth ? 'block' : 'none',
                     width: !isOnPaintingPage ? wrapperWidth : undefined,
@@ -315,7 +315,7 @@ const PaintingsList = ({
                 }
             >
                 <div
-                    className={`overflow-hidden transition-all duration-500 ease-in-out ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
+                    className={`max-h-screen overflow-hidden transition-all duration-500 ease-in-out md:w-screen md:overflow-scroll ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
                 >
                     {/* Liste Homepage */}
                     <ul

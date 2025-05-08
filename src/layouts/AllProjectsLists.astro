@@ -79,7 +79,7 @@ export const prerender = true;
 />
 
 <VolumesList
-    className='absolute max-md:top-[130px] max-md:right-0 max-md:w-full md:fixed md:top-body-p-y md:left-0 z-50 md:z-10 md:pl-[300px] mix-blend-target max-md:flex max-md:flex-col max-md:items-end max-md:overflow-hidden max-h-screen overflow-scroll pb-[30px]'
+    className='absolute max-md:top-[130px] max-md:right-0 max-md:w-full md:fixed md:top-body-p-y md:left-0 z-50 md:z-10 md:pl-[300px] mix-blend-target max-md:flex max-md:flex-col max-md:items-end overflow-hidden md:overflow-visible'
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -88,10 +88,10 @@ export const prerender = true;
     transition:name='volumeslist'
     transition:persist
     client:only='react'
-/> 
+/>
 
 <VitrailList
-    className='absolute md:fixed w-[calc(100vw-30px)] md:w-fit z-50 mix-blend-target md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-scroll pb-[30px] '
+    className='absolute md:fixed w-[calc(100vw-30px)] md:w-fit z-50 mix-blend-target md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-hidden md:overflow-visible pb-[30px] '
     targetHref={currentPath}
     state={state}
     lang={lang}
