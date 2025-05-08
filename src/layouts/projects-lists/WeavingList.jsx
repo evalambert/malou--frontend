@@ -249,7 +249,7 @@ const WeavingList = ({
         }
     }, [lang]);
 
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // •••••••••••••••••••• ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
 
     const wrapperRef = useRef(null);
     const homepageRef = useRef(null);
@@ -260,8 +260,8 @@ const WeavingList = ({
             const el = homepageRef.current;
 
             const updateWidth = () => {
-                const width = el.getBoundingClientRect().width + 10;
-                console.log('[DEBUG] Mesure width weaving', width);
+                const width = el.getBoundingClientRect().width + 20;
+                console.log('[DEBUG] Mesure width WeavingList', width + 'px');
                 if (width > 0) {
                     setWrapperWidth(`${width}px`);
                 }
@@ -271,7 +271,8 @@ const WeavingList = ({
         }
     }, [isOnWeavingPage, homepageWeavings]);
 
-    // Render
+    // •••••••••••••••••••• (END) ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
+
     return (
         <>
             <div
@@ -282,7 +283,7 @@ const WeavingList = ({
                     top: `${mobileTopValue}`,
                     transform: `translate(${translateXValue}, ${translateYValue})`,
                     display: wrapperWidth ? 'block' : 'none',
-                    width: !isOnWeavingPage ? wrapperWidth : undefined,
+                    width: state === 'home' ? wrapperWidth : undefined,
                 }}
                 onClick={
                     !isOnWeavingPage
@@ -294,7 +295,7 @@ const WeavingList = ({
                 }
             >
                 <div
-                    className={`weaving-list flex flex-col items-end overflow-hidden transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''} `}
+                    className={`weaving-list flex flex-col items-end overflow-y-scroll transition-all duration-1000 ease-in-out ${!isOnWeavingPage ? 'pointer-events-none' : ''} `}
                 >
                     {/* Liste Homepage */}
                     <ul

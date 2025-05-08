@@ -182,9 +182,6 @@ const VolumesList = ({
             settranslateYValue(accordionY + 'px');
             setIsOnVolumePage(true);
             setIsOnIndexPage(false);
-            setTimeout(() => {
-                setMaxWidthValue('100vw');
-            }, 400);
             if (window.innerWidth < 768) {
                 // MOBILE
                 setMaxHeightValue('initial');
@@ -199,18 +196,6 @@ const VolumesList = ({
             settranslateYValue(targetY);
             setTimeout(() => {
                 setFirstRender(true);
-                const el = homepageRef.current;
-                const updateWidth = () => {
-                    const width = el.getBoundingClientRect().width + 310;
-                    console.log(
-                        '[DEBUG] Mesure width WeavingList',
-                        width + 'px'
-                    );
-                    if (width > 0) {
-                        setMaxWidthValue(`${width}px`);
-                    }
-                };
-                requestAnimationFrame(updateWidth);
             }, 400);
             if (window.innerWidth < 768) {
                 // MOBILE
@@ -308,32 +293,37 @@ const VolumesList = ({
 
     const wrapperRef = useRef(null);
     const homepageRef = useRef(null);
+    const [wrapperWidth, setWrapperWidth] = useState('auto');
 
     useEffect(() => {
-        if (!isOnVolumePage && homepageRef.current && wrapperRef.current) {
+        if (allRendered && homepageRef.current && !isOnVolumePage) {
             const el = homepageRef.current;
+
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width + 310;
-                console.log('[DEBUG] Mesure width WeavingList', width + 'px');
+                console.log('[DEBUG] Mesure width VolumeList', width);
                 if (width > 0) {
-                    setMaxWidthValue(`${width}px`);
+                    setWrapperWidth(`${width}px`);
                 }
             };
+
             requestAnimationFrame(updateWidth);
         }
-    }, [isOnVolumePage, homepageVolumes]);
+    }, [allRendered, isOnVolumePage, homepageVolumes]);
 
     // •••••••••••••••••••• (END) ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
+
     // Render
     return (
         <>
             <div
                 ref={wrapperRef}
-                className={`work-list volume-list-wrapper border border-green-500 ${tailwindSlideTrans ? 'delay-[0.2s] duration-500 ease-in-out md:transition-[transform]' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list volume-list-wrapper border border-green-500 ${tailwindSlideTrans ? 'delay-[0.2s] duration-500 ease-in-out md:transition-[transform]' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : ''} ${isSlugPage ? 'pointer-events-none' : ''}`}
                 style={{
                     transform: `translate(${translateXValue}, ${translateYValue})`,
                     maxWidth: `${maxWidthValue}`,
                     maxHeight: `${maxHeightValue}`,
+                    width: !isOnVolumePage ? wrapperWidth : undefined,
                 }}
                 onClick={
                     !isOnVolumePage
@@ -345,7 +335,7 @@ const VolumesList = ({
                 }
             >
                 <div
-                    className={`max-md:pr-main-x-mobile max-h-screen overflow-y-scroll pb-[30px] max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out md:w-[calc(100vw_-_300px)] ${isOnVolumePage ? '' : 'pointer-events-none'}`}
+                    className={`max-md:pr-main-x-mobile max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out ${isOnVolumePage ? '' : 'pointer-events-none'}`}
                     style={{
                         transform: `translate(${mobileTranslateXValue})`,
                     }}
@@ -379,6 +369,10 @@ const VolumesList = ({
                                                     hiddenVolumes.length
                                                 ) {
                                                     setAllRendered(true);
+                                                    console.log(
+                                                        'allRendered ====>>',
+                                                        allRendered
+                                                    );
                                                 }
                                             }}
                                         />
@@ -392,7 +386,7 @@ const VolumesList = ({
                         {/* Liste Homepage */}
                         <ul
                             ref={homepageRef}
-                            className='volume-list-compact preview-list-volume flex flex-wrap border border-amber-500 md:w-fit md:gap-y-[25px]'
+                            className='volume-list-compact preview-list-volume flex flex-wrap border border-amber-500 md:gap-y-[25px]'
                         >
                             {homepageVolumes.map((volume) => (
                                 <li
