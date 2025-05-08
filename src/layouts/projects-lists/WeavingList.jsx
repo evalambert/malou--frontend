@@ -255,19 +255,40 @@ const WeavingList = ({
     const homepageRef = useRef(null);
     const [wrapperWidth, setWrapperWidth] = useState('auto');
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (!isOnWeavingPage && homepageRef.current && wrapperRef.current) {
             const el = homepageRef.current;
 
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width + 20;
-                // console.log('[DEBUG] Mesure width WeavingList', width + 'px');
+                console.log('[DEBUG] Mesure width WeavingList', width + 'px');
                 if (width > 0) {
                     setWrapperWidth(`${width}px`);
                 }
             };
 
             requestAnimationFrame(updateWidth);
+        }
+    }, [isOnWeavingPage, homepageWeavings]); */
+
+
+    useEffect(() => {
+        if (!isOnWeavingPage && homepageRef.current && wrapperRef.current) {
+            const el = homepageRef.current;
+    
+            const updateWidth = () => {
+                const width = el.getBoundingClientRect().width + 20;
+                console.log('[DEBUG] Mesure width WeavingList', width + 'px');
+                if (width > 0) {
+                    setWrapperWidth(`${width}px`);
+                }
+            };
+    
+            // 🔧 1er cycle
+            requestAnimationFrame(() => {
+                // 🔁 2e cycle pour laisser le temps aux styles de s’appliquer
+                requestAnimationFrame(updateWidth);
+            });
         }
     }, [isOnWeavingPage, homepageWeavings]);
 
@@ -300,7 +321,7 @@ const WeavingList = ({
                     {/* Liste Homepage */}
                     <ul
                         ref={homepageRef}
-                        className='flex w-fit flex-col items-end border border-amber-500 md:w-fit md:max-w-none'
+                        className='flex flex-col items-end border border-amber-500 w-auto md:w-fit md:max-w-none'
                     >
                         {homepageWeavings.map((weaving) => {
                             const slug = weaving.slug;
@@ -311,7 +332,7 @@ const WeavingList = ({
                             return (
                                 <li
                                     key={weaving.id}
-                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${
+                                    className={`weaving-title w-fit md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${
                                         isSlugPage && !isActive
                                             ? 'pointer-events-none opacity-0'
                                             : 'opacity-300'
@@ -330,11 +351,11 @@ const WeavingList = ({
                     {/* (END) Liste Homepage */}
 
                     <div
-                        className={`hidden-list-weaving w-[100%] overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out md:w-fit`}
+                        className={`hidden-list-weaving w-fit overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out md:w-fit`}
                     >
                         {/* Liste Hidden */}
                         {/* {isOnWeavingPage && ( */}
-                        <ul className='flex w-[100%] flex-col items-end md:w-fit'>
+                        <ul className='flex w-fit flex-col items-end md:w-fit'>
                             {finalSortedHiddenWeavings.map((weaving) => {
                                 const slug = weaving.slug;
                                 const paddingClass =
@@ -343,7 +364,7 @@ const WeavingList = ({
 
                                 return (
                                     <li
-                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${
+                                        className={`weaving-title flex w-fit max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${
                                             isSlugPage && !isActive
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-300'
