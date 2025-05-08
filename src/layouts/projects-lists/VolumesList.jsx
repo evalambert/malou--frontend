@@ -345,10 +345,6 @@ const VolumesList = ({
                                                     hiddenVolumes.length
                                                 ) {
                                                     setAllRendered(true);
-                                                    console.log(
-                                                        'allRendered ====>>',
-                                                        allRendered
-                                                    );
                                                 }
                                             }}
                                         />
