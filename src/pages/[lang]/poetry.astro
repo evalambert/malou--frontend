@@ -33,7 +33,7 @@ export const prerender = true;
 ---
 
 <Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
-    <div class="mix-blend-target" transition:name='all-projects-lists' transition:persist>
+    <div class="mix-blend-target" transition:persist>
         <AllProjectsLists lang={lang} enterIndex={false} />
     </div>
     <PoetryPreview client:only="react" poems={poems} />
