@@ -301,7 +301,7 @@ const VolumesList = ({
 
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width + 310;
-                console.log('[DEBUG] Mesure width VolumeList', width);
+                // console.log('[DEBUG] Mesure width VolumeList', width);
                 if (width > 0) {
                     setWrapperWidth(`${width}px`);
                 }

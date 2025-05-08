@@ -195,6 +195,7 @@ const VolumesList = ({
                 }, 400);
             }
         } else if (state == 'home') {
+            console.log('8i8 — ALICE — volume list masquée ::::::::' + hiddenListHeight);
             const targetY = `-${hiddenListHeight}px`;
             settranslateYValue(targetY);
             setTimeout(() => {
@@ -202,10 +203,10 @@ const VolumesList = ({
                 const el = homepageRef.current;
                 const updateWidth = () => {
                     const width = el.getBoundingClientRect().width + 310;
-                    console.log(
-                        '[DEBUG] Mesure width WeavingList',
-                        width + 'px'
-                    );
+                    // console.log(
+                    //     '[DEBUG] Mesure width WeavingList',
+                    //     width + 'px'
+                    // );
                     if (width > 0) {
                         setMaxWidthValue(`${width}px`);
                     }
@@ -314,7 +315,7 @@ const VolumesList = ({
             const el = homepageRef.current;
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width + 310;
-                console.log('[DEBUG] Mesure width WeavingList', width + 'px');
+                // console.log('[DEBUG] Mesure width WeavingList', width + 'px');
                 if (width > 0) {
                     setMaxWidthValue(`${width}px`);
                 }
