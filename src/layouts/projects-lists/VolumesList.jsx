@@ -332,7 +332,7 @@ const VolumesList = ({
         <>
             <div
                 ref={wrapperRef}
-                className={`work-list volume-list-wrapper ${tailwindSlideTrans ? 'delay-[0.2s] duration-500 ease-in-out md:transition-[transform]' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list volume-list-wrapper cursor-pointer ${tailwindSlideTrans ? 'delay-[0.2s] duration-500 ease-in-out md:transition-[transform]' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''}`}
                 style={{
                     transform: `translate(${translateXValue}, ${translateYValue})`,
                     maxWidth: `${maxWidthValue}`,
@@ -348,7 +348,7 @@ const VolumesList = ({
                 }
             >
                 <div
-                    className={`max-md:pr-main-x-mobile max-h-screen overflow-y-scroll pb-[30px] max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out md:w-[calc(100vw_-_300px)] ${isOnVolumePage ? '' : 'pointer-events-none'}`}
+                    className={`max-md:pr-main-x-mobile max-h-screen overflow-y-scroll pb-[30px] max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out md:w-[calc(100vw_-_300px)] ${isOnVolumePage ? '' : 'pointer-events-none'} ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                     style={{
                         transform: `translate(${mobileTranslateXValue})`,
                     }}
