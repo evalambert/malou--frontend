@@ -315,7 +315,7 @@ const VolumesList = ({
             const el = homepageRef.current;
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width + 310;
-                console.log('[DEBUG] Mesure width WeavingList', width + 'px');
+                // console.log('[DEBUG] Mesure width WeavingList', width + 'px');
                 if (width > 0) {
                     setMaxWidthValue(`${width}px`);
                 }
