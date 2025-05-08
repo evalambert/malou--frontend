@@ -195,7 +195,9 @@ const VolumesList = ({
                 }, 400);
             }
         } else if (state == 'home') {
-            console.log('8i8 — ALICE — volume list masquée ::::::::' + hiddenListHeight);
+            console.log(
+                '8i8 — ALICE — volume list masquée ::::::::' + hiddenListHeight
+            );
             const targetY = `-${hiddenListHeight}px`;
             settranslateYValue(targetY);
             setTimeout(() => {
@@ -330,7 +332,7 @@ const VolumesList = ({
         <>
             <div
                 ref={wrapperRef}
-                className={`work-list volume-list-wrapper border border-green-500 ${tailwindSlideTrans ? 'delay-[0.2s] duration-500 ease-in-out md:transition-[transform]' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list volume-list-wrapper ${tailwindSlideTrans ? 'delay-[0.2s] duration-500 ease-in-out md:transition-[transform]' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''}`}
                 style={{
                     transform: `translate(${translateXValue}, ${translateYValue})`,
                     maxWidth: `${maxWidthValue}`,
@@ -393,7 +395,7 @@ const VolumesList = ({
                         {/* Liste Homepage */}
                         <ul
                             ref={homepageRef}
-                            className='volume-list-compact preview-list-volume flex flex-wrap border border-amber-500 md:w-fit md:gap-y-[25px]'
+                            className='volume-list-compact preview-list-volume flex flex-wrap md:w-fit md:gap-y-[25px]'
                         >
                             {homepageVolumes.map((volume) => (
                                 <li
