@@ -1,29 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 
-// Extrait les points (x, y) d'une chaîne de commande SVG (attribut "d")
-function extractPointsFromD(d) {
-    const points = [];
-    const regex = /[ML]\s*([0-9.]+)[ ,]([0-9.]+)/g;
-    let match;
-    while ((match = regex.exec(d)) !== null) {
-        points.push({
-            x: parseFloat(match[1]),
-            y: parseFloat(match[2]),
-        });
-    }
-    return points;
-}
-
-// Convertit des coordonnées SVG en pixels à l'écran
-// Note: 'svg' doit être l'élément SVG
-function svgPointToScreen(svg, x, y) {
-    if (!svg) return { x: 0, y: 0 }; // Sécurité si svg n'est pas encore prêt
-    const pt = svg.createSVGPoint();
-    pt.x = x;
-    pt.y = y;
-    return pt.matrixTransform(svg.getScreenCTM());
-}
 
 const PoetryTitle = ({
     pathOpen,
@@ -42,6 +19,57 @@ const PoetryTitle = ({
 
     // Calcul de 'phrase' (peut être fait en dehors des effets car dépend seulement de 'title')
     const phrase = title.split('').filter((c) => c !== ' ');
+
+
+    // Extrait les points (x, y) d'une chaîne de commande SVG (attribut "d")
+    function extractPointsFromD(d) {
+        const points = [];
+        const regex = /[ML]\s*([0-9.]+)[ ,]([0-9.]+)/g;
+        let match;
+        while ((match = regex.exec(d)) !== null) {
+            points.push({
+                x: parseFloat(match[1]),
+                y: parseFloat(match[2]),
+            });
+        }
+        return points;
+    }
+
+    // Convertit des coordonnées SVG en pixels à l'écran
+    // Note: 'svg' doit être l'élément SVG
+    // function svgPointToScreen(svg, x, y) {
+    //     if (!svg) return { x: 0, y: 0 }; // Sécurité si svg n'est pas encore prêt
+    //     const pt = svg.createSVGPoint();
+    //     pt.x = x;
+    //     pt.y = y;
+    //     return pt.matrixTransform(svg.getScreenCTM());
+    // }
+
+    function svgPointToScreen(svg, x, y) {
+        if (!svg) return { x: 0, y: 0 }; // Sécurité si svg n'est pas encore prêt
+        
+        const pt = svg.createSVGPoint();
+        pt.x = x;
+        pt.y = y;
+        
+        // Obtenir la matrice de transformation du SVG
+        const svgMatrix = svg.getCTM();
+        // Appliquer la transformation
+        const transformedPoint = pt.matrixTransform(svgMatrix);
+        
+        // Obtenir le wrapper parent
+        const wrapper = svg.closest('.poetry-title--wrapper');
+        if (!wrapper) return transformedPoint;
+        
+        // Obtenir la position du wrapper
+        const wrapperRect = wrapper.getBoundingClientRect();
+        
+        // Retourner les coordonnées relatives au wrapper
+        return {
+            x: transformedPoint.x ,
+            y: transformedPoint.y
+        };
+    }
 
     // État pour suivre si l'effet a déjà été exécuté
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -179,6 +207,10 @@ const PoetryTitle = ({
         // Dépendances: props utilisées + la fonction mémorisée si elle change
     }, [keyId, pathOpen, pathClose, targetHref, lang, placeLettersOnPoints]);
 
+    useEffect(() => {
+        placeLettersOnPoints();
+    }, [placeLettersOnPoints]);
+    placeLettersOnPoints();
 
     // --- Second Effet: Écouteur 'load' ---
     useEffect(() => {
@@ -204,6 +236,8 @@ const PoetryTitle = ({
         }
     }, [hasLoaded, placeLettersOnPoints]);
 
+
+
     // --- Render ---
     return (
         <>
@@ -227,7 +261,7 @@ const PoetryTitle = ({
             `}
             </style>
             {/* Le JSX reste inchangé, s'assurant que les IDs correspondent ('myPath' + keyId, etc.) */}
-            <div className={`poetry-title--wrapper ${className} `}>
+            <div className={`poetry-title--wrapper relative ${className} `}>
                 <svg
                     id={'svg' + keyId} // ID utilisé pour la ref svgRef
                     className='block h-auto w-full'
