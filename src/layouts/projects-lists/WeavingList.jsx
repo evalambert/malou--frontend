@@ -251,9 +251,9 @@ const WeavingList = ({
 
     // •••••••••••••••••••• ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
 
-    const wrapperRef = useRef(null);
+    /*  const wrapperRef = useRef(null);
     const homepageRef = useRef(null);
-    const [wrapperWidth, setWrapperWidth] = useState('auto');
+    const [wrapperWidth, setWrapperWidth] = useState('auto'); */
 
     /* useEffect(() => {
         if (!isOnWeavingPage && homepageRef.current && wrapperRef.current) {
@@ -271,40 +271,19 @@ const WeavingList = ({
         }
     }, [isOnWeavingPage, homepageWeavings]); */
 
-
-    /* useEffect(() => {
-        if (!isOnWeavingPage && homepageRef.current && wrapperRef.current) {
-            const el = homepageRef.current;
-    
-            const updateWidth = () => {
-                const width = el.getBoundingClientRect().width + 20;
-                console.log('[DEBUG] Mesure width WeavingList', width + 'px');
-                if (width > 0) {
-                    setWrapperWidth(`${width}px`);
-                }
-            };
-    
-            // 🔧 1er cycle
-            requestAnimationFrame(() => {
-                // 🔁 2e cycle pour laisser le temps aux styles de s’appliquer
-                requestAnimationFrame(updateWidth);
-            });
-        }
-    }, [isOnWeavingPage, homepageWeavings]); */
-
     // •••••••••••••••••••• (END) ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
 
     return (
         <>
             <div
-                ref={wrapperRef}
+                /* ref={wrapperRef} */
                 className={`work-list weaving-list-wrapper relative right-0 border border-green-500 pr-[6px] md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full md:pt-[50px]'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
                 style={{
                     maxHeight: `${maxHeightValue}`,
                     top: `${mobileTopValue}`,
                     transform: `translate(${translateXValue}, ${translateYValue})`,
-                    display: wrapperWidth ? 'block' : 'none',
-                    width: state === 'home' ? wrapperWidth : undefined,
+                    /* display: wrapperWidth ? 'block' : 'none',
+                    width: state === 'home' ? wrapperWidth : undefined, */
                 }}
                 onClick={
                     !isOnWeavingPage
@@ -320,8 +299,8 @@ const WeavingList = ({
                 >
                     {/* Liste Homepage */}
                     <ul
-                        ref={homepageRef}
-                        className='flex flex-col items-end border border-amber-500 w-auto md:w-fit md:max-w-none'
+                        /* ref={homepageRef} */
+                        className='flex w-auto flex-col items-end border border-amber-500 md:w-fit md:max-w-none'
                     >
                         {homepageWeavings.map((weaving) => {
                             const slug = weaving.slug;
