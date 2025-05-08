@@ -52,7 +52,7 @@ export const prerender = true;
 ---
 
 <Layout title='Poetry' showReturn returnTo={`/poetry`}>
-    <div transition:name='all-projects-lists' transition:persist>
+    <div transition:persist>
         <AllProjectsLists lang={lang} enterIndex={false} />
     </div>
 
@@ -87,6 +87,7 @@ export const prerender = true;
                     client:only
                     hidden={false}
                     zoomImg={poetry.zoomImg || []}
+                    insideSlider={false}
                 />
             )
         }

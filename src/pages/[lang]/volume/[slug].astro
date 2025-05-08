@@ -55,10 +55,12 @@ export const prerender = true;
 
 <Layout title='Volume' showReturn returnTo={`/volume/`}>
     <AllProjectsLists lang={lang} enterIndex={false} />
-    <div id="floating-title-container" class="fixed top-0 left-0 w-full h-0 z-[1000]"></div>
+    <div
+        id='floating-title-container'
+        class='fixed top-0 left-0 w-full h-0 z-[1000]'></div>
     <AccordionReadProject
         lang={lang}
-        client:only        
+        client:only
         transition:persist
         year={volume?.year || 'Année non disponible'}
         description={volume?.description || 'Description non disponible'}
@@ -67,21 +69,29 @@ export const prerender = true;
         width={volume?.width || 'Largeur non disponible'}
         height={volume?.height || 'Hauteur non disponible'}
         credit={volume?.credit || 'Crédit non disponible'}
-
     />
     <PreviewImg
         transition:name='preview-image'
         transition:persist
         client:only
     />
-    <div
-        class='fixed top-0 left-0 w-screen h-screen'
-        transition:persist
-    >
-        {volume?.medias? (
-            <Slider client:only medias={volume.medias} zoomImg={volume.zoomImg || []} noTimeOut={false} />
-        ) : (
-            <ZoomModale client:only hidden={false} zoomImg={volume.zoomImg || []} />
-        )}
+    <div class='fixed top-0 left-0 w-screen h-screen' transition:persist>
+        {
+            volume?.medias ? (
+                <Slider
+                    client:only
+                    medias={volume.medias}
+                    zoomImg={volume.zoomImg || []}
+                    noTimeOut={false}
+                />
+            ) : (
+                <ZoomModale
+                    client:only
+                    hidden={false}
+                    zoomImg={volume.zoomImg || []}
+                    insideSlider={false}
+                />
+            )
+        }
     </div>
 </Layout>
