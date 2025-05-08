@@ -271,7 +271,7 @@ const PaintingsList = ({
 
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width;
-                console.log('[WRAPPER WIDTH EXACTE PAINTINGS]', width + 'px');
+                // console.log('[WRAPPER WIDTH EXACTE PAINTINGS]', width + 'px');
                 if (width > 0) {
                     setWrapperWidth(`${width}px`);
                 }

@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-const PoetryTitleHardLayout = ({ lang, targetHref }) => {
+const PoetryTitleHardLayout = ({ lang, targetHref, state }) => {
     // const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
 
     // *(0__0)* useRef pour mémoriser les états
@@ -214,7 +214,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
 
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         // TRIGER INITIALISATION
-        if (targetHref.endsWith(`/${lang}/poetry/`)) {
+        if (state == 'poetry') {
 
             // Reset text overlay TO OPEN CATEGORY STYLE if was previously HIDDEN
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
@@ -234,7 +234,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
                     }
                 }, 900);
             }
-        } else if (targetHref == '/fr/' || targetHref == '/en/') {
+        } else if (state == 'home') {
             // updateBothPaths(0);
             // closeSerpentForIndex();
             // Reset text overlay TO FIRST INDEX STYLE if was previously HIDDEN
@@ -245,7 +245,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref }) => {
             }else if(hardWrapper.classList.contains('animate-open-serpent')){
                 closeSerpentForIndex();
             }
-        } else if (!targetHref.includes('/poetry/')) {
+        } else {
             hardWrapper.classList.remove('animate-open-serpent');
             hardWrapper.classList.add('hard-layout--hidden');
         }
