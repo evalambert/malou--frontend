@@ -272,7 +272,7 @@ const WeavingList = ({
     }, [isOnWeavingPage, homepageWeavings]); */
 
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (!isOnWeavingPage && homepageRef.current && wrapperRef.current) {
             const el = homepageRef.current;
     
@@ -290,7 +290,7 @@ const WeavingList = ({
                 requestAnimationFrame(updateWidth);
             });
         }
-    }, [isOnWeavingPage, homepageWeavings]);
+    }, [isOnWeavingPage, homepageWeavings]); */
 
     // •••••••••••••••••••• (END) ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
 
