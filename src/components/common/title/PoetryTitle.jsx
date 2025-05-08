@@ -10,7 +10,8 @@ const PoetryTitle = ({
     keyId,
     className,
     slug,
-    lang
+    lang,
+    isOnSlugPage
 }) => {
     // Refs pour les éléments du DOM
     const pathRef = useRef(null);
@@ -271,7 +272,7 @@ const PoetryTitle = ({
                     xmlns='http://www.w3.org/2000/svg'
                 >
                     <a
-                        xlinkHref={targetHref}
+                        xlinkHref={isOnSlugPage ? `/${lang}/poetry/` : `/${lang}/poetry/${slug}/`}
                         className='project'
                         data-type={slug}
                     >

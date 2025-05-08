@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-const PoetryTitleHardLayout = ({ lang, targetHref, state }) => {
+const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
     // const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
 
     // *(0__0)* useRef pour mémoriser les états
@@ -305,7 +305,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state }) => {
                     xmlns='http://www.w3.org/2000/svg'
                 >
                     <a
-                        xlinkHref={`/${lang}/poetry/comme-un-serpent-dans-une-flute/`}
+                        xlinkHref={isOnSlugPage ? `/${lang}/poetry/` : `/${lang}/poetry/comme-un-serpent-dans-une-flute/`}
                         className='project'
                         data-type='comme-un-serpent-dans-une-flute'
                     >
@@ -318,7 +318,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state }) => {
                         />
                     </a>
                     <a
-                        xlinkHref={`/${lang}/poetry/des-coquilles-et-des-pepins/`}
+                        xlinkHref={isOnSlugPage ? `/${lang}/poetry/` : `/${lang}/poetry/des-coquilles-et-des-pepins/`}
                         className='project translate-y-[150px]'
                         data-type='des-coquilles-et-des-pepins'
                     >
