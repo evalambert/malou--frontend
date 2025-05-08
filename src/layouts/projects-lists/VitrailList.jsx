@@ -465,7 +465,7 @@ const VitrailList = ({
     return (
         <div
             ref={wrapperRef}
-            className={`work-list vitrail-list-wrapper max-md:right-0  ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} border border-green-500`}
+            className={`work-list vitrail-list-wrapper max-md:right-0  ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} `}
             onClick={
                 !isOnVitrailPage
                     ? () =>
@@ -539,7 +539,7 @@ const VitrailList = ({
                         {/* Liste Homepage */}
                         <ul
                             ref={homepageRef}
-                            className='vitrail-list-compact border border-amber-500 max-md:order-1'
+                            className='vitrail-list-compact max-md:order-1'
                         >
                             {homepageVitraux.map((vitrail) => {
                                 const isActive =
