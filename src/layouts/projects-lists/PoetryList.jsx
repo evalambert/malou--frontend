@@ -27,6 +27,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
     const [opacityValue, setOpacityValue] = useState(1);
     const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
+    const [isOnSlugPage, setIsOnSlugPage] = useState(false);
 
     // const hiddenListHeightPoetry = 100;
 
@@ -45,12 +46,15 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
             if (!document
                 .querySelector('body')
                 .classList.contains('on-slug-page')) {
+                setIsOnSlugPage(false);
                 gsap.fromTo(hiddenListPoetry, {
                     x: "-100vw",
                 }, {
                     x: 0,
                     duration: 1,
                 });
+            }else{
+                setIsOnSlugPage(true);
             }
             // showPoetryWrapperInner();
 
@@ -195,6 +199,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
                                             lang={lang}
                                             title={poetry.title}
                                             targetHref={targetHref}
+                                            isOnSlugPage={isOnSlugPage}
                                             keyId={poetry.id}
                                             client:only='react'
                                             transition:name='poetrytitles'
@@ -207,6 +212,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
                         <PoetryTitleHardLayout
                             lang={lang}
                             targetHref={targetHref}
+                            isOnSlugPage={isOnSlugPage}
                             client:only='react'
                             state={state}
                             transition:name='poetryhardlayout'

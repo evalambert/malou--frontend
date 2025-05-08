@@ -195,11 +195,11 @@ const VolumesList = ({
                 }, 400);
             }
         } else if (state == 'home') {
-            console.log(
-                '8i8 — ALICE — volume list masquée ::::::::' + hiddenListHeight
-            );
-            const targetY = `-${hiddenListHeight}px`;
-            settranslateYValue(targetY);
+            console.log('8i8 — ALICE — volume list masquée ::::::::' + hiddenListHeight);
+            if (allRendered) {
+                const targetY = `-${hiddenListHeight}px`;
+                settranslateYValue(targetY);
+            }
             setTimeout(() => {
                 setFirstRender(true);
                 const el = homepageRef.current;
@@ -251,13 +251,24 @@ const VolumesList = ({
         if (allRendered) {
             const hiddenList = document.querySelector('.hidden-list-volume');
             if (hiddenList) {
-                const height = hiddenList.getBoundingClientRect().height;
-                setHiddenListHeightVolume(height);
-                // Mettre à jour la valeur de translation une fois que nous avons la hauteur
-                if (state === 'home') {
-                    const targetY = `-${height}px`;
-                    settranslateYValue(targetY);
-                }
+                // Utiliser un ResizeObserver pour s'assurer que la hauteur est calculée correctement
+                const resizeObserver = new ResizeObserver(entries => {
+                    for (const entry of entries) {
+                        const height = entry.contentRect.height;
+                        setHiddenListHeightVolume(height);
+                        if (state === 'home') {
+                            const targetY = `-${height}px`;
+                            settranslateYValue(targetY);
+                        }
+                    }
+                });
+
+                resizeObserver.observe(hiddenList);
+
+                // Nettoyer l'observer lors du démontage
+                return () => {
+                    resizeObserver.disconnect();
+                };
             }
         }
     }, [allRendered, state]);
@@ -341,9 +352,9 @@ const VolumesList = ({
                 onClick={
                     !isOnVolumePage
                         ? () =>
-                              navigate(`/${lang}/volume/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/volume/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
@@ -364,12 +375,11 @@ const VolumesList = ({
                                 {hiddenVolumes.map((volume) => (
                                     <li
                                         key={volume.id || volume.slug}
-                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
-                                            activeVolumeSlug &&
+                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
                                             volume.slug !== activeVolumeSlug
-                                                ? 'pointer-events-none opacity-0'
-                                                : 'opacity-100'
-                                        }`}
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-100'
+                                            }`}
                                     >
                                         <VolumeTitle
                                             volume={volume}
@@ -400,12 +410,11 @@ const VolumesList = ({
                             {homepageVolumes.map((volume) => (
                                 <li
                                     key={volume.id || volume.slug}
-                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
-                                        activeVolumeSlug &&
+                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
                                         volume.slug !== activeVolumeSlug
-                                            ? 'pointer-events-none opacity-0'
-                                            : 'opacity-100'
-                                    }`}
+                                        ? 'pointer-events-none opacity-0'
+                                        : 'opacity-100'
+                                        }`}
                                 >
                                     <VolumeTitle volume={volume} lang={lang} />
                                 </li>
