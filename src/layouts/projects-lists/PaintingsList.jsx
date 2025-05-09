@@ -297,7 +297,7 @@ const PaintingsList = ({
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
                 ref={wrapperRef}
-                className={`work-list painting-list-wrapper border border-green-500 ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list painting-list-wrapper ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : ''}`}
                 style={{
                     display: wrapperWidth ? 'block' : 'none',
                     width: !isOnPaintingPage ? wrapperWidth : undefined,
@@ -320,7 +320,7 @@ const PaintingsList = ({
                     {/* Liste Homepage */}
                     <ul
                         ref={homepageRef}
-                        className='painting-list-compact w-fit border border-amber-500 transition-all duration-500 ease-in-out'
+                        className='painting-list-compact w-fit transition-all duration-500 ease-in-out'
                     >
                         {homepagePaintings.map((painting) => {
                             const slug = painting.slug;

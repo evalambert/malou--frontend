@@ -251,7 +251,7 @@ const VolumesList = ({
             const hiddenList = document.querySelector('.hidden-list-volume');
             if (hiddenList) {
                 // Utiliser un ResizeObserver pour s'assurer que la hauteur est calculée correctement
-                const resizeObserver = new ResizeObserver(entries => {
+                const resizeObserver = new ResizeObserver((entries) => {
                     for (const entry of entries) {
                         const height = entry.contentRect.height;
                         setHiddenListHeightVolume(height);
@@ -342,7 +342,7 @@ const VolumesList = ({
         <>
             <div
                 ref={wrapperRef}
-                className={`work-list volume-list-wrapper  ${tailwindSlideTrans ? 'delay-[0.2s] duration-500 ease-in-out md:transition-[transform]' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list volume-list-wrapper cursor-pointer ${tailwindSlideTrans ? 'delay-[0.2s] duration-500 ease-in-out md:transition-[transform]' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} ${isSlugPage ? 'pointer-events-none' : ''}`}
                 style={{
                     transform: `translate(${translateXValue}, ${translateYValue})`,
                     maxWidth: `${maxWidthValue}`,
@@ -351,14 +351,14 @@ const VolumesList = ({
                 onClick={
                     !isOnVolumePage
                         ? () =>
-                            navigate(`/${lang}/volume/`, {
-                                history: 'push',
-                            })
+                              navigate(`/${lang}/volume/`, {
+                                  history: 'push',
+                              })
                         : undefined
                 }
             >
                 <div
-                    className={`max-md:pr-main-x-mobile max-h-screen overflow-y-scroll pb-[30px] max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out md:w-[calc(100vw_-_300px)] ${isOnVolumePage ? '' : 'pointer-events-none'} `}
+                    className={`max-md:pr-main-x-mobile max-h-screen overflow-y-scroll pb-[30px] max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out md:w-[calc(100vw_-_300px)] ${isOnVolumePage ? '' : 'pointer-events-none'} ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                     style={{
                         transform: `translate(${mobileTranslateXValue})`,
                     }}
@@ -374,11 +374,12 @@ const VolumesList = ({
                                 {hiddenVolumes.map((volume) => (
                                     <li
                                         key={volume.id || volume.slug}
-                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
+                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
+                                            activeVolumeSlug &&
                                             volume.slug !== activeVolumeSlug
-                                            ? 'pointer-events-none opacity-0'
-                                            : 'opacity-100'
-                                            }`}
+                                                ? 'pointer-events-none opacity-0'
+                                                : 'opacity-100'
+                                        }`}
                                     >
                                         <VolumeTitle
                                             volume={volume}
@@ -404,16 +405,17 @@ const VolumesList = ({
                         {/* Liste Homepage */}
                         <ul
                             ref={homepageRef}
-                            className='volume-list-compact preview-list-volume flex flex-wrap border border-amber-500 md:w-fit md:gap-y-[25px]'
+                            className='volume-list-compact preview-list-volume flex flex-wrap md:w-fit md:gap-y-[25px]'
                         >
                             {homepageVolumes.map((volume) => (
                                 <li
                                     key={volume.id || volume.slug}
-                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
+                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
+                                        activeVolumeSlug &&
                                         volume.slug !== activeVolumeSlug
-                                        ? 'pointer-events-none opacity-0'
-                                        : 'opacity-100'
-                                        }`}
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-100'
+                                    }`}
                                 >
                                     <VolumeTitle volume={volume} lang={lang} />
                                 </li>
@@ -427,4 +429,7 @@ const VolumesList = ({
     );
 };
 
+
 export default VolumesList;
+
+
