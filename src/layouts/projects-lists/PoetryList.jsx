@@ -111,7 +111,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
         } else if (state == 'home') {
             // ON PAGE INDEX ************************************************************************************************
             if (window.innerWidth < 768) {
-
+                setTranslateXValue('-100vw')
             } else {
                 setTimeout(() => {
 
