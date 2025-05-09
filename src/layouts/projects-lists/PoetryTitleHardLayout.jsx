@@ -1,5 +1,5 @@
 // src/layouts/projects-lists/PoetryTitleHardLayout.jsx
-import { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
@@ -397,32 +397,32 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                                 : 1,
                     }}
                 >
-                    <span style={{ top: '38px', left: '13px' }}>c</span>
-                    <span style={{ top: '67px', left: '26px' }}>o</span>
-                    <span style={{ top: '92px', left: '29px' }}>m</span>
-                    <span style={{ top: '117px', left: '26px' }}>m</span>
-                    <span style={{ top: '142px', left: '18px' }}>e</span>
-                    <span style={{ top: '190px', left: '15px' }}>u</span>
-                    <span style={{ top: '216px', left: '21px' }}>n</span>
-                    <span style={{ top: '265px', left: '22px' }}>s</span>
-                    <span style={{ top: '290px', left: '24px' }}>e</span>
-                    <span style={{ top: '314px', left: '18px' }}>r</span>
-                    <span style={{ top: '341px', left: '13px' }}>p</span>
-                    <span style={{ top: '364px', left: '20px' }}>e</span>
-                    <span style={{ top: '390px', left: '22px' }}>n</span>
-                    <span style={{ top: '413px', left: '30px' }}>t</span>
-                    <span style={{ top: '462px', left: '25px' }}>d</span>
-                    <span style={{ top: '489px', left: '20px' }}>a</span>
-                    <span style={{ top: '513px', left: '25px' }}>n</span>
-                    <span style={{ top: '538px', left: '37px' }}>s</span>
-                    <span style={{ top: '585px', left: '48px' }}>u</span>
-                    <span style={{ top: '612px', left: '57px' }}>n</span>
-                    <span style={{ top: '635px', left: '48px' }}>e</span>
-                    <span style={{ top: '683px', left: '25px' }}>f</span>
-                    <span style={{ top: '709px', left: '14px' }}>l</span>
-                    <span style={{ top: '735px', left: '26px' }}>û</span>
-                    <span style={{ top: '759px', left: '39px' }}>t</span>
-                    <span style={{ top: '785px', left: '57px' }}>e</span>
+                   <span style={{ top: '16px', left: '1px' }}>c</span>
+                    <span style={{ top: '47px', left: '14px' }}>o</span>
+                    <span style={{ top: '73px', left: '18px' }}>m</span>
+                    <span style={{ top: '99px', left: '14px' }}>m</span>
+                    <span style={{ top: '124px', left: '6px' }}>e</span>
+                    <span style={{ top: '175px', left: '3px' }}>u</span>
+                    <span style={{ top: '202px', left: '9px' }}>n</span>
+                    <span style={{ top: '253px', left: '11px' }}>s</span>
+                    <span style={{ top: '278px', left: '12px' }}>e</span>
+                    <span style={{ top: '303px', left: '6px' }}>r</span>
+                    <span style={{ top: '331px', left: '1px' }}>p</span>
+                    <span style={{ top: '355px', left: '8px' }}>e</span>
+                    <span style={{ top: '382px', left: '11px' }}>n</span>
+                    <span style={{ top: '406px', left: '18px' }}>t</span>
+                    <span style={{ top: '456px', left: '13px' }}>d</span>
+                    <span style={{ top: '485px', left: '8px' }}>a</span>
+                    <span style={{ top: '510px', left: '13px' }}>n</span>
+                    <span style={{ top: '536px', left: '26px' }}>s</span>
+                    <span style={{ top: '585px', left: '37px' }}>u</span>
+                    <span style={{ top: '612px', left: '47px' }}>n</span>
+                    <span style={{ top: '637px', left: '37px' }}>e</span>
+                    <span style={{ top: '686px', left: '13px' }}>f</span>
+                    <span style={{ top: '714px', left: '2px' }}>l</span>
+                    <span style={{ top: '740px', left: '15px' }}>û</span>
+                    <span style={{ top: '766px', left: '28px' }}>t</span>
+                    <span style={{ top: '793px', left: '47px' }}>e</span>
                 </div>
                 <div
                     id='textOverlay-hard-layout-coquille'

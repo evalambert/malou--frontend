@@ -483,7 +483,7 @@ const VitrailList = ({
             }}
         >
             <div
-                className={`flex flex-col items-end max-md:overflow-hidden ${isOnIndexPage ? 'cursor-pointer' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
+                className={`flex flex-col items-end max-md:overflow-hidden ${isOnIndexPage ? 'cursor-pointer pointer-events-none' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
 
             >
                 <div
