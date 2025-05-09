@@ -77,10 +77,29 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
 
             // Fonction pour convertir les coordonnées SVG en coordonnées écran
             function svgPointToScreen(svg, x, y) {
+                if (!svg) return { x: 0, y: 0 }; // Sécurité si svg n'est pas encore prêt
+                
                 const pt = svg.createSVGPoint();
                 pt.x = x;
                 pt.y = y;
-                return pt.matrixTransform(svg.getScreenCTM());
+                
+                // Obtenir la matrice de transformation du SVG
+                const svgMatrix = svg.getCTM();
+                // Appliquer la transformation
+                const transformedPoint = pt.matrixTransform(svgMatrix);
+                
+                // Obtenir le wrapper parent
+                const wrapper = svg.closest('.poetry-title--wrapper');
+                if (!wrapper) return transformedPoint;
+                
+                // Obtenir la position du wrapper
+                const wrapperRect = wrapper.getBoundingClientRect();
+                
+                // Retourner les coordonnées relatives au wrapper
+                return {
+                    x: transformedPoint.x ,
+                    y: transformedPoint.y
+                };
             }
 
             // Récupération des points du chemin SVG
@@ -295,7 +314,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
             `}
             </style>
 
-            <div className={`poetry-title--wrapper hard-layout--wrapper`}>
+            <div className={`poetry-title--wrapper hard-layout--wrapper relative`}>
                 <svg
                     id='svg-hard-layout'
                     className='block h-[95vh] w-full'
@@ -409,10 +428,29 @@ function updateLettersPosition(path, textOverlay) {
 
     // Fonction pour convertir les coordonnées SVG en coordonnées écran
     function svgPointToScreen(svg, x, y) {
+        if (!svg) return { x: 0, y: 0 }; // Sécurité si svg n'est pas encore prêt
+        
         const pt = svg.createSVGPoint();
         pt.x = x;
         pt.y = y;
-        return pt.matrixTransform(svg.getScreenCTM());
+        
+        // Obtenir la matrice de transformation du SVG
+        const svgMatrix = svg.getCTM();
+        // Appliquer la transformation
+        const transformedPoint = pt.matrixTransform(svgMatrix);
+        
+        // Obtenir le wrapper parent
+        const wrapper = svg.closest('.poetry-title--wrapper');
+        if (!wrapper) return transformedPoint;
+        
+        // Obtenir la position du wrapper
+        const wrapperRect = wrapper.getBoundingClientRect();
+        
+        // Retourner les coordonnées relatives au wrapper
+        return {
+            x: transformedPoint.x ,
+            y: transformedPoint.y
+        };
     }
 
     // Récupération des points du chemin SVG

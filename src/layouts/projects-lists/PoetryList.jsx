@@ -1,6 +1,6 @@
 // src/layouts/projects-lists/PoetryList.jsx
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { navigate } from 'astro:transitions/client';
 import gsap from 'gsap';
 import PoetryTitle from '../../components/common/title/PoetryTitle';
@@ -21,6 +21,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
     // }
 
 
+
     // // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // // Toogle hidden/compact/full;
     const [translateXValue, setTranslateXValue] = useState('-200vw');
@@ -28,6 +29,47 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
     const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
     const [isOnSlugPage, setIsOnSlugPage] = useState(false);
+
+    const [accordionOffsetY, setAccordionOffsetY] = useState(0);
+    const poetryWrapperRef = useRef(null);
+    /**
+ * Gestion du décalage vertical du titre en fonction de l'accordéon
+ */
+    useEffect(() => {
+        // Écoute l'événement personnalisé émis par l'accordéon
+        const handleAccordionMovement = (event) => {
+            // Récupère l'état de l'accordéon et sa hauteur depuis l'événement
+            const { isAccordionOpen, accordionHeight } = event.detail;
+            // Applique un décalage négatif égal à la hauteur de l'accordéon si ouvert, sinon revient à 0
+            setAccordionOffsetY(isAccordionOpen ? -accordionHeight : 0);
+        };
+
+        // Ajout de l'écouteur d'événement
+        window.addEventListener(
+            'accordionDescriptionToggle',
+            handleAccordionMovement
+        );
+
+        // Nettoyage de l'écouteur lors du démontage du composant
+        return () => {
+            window.removeEventListener(
+                'accordionDescriptionToggle',
+                handleAccordionMovement
+            );
+        };
+    }, []);
+    useEffect(() => {
+        console.log('accordionOffsetY', accordionOffsetY);
+        if (window.innerWidth < 768) {
+            if (accordionOffsetY < 0) {
+                let newAccordionOffsetY = accordionOffsetY;
+                console.log('newAccordionOffsetY', newAccordionOffsetY);
+                poetryWrapperRef.current.style.transform = `translateY(${newAccordionOffsetY}px)`;
+            }else{
+                poetryWrapperRef.current.style.transform = `translateY(0px)`;
+            }
+        }
+    }, [accordionOffsetY]);
 
     // const hiddenListHeightPoetry = 100;
 
@@ -53,7 +95,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
                     x: 0,
                     duration: 1,
                 });
-            }else{
+            } else {
                 setIsOnSlugPage(true);
             }
             // showPoetryWrapperInner();
@@ -70,9 +112,9 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
             // ON PAGE INDEX ************************************************************************************************
             if (window.innerWidth < 768) {
 
-            }else{
+            } else {
                 setTimeout(() => {
-    
+
                     setTranslateXValue('0px')
                     // setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
                     setOpacityValue(1);
@@ -169,7 +211,8 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
                     className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                 >
                     <div
-                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] '
+                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] max-md:transition-transform max-md:duration-1000 max-md:ease-in-out '
+                        ref={poetryWrapperRef}
                         style={{
                             opacity: opacityValue,
                             transform: `translateX(${translateXValue})`,
