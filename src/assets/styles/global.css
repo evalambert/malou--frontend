@@ -158,6 +158,11 @@ li {
 .swiper-button-next::after {
     @apply hidden;
 }
+.swiper-button-prev,
+.swiper-button-next {
+    @apply max-md:!hidden;
+}
+
 
 .swiper-button-prev {
     @apply !top-[20px] !left-0 !h-full !w-full max-md:hidden md:!w-[50%];
