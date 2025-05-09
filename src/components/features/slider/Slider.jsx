@@ -21,11 +21,16 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         if (!noTimeOut) {
             body.classList.add('mix-blend-actif');
             if (window.innerWidth < 768) {
-                body.classList.remove('mix-blend-actif');
                 setShow(true);
+                const timeout = setTimeout(() => {
+                    body.classList.remove('mix-blend-actif');
+                }, 300);
                 const wrapperElement = document.querySelector('.preview-image--wrapper');
                 wrapperElement.style.opacity = '0';
                 wrapperElement.classList.remove('preview-image--wrapper-visible');
+                return () => {
+                    clearTimeout(timeout);
+                };
             }else{
                 const timeoutWhite = setTimeout(() => {
                     body.classList.remove('mix-blend-actif');
