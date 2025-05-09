@@ -66,7 +66,7 @@ const VitrailList = ({
 
                 overlayLink.href = `/${lang}/vitrail/`;
                 overlayLink.className =
-                    'title-on-display bg-blue-800 opacity-[0.5]';
+                    'title-on-display opacity-[0.5]';
                 overlayLink.style.position = 'fixed';
                 overlayLink.style.top = `${wrapperRect.top}px`;
                 overlayLink.style.left = `${wrapperRect.left}px`;
@@ -465,7 +465,7 @@ const VitrailList = ({
     return (
         <div
             ref={wrapperRef}
-            className={`work-list vitrail-list-wrapper max-md:right-0  ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} `}
+            className={`work-list vitrail-list-wrapper max-md:right-0 ${tailwindSlideTrans ? 'transition-[transform] delay-[0.2s] duration-1000 ease-in-out' : ''} ${className} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full'} `}
             onClick={
                 !isOnVitrailPage
                     ? () =>

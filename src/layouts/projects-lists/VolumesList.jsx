@@ -58,7 +58,7 @@ const VolumesList = ({
 
             const titleElement = document.createElement('a');
             titleElement.href = `/${lang}/volume/`;
-            titleElement.className = 'title-on-display fixed bg-blue-800 opacity-50 z-[1000]';
+            titleElement.className = 'title-on-display fixed opacity-50 z-[1000]';
             Object.assign(titleElement.style, {
                 top: `${finalCoordinates.top + window.scrollY}px`,
                 left: `${finalCoordinates.left + window.scrollX}px`,
@@ -367,7 +367,7 @@ const VolumesList = ({
                 }
             >
                 <div
-                    className={`max-md:pr-main-x-mobile max-h-screen overflow-y-scroll pb-[30px] max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out md:w-[calc(100vw_-_300px)] ${isOnVolumePage ? '' : 'pointer-events-none'} ${isOnIndexPage ? 'pointer-events-none' : ''} `}
+                    className={`max-md:pr-main-x-mobile max-h-screen overflow-y-scroll pb-[30px] max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out md:w-[calc(100vw_-_300px)] ${isOnVolumePage ? '' : 'pointer-events-none max-md:!opacity-0'} ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                     style={{
                         transform: `translate(${mobileTranslateXValue})`,
                     }}
