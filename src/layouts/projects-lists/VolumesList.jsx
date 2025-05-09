@@ -51,26 +51,34 @@ const VolumesList = ({
         const container = document.getElementById('floating-title-container');
         if (container) {
             // Supprimer les anciens liens de superposition
-            const existingOverlay =
-                container.querySelector('#title-on-display');
+            const existingOverlay = container.querySelector('#title-on-display');
             if (existingOverlay) {
                 existingOverlay.remove();
             }
 
             const titleElement = document.createElement('a');
-            titleElement.id = 'title-on-display';
             titleElement.href = `/${lang}/volume/`;
-            titleElement.className = 'fixed bg-blue-800 opacity-50 z-[1000]';
+            titleElement.className = 'title-on-display fixed bg-blue-800 opacity-50 z-[1000]';
             Object.assign(titleElement.style, {
                 top: `${finalCoordinates.top + window.scrollY}px`,
                 left: `${finalCoordinates.left + window.scrollX}px`,
                 width: `${finalCoordinates.width}px`,
                 height: `${finalCoordinates.height}px`,
                 cursor: 'pointer',
+                transform: `translateY(${accordionOffsetY}px)`,
+                transition: 'transform 0.3s ease-in-out',
             });
             container.appendChild(titleElement);
         }
     };
+
+    // Ajouter un useEffect pour mettre à jour la position du titre
+    useEffect(() => {
+        const titleOnDisplay = document.querySelector('.title-on-display');
+        if (titleOnDisplay) {
+            titleOnDisplay.style.transform = `translateY(${accordionOffsetY}px)`;
+        }
+    }, [accordionOffsetY]);
 
     useEffect(() => {
         // Mobile Title Volume display
@@ -158,6 +166,7 @@ const VolumesList = ({
             const { isAccordionOpen, accordionHeight } = event.detail;
             // Applique un décalage négatif égal à la hauteur de l'accordéon si ouvert, sinon revient à 0
             setAccordionOffsetY(isAccordionOpen ? -accordionHeight : 0);
+            
         };
 
         // Ajout de l'écouteur d'événement
