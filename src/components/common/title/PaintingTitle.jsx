@@ -117,8 +117,12 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
             // Appliquer la transformation au titre original sur mobile
             if (window.innerWidth < 768 && originalTitle) {
                 const listTitles = document.querySelector('.painting-list-wrapper > div');
-                let mobileAccordionY = accordionOffsetY - 30;
-                listTitles.style.transform = `translateY(${mobileAccordionY}px)`;
+                if (accordionOffsetY < 0) {
+                    let mobileAccordionY = accordionOffsetY - 30;
+                    listTitles.style.transform = `translateY(${mobileAccordionY}px)`;
+                }else{
+                    listTitles.style.transform = `translateY(0px)`;
+                }
             
             }
         } else if (container) {

@@ -60,7 +60,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
     }, []);
     useEffect(() => {
         console.log('accordionOffsetY', accordionOffsetY);
-        if (window.innerWidth < 768) {
+        if (window.innerWidth < 768 && state == 'poetry') {
             if (accordionOffsetY < 0) {
                 let newAccordionOffsetY = accordionOffsetY;
                 console.log('newAccordionOffsetY', newAccordionOffsetY);
@@ -133,7 +133,11 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
 
         } else {
             // ON HIDDDEN ************************************************************************************************
-            setTranslateXValue('-200vw');
+            if (window.innerWidth < 768) {
+                setTranslateXValue('-300vh')
+            }else{
+                setTranslateXValue('-200vw');
+            }
             setIsOnPoetryPage(false);
             setIsOnIndexPage(false);
         }
