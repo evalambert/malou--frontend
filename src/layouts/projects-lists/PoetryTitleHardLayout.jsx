@@ -1,16 +1,34 @@
 // src/layouts/projects-lists/PoetryTitleHardLayout.jsx
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, use } from 'react';
 import { gsap } from 'gsap';
 
 const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
     // const [isOnPoetryPage, setIsOnPoetryPage] = useState(false);
+
+    // •••••• Hidden (START) title onSlugPage ••••••
+    const [activePoetrySlug, setActivePoetrySlug] = useState(null);
+    // Extrait le slug d'un volume à partir de l'URL
+    const extractSlugFromUrl = (url) => {
+        const match = url.match(/\/poetry\/([^/]+)/);
+        return match ? match[1] : null;
+    };
+    // Met à jour le slug actif lorsque l'URL change
+    useEffect(() => {
+        const slug = extractSlugFromUrl(targetHref);
+        setActivePoetrySlug(slug);
+    }, [targetHref]);
+
+    useEffect(() => {
+        console.log('[DEBUG] Slug actif poetry:', activePoetrySlug);
+    }, [activePoetrySlug]);
+
+    // •••••• (END) Hidden title onSlugPage ••••••
 
     // *(0__0)* useRef pour mémoriser les états
     const initialTextOverlaySerpent = useRef(null);
     const initialTextOverlayCoquille = useRef(null);
     const onCatTextOverlaySerpent = useRef(null);
     const onCatTextOverlayCoquille = useRef(null);
-
 
     // // Définition des constantes
     const pathSerpentIndex =
@@ -24,17 +42,20 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
     const pathCoquilleOpen =
         'M1 1L9 35L15.5 66L13 132L5.5 163.5L5.5 197L15.5 226.5L26.5 257.5L18.5 288L9 320.5L21.5 355L15.5 389L13.5 453L32 478L52 536L70.5 564.5L95 579L156.5 579L187.5 572L217.5 564.5L238.5 536L254.5 497L284 487.5';
 
-
-
-
     useEffect(() => {
         const hardWrapper = document.querySelector('.hard-layout--wrapper');
-        const pathSerpent = document.getElementById('myPath-hard-layout-serpent');
-        const pathCoquille = document.getElementById('myPath-hard-layout-coquille');
-        const textOverlaySerpent = document.getElementById('textOverlay-hard-layout-serpent');
-        const textOverlayCoquille = document.getElementById('textOverlay-hard-layout-coquille');
-
-
+        const pathSerpent = document.getElementById(
+            'myPath-hard-layout-serpent'
+        );
+        const pathCoquille = document.getElementById(
+            'myPath-hard-layout-coquille'
+        );
+        const textOverlaySerpent = document.getElementById(
+            'textOverlay-hard-layout-serpent'
+        );
+        const textOverlayCoquille = document.getElementById(
+            'textOverlay-hard-layout-coquille'
+        );
 
         let isOpen = false;
 
@@ -48,18 +69,17 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
             textOverlaySerpent.innerHTML = initialTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = initialTextOverlayCoquille.current;
             // console.log('^_^ RESET to first svg/spans');
-        }
+        };
         // *(0__0)* fonction pour réinjecter les états de la catégorie (récupérés plus bas)
         const resetTextOverlayCategory = () => {
             textOverlaySerpent.innerHTML = onCatTextOverlaySerpent.current;
             textOverlayCoquille.innerHTML = onCatTextOverlayCoquille.current;
             // console.log('^_^ RESET to category svg/spans');
-        }
-
+        };
 
         // SPANS
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
-        ///////// Update Letters Position 
+        ///////// Update Letters Position
         function updateLettersPosition(path, textOverlay, durationDuration) {
             // Fonction pour extraire les points du chemin SVG
             function extractPointsFromD(d) {
@@ -112,7 +132,11 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
             const count = Math.min(spans.length, points.length);
 
             for (let i = 0; i < count; i++) {
-                const { x, y } = svgPointToScreen(svg, points[i].x, points[i].y);
+                const { x, y } = svgPointToScreen(
+                    svg,
+                    points[i].x,
+                    points[i].y
+                );
                 const span = spans[i];
 
                 // Utilisation de GSAP pour une animation fluide
@@ -135,7 +159,6 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
         }
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
 
-
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         // FUNCTIONS PATH AND SHAPES
 
@@ -145,14 +168,13 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
             setTimeout(() => {
                 textOverlayCoquille.style.opacity = 0;
             }, 500);
-        }
+        };
 
         const showCoquille = () => {
             // console.log('**0_0***** Show Coquille');
             textOverlayCoquille.style.opacity = 1;
             textOverlayCoquille.style.transform = 'translateX(0vw)';
-        }
-
+        };
 
         // Open and close Snake
         const openSerpentCategoryPoetry = () => {
@@ -166,24 +188,21 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
             });
             // console.log('*****0_0** Open Snake');
             showCoquille();
-        }
+        };
         const closeSerpentForIndex = () => {
             // if (hardWrapper.classList.contains('animate-open-serpent')) {
-                hardWrapper.classList.remove('animate-open-serpent');
-                gsap.to(pathSerpent, {
-                    duration: 0.4,
-                    attr: {
-                        d: pathSerpentIndex,
-                    },
-                    onUpdate: () => updateBothPaths(0),
-                });
+            hardWrapper.classList.remove('animate-open-serpent');
+            gsap.to(pathSerpent, {
+                duration: 0.4,
+                attr: {
+                    d: pathSerpentIndex,
+                },
+                onUpdate: () => updateBothPaths(0),
+            });
             // console.log('///-_-// Close Snake');
             hideCoquille();
-            //  
-        }
-
-
-
+            //
+        };
 
         // Gestion de l'animation Accordion
         const handleAccordionChange = (event) => {
@@ -228,13 +247,9 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
             }
         };
 
-
-
-
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
         // TRIGER INITIALISATION
         if (state == 'poetry') {
-
             // Reset text overlay TO OPEN CATEGORY STYLE if was previously HIDDEN
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
                 // *(0__0)* Si masqué, on réinjecte les états de la catégorie
@@ -247,9 +262,14 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                 setTimeout(() => {
                     updateBothPaths(0.3);
                     // *(0__0)* Récupération des états de la catégorie après animation
-                    if (onCatTextOverlaySerpent && onCatTextOverlaySerpent.current === null) {
-                        onCatTextOverlaySerpent.current = textOverlaySerpent.innerHTML;
-                        onCatTextOverlayCoquille.current = textOverlayCoquille.innerHTML;
+                    if (
+                        onCatTextOverlaySerpent &&
+                        onCatTextOverlaySerpent.current === null
+                    ) {
+                        onCatTextOverlaySerpent.current =
+                            textOverlaySerpent.innerHTML;
+                        onCatTextOverlayCoquille.current =
+                            textOverlayCoquille.innerHTML;
                     }
                 }, 900);
             }
@@ -261,7 +281,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                 resetTextOverlay();
                 hideCoquille();
                 hardWrapper.classList.remove('hard-layout--hidden');
-            }else if(hardWrapper.classList.contains('animate-open-serpent')){
+            } else if (hardWrapper.classList.contains('animate-open-serpent')) {
                 closeSerpentForIndex();
             }
         } else {
@@ -277,7 +297,6 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
             handleAccordionChange
         );
 
-
         return () => {
             // window.removeEventListener('load', updatePaths);
             window.removeEventListener('resize', () => updateBothPaths(0));
@@ -285,11 +304,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                 'accordionDescriptionToggle',
                 handleAccordionChange
             );
-
         };
-
-
-
     }, [targetHref]);
 
     // Render
@@ -318,14 +333,24 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                 <svg
                     id='svg-hard-layout'
                     className='block h-[95vh] w-full'
-                    viewBox='0 -20 300 1050'
+                    viewBox='0 -20 150 1050'
                     preserveAspectRatio='none'
                     // style={{ height: '95vh' }}
                     xmlns='http://www.w3.org/2000/svg'
                 >
                     <a
-                        xlinkHref={isOnSlugPage ? `/${lang}/poetry/` : `/${lang}/poetry/comme-un-serpent-dans-une-flute/`}
-                        className='project'
+                        xlinkHref={
+                            isOnSlugPage
+                                ? `/${lang}/poetry/`
+                                : `/${lang}/poetry/comme-un-serpent-dans-une-flute/`
+                        }
+                        className={`project ${
+                            activePoetrySlug &&
+                            activePoetrySlug !==
+                                'comme-un-serpent-dans-une-flute'
+                                ? 'pointer-events-none invisible'
+                                : 'visible'
+                        }`}
                         data-type='comme-un-serpent-dans-une-flute'
                     >
                         <path
@@ -337,8 +362,17 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                         />
                     </a>
                     <a
-                        xlinkHref={isOnSlugPage ? `/${lang}/poetry/` : `/${lang}/poetry/des-coquilles-et-des-pepins/`}
-                        className='project translate-y-[150px]'
+                        xlinkHref={
+                            isOnSlugPage
+                                ? `/${lang}/poetry/`
+                                : `/${lang}/poetry/des-coquilles-et-des-pepins/`
+                        }
+                        className={`project translate-y-[150px] ${
+                            activePoetrySlug &&
+                            activePoetrySlug !== 'des-coquilles-et-des-pepins'
+                                ? 'pointer-events-none invisible'
+                                : 'visible'
+                        }`}
                         data-type='des-coquilles-et-des-pepins'
                     >
                         <path
@@ -351,7 +385,18 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                     </a>
                 </svg>
 
-                <div id="textOverlay-hard-layout-serpent" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full">
+                <div
+                    id='textOverlay-hard-layout-serpent'
+                    className='textOverlay pointer-events-none absolute top-0 left-0 h-full w-full transition-opacity duration-500 ease-in-out'
+                    style={{
+                        opacity:
+                            activePoetrySlug &&
+                            activePoetrySlug !==
+                                'comme-un-serpent-dans-une-flute'
+                                ? 0
+                                : 1,
+                    }}
+                >
                     <span style={{ top: '38px', left: '13px' }}>c</span>
                     <span style={{ top: '67px', left: '26px' }}>o</span>
                     <span style={{ top: '92px', left: '29px' }}>m</span>
@@ -379,7 +424,18 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                     <span style={{ top: '759px', left: '39px' }}>t</span>
                     <span style={{ top: '785px', left: '57px' }}>e</span>
                 </div>
-                <div id="textOverlay-hard-layout-coquille" className="textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px] transition-[transform] duration-500" style={{ opacity: 0, transform: 'translateX(-100vw)' }}>
+                <div
+                    id='textOverlay-hard-layout-coquille'
+                    className={`textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px] transition-[transform,opacity] duration-500`}
+                    style={{
+                        transform: 'translateX(-100vw)',
+                        opacity:
+                            activePoetrySlug &&
+                            activePoetrySlug !== 'des-coquilles-et-des-pepins'
+                                ? 0
+                                : 1,
+                    }}
+                >
                     <span style={{ top: '38px', left: '13px' }}>d</span>
                     <span style={{ top: '65px', left: '19px' }}>e</span>
                     <span style={{ top: '89px', left: '24px' }}>s</span>

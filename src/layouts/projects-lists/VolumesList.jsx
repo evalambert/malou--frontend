@@ -33,6 +33,7 @@ const VolumesList = ({
     const [activeVolumeSlug, setActiveVolumeSlug] = useState(null);
 
     // •••  Hidden title list onSlugPage •••
+
     // Extrait le slug d'un volume à partir de l'URL
     const extractSlugFromUrl = (url) => {
         const match = url.match(/\/volume\/([^/]+)/);
@@ -372,7 +373,9 @@ const VolumesList = ({
                         transform: `translate(${mobileTranslateXValue})`,
                     }}
                 >
-                    <div className={`pt-body-p-y max-md:w-[calc(100dvw-30px)] ${isSlugPage ? 'pointer-events-none' : ''}`}>
+                    <div
+                        className={`pt-body-p-y max-md:w-[calc(100dvw-30px)] ${isSlugPage ? 'pointer-events-none' : ''}`}
+                    >
                         <div
                             className={`hidden-list-volume transition-all delay-[0.2s] duration-500 ease-in-out ${isOnIndexPage ? 'max-md:!opacity-0' : 'max-md:!opacity-100'}`}
                         >
@@ -438,7 +441,4 @@ const VolumesList = ({
     );
 };
 
-
 export default VolumesList;
-
-
