@@ -34,7 +34,7 @@ const WeavingTitle = ({ weaving, lang, isActive, accordionOffsetY = 0 }) => {
                 titleElement.id = 'title-on-display';
                 titleElement.href = `/${lang}/weaving/`;
                 titleElement.className =
-                    'fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
+                    'fixed opacity-50 z-[1000] transition-transform duration-1000';
                 container.appendChild(titleElement);
             }
 

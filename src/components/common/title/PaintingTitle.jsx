@@ -36,7 +36,7 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                 const overlayLink = document.createElement('a');
                 overlayLink.href = `/${lang}/painting/`;
                 overlayLink.className =
-                    'letter-link fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
+                    'letter-link fixed opacity-50 z-[1000] transition-transform duration-1000';
                 overlayLink.style.top = `${letterRect.top + window.scrollY}px`;
                 overlayLink.style.left = `${letterRect.left + window.scrollX}px`;
                 overlayLink.style.width = `${letterRect.width}px`;
@@ -117,8 +117,12 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
             // Appliquer la transformation au titre original sur mobile
             if (window.innerWidth < 768 && originalTitle) {
                 const listTitles = document.querySelector('.painting-list-wrapper > div');
-                let mobileAccordionY = accordionOffsetY - 30;
-                listTitles.style.transform = `translateY(${mobileAccordionY}px)`;
+                if (accordionOffsetY < 0) {
+                    let mobileAccordionY = accordionOffsetY - 30;
+                    listTitles.style.transform = `translateY(${mobileAccordionY}px)`;
+                }else{
+                    listTitles.style.transform = `translateY(0px)`;
+                }
             
             }
         } else if (container) {
