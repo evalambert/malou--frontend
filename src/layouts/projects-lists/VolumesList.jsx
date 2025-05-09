@@ -45,7 +45,6 @@ const VolumesList = ({
         const slug = extractSlugFromUrl(targetHref);
         setActiveVolumeSlug(slug);
     }, [targetHref]);
-    
 
     // ••• Création du lien de superposition •••
     const createOverlayLinks = (title, lang) => {
@@ -365,7 +364,9 @@ const VolumesList = ({
                         transform: `translate(${mobileTranslateXValue})`,
                     }}
                 >
-                    <div className={`pt-body-p-y max-md:w-[calc(100dvw-30px)] ${isSlugPage ? 'pointer-events-none' : ''}`}>
+                    <div
+                        className={`pt-body-p-y max-md:w-[calc(100dvw-30px)] ${isSlugPage ? 'pointer-events-none' : ''}`}
+                    >
                         <div
                             className={`hidden-list-volume transition-all delay-[0.2s] duration-500 ease-in-out ${isOnIndexPage ? 'max-md:!opacity-0' : 'max-md:!opacity-100'}`}
                         >
@@ -431,7 +432,4 @@ const VolumesList = ({
     );
 };
 
-
 export default VolumesList;
-
-

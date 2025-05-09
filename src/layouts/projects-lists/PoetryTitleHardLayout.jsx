@@ -314,7 +314,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                 <svg
                     id='svg-hard-layout'
                     className='block h-[95vh] w-full'
-                    viewBox='0 -20 300 1050'
+                    viewBox='0 -20 150 1050'
                     preserveAspectRatio='none'
                     // style={{ height: '95vh' }}
                     xmlns='http://www.w3.org/2000/svg'
@@ -325,7 +325,13 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                                 ? `/${lang}/poetry/`
                                 : `/${lang}/poetry/comme-un-serpent-dans-une-flute/`
                         }
-                        className='project'
+                        className={`project ${
+                            activePoetrySlug &&
+                            activePoetrySlug !==
+                                'comme-un-serpent-dans-une-flute'
+                                ? 'pointer-events-none invisible'
+                                : 'visible'
+                        }`}
                         data-type='comme-un-serpent-dans-une-flute'
                     >
                         <path
@@ -342,7 +348,12 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                                 ? `/${lang}/poetry/`
                                 : `/${lang}/poetry/des-coquilles-et-des-pepins/`
                         }
-                        className='project translate-y-[150px]'
+                        className={`project translate-y-[150px] ${
+                            activePoetrySlug &&
+                            activePoetrySlug !== 'des-coquilles-et-des-pepins'
+                                ? 'pointer-events-none invisible'
+                                : 'visible'
+                        }`}
                         data-type='des-coquilles-et-des-pepins'
                     >
                         <path
@@ -357,7 +368,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
 
                 <div
                     id='textOverlay-hard-layout-serpent'
-                    className='textOverlay pointer-events-none absolute top-0 left-0 h-full w-full'
+                    className='textOverlay pointer-events-none absolute top-0 left-0 h-full w-full transition-opacity duration-500 ease-in-out'
                     style={{
                         opacity:
                             activePoetrySlug &&
@@ -396,7 +407,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                 </div>
                 <div
                     id='textOverlay-hard-layout-coquille'
-                    className={`textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px] transition-[transform] duration-500`}
+                    className={`textOverlay pointer-events-none absolute top-0 left-0 h-full w-full translate-y-[80px] transition-[transform,opacity] duration-500`}
                     style={{
                         transform: 'translateX(-100vw)',
                         opacity:
