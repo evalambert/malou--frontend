@@ -33,6 +33,7 @@ const VolumesList = ({
     const [activeVolumeSlug, setActiveVolumeSlug] = useState(null);
 
     // •••  Hidden title list onSlugPage •••
+
     // Extrait le slug d'un volume à partir de l'URL
     const extractSlugFromUrl = (url) => {
         const match = url.match(/\/volume\/([^/]+)/);
@@ -44,6 +45,7 @@ const VolumesList = ({
         const slug = extractSlugFromUrl(targetHref);
         setActiveVolumeSlug(slug);
     }, [targetHref]);
+    
 
     // ••• Création du lien de superposition •••
     const createOverlayLinks = (title, lang) => {
