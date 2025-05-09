@@ -217,7 +217,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
     return (
         <>
             <div
-                className={`poetry-wrapper-wrap fixed top-0 md:top-[40px] left-0 z-[999] h-screen ${className} ${isOnIndexPage ? 'pointer-events-auto w-[80px] cursor-pointer' : ''} ${!isOnPoetryPage && !isOnIndexPage ? 'pointer-events-none w-fit' : ''}`}
+                className={`poetry-wrapper-wrap fixed top-0 md:top-[40px] left-0 z-[8] md:z-[999] h-screen ${className} ${isOnIndexPage ? 'pointer-events-auto w-[80px] cursor-pointer' : ''} ${!isOnPoetryPage && !isOnIndexPage ? 'pointer-events-none w-fit' : ''}`}
                 onClick={
                     !isOnPoetryPage
                         ? () =>
