@@ -33,10 +33,24 @@ const VitrailList = ({
     const [isOnVitrailPage, setIsOnVitrailPage] = useState(false);
     const [isOnIndexPage, setIsOnIndexPage] = useState(false);
     const [sortedHiddenVitraux, setSortedHiddenVitraux] = useState([]);
-
     const [tailwindSlideTrans, settailwindSlideTrans] = useState(true);
-
     const [activeVitrailSlug, setActiveVitrailSlug] = useState(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    // Ajouter un listener pour l'événement de redimensionnement
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768); // Mettre à jour l'état en fonction de la taille de l'écran
+        };
+
+        // Écouter les événements de redimensionnement
+        window.addEventListener('resize', handleResize);
+
+        // Nettoyer le listener lors du démontage
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     // •••  Hidden title list onSlugPage •••
     // Extrait le slug d'un vitrial à partir de l'URL
@@ -65,8 +79,7 @@ const VitrailList = ({
                 const overlayLink = document.createElement('a');
 
                 overlayLink.href = `/${lang}/vitrail/`;
-                overlayLink.className =
-                    'title-on-display opacity-[0.5]';
+                overlayLink.className = 'title-on-display opacity-[0.5]';
                 overlayLink.style.position = 'fixed';
                 overlayLink.style.top = `${wrapperRect.top}px`;
                 overlayLink.style.left = `${wrapperRect.left}px`;
@@ -215,7 +228,6 @@ const VitrailList = ({
                 setHiddenListHeightVitrail(previousHeightRef.current);
             }
         }
-
     }, [allRendered, lang]);
 
     /**
@@ -247,43 +259,41 @@ const VitrailList = ({
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // Toogle hidden/compact/full
 
-
     const toggleListDisplay = (category, accordionY) => {
         if (state == category) {
             // ••• CATEGORY •••
             setIsOnVitrailPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                
                 let vitrailListHeight = document
                     .querySelector('.vitrail-list-wrapper')
                     .getBoundingClientRect().height;
                 setMaxHeightValue(vitrailListHeight + 'px');
                 setMaxWidthValue('initial');
-                if (isSlugPage){
+                if (isSlugPage) {
                     settranslateYValue(accordionY + 'px');
                     if (document.getElementById('floating-title-container')) {
-                        document.getElementById('floating-title-container').style.transform = `translateY(${accordionY}px)`;
+                        document.getElementById(
+                            'floating-title-container'
+                        ).style.transform = `translateY(${accordionY}px)`;
                     }
-                }else{
+                } else {
                     settranslateYValue('0px');
                 }
 
                 if (vitrailListHeight < window.innerHeight / 2) {
                     let newMobileTopValue =
-                        window.innerHeight - (vitrailListHeight);
+                        window.innerHeight - vitrailListHeight;
                     setMobileTopValue(newMobileTopValue + 'px');
                     setTimeout(() => {
                         setMobileTranslateXValue('0px');
                         setMaxWidthValue('100vw');
                     }, 400);
                 } else {
-
                     setMobileTopValue('calc(50vh - 30px)');
                     setMobileTranslateXValue('0px');
                     setMaxHeightValue('unset');
                 }
-
             } else {
                 settranslateYValue(accordionY + 'px');
                 if (document.getElementById('floating-title-container')) {
@@ -302,13 +312,14 @@ const VitrailList = ({
                 settranslateYValue('0px');
                 setMaxWidthValue('0px');
                 setMaxHeightValue('100vh');
-                setMobileTranslateXValue('100%'); ``
+                setMobileTranslateXValue('100%');
+                ``;
                 let vitrailListHeight = document
                     .querySelector('.vitrail-list-wrapper')
                     .getBoundingClientRect().height;
                 if (vitrailListHeight < window.innerHeight / 2 - 130) {
                     let newMobileTopValue =
-                        window.innerHeight - (vitrailListHeight);
+                        window.innerHeight - vitrailListHeight;
                     setMobileTopValue(newMobileTopValue + 'px');
                     setMaxHeightValue('unset');
                 } else {
@@ -349,7 +360,6 @@ const VitrailList = ({
         }
     };
 
-
     useEffect(() => {
         if (allRendered) {
             const isOnSlugPage = document
@@ -383,16 +393,14 @@ const VitrailList = ({
 
     // * END * Toogle hidden/compact/full
 
-    /* --- Sort hiddenVitraux by visual width  --- */
+    // •••••••••••••••••••• MOBILE VERSION — SORTED LIST BY VISUAL WIDTH ••••••••••••••••••••
     useEffect(() => {
-        // Crée un container invisible
         const container = document.createElement('div');
         container.style.visibility = 'hidden';
         container.style.position = 'absolute';
         container.style.whiteSpace = 'nowrap';
         document.body.appendChild(container);
 
-        // Calcule la largeur réelle de chaque titre
         const sorted = [...hiddenVitraux]
             .map((v) => {
                 const span = document.createElement('span');
@@ -402,14 +410,19 @@ const VitrailList = ({
                 container.removeChild(span);
                 return { ...v, visualWidth: width };
             })
-            .sort((a, b) => b.visualWidth - a.visualWidth);
+            .sort((a, b) => {
+                // Si on est sur mobile, tri inverse (du plus petit au plus grand)
+                if (isMobile) {
+                    return a.visualWidth - b.visualWidth;
+                }
+                // Sinon, tri normal (du plus grand au plus petit)
+                return b.visualWidth - a.visualWidth;
+            });
 
-        // Nettoie le container temporaire
         document.body.removeChild(container);
-
-        // Stocke la liste triée
         setSortedHiddenVitraux(sorted);
-    }, [hiddenVitraux]);
+    }, [hiddenVitraux, isMobile]);
+    // •••••••••••••••••••• (END) MOBILE VERSION - SORTED LIST BY VISUAL WIDTH ••••••••••••••••
 
     // Ajouter un gestionnaire de redimensionnement
     useEffect(() => {
@@ -483,12 +496,12 @@ const VitrailList = ({
             }}
         >
             <div
-                className={`flex flex-col items-end max-md:overflow-hidden ${isOnIndexPage ? 'cursor-pointer pointer-events-none' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
-
+                className={`flex flex-col items-end max-md:overflow-hidden ${isOnIndexPage ? 'pointer-events-none cursor-pointer' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
             >
                 <div
-                    className={`flex flex-col items-end max-md:overflow-hidden max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out max-md:pr-main-x-mobile ${!isOnVitrailPage ? 'cursor-pointer' : ''
-                        } `}
+                    className={`max-md:pr-main-x-mobile flex flex-col items-end max-md:overflow-hidden max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out ${
+                        !isOnVitrailPage ? 'cursor-pointer' : ''
+                    } `}
                     style={{
                         transform: `translateX(${mobileTranslateXValue})`,
                     }}
@@ -497,8 +510,9 @@ const VitrailList = ({
                         className={`pt-body-p-y flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? 'pointer-events-none' : ''}${isOnIndexPage ? 'max-md:!opacity-0' : 'max-md:!opacity-100'}`}
                     >
                         <div
-                            className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
-                                } `}
+                            className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${
+                                isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
+                            } `}
                         >
                             {/* Liste Hidden */}
                             <ul className='vitrail-list-compact overflow-visible'>
@@ -508,10 +522,11 @@ const VitrailList = ({
 
                                     return (
                                         <li
-                                            className={`vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300 ${activeVitrailSlug && !isActive
-                                                ? 'pointer-events-none opacity-0'
-                                                : 'opacity-100'
-                                                }`}
+                                            className={`vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300 ${
+                                                activeVitrailSlug && !isActive
+                                                    ? 'pointer-events-none opacity-0'
+                                                    : 'opacity-100'
+                                            }`}
                                             key={vitrail.id}
                                         >
                                             <VitrailHiddenTitle
@@ -547,10 +562,11 @@ const VitrailList = ({
 
                                 return (
                                     <li
-                                        className={`vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300 ${activeVitrailSlug && !isActive
-                                            ? 'pointer-events-none opacity-0'
-                                            : 'opacity-100'
-                                            }`}
+                                        className={`vitrail-title ml-auto block w-fit !overflow-visible text-right transition-all duration-300 ${
+                                            activeVitrailSlug && !isActive
+                                                ? 'pointer-events-none opacity-0'
+                                                : 'opacity-100'
+                                        }`}
                                         key={vitrail.id}
                                     >
                                         <VitrailHomepageTitle
