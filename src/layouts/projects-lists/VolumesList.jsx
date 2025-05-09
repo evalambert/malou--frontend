@@ -195,28 +195,6 @@ const VolumesList = ({
                 }, 400);
             }
         } else if (state == 'home') {
-            console.log(
-                '8i8 — ALICE — volume list masquée ::::::::' + hiddenListHeight
-            );
-            if (allRendered) {
-                const targetY = `-${hiddenListHeight}px`;
-                settranslateYValue(targetY);
-            }
-            setTimeout(() => {
-                setFirstRender(true);
-                const el = homepageRef.current;
-                const updateWidth = () => {
-                    const width = el.getBoundingClientRect().width + 310;
-                    // console.log(
-                    //     '[DEBUG] Mesure width WeavingList',
-                    //     width + 'px'
-                    // );
-                    if (width > 0) {
-                        setMaxWidthValue(`${width}px`);
-                    }
-                };
-                requestAnimationFrame(updateWidth);
-            }, 400);
             if (window.innerWidth < 768) {
                 // MOBILE
                 settranslateYValue('0px');
@@ -230,6 +208,25 @@ const VolumesList = ({
             } else {
                 const targetY = `-${hiddenListHeightVolume}px`;
                 settranslateYValue(targetY);
+                if (allRendered) {
+                    const targetY = `-${hiddenListHeight}px`;
+                    settranslateYValue(targetY);
+                }
+                setTimeout(() => {
+                    setFirstRender(true);
+                    const el = homepageRef.current;
+                    const updateWidth = () => {
+                        const width = el.getBoundingClientRect().width + 310;
+                        // console.log(
+                        //     '[DEBUG] Mesure width WeavingList',
+                        //     width + 'px'
+                        // );
+                        if (width > 0) {
+                            setMaxWidthValue(`${width}px`);
+                        }
+                    };
+                    requestAnimationFrame(updateWidth);
+                }, 400);
             }
         } else {
             settranslateYValue('-200vh');
@@ -366,9 +363,9 @@ const VolumesList = ({
                         transform: `translate(${mobileTranslateXValue})`,
                     }}
                 >
-                    <div className={`pt-body-p-y max-md:w-[calc(100dvw-30px)]`}>
+                    <div className={`pt-body-p-y max-md:w-[calc(100dvw-30px)] ${isSlugPage ? 'pointer-events-none' : ''}`}>
                         <div
-                            className={`hidden-list-volume transition-all delay-[0.2s] duration-500 ease-in-out ${isOnIndexPage ? '' : 'w-0'}`}
+                            className={`hidden-list-volume transition-all delay-[0.2s] duration-500 ease-in-out ${isOnIndexPage ? 'max-md:!opacity-0' : 'max-md:!opacity-100'}`}
                         >
                             {/* Liste Hidden */}
                             <ul
