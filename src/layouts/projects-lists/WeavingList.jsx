@@ -251,17 +251,17 @@ const WeavingList = ({
 
     // •••••••••••••••••••• ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
 
-    /*  const wrapperRef = useRef(null);
+    const wrapperRef = useRef(null);
     const homepageRef = useRef(null);
-    const [wrapperWidth, setWrapperWidth] = useState('auto'); */
+    const [wrapperWidth, setWrapperWidth] = useState('auto');
 
-    /* useEffect(() => {
+    useEffect(() => {
         if (!isOnWeavingPage && homepageRef.current && wrapperRef.current) {
             const el = homepageRef.current;
 
             const updateWidth = () => {
                 const width = el.getBoundingClientRect().width + 20;
-                console.log('[DEBUG] Mesure width WeavingList', width + 'px');
+                // console.log('[DEBUG] Mesure width WeavingList', width + 'px');
                 if (width > 0) {
                     setWrapperWidth(`${width}px`);
                 }
@@ -269,21 +269,21 @@ const WeavingList = ({
 
             requestAnimationFrame(updateWidth);
         }
-    }, [isOnWeavingPage, homepageWeavings]); */
+    }, [isOnWeavingPage, homepageWeavings]);
 
     // •••••••••••••••••••• (END) ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
 
     return (
         <>
             <div
-                /* ref={wrapperRef} */
-                className={`work-list weaving-list-wrapper relative right-0 pr-[6px] md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full md:pt-[50px]'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
+                ref={wrapperRef}
+                className={`work-list weaving-list-wrapper relative right-0 border border-green-500 pr-[6px] md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full md:pt-[50px]'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
                 style={{
                     maxHeight: `${maxHeightValue}`,
                     top: `${mobileTopValue}`,
                     transform: `translate(${translateXValue}, ${translateYValue})`,
-                    /* display: wrapperWidth ? 'block' : 'none',
-                    width: state === 'home' ? wrapperWidth : undefined, */
+                    display: wrapperWidth ? 'block' : 'none',
+                    width: state === 'home' ? wrapperWidth : undefined,
                 }}
                 onClick={
                     !isOnWeavingPage
@@ -299,8 +299,8 @@ const WeavingList = ({
                 >
                     {/* Liste Homepage */}
                     <ul
-                        /* ref={homepageRef} */
-                        className='flex w-auto flex-col items-end md:w-fit md:max-w-none'
+                        ref={homepageRef}
+                        className='flex w-full md:w-fit flex-col items-end border border-amber-500  md:max-w-none'
                     >
                         {homepageWeavings.map((weaving) => {
                             const slug = weaving.slug;
@@ -311,7 +311,7 @@ const WeavingList = ({
                             return (
                                 <li
                                     key={weaving.id}
-                                    className={`weaving-title w-fit md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${
+                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${
                                         isSlugPage && !isActive
                                             ? 'pointer-events-none opacity-0'
                                             : 'opacity-300'
@@ -330,11 +330,11 @@ const WeavingList = ({
                     {/* (END) Liste Homepage */}
 
                     <div
-                        className={`hidden-list-weaving w-fit overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out md:w-fit`}
+                        className={`hidden-list-weaving w-[100%] overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out md:w-fit`}
                     >
                         {/* Liste Hidden */}
                         {/* {isOnWeavingPage && ( */}
-                        <ul className='flex w-fit flex-col items-end md:w-fit'>
+                        <ul className='flex w-[100%] flex-col items-end md:w-fit'>
                             {finalSortedHiddenWeavings.map((weaving) => {
                                 const slug = weaving.slug;
                                 const paddingClass =
@@ -343,7 +343,7 @@ const WeavingList = ({
 
                                 return (
                                     <li
-                                        className={`weaving-title flex w-fit max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${
+                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${
                                             isSlugPage && !isActive
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-300'
