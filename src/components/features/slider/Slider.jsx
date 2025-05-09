@@ -21,9 +21,9 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         if (!noTimeOut) {
             body.classList.add('mix-blend-actif');
             if (window.innerWidth < 768) {
-                body.classList.remove('mix-blend-actif');
+                setShow(true);
                 const timeout = setTimeout(() => {
-                    setShow(true);
+                    body.classList.remove('mix-blend-actif');
                 }, 300);
                 const wrapperElement = document.querySelector('.preview-image--wrapper');
                 wrapperElement.style.opacity = '0';
