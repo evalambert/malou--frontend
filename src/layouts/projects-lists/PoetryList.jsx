@@ -231,7 +231,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
                     className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                 >
                     <div
-                        className='poetry-wrapper px-body-p-x fixed top-0 left-0 flex translate-y-[20px] max-md:transition-transform max-md:duration-1000 max-md:ease-in-out '
+                        className='poetry-wrapper px-body-p-x fixed top-0 md:top-[25px] left-0 md:left-[10px]  flex translate-y-[20px] max-md:transition-transform max-md:duration-1000 max-md:ease-in-out '
                         ref={poetryWrapperRef}
                         style={{
                             opacity: opacityValue,
