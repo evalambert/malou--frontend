@@ -91,7 +91,7 @@ export default function AccordionReadProject({
               : '50vh'
         : windowWidth >= 768 // Desktop close
           ? 'calc(100vh - 47px)'
-          : 'calc(100dvh - 78px)'; // Mobile close
+          : 'calc(100vh - 78px)'; // Mobile close
 
     // 🔤 Décalage du bouton selon langue et état
     const getTranslateY = () => {

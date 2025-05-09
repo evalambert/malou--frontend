@@ -172,7 +172,7 @@ const PaintingsList = ({
                     .getBoundingClientRect().height;
                 setmaxHeightValue(paintingListHeight + 'px');
                 if (paintingListHeight > window.innerHeight / 2) {
-                    setMobileTopValue('50dvh');
+                    setMobileTopValue('50vh');
                     setmaxHeightValue('unset');
                 } else {
                     let newMobileTopValue = paintingListHeight + 50;
@@ -191,7 +191,7 @@ const PaintingsList = ({
             if (window.innerWidth < 768) {
                 setTranslateValue('0px');
                 setmaxHeightValue('0px');
-                setMobileTopValue('100dvh');
+                setMobileTopValue('100vh');
             } else {
                 setTranslateValue(hiddenListHeightPainting + 'px');
                 setmaxHeightValue('300vh');
@@ -297,7 +297,7 @@ const PaintingsList = ({
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
                 ref={wrapperRef}
-                className={`work-list painting-list-wrapper ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list painting-list-wrapper ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} overflow-visible ${isSlugPage ? 'pointer-events-none' : ''}`}
                 style={{
                     display: wrapperWidth ? 'block' : 'none',
                     width: !isOnPaintingPage ? wrapperWidth : undefined,
@@ -315,7 +315,7 @@ const PaintingsList = ({
                 }
             >
                 <div
-                    className={`max-h-screen overflow-hidden transition-all duration-500 ease-in-out md:w-screen md:overflow-scroll ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
+                    className={`max-h-screen transition-all duration-500 ease-in-out md:w-screen md:overflow-scroll ${!isOnPaintingPage ? 'pointer-events-none' : ''} overflow-scroll`}
                 >
                     {/* Liste Homepage */}
                     <ul
@@ -348,7 +348,7 @@ const PaintingsList = ({
                     {/* (END) Liste Homepage */}
 
                     <div
-                        className={`hidden-list-painting overflow-hidden transition-all delay-[0.2s] duration-500 ease-in-out`}
+                        className={`hidden-list-painting overflow-visible transition-all delay-[0.2s] duration-500 ease-in-out`}
                     >
                         {/* Liste Hidden */}
                         <ul>
@@ -358,7 +358,7 @@ const PaintingsList = ({
 
                                 return (
                                     <li
-                                        className={`painting-title block w-fit transition-opacity duration-500 ease-in-out ${
+                                        className={`painting-title block w-fit transition-opacity duration-500 ease-in-out !overflow-visible ${
                                             activePaintingSlug && !isActive
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-100'
