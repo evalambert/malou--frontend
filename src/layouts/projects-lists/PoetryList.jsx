@@ -68,21 +68,24 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
 
         } else if (state == 'home') {
             // ON PAGE INDEX ************************************************************************************************
+            if (window.innerWidth < 768) {
 
-            setTimeout(() => {
-
-                setTranslateXValue('0px')
-                // setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
-                setOpacityValue(1);
-                // setTranslateXValue('-' + halfHiddenListWidthPoetry + 'px');
-                document
-                    .querySelector('.poetry-wrapper')
-                    .classList.add(
-                        'transition-transform',
-                        'duration-1000',
-                        'ease-in-out'
-                    );
-            }, 50);
+            }else{
+                setTimeout(() => {
+    
+                    setTranslateXValue('0px')
+                    // setTranslateXValue('-' + hiddenListWidthPoetry + 'px');
+                    setOpacityValue(1);
+                    // setTranslateXValue('-' + halfHiddenListWidthPoetry + 'px');
+                    document
+                        .querySelector('.poetry-wrapper')
+                        .classList.add(
+                            'transition-transform',
+                            'duration-1000',
+                            'ease-in-out'
+                        );
+                }, 50);
+            }
             setIsOnPoetryPage(false);
             setIsOnIndexPage(true);
 

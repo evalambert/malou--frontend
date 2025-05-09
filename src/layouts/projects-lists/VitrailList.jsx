@@ -494,7 +494,7 @@ const VitrailList = ({
                     }}
                 >
                     <div
-                        className={`pt-body-p-y flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? 'pointer-events-none' : ''}`}
+                        className={`pt-body-p-y flex flex-col items-end transition-all duration-1000 ease-in-out ${!isOnVitrailPage ? 'pointer-events-none' : ''}${isOnIndexPage ? 'max-md:!opacity-0' : 'max-md:!opacity-100'}`}
                     >
                         <div
                             className={`hidden-list-vitrail flex flex-col items-end transition-all delay-[0.2s] duration-1000 ease-in-out max-md:order-2 ${isOnVitrailPage ? 'opacity-100' : 'md:opacity-0'
