@@ -330,7 +330,7 @@ const WeavingList = ({
                     {/* (END) Liste Homepage */}
 
                     <div
-                        className={`hidden-list-weaving w-[100%] overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out md:w-fit`}
+                        className={`hidden-list-weaving w-[100%] overflow-hidden transition-all delay-[0.2s] duration-1000 ease-in-out md:w-fit ${!isOnWeavingPage ? 'opacity-0' : 'opacity-100'}`}
                     >
                         {/* Liste Hidden */}
                         {/* {isOnWeavingPage && ( */}
