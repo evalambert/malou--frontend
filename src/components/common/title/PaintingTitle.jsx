@@ -36,7 +36,7 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
                 const overlayLink = document.createElement('a');
                 overlayLink.href = `/${lang}/painting/`;
                 overlayLink.className =
-                    'letter-link fixed bg-blue-800 opacity-50 z-[1000] transition-transform duration-1000';
+                    'letter-link fixed opacity-50 z-[1000] transition-transform duration-1000';
                 overlayLink.style.top = `${letterRect.top + window.scrollY}px`;
                 overlayLink.style.left = `${letterRect.left + window.scrollX}px`;
                 overlayLink.style.width = `${letterRect.width}px`;
@@ -105,9 +105,29 @@ const PaintingTitle = ({ painting, lang, isActive, accordionOffsetY = 0 }) => {
     // Effet pour gérer accordionOffsetY
     useEffect(() => {
         const titleElements = document.querySelectorAll('.letter-link');
-        titleElements.forEach((titleElement) => {
-            titleElement.style.transform = `translateY(${accordionOffsetY}px)`;
-        });
+        const container = document.getElementById('floating-title-container');
+        const originalTitle = linkRef.current;
+        
+        if (titleElements.length > 0) {
+            // Appliquer la transformation aux liens de superposition
+            titleElements.forEach((titleElement) => {
+                titleElement.style.transform = `translateY(${accordionOffsetY}px)`;
+            });
+            
+            // Appliquer la transformation au titre original sur mobile
+            if (window.innerWidth < 768 && originalTitle) {
+                const listTitles = document.querySelector('.painting-list-wrapper > div');
+                if (accordionOffsetY < 0) {
+                    let mobileAccordionY = accordionOffsetY - 30;
+                    listTitles.style.transform = `translateY(${mobileAccordionY}px)`;
+                }else{
+                    listTitles.style.transform = `translateY(0px)`;
+                }
+            
+            }
+        } else if (container) {
+            container.style.transform = `translateY(${accordionOffsetY}px)`;
+        }
     }, [isActive, accordionOffsetY]);
 
     // Effet pour gérer le resize
