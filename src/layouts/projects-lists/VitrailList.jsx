@@ -236,10 +236,12 @@ const VitrailList = ({
     useEffect(() => {
         // Écoute l'événement personnalisé émis par l'accordéon
         const handleAccordionMovement = (event) => {
+
             // Récupère l'état de l'accordéon et sa hauteur depuis l'événement
             const { isAccordionOpen, accordionHeight } = event.detail;
             // Applique un décalage négatif égal à la hauteur de l'accordéon si ouvert, sinon revient à 0
             setAccordionOffsetY(isAccordionOpen ? -accordionHeight : 0);
+
         };
 
         // Ajout de l'écouteur d'événement
@@ -271,11 +273,15 @@ const VitrailList = ({
                 setMaxHeightValue(vitrailListHeight + 'px');
                 setMaxWidthValue('initial');
                 if (isSlugPage) {
-                    settranslateYValue(accordionY + 'px');
                     if (document.getElementById('floating-title-container')) {
                         document.getElementById(
                             'floating-title-container'
                         ).style.transform = `translateY(${accordionY}px)`;
+                    }
+                    if (accordionY === 0) {
+                        settranslateYValue(accordionY + 'px');
+                    }else{
+                        settranslateYValue('-100vh');
                     }
                 } else {
                     settranslateYValue('0px');
@@ -482,9 +488,9 @@ const VitrailList = ({
             onClick={
                 !isOnVitrailPage
                     ? () =>
-                          navigate(`/${lang}/vitrail/`, {
-                              history: 'push',
-                          })
+                        navigate(`/${lang}/vitrail/`, {
+                            history: 'push',
+                        })
                     : undefined
             }
             style={{
@@ -496,7 +502,7 @@ const VitrailList = ({
             }}
         >
             <div
-                className={`flex flex-col items-end max-md:overflow-hidden ${isOnIndexPage ? 'pointer-events-none cursor-pointer' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
+                className={`flex flex-col items-end ${isOnIndexPage ? 'cursor-pointer pointer-events-none' : ''}${isSlugPage ? 'pointer-events-none' : ''} `}
             >
                 <div
                     className={`max-md:pr-main-x-mobile flex flex-col items-end max-md:overflow-hidden max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out ${

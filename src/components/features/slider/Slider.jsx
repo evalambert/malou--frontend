@@ -20,25 +20,34 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         const body = document.body;
         if (!noTimeOut) {
             body.classList.add('mix-blend-actif');
-            const timeoutWhite = setTimeout(() => {
+            if (window.innerWidth < 768) {
                 body.classList.remove('mix-blend-actif');
-                // Code qui masque le reste des listes
-            }, 700);
-            const timeout = setTimeout(() => {
                 setShow(true);
-            }, 900);
-            const timeoutPreviewHide = setTimeout(() => {
-                // hide preview
                 const wrapperElement = document.querySelector('.preview-image--wrapper');
                 wrapperElement.style.opacity = '0';
                 wrapperElement.classList.remove('preview-image--wrapper-visible');
-            }, 1000);
+            }else{
+                const timeoutWhite = setTimeout(() => {
+                    body.classList.remove('mix-blend-actif');
+                    // Code qui masque le reste des listes
+                }, 700);
+                const timeout = setTimeout(() => {
+                    setShow(true);
+                }, 900);
+                const timeoutPreviewHide = setTimeout(() => {
+                    // hide preview
+                    const wrapperElement = document.querySelector('.preview-image--wrapper');
+                    wrapperElement.style.opacity = '0';
+                    wrapperElement.classList.remove('preview-image--wrapper-visible');
+                }, 1000);
+    
+                return () => {
+                    clearTimeout(timeoutWhite);
+                    clearTimeout(timeout);
+                    clearTimeout(timeoutPreviewHide);
+                };
+            }
 
-            return () => {
-                clearTimeout(timeoutWhite);
-                clearTimeout(timeout);
-                clearTimeout(timeoutPreviewHide);
-            };
         } else {
             body.classList.remove('mix-blend-actif');
             setShow(true);
