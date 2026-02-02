@@ -161,7 +161,7 @@ export default function PoetryPreview({ poems = {} }) {
 
     return (
         <div
-            className='preview mix-blend-target max-md:hidden fixed inset-0 top-[unset] right-0 bottom-0 left-[unset] z-5 h-[calc(100vh-31px)] flex-1 overflow-hidden'
+            className='preview mix-blend-target pointer-events-none max-md:hidden fixed inset-0 top-[unset] right-0 bottom-0 left-[unset] z-5 h-[calc(100vh-31px)] flex-1 overflow-hidden'
             style={{ width: previewWidth || 'calc(100vw - 180px)' }}
         />
     );
