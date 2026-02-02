@@ -60,6 +60,16 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
 
     }, []);
 
+    const revealModaleToogle = () => {
+        const modaleToggleElement = document.querySelector('.modaleToogle');
+        modaleToggleElement.classList.toggle('hidden');
+        modaleToggleElement.classList.toggle('pointer-events-none');
+        if (zoomImg && zoomImg.url) {
+            const img = new window.Image();
+            img.src = zoomImg.url;
+        }
+    };
+
     const handleSlideChange = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             const modaleToggleElement = document.querySelector('.modaleToogle');
@@ -69,17 +79,17 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             const isLastSlide = swiper.activeIndex === swiper.slides.length - 2;
             const wasLastSlide = swiper.previousIndex === swiper.slides.length - 2;
 
+
             if (modaleToggleElement && (isLastSlide || wasLastSlide)) {
-                modaleToggleElement.classList.toggle('hidden');
-                modaleToggleElement.classList.toggle('pointer-events-none');
-                // Ici pour précharger l'image du slider Zoom
-                if (zoomImg && zoomImg.url) {
-                    const img = new window.Image();
-                    img.src = zoomImg.url;
-                }
+                revealModaleToogle();
             }
         }
     };
+    useEffect(() => {
+        if (medias.length === 1 && zoomImg && zoomImg.url) {
+            revealModaleToogle();
+        }
+    }, [medias, zoomImg]);
 
     const handleClick = () => {
         document
@@ -104,6 +114,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             }
         };
     }, []);
+    
 
     // Dimensions
     const checkImageOrientation = (url, index) => {
