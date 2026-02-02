@@ -13,7 +13,11 @@ const { lang } = Astro.params;
 export const prerender = true;
 ---
 
-<Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
+<Layout
+    title={lang === 'fr'
+        ? 'malou raulin vitraille'
+        : 'malou raulin stains light'}
+>
     <AllProjectsLists lang={lang} enterIndex={false} />
     <PreviewImg
         transition:name='preview-image'
