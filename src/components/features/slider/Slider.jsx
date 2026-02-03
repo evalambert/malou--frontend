@@ -15,6 +15,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
     const [imageDimensions, setImageDimensions] = useState({});
     const [isHidden, setIsHidden] = useState(true);
     const [show, setShow] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
         const body = document.body;
@@ -64,6 +65,17 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             body.classList.remove('mix-blend-actif');
             setShow(true);
         }
+    }, []);
+
+    useEffect(() => {
+        const updateIsMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        updateIsMobile();
+        window.addEventListener('resize', updateIsMobile);
+        return () => {
+            window.removeEventListener('resize', updateIsMobile);
+        };
     }, []);
 
     const revealModaleToogle = () => {
@@ -160,6 +172,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                 {`
                 .swiper{
                     height: 100vh;
+                    height: 100dvh;
                     width: 100vw;
                     transition: opacity 0.3s ease-in-out;
                 }
@@ -185,6 +198,9 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                }
+                .swiper-slide.mobile-single{
+                    width: 100%;
                 }
                 .swiper-zoom-container{
                     display: flex;
@@ -218,42 +234,64 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                     modules={[Keyboard, Navigation, Pagination]}
                     onSlideChange={handleSlideChange}
                 >
-                    {medias.map((media, index) =>
-                        !imageDimensions[index] ? (
-                            <SwiperSlide
-                                key={`pending-${index}`}
-                                className='pending-orientation'
-                            >
-                                <img src={media.url} loading='lazy' />
-                            </SwiperSlide>
-                        ) : imageDimensions[index].isLandscape ? (
-                            // Affiche 2 slides pour les images en paysage
-                            <React.Fragment
-                                key={`landscape-container-${index}`}
-                            >
+                    {medias.map((media, index) => {
+                        if (isMobile) {
+                            return (
                                 <SwiperSlide
-                                    key={`landscape-${index}`}
-                                    className='landscape !overflow-visible'
+                                    key={`mobile-${index}`}
+                                    className='mobile-single'
                                 >
-                                    <div className='h-full w-[200%]'>
-                                        <img src={media.url} loading='lazy' />
-                                    </div>
+                                    <img src={media.url} loading='lazy' />
                                 </SwiperSlide>
+                            );
+                        }
+
+                        if (!imageDimensions[index]) {
+                            return (
                                 <SwiperSlide
-                                    key={`landscape-${index}-bis`}
-                                    className='landscape'
-                                ></SwiperSlide>
-                            </React.Fragment>
-                        ) : (
-                            // Affiche 1 slide pour les images en portrait
+                                    key={`pending-${index}`}
+                                    className='pending-orientation'
+                                >
+                                    <img src={media.url} loading='lazy' />
+                                </SwiperSlide>
+                            );
+                        }
+
+                        if (imageDimensions[index].isLandscape) {
+                            // Affiche 2 slides pour les images en paysage
+                            return (
+                                <React.Fragment
+                                    key={`landscape-container-${index}`}
+                                >
+                                    <SwiperSlide
+                                        key={`landscape-${index}`}
+                                        className='landscape !overflow-visible'
+                                    >
+                                        <div className='h-full w-[200%]'>
+                                            <img
+                                                src={media.url}
+                                                loading='lazy'
+                                            />
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide
+                                        key={`landscape-${index}-bis`}
+                                        className='landscape'
+                                    ></SwiperSlide>
+                                </React.Fragment>
+                            );
+                        }
+
+                        // Affiche 1 slide pour les images en portrait
+                        return (
                             <SwiperSlide
                                 key={`portrait-${index}`}
                                 className='portrait'
                             >
                                 <img src={media.url} loading='lazy' />
                             </SwiperSlide>
-                        )
-                    )}
+                        );
+                    })}
                 </Swiper>
 
                 {zoomImg && zoomImg.url && (
