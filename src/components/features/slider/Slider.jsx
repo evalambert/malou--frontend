@@ -25,13 +25,17 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                 const timeout = setTimeout(() => {
                     body.classList.remove('mix-blend-actif');
                 }, 300);
-                const wrapperElement = document.querySelector('.preview-image--wrapper');
+                const wrapperElement = document.querySelector(
+                    '.preview-image--wrapper'
+                );
                 wrapperElement.style.opacity = '0';
-                wrapperElement.classList.remove('preview-image--wrapper-visible');
+                wrapperElement.classList.remove(
+                    'preview-image--wrapper-visible'
+                );
                 return () => {
                     clearTimeout(timeout);
                 };
-            }else{
+            } else {
                 const timeoutWhite = setTimeout(() => {
                     body.classList.remove('mix-blend-actif');
                     // Code qui masque le reste des listes
@@ -41,23 +45,25 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                 }, 900);
                 const timeoutPreviewHide = setTimeout(() => {
                     // hide preview
-                    const wrapperElement = document.querySelector('.preview-image--wrapper');
+                    const wrapperElement = document.querySelector(
+                        '.preview-image--wrapper'
+                    );
                     wrapperElement.style.opacity = '0';
-                    wrapperElement.classList.remove('preview-image--wrapper-visible');
+                    wrapperElement.classList.remove(
+                        'preview-image--wrapper-visible'
+                    );
                 }, 1000);
-    
+
                 return () => {
                     clearTimeout(timeoutWhite);
                     clearTimeout(timeout);
                     clearTimeout(timeoutPreviewHide);
                 };
             }
-
         } else {
             body.classList.remove('mix-blend-actif');
             setShow(true);
         }
-
     }, []);
 
     const revealModaleToogle = () => {
@@ -77,8 +83,8 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             const swiper = swiperRef.current.swiper;
 
             const isLastSlide = swiper.activeIndex === swiper.slides.length - 2;
-            const wasLastSlide = swiper.previousIndex === swiper.slides.length - 2;
-
+            const wasLastSlide =
+                swiper.previousIndex === swiper.slides.length - 2;
 
             if (modaleToggleElement && (isLastSlide || wasLastSlide)) {
                 revealModaleToogle();
@@ -114,10 +120,22 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             }
         };
     }, []);
-    
-
     // Dimensions
-    const checkImageOrientation = (url, index) => {
+    const checkImageOrientation = (media, index) => {
+        if (!media?.url) {
+            return;
+        }
+        if (
+            typeof media.width === 'number' &&
+            typeof media.height === 'number'
+        ) {
+            const isLandscape = media.width > media.height;
+            setImageDimensions((prev) => ({
+                ...prev,
+                [index]: { isLandscape },
+            }));
+            return;
+        }
         const img = new Image();
         img.onload = () => {
             const isLandscape = img.width > img.height;
@@ -126,12 +144,13 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                 [index]: { isLandscape },
             }));
         };
-        img.src = url;
+        img.src = media.url;
     };
 
     useEffect(() => {
+        setImageDimensions({});
         medias.forEach((media, index) => {
-            checkImageOrientation(media.url, index);
+            checkImageOrientation(media, index);
         });
     }, [medias]);
 
@@ -150,6 +169,9 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                 .swiper-slide{
                     width: 50%;
                     overflow: hidden;
+                }
+                .swiper-slide.pending-orientation{
+                    width: 100%;
                 }
                 .swiper-slide:focus-visible{
                     outline: none;
@@ -183,7 +205,6 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             <div
                 className={`${show ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
             >
-
                 <Swiper
                     ref={swiperRef}
                     slidesPerView={'auto'}
@@ -198,7 +219,14 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                     onSlideChange={handleSlideChange}
                 >
                     {medias.map((media, index) =>
-                        imageDimensions[index]?.isLandscape ? (
+                        !imageDimensions[index] ? (
+                            <SwiperSlide
+                                key={`pending-${index}`}
+                                className='pending-orientation'
+                            >
+                                <img src={media.url} loading='lazy' />
+                            </SwiperSlide>
+                        ) : imageDimensions[index].isLandscape ? (
                             // Affiche 2 slides pour les images en paysage
                             <React.Fragment
                                 key={`landscape-container-${index}`}
@@ -233,7 +261,11 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                         <button className='modaleToogle pointer-events-none fixed top-0 right-0 z-10 hidden h-full w-full cursor-pointer mix-blend-difference md:w-[50%]'>
                             <span>close</span>
                         </button>
-                        <ZoomModale hidden={isHidden} zoomImg={zoomImg} insideSlider={true} />
+                        <ZoomModale
+                            hidden={isHidden}
+                            zoomImg={zoomImg}
+                            insideSlider={true}
+                        />
                     </>
                 )}
             </div>
