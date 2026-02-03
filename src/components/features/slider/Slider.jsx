@@ -109,6 +109,14 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             }
         }
     };
+
+    const handleMobileTap = () => {
+        if (!isMobile || !swiperRef.current?.swiper) {
+            return;
+        }
+        const swiper = swiperRef.current.swiper;
+        swiper.slideNext();
+    };
     useEffect(() => {
         if (!isMobile && medias.length === 1 && zoomImg && zoomImg.url) {
             revealModaleToogle();
@@ -246,12 +254,15 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                     keyboard={{
                         enabled: true,
                     }}
+                    allowTouchMove={!isMobile}
+                    loop={isMobile}
                     pagination={{
                         type: 'fraction',
                     }}
                     navigation={true}
                     modules={[Keyboard, Navigation, Pagination]}
                     onSlideChange={handleSlideChange}
+                    onClick={handleMobileTap}
                 >
                     {medias.map((media, index) => {
                         if (isMobile) {
