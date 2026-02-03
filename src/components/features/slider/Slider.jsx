@@ -284,6 +284,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                                 >
                                     <img src={media.url} loading='lazy' />
                                 </SwiperSlide>
+                                
                             );
                         }
 
