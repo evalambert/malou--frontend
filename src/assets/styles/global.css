@@ -204,7 +204,12 @@ body:not(.category-vitrail) .swiper-pagination {
 .volume-list-compact > li:nth-child(odd) {
     @apply md:pt-[25px];
 }
-
+.volume-list-compact > li:first-child {
+    @apply max-md:mt-[25px];
+}
+.volume-list-compact > li:nth-child(2) {
+    @apply max-md:mt-[0px];
+}
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Titles */

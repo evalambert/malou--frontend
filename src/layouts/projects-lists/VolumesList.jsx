@@ -87,8 +87,6 @@ const VolumesList = ({
             const titleVolume = document.querySelectorAll('li.volume-title');
             let maxLenghtPhrase = 0;
             let windowWidth = window.innerWidth - 40;
-            let isNextToPadding = false;
-            let lastTitleWidth = 0;
 
             // Déplacer les éléments li de hidden-list-volume vers preview-list-volume
             const hiddenList = document.querySelector(
@@ -103,28 +101,30 @@ const VolumesList = ({
                 });
             }
 
+            let indexOnLine = 0; // position sur la ligne courante (0 = début de ligne)
+
             titleVolume.forEach((title) => {
                 let titleWidth = title.offsetWidth;
                 maxLenghtPhrase = maxLenghtPhrase + titleWidth;
+                // Réinitialiser les classes de marge et la bordure pour éviter les doublons
+                title.classList.remove('max-md:mt-[0px]', 'max-md:mt-[20px]');
+                title.style.border = '';
 
                 if (maxLenghtPhrase < windowWidth) {
-                    if (isNextToPadding === false) {
-                        title.classList.add('max-md:mt-[50px]');
-                        isNextToPadding = true;
-                        // title.style.border = `2px solid red`;
+                    // Titre sur la même ligne : alternance mt-0 / mt-20px
+                    indexOnLine += 1;
+                    if (indexOnLine % 2 === 1) {
+                        title.classList.add('max-md:mt-[0px]');
                     } else {
-                        isNextToPadding = false;
-                        // title.style.border = `2px solid blue`;
-                        title.classList.add('max-md:mt-[25px]');
+                        title.classList.add('max-md:mt-[20px]');
+                        // title.style.border = `1px dotted green`;
                     }
                 } else {
-                    maxLenghtPhrase = 0;
-                    // title.style.border = `2px solid green`;
-                    if (titleWidth > windowWidth / 2) {
-                        title.classList.add('max-md:mt-[25px]');
-                    } else {
-                        title.classList.add('max-md:mt-[50px]');
-                    }
+                    // Début de nouvelle ligne : reset du compteur, bordure rouge, mt-20px
+                    maxLenghtPhrase = titleWidth;
+                    indexOnLine = 0;
+                    // title.style.border = `1px dotted red`;
+                    title.classList.add('max-md:mt-[20px]');
                 }
             });
         }
@@ -167,7 +167,7 @@ const VolumesList = ({
             const { isAccordionOpen, accordionHeight } = event.detail;
             // Applique un décalage négatif égal à la hauteur de l'accordéon si ouvert, sinon revient à 0
             setAccordionOffsetY(isAccordionOpen ? -accordionHeight : 0);
-            
+
         };
 
         // Ajout de l'écouteur d'événement
@@ -361,9 +361,9 @@ const VolumesList = ({
                 onClick={
                     !isOnVolumePage
                         ? () =>
-                              navigate(`/${lang}/volume/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/volume/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
@@ -381,17 +381,16 @@ const VolumesList = ({
                         >
                             {/* Liste Hidden */}
                             <ul
-                                className={`volume-list-compact flex flex-wrap justify-center md:w-[calc(100vw_-_320px)] md:gap-y-[25px] ${isOnVolumePage ? 'opacity-100' : 'opacity-0'}`}
+                                className={`volume-list-compact flex flex-wrap justify-center md:w-[calc(100vw_-_320px)] gap-y-[25px] ${isOnVolumePage ? 'opacity-100' : 'opacity-0'}`}
                             >
                                 {hiddenVolumes.map((volume) => (
                                     <li
                                         key={volume.id || volume.slug}
-                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
-                                            activeVolumeSlug &&
-                                            volume.slug !== activeVolumeSlug
+                                        className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
+                                                volume.slug !== activeVolumeSlug
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-100'
-                                        }`}
+                                            }`}
                                     >
                                         <VolumeTitle
                                             volume={volume}
@@ -417,17 +416,16 @@ const VolumesList = ({
                         {/* Liste Homepage */}
                         <ul
                             ref={homepageRef}
-                            className='volume-list-compact preview-list-volume flex flex-wrap md:w-fit md:gap-y-[25px]'
+                            className='volume-list-compact preview-list-volume flex flex-wrap md:w-fit gap-y-[25px]'
                         >
                             {homepageVolumes.map((volume) => (
                                 <li
                                     key={volume.id || volume.slug}
-                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${
-                                        activeVolumeSlug &&
-                                        volume.slug !== activeVolumeSlug
+                                    className={`volume-title block w-fit transition-opacity duration-500 ease-in-out ${activeVolumeSlug &&
+                                            volume.slug !== activeVolumeSlug
                                             ? 'pointer-events-none opacity-0'
                                             : 'opacity-100'
-                                    }`}
+                                        }`}
                                 >
                                     <VolumeTitle volume={volume} lang={lang} />
                                 </li>

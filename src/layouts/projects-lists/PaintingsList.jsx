@@ -69,6 +69,7 @@ const PaintingsList = ({
             const liTitle = document.querySelectorAll('li.painting-title');
             let previousLiWidth = 150;
             let reverse = false;
+            let mobileStopeffect = false;
 
             liTitle.forEach((li) => {
                 const viewportWidth = window.matchMedia('(min-width: 48rem)')
@@ -76,28 +77,35 @@ const PaintingsList = ({
                     ? window.innerWidth - 30
                     : window.innerWidth - 30;
                 const liWidth = li.getBoundingClientRect().width;
-                if (previousLiWidth + liWidth > viewportWidth && !reverse) {
-                    let maxMarginLeft = viewportWidth - liWidth;
-                    li.style.marginLeft = `${maxMarginLeft}px`;
-                    previousLiWidth = viewportWidth - liWidth;
-                    reverse = true;
-                    return previousLiWidth;
 
-                    // DESCEND VERS LA GAUCHE
-                } else if (previousLiWidth < 200 && reverse) {
-                    li.style.marginLeft = `0px`;
-                    previousLiWidth = liWidth;
-                    reverse = false;
-                } else if (reverse) {
-                    previousLiWidth = previousLiWidth - liWidth;
-                    li.style.marginLeft = `${previousLiWidth}px`;
-                    return previousLiWidth;
+                // !mobileStopeffect -> pour mobile : as un certain point on arrête l'effet d'escalier en mobile pour que ça soit férré à gauche.
+                if (!mobileStopeffect) {
+                    if (previousLiWidth + liWidth > viewportWidth && !reverse) {
+                        let maxMarginLeft = viewportWidth - liWidth;
+                        li.style.marginLeft = `${maxMarginLeft}px`;
+                        previousLiWidth = viewportWidth - liWidth;
+                        reverse = true;
+                        return previousLiWidth;
 
-                    // DESCEND VERS LA DROITE
-                } else {
-                    li.style.marginLeft = `${previousLiWidth}px`;
-                    previousLiWidth = previousLiWidth + liWidth;
-                    return previousLiWidth;
+                        // DESCEND VERS LA GAUCHE
+                    } else if (previousLiWidth < 200 && reverse) {
+                        li.style.marginLeft = `0px`;
+                        previousLiWidth = liWidth;
+                        reverse = false;
+                        if (window.innerWidth < 768) {
+                            mobileStopeffect = true; 
+                        }
+
+                    } else if (reverse) {
+                        previousLiWidth = previousLiWidth - liWidth;
+                        li.style.marginLeft = `${previousLiWidth}px`;
+                        return previousLiWidth;
+                        // DESCEND VERS LA DROITE
+                    } else {
+                        li.style.marginLeft = `${previousLiWidth}px`;
+                        previousLiWidth = previousLiWidth + liWidth;
+                        return previousLiWidth;
+                    }
                 }
             });
 
@@ -297,7 +305,7 @@ const PaintingsList = ({
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
                 ref={wrapperRef}
-                className={`work-list painting-list-wrapper ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} overflow-visible ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list painting-list-wrapper  ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} ${isOnPaintingPage ? 'max-md:overflow-visible' : 'max-md:overflow-hidden'} ${isSlugPage ? 'pointer-events-none ' : ''}`}
                 style={{
                     display: wrapperWidth ? 'block' : 'none',
                     width: !isOnPaintingPage ? wrapperWidth : undefined,
@@ -308,9 +316,9 @@ const PaintingsList = ({
                 onClick={
                     !isOnPaintingPage
                         ? () =>
-                              navigate(`/${lang}/painting/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/painting/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
@@ -328,11 +336,10 @@ const PaintingsList = ({
 
                             return (
                                 <li
-                                    className={`painting-title w-fit !overflow-visible transition-opacity duration-500 ease-in-out ${
-                                        activePaintingSlug && !isActive
+                                    className={`painting-title w-fit !overflow-visible transition-opacity duration-500 ease-in-out ${activePaintingSlug && !isActive
                                             ? 'pointer-events-none opacity-0'
                                             : 'opacity-100'
-                                    } ${isActive ? 'delay-100' : ''}`}
+                                        } ${isActive ? 'delay-100' : ''}`}
                                     key={painting.id}
                                 >
                                     <PaintingTitle
@@ -358,11 +365,10 @@ const PaintingsList = ({
 
                                 return (
                                     <li
-                                        className={`painting-title block w-fit transition-opacity duration-500 ease-in-out !overflow-visible ${
-                                            activePaintingSlug && !isActive
+                                        className={`painting-title block w-fit transition-opacity duration-500 ease-in-out !overflow-visible ${activePaintingSlug && !isActive
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-100'
-                                        } ${isActive ? 'delay-100' : ''}`}
+                                            } ${isActive ? 'delay-100' : ''}`}
                                         key={painting.id}
                                     >
                                         <PaintingTitle
