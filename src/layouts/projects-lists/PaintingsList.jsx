@@ -297,7 +297,7 @@ const PaintingsList = ({
             {/* ! md:left-[100px] modify, change value const viewportWidth above */}
             <div
                 ref={wrapperRef}
-                className={`work-list painting-list-wrapper ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} overflow-visible ${isSlugPage ? 'pointer-events-none' : ''}`}
+                className={`work-list painting-list-wrapper  ${className} ${tailwindSlideTrans ? 'transition-all delay-[0.2s] duration-500 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'md:pt-[50px]'} ${isOnPaintingPage ? 'max-md:overflow-visible' : 'max-md:overflow-hidden'} ${isSlugPage ? 'pointer-events-none ' : ''}`}
                 style={{
                     display: wrapperWidth ? 'block' : 'none',
                     width: !isOnPaintingPage ? wrapperWidth : undefined,
