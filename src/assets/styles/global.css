@@ -315,6 +315,9 @@ body:not(.category-vitrail) .swiper-pagination {
 body.on-slug-page .work-list {
     @apply max-md:fixed;
 }
+body.on-slug-page .vitrail-list-wrapper{
+    @apply max-md:pointer-events-none;
+}
 
 body.index-page{
     @apply overflow-hidden;
