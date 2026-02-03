@@ -85,13 +85,13 @@ export default function AccordionReadProject({
     // 🎯 Calcule la position verticale de l'accordéon
     const computedTop = isOpen
         ? windowWidth >= 768 // Desktop open
-            ? `calc(100vh - ${contentHeight}px - 47px)`
+            ? `calc(100dvh - ${contentHeight}px - 47px)`
             : contentHeight < window.innerHeight * 0.5 // Mobile open
-              ? `calc(100vh - ${contentHeight}px - 78px)`
+              ? `calc(100dvh - ${contentHeight}px - 78px)`
               : '50vh'
         : windowWidth >= 768 // Desktop close
-          ? 'calc(100vh - 47px)'
-          : 'calc(100vh - 78px)'; // Mobile close
+          ? 'calc(100dvh - 47px)'
+          : 'calc(100dvh - 78px)'; // Mobile close
 
     // 🔤 Décalage du bouton selon langue et état
     const getTranslateY = () => {

@@ -332,7 +332,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
             <div className={`poetry-title--wrapper hard-layout--wrapper relative`}>
                 <svg
                     id='svg-hard-layout'
-                    className='block h-[95vh] w-full'
+                    className='block h-[800px] md:h-[95vh] w-full'
                     viewBox='0 -20 150 1050'
                     preserveAspectRatio='none'
                     // style={{ height: '95vh' }}
