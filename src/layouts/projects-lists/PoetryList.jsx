@@ -217,7 +217,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
     return (
         <>
             <div
-                className={`poetry-wrapper-wrap fixed top-0 md:top-[40px] left-0 z-[8] md:z-[999] h-screen ${className} ${isOnIndexPage ? 'pointer-events-auto w-[80px] cursor-pointer' : ''} ${!isOnPoetryPage && !isOnIndexPage ? 'pointer-events-none w-fit' : ''}`}
+                className={`poetry-wrapper-wrap md:fixed top-0 md:top-[40px] left-0 z-[8] md:z-[999] h-screen ${className} ${isOnIndexPage ? 'pointer-events-auto w-[80px] cursor-pointer' : ''} ${!isOnPoetryPage && !isOnIndexPage ? 'pointer-events-none w-fit' : ''}`}
                 onClick={
                     !isOnPoetryPage
                         ? () =>
@@ -231,7 +231,7 @@ const PoetryList = ({ dataPoetry, targetHref, state, lang, className }) => {
                     className={`work-list flex ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                 >
                     <div
-                        className='poetry-wrapper px-body-p-x fixed top-0 md:top-[25px] left-0 md:left-[10px]  flex translate-y-[20px] max-md:transition-transform max-md:duration-1000 max-md:ease-in-out '
+                        className='poetry-wrapper px-body-p-x md:fixed top-0 md:top-[25px] left-0 md:left-[10px]  flex translate-y-[20px] max-md:transition-transform max-md:duration-1000 max-md:ease-in-out '
                         ref={poetryWrapperRef}
                         style={{
                             opacity: opacityValue,
