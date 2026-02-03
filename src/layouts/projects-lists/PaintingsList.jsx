@@ -77,6 +77,8 @@ const PaintingsList = ({
                     ? window.innerWidth - 30
                     : window.innerWidth - 30;
                 const liWidth = li.getBoundingClientRect().width;
+
+                // !mobileStopeffect -> pour mobile : as un certain point on arrête l'effet d'escalier en mobile pour que ça soit férré à gauche.
                 if (!mobileStopeffect) {
                     if (previousLiWidth + liWidth > viewportWidth && !reverse) {
                         let maxMarginLeft = viewportWidth - liWidth;
@@ -88,22 +90,19 @@ const PaintingsList = ({
                         // DESCEND VERS LA GAUCHE
                     } else if (previousLiWidth < 200 && reverse) {
                         li.style.marginLeft = `0px`;
-                        // li.style.border = `1px dotted red`;
                         previousLiWidth = liWidth;
                         reverse = false;
                         if (window.innerWidth < 768) {
-                            mobileStopeffect = true;
+                            mobileStopeffect = true; 
                         }
 
                     } else if (reverse) {
                         previousLiWidth = previousLiWidth - liWidth;
                         li.style.marginLeft = `${previousLiWidth}px`;
-                        // li.style.border = `5px dotted red`;
                         return previousLiWidth;
                         // DESCEND VERS LA DROITE
                     } else {
                         li.style.marginLeft = `${previousLiWidth}px`;
-                        // li.style.border = `5px dotted blue`;
                         previousLiWidth = previousLiWidth + liWidth;
                         return previousLiWidth;
                     }
