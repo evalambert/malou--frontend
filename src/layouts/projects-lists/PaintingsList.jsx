@@ -311,7 +311,7 @@ const PaintingsList = ({
                     width: !isOnPaintingPage ? wrapperWidth : undefined,
                     transform: `translateY(${translateValue})`,
                     maxHeight: `${maxHeightValue}`,
-                    top: `${mobileTopValue}`,
+                    top: `calc(100dvh - 135px)`,
                 }}
                 onClick={
                     !isOnPaintingPage

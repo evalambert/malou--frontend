@@ -59,11 +59,22 @@ body[data-page='about'] {
     body.on-slug-page {
         overflow: visible;
     }
+
 }
 
 body:not(.on-slug-page) .mix-blend-target,
 body.on-slug-page.mix-blend-actif .mix-blend-target {
     mix-blend-mode: difference;
+}
+body.on-slug-page .vitrail-title,
+body.on-slug-page .volume-title,
+body.on-slug-page .painting-title,
+body.on-slug-page .poetry-title,
+body.on-slug-page .weaving-title{
+    @apply max-md:transition-opacity max-md:duration-300 max-md:ease-in-out max-md:!opacity-0 max-md:pointer-events-none; 
+}
+main{
+    @apply max-md:overflow-y-hidden;
 }
 
 li {
