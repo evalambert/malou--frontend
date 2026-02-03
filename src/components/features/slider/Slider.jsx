@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 
 export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
     const swiperRef = useRef(null);
+    const sliderWrapperRef = useRef(null);
     const [imageDimensions, setImageDimensions] = useState({});
     const [isHidden, setIsHidden] = useState(true);
     const [show, setShow] = useState(false);
@@ -23,9 +24,6 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             body.classList.add('mix-blend-actif');
             if (window.innerWidth < 768) {
                 setShow(true);
-                const timeout = setTimeout(() => {
-                    body.classList.remove('mix-blend-actif');
-                }, 300);
                 const wrapperElement = document.querySelector(
                     '.preview-image--wrapper'
                 );
@@ -33,9 +31,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                 wrapperElement.classList.remove(
                     'preview-image--wrapper-visible'
                 );
-                return () => {
-                    clearTimeout(timeout);
-                };
+                return () => {};
             } else {
                 const timeoutWhite = setTimeout(() => {
                     body.classList.remove('mix-blend-actif');
@@ -77,6 +73,22 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             window.removeEventListener('resize', updateIsMobile);
         };
     }, []);
+
+    // Sur mobile : retirer mix-blend-actif uniquement quand le slider est fully displayed (fin de la transition d'opacité)
+    useEffect(() => {
+        if (!show || window.innerWidth >= 768) return;
+        const wrapper = sliderWrapperRef.current;
+        if (!wrapper) return;
+
+        const onTransitionEnd = (e) => {
+            if (e.propertyName === 'opacity') {
+                document.body.classList.remove('mix-blend-actif');
+                wrapper.removeEventListener('transitionend', onTransitionEnd);
+            }
+        };
+        wrapper.addEventListener('transitionend', onTransitionEnd);
+        return () => wrapper.removeEventListener('transitionend', onTransitionEnd);
+    }, [show]);
 
     const revealModaleToogle = () => {
         if (isMobile) {
@@ -246,6 +258,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             `}
             </style>
             <div
+                ref={sliderWrapperRef}
                 className={`${show ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
             >
                 <Swiper
