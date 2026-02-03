@@ -78,7 +78,7 @@ const PaintingsList = ({
                     : window.innerWidth - 30;
                 const liWidth = li.getBoundingClientRect().width;
 
-                // !mobileStopeffect -> pour mobile : as un certain point on arrête l'effet d'escalier en mobile pour que ça soit férré à gauche.
+                // !mobileStopeffect -> pour mobile : as un certain point on arrête l'effet d'escalier en mobile pour que ça soit férré à gauche. et donc que ça ne descende pas plus vers la gauche.
                 if (!mobileStopeffect) {
                     if (previousLiWidth + liWidth > viewportWidth && !reverse) {
                         let maxMarginLeft = viewportWidth - liWidth;
@@ -174,22 +174,23 @@ const PaintingsList = ({
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
                 setTranslateValue('0px');
+                setMobileTopValue('calc(100dvh - 135px)');
                 // MOBILE
-                let paintingListHeight = document
-                    .querySelector('.painting-list-wrapper > div')
-                    .getBoundingClientRect().height;
-                setmaxHeightValue(paintingListHeight + 'px');
-                if (paintingListHeight > window.innerHeight / 2) {
-                    setMobileTopValue('50vh');
-                    setmaxHeightValue('unset');
-                } else {
-                    let newMobileTopValue = paintingListHeight + 50;
-                    setMobileTopValue(
-                        'calc(100vh - ' + newMobileTopValue + 'px)'
-                    );
-                    setmaxHeightValue('unset');
-                    console.log('MOBILE to small');
-                }
+                // let paintingListHeight = document
+                //     .querySelector('.painting-list-wrapper > div')
+                //     .getBoundingClientRect().height;
+                // setmaxHeightValue(paintingListHeight + 'px');
+                // if (paintingListHeight > window.innerHeight / 2) {
+                //     setMobileTopValue('50vh');
+                //     setmaxHeightValue('unset');
+                // } else {
+                //     let newMobileTopValue = paintingListHeight + 50;
+                //     setMobileTopValue(
+                //         'calc(100vh - ' + newMobileTopValue + 'px)'
+                //     );
+                //     setmaxHeightValue('unset');
+                //     console.log('MOBILE to small');
+                // }
             } else {
                 setTranslateValue(accordionY + 'px');
                 setmaxHeightValue('100vh');
@@ -311,7 +312,7 @@ const PaintingsList = ({
                     width: !isOnPaintingPage ? wrapperWidth : undefined,
                     transform: `translateY(${translateValue})`,
                     maxHeight: `${maxHeightValue}`,
-                    top: `calc(100dvh - 135px)`,
+                    top: `${mobileTopValue}`,
                 }}
                 onClick={
                     !isOnPaintingPage
