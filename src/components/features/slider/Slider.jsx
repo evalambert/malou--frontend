@@ -79,7 +79,13 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
     }, []);
 
     const revealModaleToogle = () => {
+        if (isMobile) {
+            return;
+        }
         const modaleToggleElement = document.querySelector('.modaleToogle');
+        if (!modaleToggleElement) {
+            return;
+        }
         modaleToggleElement.classList.toggle('hidden');
         modaleToggleElement.classList.toggle('pointer-events-none');
         if (zoomImg && zoomImg.url) {
@@ -104,10 +110,10 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         }
     };
     useEffect(() => {
-        if (medias.length === 1 && zoomImg && zoomImg.url) {
+        if (!isMobile && medias.length === 1 && zoomImg && zoomImg.url) {
             revealModaleToogle();
         }
-    }, [medias, zoomImg]);
+    }, [isMobile, medias, zoomImg]);
 
     const handleClick = () => {
         document
@@ -120,6 +126,9 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
     };
 
     useEffect(() => {
+        if (isMobile) {
+            return;
+        }
         const button = document.querySelector('.modaleToogle');
         if (button) {
             button.addEventListener('click', handleClick);
@@ -131,7 +140,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                 button.removeEventListener('click', handleClick);
             }
         };
-    }, []);
+    }, [isMobile]);
     // Dimensions
     const checkImageOrientation = (media, index) => {
         if (!media?.url) {
@@ -198,6 +207,16 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                }
+                .swiper-slide.mobile-zoom-slide{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .swiper-slide .mobile-zoom-image{
+                    height: auto;
+                    width: 100%;
+                    object-fit: contain;
                 }
                 .swiper-slide.mobile-single{
                     width: 100%;
@@ -292,9 +311,21 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                             </SwiperSlide>
                         );
                     })}
+                    {isMobile && zoomImg && zoomImg.url && (
+                        <SwiperSlide
+                            key='mobile-zoom-last'
+                            className='mobile-single mobile-zoom-slide'
+                        >
+                            <img
+                                className='mobile-zoom-image'
+                                src={zoomImg.url}
+                                loading='lazy'
+                            />
+                        </SwiperSlide>
+                    )}
                 </Swiper>
 
-                {zoomImg && zoomImg.url && (
+                {!isMobile && zoomImg && zoomImg.url && (
                     <>
                         <button className='modaleToogle pointer-events-none fixed top-0 right-0 z-10 hidden h-full w-full cursor-pointer mix-blend-difference md:w-[50%]'>
                             <span>close</span>
