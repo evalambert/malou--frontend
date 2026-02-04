@@ -248,30 +248,46 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
         };
 
         // ————————————————————————————————————————————————————————————————————————————————————————————————————
+        // Helper: sauvegarder l'état "catégorie ouverte" après l'animation
+        const saveCategoryStateAfterAnimation = () => {
+            setTimeout(() => {
+                updateBothPaths(0.3);
+                if (
+                    onCatTextOverlaySerpent &&
+                    onCatTextOverlaySerpent.current === null
+                ) {
+                    onCatTextOverlaySerpent.current =
+                        textOverlaySerpent.innerHTML;
+                    onCatTextOverlayCoquille.current =
+                        textOverlayCoquille.innerHTML;
+                }
+            }, 900);
+        };
+
         // TRIGER INITIALISATION
         if (state == 'poetry') {
             // Reset text overlay TO OPEN CATEGORY STYLE if was previously HIDDEN
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
-                // *(0__0)* Si masqué, on réinjecte les états de la catégorie
-                resetTextOverlayCategory();
-                showCoquille();
                 hardWrapper.classList.remove('hard-layout--hidden');
+                // *(0__0)* Si on a déjà l'état catégorie (ex: on a été sur /poetry avant), on le réinjecte
+                if (
+                    onCatTextOverlaySerpent.current !== null &&
+                    onCatTextOverlayCoquille.current !== null
+                ) {
+                    resetTextOverlayCategory();
+                    showCoquille();
+                } else {
+                    // Arrivée sur /poetry depuis une autre page sans être passé par /poetry :
+                    // pas d'état catégorie sauvegardé → on restaure l'état index puis on anime vers ouvert
+                    resetTextOverlay();
+                    openSerpentCategoryPoetry();
+                    closeAccordion();
+                    saveCategoryStateAfterAnimation();
+                }
             } else {
                 openSerpentCategoryPoetry();
                 closeAccordion();
-                setTimeout(() => {
-                    updateBothPaths(0.3);
-                    // *(0__0)* Récupération des états de la catégorie après animation
-                    if (
-                        onCatTextOverlaySerpent &&
-                        onCatTextOverlaySerpent.current === null
-                    ) {
-                        onCatTextOverlaySerpent.current =
-                            textOverlaySerpent.innerHTML;
-                        onCatTextOverlayCoquille.current =
-                            textOverlayCoquille.innerHTML;
-                    }
-                }, 900);
+                saveCategoryStateAfterAnimation();
             }
         } else if (state == 'home') {
             // updateBothPaths(0);
