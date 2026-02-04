@@ -126,16 +126,31 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             const modaleToggleElement = document.querySelector('.modaleToogle');
 
             const swiper = swiperRef.current.swiper;
+            const body = document.body;
 
             const isLastSlide = swiper.activeIndex === swiper.slides.length - 2;
             const wasLastSlide =
                 swiper.previousIndex === swiper.slides.length - 2;
+            const currentSlide = swiper.slides[swiper.activeIndex];
 
             if (modaleToggleElement && (isLastSlide || wasLastSlide)) {
                 revealModaleToogle();
             }
-             // ✅ preload de la slide suivante
+
+            if (
+                isMobile &&
+                currentSlide &&
+                currentSlide.classList &&
+                currentSlide.classList.contains('mobile-zoom-slide') 
+            ) {
+                console.log('mobile-zoom-slide');
+                body.classList.add('mix-blend-actif');
+            } else {
+                body.classList.remove('mix-blend-actif');
+            }
+        // ✅ preload de la slide suivante
         preloadNextImage(swiper);
+
         }
     };
 
@@ -284,7 +299,6 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                     keyboard={{
                         enabled: true,
                     }}
-                    allowTouchMove={!isMobile}
                     loop={isMobile}
                     pagination={{
                         type: 'fraction',
