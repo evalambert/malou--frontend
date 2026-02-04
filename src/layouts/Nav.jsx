@@ -21,13 +21,13 @@ const Nav = ({ lang, currentPath, className }) => {
     return (
         <>
             <div
-                className={`nav-wrapper ${className} pt-body-p-y } flex gap-[10px]`}
+                className={`nav-wrapper ${className} pt-body-p-y } flex gap-[10px] border border-red-500`}
             >
                 <a href={destination} className='whitespace-nowrap'>
                     malou raulin
                 </a>
                 <nav>
-                    <ul className='flex flex-col'>
+                    <ul className='nav-list flex flex-col border border-blue-500'>
                         <li className={getLinkClass(`/${lang}/weaving/`)}>
                             <a href={`/${lang}/weaving/`}>
                                 {lang === 'fr' ? 'tisse,' : 'weaving,'}
