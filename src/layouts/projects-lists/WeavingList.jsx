@@ -115,8 +115,9 @@ const WeavingList = ({
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
                 // MOBILE
+                setMobileTopValue('calc(100dvh - 307px)');
 
-                let weavingListHeight = document
+   /*let weavingListHeight = document
                     .querySelector('.weaving-list')
                     .getBoundingClientRect().height;
                 setmaxHeightValue(weavingListHeight + 'px');
@@ -128,7 +129,7 @@ const WeavingList = ({
                         window.innerHeight - (weavingListHeight + 50);
                     setMobileTopValue(newMobileTopValue + 'px');
                     setmaxHeightValue('unset');
-                }
+                } */
             } else {
                 setmaxHeightValue('100vh');
             }
