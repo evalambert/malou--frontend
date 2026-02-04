@@ -290,14 +290,13 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                 saveCategoryStateAfterAnimation();
             }
         } else if (state == 'home') {
-            // updateBothPaths(0);
-            // closeSerpentForIndex();
-            // Reset text overlay TO FIRST INDEX STYLE if was previously HIDDEN
+            // Retour sur l'index : repasser en état partiellement visible (serpent fermé, coquille masquée)
             if (hardWrapper.classList.contains('hard-layout--hidden')) {
                 resetTextOverlay();
                 hideCoquille();
                 hardWrapper.classList.remove('hard-layout--hidden');
-            } else if (hardWrapper.classList.contains('animate-open-serpent')) {
+            }
+            if (hardWrapper.classList.contains('animate-open-serpent')) {
                 closeSerpentForIndex();
             }
         } else {
@@ -321,7 +320,7 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                 handleAccordionChange
             );
         };
-    }, [targetHref]);
+    }, [targetHref, state]);
 
     // Render
     return (
