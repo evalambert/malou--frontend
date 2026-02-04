@@ -114,22 +114,25 @@ const WeavingList = ({
             setIsOnWeavingPage(true);
             setIsOnIndexPage(false);
             if (window.innerWidth < 768) {
-                // MOBILE
-                setMobileTopValue('calc(100dvh - 307px)');
-
-   /*let weavingListHeight = document
+                // MOBILE : on calcule la position et la hauteur max de la liste selon sa taille réelle
+                // Hauteur actuelle de la liste (en px) mesurée dans le DOM
+                let weavingListHeight = document
                     .querySelector('.weaving-list')
                     .getBoundingClientRect().height;
                 setmaxHeightValue(weavingListHeight + 'px');
+                // Liste courte (< moitié de l’écran − 130px) : on centre verticalement (50vh − 130px)
                 if (weavingListHeight < window.innerHeight / 2 - 130) {
                     setMobileTopValue('calc(50vh - 130px)');
                     setmaxHeightValue('unset');
+                    console.log('Liste courte');
                 } else {
+                    // Liste longue : on la colle en bas de l’écran en laissant 50px de marge
                     let newMobileTopValue =
-                        window.innerHeight - (weavingListHeight + 50);
+                        window.innerHeight - (weavingListHeight - 97);
                     setMobileTopValue(newMobileTopValue + 'px');
                     setmaxHeightValue('unset');
-                } */
+                    console.log('Liste longue');
+                }
             } else {
                 setmaxHeightValue('100vh');
             }
@@ -250,7 +253,7 @@ const WeavingList = ({
         }
     }, [lang]);
 
-    
+
 
     // •••••••••••••••••••• ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
 
@@ -280,7 +283,7 @@ const WeavingList = ({
         <>
             <div
                 //ref={wrapperRef}
-                className={`work-list weaving-list-wrapper relative right-0 pr-[6px] md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full md:pt-[50px]'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
+                className={`work-list weaving-list-wrapper relative right-0 md:pr-[6px] md:fixed md:!top-[unset] md:bottom-[6px] ${className} ${tailwindSlideTrans ? 'transition-all duration-1000 ease-in-out' : ''} ${isOnIndexPage ? 'pointer-events-auto cursor-pointer' : 'w-full md:pt-[50px]'} ${!isOnWeavingPage && !isOnIndexPage ? 'pointer-events-none' : ''} overflow-hidden md:overflow-visible ${isSlugPage ? 'pointer-events-none' : 'md:overflow-scroll'}`}
                 style={{
                     maxHeight: `${maxHeightValue}`,
                     top: `${mobileTopValue}`,
@@ -291,9 +294,9 @@ const WeavingList = ({
                 onClick={
                     !isOnWeavingPage
                         ? () =>
-                              navigate(`/${lang}/weaving/`, {
-                                  history: 'push',
-                              })
+                            navigate(`/${lang}/weaving/`, {
+                                history: 'push',
+                            })
                         : undefined
                 }
             >
@@ -314,11 +317,10 @@ const WeavingList = ({
                             return (
                                 <li
                                     key={weaving.id}
-                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${
-                                        isSlugPage && !isActive
+                                    className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${isSlugPage && !isActive
                                             ? 'pointer-events-none opacity-0'
                                             : 'opacity-300'
-                                    } ${isActive ? 'delay-100' : ''}`}
+                                        } ${isActive ? 'delay-100' : ''}`}
                                 >
                                     <WeavingTitle
                                         weaving={weaving}
@@ -346,11 +348,10 @@ const WeavingList = ({
 
                                 return (
                                     <li
-                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${
-                                            isSlugPage && !isActive
+                                        className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${isSlugPage && !isActive
                                                 ? 'pointer-events-none opacity-0'
                                                 : 'opacity-300'
-                                        } ${isActive ? 'delay-100' : ''}`}
+                                            } ${isActive ? 'delay-100' : ''}`}
                                         key={weaving.id}
                                     >
                                         <WeavingTitle
