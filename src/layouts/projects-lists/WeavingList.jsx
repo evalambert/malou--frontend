@@ -249,6 +249,8 @@ const WeavingList = ({
         }
     }, [lang]);
 
+    
+
     // •••••••••••••••••••• ZONE CLICKABLE ON HOMEPAGE ••••••••••••••••••••
 
     /* const wrapperRef = useRef(null);
