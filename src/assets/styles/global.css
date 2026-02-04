@@ -97,7 +97,7 @@ li {
 /* Nav */
 
 /* Ajoutez ces styles dans la section ANIMATIONS */
-@media (max-width: 767px) {
+@media (hover: none) and (pointer: coarse) {
     .nav-list:hover .nav-off {
         transition: height 0.3s ease;
         height: 25px;
@@ -109,7 +109,7 @@ li {
     }
 }
 
-@media (min-width: 768px) {
+@media (hover: hover) and (pointer: fine) {
     .nav-wrapper:hover .nav-off {
         transition: height 0.3s ease;
         height: 25px;
