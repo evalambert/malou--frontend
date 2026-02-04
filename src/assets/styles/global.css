@@ -83,10 +83,12 @@ body.on-slug-page.mix-blend-actif .mix-blend-target {
 }
 
 body.on-slug-page .vitrail-title,
+body.on-slug-page .vitrail-list-wrapper,
 body.on-slug-page .volume-title,
 body.on-slug-page .painting-title,
 body.on-slug-page .poetry-title,
-body.on-slug-page .weaving-title{
+body.on-slug-page .weaving-title,
+body.on-slug-page .poetry-title--wrapper{
     @apply max-md:transition-opacity max-md:duration-300 max-md:ease-in-out max-md:!opacity-0 max-md:pointer-events-none; 
 }
 .poetry-wrapper-wrap{
