@@ -1,14 +1,19 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
-const { to = '' } = Astro.props;
+const { to = '', className = '' } = Astro.props;
 const locale = Astro.currentLocale || 'fr';
 const url = getRelativeLocaleUrl(locale, to);
 ---
 
 <a
     href={url}
-    class='fixed top-5 right-5 p-5 rotate-[-51.35deg] rounded-[4px] z-[999] hover:opacity-50 transition mix-blend-target'
+    class={`button-return fixed p-5 rounded-[4px] z-[999] mix-blend-target ${className}`}
 >
     {locale === 'fr' ? 'retour' : 'back'}
 </a>
+
+
+
+
+<!-- rotate-[-51.35deg] -->

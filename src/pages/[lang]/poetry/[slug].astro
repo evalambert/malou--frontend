@@ -51,7 +51,13 @@ const { lang } = Astro.params;
 export const prerender = true;
 ---
 
-<Layout title='Poetry' showReturn returnTo={`/poetry`}>
+<Layout
+    title='Poetry'
+    showReturn
+    returnTo={`/poetry`}
+    returnClass='top-[60vh] right-[-15px] rotate-[-62deg] md:top-[55vh] md:right-[-15px] md:rotate-[-51.35deg] w-fit'
+    languageSwitchClass='top-[8vh] right-[20px] md:top-[8vh] md:right-[20vw]'
+>
     <div transition:persist>
         <AllProjectsLists lang={lang} enterIndex={false} />
     </div>
