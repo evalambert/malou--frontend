@@ -322,3 +322,7 @@ body.on-slug-page .vitrail-list-wrapper{
 body.index-page{
     @apply overflow-hidden;
 }
+
+#floating-title-container{
+    @apply max-md:hidden max-md:pointer-events-none;
+}
