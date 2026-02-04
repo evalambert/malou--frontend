@@ -1,8 +1,27 @@
+import { useEffect, useState } from 'react';
+
 const Nav = ({ lang, currentPath, className }) => {
     const isHomePage =
         currentPath === `/${lang}` || currentPath === `/${lang}/`;
 
     const isAboutPage = currentPath === `/${lang}/about/`;
+
+    const isCategoryPage = currentPath.includes('/painting/') || currentPath.includes('/volume/') || currentPath.includes('/poetry/') || currentPath.includes('/vitrail/') || currentPath.includes('/weaving/');
+
+    const isSlugPage = currentPath.includes('/painting/') || currentPath.includes('/volume/') || currentPath.includes('/poetry/') || currentPath.includes('/vitrail/') || currentPath.includes('/weaving/');
+
+
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkIsMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkIsMobile();
+        window.addEventListener('resize', checkIsMobile);
+        return () => window.removeEventListener('resize', checkIsMobile);
+    }, []);
 
     const getLinkClass = (path) => {
         if (isHomePage || isAboutPage) return 'nav-li nav-home';
@@ -11,23 +30,31 @@ const Nav = ({ lang, currentPath, className }) => {
 
     // Redirection malou raulin nav link
     let destination = `/${lang}/`;
-    if (isHomePage) {
-        destination = `/${lang}/about/`;
-    } else if (isAboutPage) {
-        destination = `/${lang}/`;
+    if (isMobile) {
+        if (isCategoryPage || isSlugPage || isHomePage) {
+            destination = `/${lang}/about/`;
+        } else if (isAboutPage) {
+            destination = `/${lang}/`;
+        }
+    } else {
+        if (isHomePage) {
+            destination = `/${lang}/about/`;
+        } else if (isAboutPage) {
+            destination = `/${lang}/`;
+        }
     }
 
     // Render
     return (
         <>
             <div
-                className={`nav-wrapper ${className} pt-body-p-y } flex gap-[10px] border border-red-500`}
+                className={`nav-wrapper ${className} pt-body-p-y } flex gap-[10px]`}
             >
                 <a href={destination} className='whitespace-nowrap'>
                     malou raulin
                 </a>
                 <nav>
-                    <ul className='nav-list flex flex-col border border-blue-500'>
+                    <ul className='nav-list flex flex-col'>
                         <li className={getLinkClass(`/${lang}/weaving/`)}>
                             <a href={`/${lang}/weaving/`}>
                                 {lang === 'fr' ? 'tisse,' : 'weaving,'}

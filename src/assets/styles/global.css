@@ -97,24 +97,28 @@ li {
 /* Nav */
 
 /* Ajoutez ces styles dans la section ANIMATIONS */
-@media (min-width: 768px) {
+@media (max-width: 767px) {
     .nav-list:hover .nav-off {
+        transition: height 0.3s ease;
         height: 25px;
     }
 
     .nav-list:hover .nav-off a {
+        transition: opacity 0.8s ease;
         opacity: 1;
     }
 }
 
-.nav-list:hover .nav-off {
-    transition: height 0.3s ease;
-    height: 25px;
-}
+@media (min-width: 768px) {
+    .nav-wrapper:hover .nav-off {
+        transition: height 0.3s ease;
+        height: 25px;
+    }
 
-.nav-list:hover .nav-off a {
-    transition: opacity 0.8s ease;
-    opacity: 1;
+    .nav-wrapper:hover .nav-off a {
+        transition: opacity 0.8s ease;
+        opacity: 1;
+    }
 }
 
 li {
