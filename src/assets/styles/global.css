@@ -66,12 +66,31 @@ body:not(.on-slug-page) .mix-blend-target,
 body.on-slug-page.mix-blend-actif .mix-blend-target {
     mix-blend-mode: difference;
 }
+
+/* Sur mobile : isoler le contexte de blend (Nav + listes) pour stabiliser le rendu
+   et éviter que les .mix-blend-target disparaissent (bug Safari/Chrome mobile). */
+@media (max-width: 768px) {
+    .mix-blend-mobile-isolate {
+        isolation: isolate;
+    }
+
+    /* Sur la page /poetry (liste, pas les slugs), désactiver le mix-blend
+       et repasser le texte en noir pour éviter les bugs de rendu mobile. */
+    body.category-poetry:not(.on-slug-page) .mix-blend-target {
+        mix-blend-mode: normal;
+        color: #000;
+    }
+}
+
 body.on-slug-page .vitrail-title,
 body.on-slug-page .volume-title,
 body.on-slug-page .painting-title,
 body.on-slug-page .poetry-title,
 body.on-slug-page .weaving-title{
     @apply max-md:transition-opacity max-md:duration-300 max-md:ease-in-out max-md:!opacity-0 max-md:pointer-events-none; 
+}
+.poetry-wrapper-wrap{
+    isolation: isolate;
 }
 
 
@@ -315,7 +334,8 @@ body:not(.category-vitrail) .swiper-pagination {
 body.on-slug-page .work-list {
     @apply max-md:fixed;
 }
-body.on-slug-page .vitrail-list-wrapper{
+body.on-slug-page .vitrail-list-wrapper
+body.on-slug-page  .poetry-wrapper{
     @apply max-md:pointer-events-none;
 }
 
