@@ -106,6 +106,21 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         }
     };
 
+    const preloadNextImage = (swiper) => {
+        if (!swiper) return;
+    
+        const nextSlide = swiper.slides[swiper.activeIndex + 1];
+        if (!nextSlide) return;
+    
+        const imgEl = nextSlide.querySelector('img');
+        const src = imgEl?.getAttribute('src');
+    
+        if (!src) return;
+    
+        const img = new Image();
+        img.src = src;
+    };
+
     const handleSlideChange = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
             const modaleToggleElement = document.querySelector('.modaleToogle');
@@ -121,6 +136,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             if (modaleToggleElement && (isLastSlide || wasLastSlide)) {
                 revealModaleToogle();
             }
+
             if (
                 isMobile &&
                 currentSlide &&
@@ -132,6 +148,9 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
             } else {
                 body.classList.remove('mix-blend-actif');
             }
+        // ✅ preload de la slide suivante
+        preloadNextImage(swiper);
+
         }
     };
 
@@ -288,6 +307,9 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                     modules={[Keyboard, Navigation, Pagination]}
                     onSlideChange={handleSlideChange}
                     onClick={handleMobileTap}
+                    onSwiper={(swiper) => {
+                        requestAnimationFrame(() => preloadNextImage(swiper));
+                    }}
                 >
                     {medias.map((media, index) => {
                         if (isMobile) {
@@ -296,7 +318,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                                     key={`mobile-${index}`}
                                     className='mobile-single'
                                 >
-                                    <img src={media.url} loading='lazy' />
+                                    <img src={media.url} />
                                 </SwiperSlide>
                             );
                         }
@@ -307,7 +329,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                                     key={`pending-${index}`}
                                     className='pending-orientation'
                                 >
-                                    <img src={media.url} loading='lazy' />
+                                    <img src={media.url} />
                                 </SwiperSlide>
                                 
                             );
@@ -326,7 +348,6 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                                         <div className='h-full w-[200%]'>
                                             <img
                                                 src={media.url}
-                                                loading='lazy'
                                             />
                                         </div>
                                     </SwiperSlide>
@@ -344,7 +365,7 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                                 key={`portrait-${index}`}
                                 className='portrait'
                             >
-                                <img src={media.url} loading='lazy' />
+                                <img src={media.url}  />
                             </SwiperSlide>
                         );
                     })}
@@ -356,7 +377,6 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                             <img
                                 className='mobile-zoom-image'
                                 src={zoomImg.url}
-                                loading='lazy'
                             />
                         </SwiperSlide>
                     )}
