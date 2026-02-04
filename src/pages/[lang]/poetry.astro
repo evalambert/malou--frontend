@@ -33,7 +33,8 @@ export const prerender = true;
 ---
 
 <Layout title={lang === 'fr' ? 'Accueil' : 'Home'}>
-    <div class="mix-blend-target" transition:persist>
+    <!-- mix-blend-mobile-isolate : sur mobile, isole le contexte de blend pour éviter que Nav/listes disparaissent (bug compositor avec scroll/transform) -->
+    <div class="mix-blend-target mix-blend-mobile-isolate" transition:persist>
         <AllProjectsLists lang={lang} enterIndex={false} />
     </div>
     <PoetryPreview client:only="react" poems={poems} />
