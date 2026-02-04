@@ -5,7 +5,13 @@ import { ClientRouter } from 'astro:transitions';
 import ButtonReturn from '../components/common/ButtonReturn.astro';
 import LanguageSwitch from '../components/common/LanguageSwitch.jsx';
 
-const { title, showReturn = false, returnTo = '' } = Astro.props;
+const {
+    title,
+    showReturn = false,
+    returnTo = '',
+    returnClass = '',
+    languageSwitchClass = '',
+} = Astro.props;
 const currentLocale = Astro.currentLocale || 'fr';
 const currentPath = Astro.url.pathname || '';
 const isAboutPage = currentPath.includes('/about');
@@ -20,7 +26,7 @@ const categoryClass =
 ---
 
 <!doctype html>
-<html lang={currentLocale} transition:name='root' transition:animate="none">
+<html lang={currentLocale} transition:name='root' transition:animate='none'>
     <head>
         <meta charset='UTF-8' />
         <meta name='viewport' content='width=device-width' />
@@ -41,7 +47,7 @@ const categoryClass =
         data-page={isAboutPage ? 'about' : undefined}
     >
         <div
-            class='language-switch fixed top-[8vh] right-[20vw] p-5 rounded-[4px] z-[999] mix-blend-target'
+            class={`language-switch fixed p-5 rounded-[4px] z-[999] mix-blend-target ${languageSwitchClass}`}
         >
             <LanguageSwitch
                 client:only
@@ -50,7 +56,11 @@ const categoryClass =
             />
         </div>
         <main>
-            <!-- {showReturn && <ButtonReturn to={returnTo} />} -->
+            {
+                showReturn && (
+                    <ButtonReturn to={returnTo} className={returnClass} />
+                )
+            }
             <slot />
         </main>
     </body></html

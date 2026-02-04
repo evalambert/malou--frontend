@@ -52,7 +52,13 @@ const currentPath = Astro.url.pathname || '';
 export const prerender = true;
 ---
 
-<Layout title='Vitrail' showReturn returnTo={`/vitrail`}>
+<Layout
+    title='Vitrail'
+    showReturn
+    returnTo={`/vitrail`}
+    returnClass='md:top-[30vh] md:left-[-15px] md:rotate-[-51.35deg] top-[70px] left-[-15px] rotate-[-62deg]'
+    languageSwitchClass='top-[8vh] right-[20px] md:top-[8vh] md:right-[20vw]'
+>
     <AllProjectsLists lang={lang} enterIndex={false} />
     <div
         id='floating-title-container'
@@ -68,14 +74,16 @@ export const prerender = true;
         width={vitrail?.width || 'Largeur non disponible'}
         height={vitrail?.height || 'Hauteur non disponible'}
         credit={vitrail?.credit || 'Crédit non disponible'}
-
     />
     <PreviewImg
         transition:name='preview-image'
         transition:persist
         client:only
     />
-    <div class='fixed top-0 left-0 w-screen h-[100dvh] md:h-screen' transition:persist>
+    <div
+        class='fixed top-0 left-0 w-screen h-[100dvh] md:h-screen'
+        transition:persist
+    >
         {
             vitrail?.medias ? (
                 <Slider
@@ -97,7 +105,7 @@ export const prerender = true;
 </Layout>
 
 <script define:vars={{ hasMedias: !!vitrail?.medias }}>
-    document.addEventListener("astro:page-load", (event) => {
+    document.addEventListener('astro:page-load', (event) => {
         if (!hasMedias) {
             const body = document.body;
             if (body) {
@@ -108,4 +116,3 @@ export const prerender = true;
         }
     });
 </script>
-
