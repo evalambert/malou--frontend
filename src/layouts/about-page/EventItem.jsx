@@ -9,9 +9,11 @@ const EventItem = ({ actu, lang, formatEventDate }) => (
                 lang
             )}
         </p>
+        {actu.categories?.length > 0 && (
+            <p>({actu.categories.map((cat) => cat.title).join(', ')})</p>
+        )}
         <h3>{actu.title}</h3>
         <p>{`${actu.structure} ${actu.city} (${actu.country})`}</p>
-        <p>{actu.categories?.map((cat) => cat.title).join(', ')}</p>
         <a href={actu.link} target='_blank' rel='noopener noreferrer'>
             {lang === 'fr' ? 'lire plus…' : 'read more…'}
         </a>
