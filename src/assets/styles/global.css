@@ -396,3 +396,39 @@ body.index-page {
 #floating-title-container {
     @apply max-md:hidden max-md:pointer-events-none;
 }
+
+/* Sur mobile uniquement : les listes non actives n'affectent pas la hauteur du body */
+@media (max-width: 768px) {
+    .list-not-active {
+        max-height: 0 !important;
+        min-height: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        /* Les transitions de transform continuent de fonctionner grâce à transform */
+        /* Les transitions sur max-height sont préservées car elles sont gérées par le JS */
+    }
+    
+    /* S'assurer que les enfants directs ne créent pas d'espace non plus */
+    .list-not-active > * {
+        max-height: 0 !important;
+        overflow: hidden !important;
+    }
+    
+    /* Pour les conteneurs internes qui pourraient créer du scroll */
+    body .list-not-active.work-list,
+    body .list-not-active.painting-list-wrapper,
+    body .list-not-active.vitrail-list-wrapper,
+    body .list-not-active.volume-list-wrapper,
+    body .list-not-active.weaving-list-wrapper,
+    body .list-not-active.poetry-wrapper-wrap {
+        height: 0 !important;
+        overflow: hidden !important;
+        position: fixed;
+    }
+    
+    /* S'assurer que les conteneurs avec h-screen ne créent pas d'espace */
+    .list-not-active.h-screen {
+        height: 0 !important;
+        max-height: 0 !important;
+    }
+}
