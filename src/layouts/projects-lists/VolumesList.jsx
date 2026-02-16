@@ -368,7 +368,7 @@ const VolumesList = ({
                 }
             >
                 <div
-                    className={`max-md:pr-main-x-mobile max-h-screen overflow-y-scroll pb-[30px] max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out md:w-[calc(100vw_-_300px)] ${isOnVolumePage ? '' : 'pointer-events-none max-md:!opacity-0'} ${isOnIndexPage ? 'pointer-events-none' : ''} `}
+                    className={`max-md:pr-main-x-mobile max-h-screen overflow-y-scroll pb-[10px] md:pb-[30px] max-md:transition-[transform] max-md:duration-1000 max-md:ease-in-out md:w-[calc(100vw_-_300px)] ${isOnVolumePage ? '' : 'pointer-events-none max-md:!opacity-0'} ${isOnIndexPage ? 'pointer-events-none' : ''} `}
                     style={{
                         transform: `translate(${mobileTranslateXValue})`,
                     }}

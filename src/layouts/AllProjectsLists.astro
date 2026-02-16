@@ -79,7 +79,7 @@ export const prerender = true;
 />
 
 <VolumesList
-    className='absolute max-md:top-[calc(100dvh-65px)] max-md:right-0 max-md:w-full md:fixed md:top-body-p-y md:left-0 z-50 md:z-10 md:pl-[300px] mix-blend-target max-md:flex max-md:flex-col max-md:items-end overflow-hidden md:overflow-visible'
+    className={`absolute max-md:top-[calc(100dvh-65px)] max-md:right-0 max-md:w-full md:fixed md:top-body-p-y md:left-0 z-50 md:z-10 md:pl-[300px] mix-blend-target max-md:flex max-md:flex-col max-md:items-end overflow-hidden md:overflow-visible ${state !== 'volume' ? 'list-not-active' : ''}`}
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -91,7 +91,7 @@ export const prerender = true;
 />
 
 <VitrailList
-    className='absolute md:fixed w-[calc(100vw-30px)] md:w-fit z-50 mix-blend-target md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-hidden md:overflow-visible pb-[5px] md:pb-[30px] '
+    className={`absolute md:fixed w-[calc(100vw-30px)] md:w-fit z-50 mix-blend-target md:top-0 md:pt-body-p-y md:right-main-x max-md:flex max-md:flex-col max-md:items-end max-h-screen overflow-hidden md:overflow-visible pb-[5px] md:pb-[30px] ${state !== 'vitrail' ? 'list-not-active' : ''}`}
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -103,7 +103,7 @@ export const prerender = true;
 /> 
 
 <PoetryList
-    className='mix-blend-target'
+    className={`mix-blend-target ${state !== 'poetry' ? 'list-not-active' : ''}`}
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -113,7 +113,7 @@ export const prerender = true;
     client:only='react'
 />
 <PaintingsList
-    className='absolute md:fixed max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target md:max-h-screen pb-body-p-y'
+    className={`absolute md:fixed max-md:top-[50vh] md:bottom-0 z-50 mix-blend-target md:max-h-screen pb-body-p-y ${state !== 'painting' ? 'list-not-active' : ''}`}
     targetHref={currentPath}
     state={state}
     lang={lang}
@@ -124,7 +124,7 @@ export const prerender = true;
     client:only='react'
 />
 <WeavingList
-    className='absolute z-50 mix-blend-target  md:max-h-screen '
+    className={`absolute z-50 mix-blend-target  md:max-h-screen ${state !== 'weaving' ? 'list-not-active' : ''}`}
     targetHref={currentPath}
     state={state}
     lang={lang}

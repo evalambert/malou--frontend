@@ -2,11 +2,12 @@
 import fetchApi from './strapi';
 
 export async function fetchSortedCategory({ category, homepageKey, lang }) {
-    const allItems = await fetchApi({
+    const allItemsRaw = await fetchApi({
         endpoint: `${category}?populate=*`,
         wrappedByKey: 'data',
         locale: lang,
     });
+    const allItems = Array.isArray(allItemsRaw) ? allItemsRaw : allItemsRaw?.data ?? [];
 
     const homepage = await fetchApi({
         endpoint: `homepage?populate=${homepageKey}`,
@@ -14,7 +15,10 @@ export async function fetchSortedCategory({ category, homepageKey, lang }) {
         locale: lang,
     });
 
-    const homepageIds = homepage[homepageKey]?.map((item) => item.id) || [];
+    // Si l'API échoue (ex. pas de connexion) ou renvoie une structure inattendue, on évite le crash
+    const rawList = homepage?.[homepageKey] ?? homepage?.attributes?.[homepageKey]?.data ?? [];
+    const list = Array.isArray(rawList) ? rawList : rawList?.data ?? [];
+    const homepageIds = list.map((item) => item.id).filter(Boolean);
 
     const homepageItems = homepageIds
         .map((id) => allItems.find((item) => item.id === id))

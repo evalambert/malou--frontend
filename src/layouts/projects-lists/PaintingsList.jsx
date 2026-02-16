@@ -356,7 +356,7 @@ const PaintingsList = ({
                     {/* (END) Liste Homepage */}
 
                     <div
-                        className={`hidden-list-painting overflow-visible transition-all delay-[0.2s] duration-500 ease-in-out`}
+                        className={`hidden-list-painting overflow-visible transition-all delay-[0.2s] duration-500 ease-in-out max-md:pb-[10px]`}
                     >
                         {/* Liste Hidden */}
                         <ul>
