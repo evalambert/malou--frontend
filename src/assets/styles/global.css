@@ -80,18 +80,30 @@ body.on-slug-page.mix-blend-actif .mix-blend-target {
         mix-blend-mode: normal;
         color: #000;
     }
+
+    body.on-slug-page .vitrail-title,
+    body.on-slug-page .vitrail-list-wrapper,
+    body.on-slug-page .volume-title,
+    body.on-slug-page .painting-title,
+    body.on-slug-page .poetry-title,
+    body.on-slug-page .weaving-title,
+    body.on-slug-page .poetry-title--wrapper {
+        animation: color-to-white 0.5s ease forwards;
+        pointer-events: none;
+    }
+
 }
 
-body.on-slug-page .vitrail-title,
+/* body.on-slug-page .vitrail-title,
 body.on-slug-page .vitrail-list-wrapper,
 body.on-slug-page .volume-title,
 body.on-slug-page .painting-title,
 body.on-slug-page .poetry-title,
 body.on-slug-page .weaving-title,
 body.on-slug-page .poetry-title--wrapper{
-    @apply max-md:transition-opacity max-md:duration-300 max-md:ease-in-out max-md:!opacity-0 max-md:pointer-events-none; 
-}
-.poetry-wrapper-wrap{
+    @apply max-md:transition-opacity max-md:duration-900 max-md:ease-in-out max-md:!opacity-0 max-md:pointer-events-none; 
+}  */
+.poetry-wrapper-wrap {
     isolation: isolate;
 }
 
@@ -177,6 +189,7 @@ li {
 .nav-off {
     height: 0;
 }
+
 .nav-off a {
     opacity: 0;
 }
@@ -204,6 +217,7 @@ li {
 .swiper-button-next::after {
     @apply hidden;
 }
+
 .swiper-button-prev,
 .swiper-button-next {
     @apply max-md:!hidden;
@@ -247,13 +261,15 @@ body:not(.category-vitrail) .swiper-pagination {
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Lists */
-.volume-list-compact > li:nth-child(odd) {
+.volume-list-compact>li:nth-child(odd) {
     @apply md:pt-[25px];
 }
-.volume-list-compact > li:first-child {
+
+.volume-list-compact>li:first-child {
     @apply max-md:mt-[25px];
 }
-.volume-list-compact > li:nth-child(2) {
+
+.volume-list-compact>li:nth-child(2) {
     @apply max-md:mt-[0px];
 }
 
@@ -276,6 +292,7 @@ body:not(.category-vitrail) .swiper-pagination {
 .painting-title.active a span {
     @apply flex min-w-[13px] items-center justify-center;
 }
+
 /* 
 .painting-title {
     transition: all 0.1s;
@@ -285,7 +302,7 @@ body:not(.category-vitrail) .swiper-pagination {
     display: flex;
     align-items: flex-end;
     transition: height 0.1s 0.3s ease-in-out;
-} 
+}
 
 /* .active .volume-word-wrapper>div {
     display: flex;
@@ -312,6 +329,7 @@ body:not(.category-vitrail) .swiper-pagination {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -332,6 +350,7 @@ body:not(.category-vitrail) .swiper-pagination {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -341,8 +360,21 @@ body:not(.category-vitrail) .swiper-pagination {
     animation: test-fade 1s ease forwards;
 }
 
+@keyframes color-to-white {
+    0% {
+        color: #000;
+        opacity: 1;
+    }
 
+    50% {
+        opacity: 1;
+    }
 
+    100% {
+        color: #fff;
+        opacity: 0;
+    }
+}
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
@@ -352,15 +384,15 @@ body:not(.category-vitrail) .swiper-pagination {
 body.on-slug-page .work-list {
     @apply max-md:fixed;
 }
-body.on-slug-page .vitrail-list-wrapper
-body.on-slug-page  .poetry-wrapper{
+
+body.on-slug-page .vitrail-list-wrapper body.on-slug-page .poetry-wrapper {
     @apply max-md:pointer-events-none;
 }
 
-body.index-page{
+body.index-page {
     @apply overflow-hidden;
 }
 
-#floating-title-container{
+#floating-title-container {
     @apply max-md:hidden max-md:pointer-events-none;
 }
