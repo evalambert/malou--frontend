@@ -133,7 +133,7 @@ const Nav = ({ lang, currentPath, className }) => {
                             }
                         >
                             <a href={`/${lang}/volume/`}>
-                                {lang === 'fr' ? 'noue,' : 'volume,'}
+                                {lang === 'fr' ? 'noue,' : 'tying,'}
                             </a>
                         </li>
                         <li
@@ -145,7 +145,7 @@ const Nav = ({ lang, currentPath, className }) => {
                             }
                         >
                             <a href={`/${lang}/painting/`}>
-                                {lang === 'fr' ? 'peint,' : 'paint,'}
+                                {lang === 'fr' ? 'peint,' : 'painting,'}
                             </a>
                         </li>
                         <li
@@ -157,7 +157,7 @@ const Nav = ({ lang, currentPath, className }) => {
                             }
                         >
                             <a href={`/${lang}/poetry/`}>
-                                {lang === 'fr' ? 'écrit,' : 'write,'}
+                                {lang === 'fr' ? 'écrit,' : 'writing,'}
                             </a>
                         </li>
                         <li
@@ -169,7 +169,7 @@ const Nav = ({ lang, currentPath, className }) => {
                             }
                         >
                             <a href={`/${lang}/vitrail/`}>
-                                {lang === 'fr' ? 'vitraille,' : 'stains light,'}
+                                {lang === 'fr' ? 'vitraille,' : 'stainning light,'}
                             </a>
                         </li>
                     </ul>
