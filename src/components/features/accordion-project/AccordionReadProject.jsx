@@ -146,7 +146,7 @@ export default function AccordionReadProject({
                             ©{credit}
                         </p>
                         <div className='py-[11px]'>
-                            <p>
+                            <p className='lowercase'>
                                 {technique}, {materials}
                             </p>
                             <p>
