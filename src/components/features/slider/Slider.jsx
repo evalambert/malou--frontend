@@ -22,12 +22,8 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         const body = document.body;
         if (!noTimeOut) {
             if (window.innerWidth < 768) {
-                // Sur mobile : attendre un court délai pour permettre à la transition de page de commencer
-                // avant d'ajouter mix-blend-actif, pour que les menus restent visibles pendant la transition
-                const timeoutMobile = setTimeout(() => {
-                    body.classList.add('mix-blend-actif');
-                }, 200); // Délai pour permettre à la transition Astro de commencer
-                
+                // Sur mobile : ne pas ajouter mix-blend-actif par défaut
+                // La classe sera ajoutée uniquement si nécessaire dans handleSlideChange
                 setShow(true);
                 const wrapperElement = document.querySelector(
                     '.preview-image--wrapper'
@@ -38,9 +34,6 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                         'preview-image--wrapper-visible'
                     );
                 }
-                return () => {
-                    clearTimeout(timeoutMobile);
-                };
             } else {
                 // Sur desktop : comportement existant
                 body.classList.add('mix-blend-actif');
@@ -87,21 +80,42 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         };
     }, []);
 
-    // Sur mobile : retirer mix-blend-actif uniquement quand le slider est fully displayed (fin de la transition d'opacité)
+    // Fonction helper pour vérifier et mettre à jour mix-blend-actif selon la slide actuelle
+    const updateMixBlendForCurrentSlide = () => {
+        // Seulement sur mobile
+        if (window.innerWidth >= 768 || !swiperRef.current?.swiper) return;
+        
+        const swiper = swiperRef.current.swiper;
+        const currentSlide = swiper.slides[swiper.activeIndex];
+        const body = document.body;
+        
+        if (
+            currentSlide &&
+            currentSlide.classList &&
+            currentSlide.classList.contains('mobile-zoom-slide')
+        ) {
+            body.classList.add('mix-blend-actif');
+        } else {
+            body.classList.remove('mix-blend-actif');
+        }
+    };
+
+    // Sur mobile : vérifier la slide initiale une fois que le slider est affiché
     useEffect(() => {
         if (!show || window.innerWidth >= 768) return;
-        const wrapper = sliderWrapperRef.current;
-        if (!wrapper) return;
-
-        const onTransitionEnd = (e) => {
-            if (e.propertyName === 'opacity') {
-                document.body.classList.remove('mix-blend-actif');
-                wrapper.removeEventListener('transitionend', onTransitionEnd);
+        
+        // Attendre que le swiper soit initialisé
+        const checkSlide = () => {
+            if (swiperRef.current?.swiper) {
+                updateMixBlendForCurrentSlide();
+            } else {
+                // Réessayer après un court délai si le swiper n'est pas encore prêt
+                setTimeout(checkSlide, 50);
             }
         };
-        wrapper.addEventListener('transitionend', onTransitionEnd);
-        return () => wrapper.removeEventListener('transitionend', onTransitionEnd);
-    }, [show]);
+        
+        checkSlide();
+    }, [show, isMobile]);
 
     const revealModaleToogle = () => {
         if (isMobile) {
@@ -150,17 +164,8 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                 revealModaleToogle();
             }
 
-            if (
-                isMobile &&
-                currentSlide &&
-                currentSlide.classList &&
-                currentSlide.classList.contains('mobile-zoom-slide') 
-            ) {
-                console.log('mobile-zoom-slide');
-                body.classList.add('mix-blend-actif');
-            } else {
-                body.classList.remove('mix-blend-actif');
-            }
+            // Utiliser la fonction helper pour mettre à jour mix-blend-actif
+            updateMixBlendForCurrentSlide();
         // ✅ preload de la slide suivante
         preloadNextImage(swiper);
 
@@ -322,6 +327,10 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
                     onClick={handleMobileTap}
                     onSwiper={(swiper) => {
                         requestAnimationFrame(() => preloadNextImage(swiper));
+                        // Vérifier la slide initiale au montage du swiper (seulement sur mobile)
+                        if (window.innerWidth < 768) {
+                            requestAnimationFrame(() => updateMixBlendForCurrentSlide());
+                        }
                     }}
                 >
                     {medias.map((media, index) => {
