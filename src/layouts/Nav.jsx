@@ -169,7 +169,7 @@ const Nav = ({ lang, currentPath, className }) => {
                             }
                         >
                             <a href={`/${lang}/vitrail/`}>
-                                {lang === 'fr' ? 'cisèle,' : 'vitrail,'}
+                                {lang === 'fr' ? 'vitraille,' : 'stains light,'}
                             </a>
                         </li>
                     </ul>
