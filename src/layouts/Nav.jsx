@@ -105,7 +105,7 @@ const Nav = ({ lang, currentPath, className }) => {
     return (
         <>
             <div
-                className={`nav-wrapper ${className} pt-body-p-y flex w-fit gap-[10px] ${isMobileNavOpen ? 'nav-open' : ''} ${isMobile && isAboutPage ? 'pb-[30px]' : ''}`}
+                className={`nav-wrapper ${className} pt-body-p-y flex w-fit gap-[7px] ${isMobileNavOpen ? 'nav-open' : ''} ${isMobile && isAboutPage ? 'pb-[30px]' : ''}`}
             >
                 <a href={destination} className='whitespace-nowrap'>
                     malou raulin

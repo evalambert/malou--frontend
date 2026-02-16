@@ -132,7 +132,7 @@ export default function AccordionReadProject({
                 </div>
 
                 <div
-                    className={`container-description overflow-hidden text-center transition-all duration-500 ease-in-out`}
+                    className={`container-description overflow-hidden text-center transition-all duration-500 ease-in-out max-w-[1400px]`}
                     style={{ maxHeight: isOpen ? `${contentHeight}px` : '0px' }}
                 >
                     <div ref={contentRef} className='text-description'>
@@ -146,7 +146,7 @@ export default function AccordionReadProject({
                             ©{credit}
                         </p>
                         <div className='py-[11px]'>
-                            <p>
+                            <p className='lowercase'>
                                 {technique}, {materials}
                             </p>
                             <p>
