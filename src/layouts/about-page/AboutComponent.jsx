@@ -103,7 +103,7 @@ export default function AboutComponent({ about, lang }) {
                 </p>
             </div>
             <div className='wrapper--credits flex flex-1 flex-col items-center justify-end text-center md:order-4 md:items-end md:pe-20'>
-                <div className='flex h-fit rotate-[-16deg] flex-col items-center justify-center pt-[5px] pb-[50px] md:px-4 md:py-12'>
+                <div className='flex h-fit rotate-[-16deg] flex-col items-center justify-center pt-[5px] pb-[30px] md:px-4 md:py-12'>
                     <p>©{about.update}</p>
                     <p>
                         {lang === 'fr' ? (

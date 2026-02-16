@@ -103,7 +103,7 @@ export default function ActuComponent({ actus, lang }) {
                         </h2>
                     )}
                     {pastEvents.length > 0 ? (
-                        <ul className='past-events-list flex flex-col gap-4'>
+                        <ul className='past-events-list flex flex-col gap-4 [&>*:last-child]:pb-[30px]'>
                             {pastEvents.map((actu) => (
                                 <EventItem
                                     key={actu.id}
