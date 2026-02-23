@@ -213,8 +213,11 @@ li {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Slider */
 
+/* Swiper 12+ : les flèches sont en SVG (plus en ::after), il faut les masquer aussi */
 .swiper-button-prev::after,
-.swiper-button-next::after {
+.swiper-button-next::after,
+.swiper-button-prev svg,
+.swiper-button-next svg {
     @apply hidden;
 }
 
