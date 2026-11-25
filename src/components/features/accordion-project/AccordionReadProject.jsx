@@ -9,6 +9,8 @@ export default function AccordionReadProject({
     materials,
     width,
     height,
+    thickness,
+    variousFormats,
     lang,
     year,
     credit,
@@ -139,20 +141,43 @@ export default function AccordionReadProject({
                         <div className='triangle-left'></div>
                         <div className='triangle-right'></div>
                         <p>{description}</p>
-                        <p className=''>
-                            {lang === 'fr'
-                                ? ' Crédit photo '
-                                : ' Photo credit '}
-                            ©{credit}
-                        </p>
+                        {credit !== 'none' && (
+                            <p className=''>
+                                {lang === 'fr'
+                                    ? ' Crédit photo '
+                                    : ' Photo credit '}
+                                ©{credit}
+                            </p>
+                        )}
                         <div className='py-[11px]'>
-                            <p className='lowercase'>
-                                {technique}, {materials}
-                            </p>
-                            <p>
-                                {width} x {height} cm
-                            </p>
-                            <p>{year}</p>
+                                <p className='lowercase'>
+                                    {technique !== 'none' && (
+                                        <span>{technique}</span>
+                                    )}
+                                    {materials !== 'none' && (
+                                        <span>, {materials}</span>
+                                    )}
+                                </p>
+                                
+                                
+                                {(width !== 'none' ||
+                                    height !== 'none' ||
+                                    thickness !== 'none') && (
+                                    <p>
+                                        {width} x {height}{' '}
+                                        {thickness !== 'none' &&
+                                            `x ${thickness}`}{' '}
+                                        cm
+                                    </p>
+                                )}
+                                {variousFormats !== false && (
+                                    <p>
+                                        {lang === 'fr'
+                                    ? 'Format divers'
+                                    : 'Various formats'}
+                                    </p>
+                                )}
+                                <p>{year}</p>
                         </div>
                     </div>
                 </div>

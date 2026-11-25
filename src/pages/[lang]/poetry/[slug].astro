@@ -67,12 +67,14 @@ export const prerender = true;
         client:only
         transition:persist
         description={poetry?.description || 'Description non disponible'}
-        technique={poetry?.technique || 'Technique non disponible'}
-        materials={poetry?.materials || 'Matériaux non disponibles'}
-        width={poetry?.width || 'Largeur non disponible'}
-        height={poetry?.height || 'Hauteur non disponible'}
-        year={poetry?.year || 'Année non disponible'}
-        credit={poetry?.credit || 'Crédit non disponible'}
+        technique={poetry?.technique || 'none'}
+        materials={poetry?.materials || 'none'}
+        width={poetry?.width || 'none'}
+        height={poetry?.height || 'none'}
+        thickness={'none'}
+        variousFormats={poetry?.variousFormats ?? false}
+        year={poetry?.year || 'none'}
+        credit={poetry?.credit || 'none'}
     />
     <PreviewImg
         transition:name='preview-image'

@@ -69,12 +69,14 @@ export const prerender = true;
         client:only
         transition:persist
         description={painting?.description || 'Description non disponible'}
-        technique={painting?.technique || 'Technique non disponible'}
-        materials={painting?.materials || 'Matériaux non disponibles'}
-        width={painting?.width || 'Largeur non disponible'}
-        height={painting?.height || 'Hauteur non disponible'}
-        year={painting?.year || 'Année non disponible'}
-        credit={painting?.credit || 'Crédit non disponible'}
+        technique={painting?.technique || 'none'}
+        materials={painting?.materials || 'none'}
+        width={painting?.width || 'none'}
+        height={painting?.height || 'none'}
+        thickness={'none'}
+        variousFormats={painting?.variousFormats ?? false}
+        year={painting?.year || 'none'}
+        credit={painting?.credit || 'none'}
     />
     <PreviewImg
         transition:name='preview-image'

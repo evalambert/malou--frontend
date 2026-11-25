@@ -69,13 +69,15 @@ export const prerender = true;
         lang={lang}
         client:only
         transition:persist
-        year={weaving?.year || 'Année non disponible'}
+        year={weaving?.year || 'none'}
         description={weaving?.description || 'Description non disponible'}
-        technique={weaving?.technique || 'Technique non disponible'}
-        materials={weaving?.materials || 'Matériaux non disponibles'}
-        width={weaving?.width || 'Largeur non disponible'}
-        height={weaving?.height || 'Hauteur non disponible'}
-        credit={weaving?.credit || 'Crédit non disponible'}
+        technique={weaving?.technique || 'none'}
+        materials={weaving?.materials || 'none'}
+        width={weaving?.width || 'none'}
+        height={weaving?.height || 'none'}
+        thickness={'none'}
+        variousFormats={weaving?.variousFormats ?? false}
+        credit={weaving?.credit || 'none'}
     />
     <PreviewImg
         transition:name='preview-image'
