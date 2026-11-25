@@ -67,13 +67,15 @@ export const prerender = true;
         lang={lang}
         client:only
         transition:persist
-        year={vitrail?.year || 'Année non disponible'}
+        year={vitrail?.year || 'none'}
         description={vitrail?.description || 'Description non disponible'}
-        technique={vitrail?.technique || 'Technique non disponible'}
-        materials={vitrail?.materials || 'Matériaux non disponibles'}
-        width={vitrail?.width || 'Largeur non disponible'}
-        height={vitrail?.height || 'Hauteur non disponible'}
-        credit={vitrail?.credit || 'Crédit non disponible'}
+        technique={vitrail?.technique || 'none'}
+        materials={vitrail?.materials || 'none'}
+        width={vitrail?.width || 'none'}
+        thickness={'none'}
+        variousFormats={vitrail?.variousFormats ?? false}
+        height={vitrail?.height || 'none'}
+        credit={vitrail?.credit || 'none'}
     />
     <PreviewImg
         transition:name='preview-image'

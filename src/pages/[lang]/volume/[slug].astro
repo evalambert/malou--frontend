@@ -68,13 +68,15 @@ export const prerender = true;
         lang={lang}
         client:only
         transition:persist
-        year={volume?.year || 'Année non disponible'}
+        year={volume?.year || 'none'}
         description={volume?.description || 'Description non disponible'}
-        technique={volume?.technique || 'Technique non disponible'}
-        materials={volume?.materials || 'Matériaux non disponibles'}
-        width={volume?.width || 'Largeur non disponible'}
-        height={volume?.height || 'Hauteur non disponible'}
-        credit={volume?.credit || 'Crédit non disponible'}
+        technique={volume?.technique || 'none'}
+        materials={volume?.materials || 'none'}
+        width={volume?.width || 'none'}
+        height={volume?.height || 'none'}
+        thickness={volume?.thickness || 'none'}
+        variousFormats={volume?.variousFormats ?? false}
+        credit={volume?.credit || 'none'}
     />
     <PreviewImg
         transition:name='preview-image'

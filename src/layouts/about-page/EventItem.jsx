@@ -14,9 +14,12 @@ const EventItem = ({ actu, lang, formatEventDate }) => (
         )}
         <h3>{actu.title}</h3>
         <p>{`${actu.structure} ${actu.city} (${actu.country})`}</p>
-        <a href={actu.link} target='_blank' rel='noopener noreferrer'>
-            {lang === 'fr' ? 'lire plus…' : 'read more…'}
-        </a>
+        
+        {actu.link && (
+            <a href={actu.link} target='_blank' rel='noopener noreferrer'>
+                {lang === 'fr' ? 'lire plus…' : 'read more…'}
+            </a>
+        )}
     </li>
 );
 
