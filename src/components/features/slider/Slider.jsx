@@ -10,7 +10,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
+export default function Slider({ medias = [], zoomImg = [], noTimeOut, closeOnSide }) {
     const swiperRef = useRef(null);
     const sliderWrapperRef = useRef(null);
     const [imageDimensions, setImageDimensions] = useState({});
@@ -406,7 +406,10 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
 
                 {!isMobile && zoomImg && zoomImg.url && (
                     <>
-                        <button className='modaleToogle pointer-events-none fixed top-0 right-0 z-10 hidden h-full w-full cursor-pointer mix-blend-difference md:w-[50%]'>
+                    
+                        <button
+                            className={`modaleToogle helloworld ${closeOnSide ? 'top-0 md:!top-[35vh] md:!left-[unset] md:!right-0' : 'top-0'} pointer-events-none fixed right-0 z-10 hidden h-full w-full cursor-pointer mix-blend-difference md:w-[50%]`}
+                        >
                             <span>close</span>
                         </button>
                         <ZoomModale
@@ -420,3 +423,6 @@ export default function Slider({ medias = [], zoomImg = [], noTimeOut }) {
         </>
     );
 }
+
+
+
