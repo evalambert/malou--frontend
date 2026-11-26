@@ -181,32 +181,32 @@ const WeavingList = ({
     }, [targetHref, hiddenListHeightWeaving, accordionOffsetY]);
 
     const homepageWeavingPadding = {
-        lotissement: 'md:pr-[442px]',
+        'salon-moderne': 'md:pr-[442px]',
         'fenetres-avec-vues': 'pr-[px] md:pr-[329px] justify-center',
         'temps-libre': 'md:pr-[267px] justify-center',
         'memento-i': 'pr-[50px] md:pr-[303px] justify-end',
         'memento-ii': 'md:pr-[371px] justify-end',
         'loguivy-de-la-mer': 'md:pr-[347px] justify-center',
         'une-ville-ou-il-fait-chaud': 'md:pr-[313px]',
-        'google-maps': 'pl-[30px] md:pr-[253px]',
-        'chez-claude': 'md:pr-[191px] justify-center',
+        'salle-de-bain': 'pl-[30px] md:pr-[253px]',
+        'reverie': 'md:pr-[191px] justify-center',
         volcan: 'pl-[60px] md:pr-[150px] justify-center',
     };
     const hiddenWeavingPadding = {
         'amphore-maison': 'md:pr-[164px] justify-end',
         'bouilloire-et-train-sifflant': 'md:pr-[192px] justify-start',
-        'la-porte-de-mes-souvenirs': 'md:pr-[110px] justify-end',
-        'salon-moderne': 'md:pr-[48px] justify-center',
-        reverie: 'md:pr-[0px] justify-end',
+        'un-poisson-dans-l-assiette': 'md:pr-[110px] justify-end',
+        'je-rentre-chez-moi': 'md:pr-[48px] justify-center',
+        'chez-claude': 'md:pr-[0px] justify-end',
     };
 
     // Order of hiddenWeavingList
     const orderedSlugs = [
         'amphore-maison',
         'bouilloire-et-train-sifflant',
-        'la-porte-de-mes-souvenirs',
-        'salon-moderne',
-        'reverie',
+        'un-poisson-dans-l-assiette',
+        'je-rentre-chez-moi',
+        'chez-claude',
     ];
 
     // 1. Extraire slug + title
@@ -318,8 +318,8 @@ const WeavingList = ({
                                 <li
                                     key={weaving.id}
                                     className={`weaving-title flex w-[100%] md:block md:w-fit ${paddingClass} transition-opacity duration-500 ease-in-out ${isSlugPage && !isActive
-                                            ? 'pointer-events-none opacity-0'
-                                            : 'opacity-300'
+                                        ? 'pointer-events-none opacity-0'
+                                        : 'opacity-300'
                                         } ${isActive ? 'delay-100' : ''}`}
                                 >
                                     <WeavingTitle
@@ -349,8 +349,8 @@ const WeavingList = ({
                                 return (
                                     <li
                                         className={`weaving-title flex w-[100%] max-w-[375px] justify-end md:block md:w-fit md:max-w-[unset] ${paddingClass} transition-opacity duration-500 ease-in-out ${isSlugPage && !isActive
-                                                ? 'pointer-events-none opacity-0'
-                                                : 'opacity-300'
+                                            ? 'pointer-events-none opacity-0'
+                                            : 'opacity-300'
                                             } ${isActive ? 'delay-100' : ''}`}
                                         key={weaving.id}
                                     >
