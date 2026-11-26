@@ -140,7 +140,7 @@ export default function AccordionReadProject({
                     <div ref={contentRef} className='text-description'>
                         <div className='triangle-left'></div>
                         <div className='triangle-right'></div>
-                        <p>{description}</p>
+                        {description !== 'none' && (<p>{description}</p>)}
                         {credit !== 'none' && (
                             <p className=''>
                                 {lang === 'fr'
@@ -173,8 +173,8 @@ export default function AccordionReadProject({
                                 {variousFormats !== false && (
                                     <p>
                                         {lang === 'fr'
-                                    ? 'Format divers'
-                                    : 'Various formats'}
+                                    ? 'format divers'
+                                    : 'various formats'}
                                     </p>
                                 )}
                                 <p>{year}</p>
