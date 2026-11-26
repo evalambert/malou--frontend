@@ -66,7 +66,7 @@ export default function ActuComponent({ actus, lang }) {
             ref={actuRef}
             className={`section--actu mix-blend-target absolute right-0 flex w-full flex-col gap-10 text-center ${
                 active === 'actu'
-                    ? 'overflow-y-auto md:top-[30vh] md:h-full'
+                    ? 'max-md:overflow-y-auto md:top-[30vh] md:h-full'
                     : 'overflow-hidden md:top-[calc(100vh-70px)] md:h-[70px]'
             } transition-all duration-500 ease-in-out`} /* ${show ? 'opacity-100' : 'opacity-0'} */
             style={
