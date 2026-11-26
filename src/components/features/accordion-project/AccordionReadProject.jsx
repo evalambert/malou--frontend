@@ -144,8 +144,8 @@ export default function AccordionReadProject({
                         {credit !== 'none' && (
                             <p className=''>
                                 {lang === 'fr'
-                                    ? ' Crédit photo '
-                                    : ' Photo credit '}
+                                    ? ' crédit photo '
+                                    : ' photo credit '}
                                 ©{credit}
                             </p>
                         )}
