@@ -5,7 +5,20 @@ import {
     handleMouseLeave,
 } from '../../../assets/scripts/utils/preview-img';
 
-const VitrailHomepageTitle = ({ vitrail, lang }) => {
+const VitrailHomepageTitle = ({ vitrail, lang, onMount }) => {
+    useEffect(() => {
+        onMount?.();
+    }, []);
+
+    const words = vitrail.title.split(' ').reduce((result, word) => {
+        if (word.toLowerCase() === 'à' && result.length > 0) {
+            result[result.length - 1] += ` ${word}`;
+        } else {
+            result.push(word);
+        }
+        return result;
+    }, []);
+
     // Render
     return (
         <div>
@@ -43,7 +56,7 @@ const VitrailHomepageTitle = ({ vitrail, lang }) => {
                         : vitrail.zoomImg && vitrail.zoomImg.url
                 }
             >
-                {vitrail.title.split(' ').map((word, i, words) => (
+                {words.map((word, i) => (
                     <div
                         key={i}
                         className='vitrail-word-wrapper inline-block transition-all duration-300'
