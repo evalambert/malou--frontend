@@ -88,7 +88,7 @@ const PaintingsList = ({
                         return previousLiWidth;
 
                         // DESCEND VERS LA GAUCHE
-                    } else if (previousLiWidth < 200 && reverse) {
+                    } else if (previousLiWidth < 100 && reverse) {
                         li.style.marginLeft = `0px`;
                         previousLiWidth = liWidth;
                         reverse = false;
@@ -115,6 +115,7 @@ const PaintingsList = ({
 
             setHiddenListHeightPainting(hiddenListHeightPaintingValue);
         };
+        
 
         // Initial calculation
         if (state == 'home' && firstRender) {
