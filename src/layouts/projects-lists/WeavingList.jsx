@@ -193,7 +193,7 @@ const WeavingList = ({
         volcan: 'pl-[60px] md:pr-[150px] justify-center',
     };
     const hiddenWeavingPadding = {
-        'amphore-maison': 'md:pr-[164px] justify-end',
+        'amphore-maison': 'pr-[74px] md:pr-[164px] justify-end',
         'bouilloire-et-train-sifflant': 'md:pr-[192px] justify-start',
         'un-poisson-dans-l-assiette': 'md:pr-[110px] justify-end',
         'je-rentre-chez-moi': 'md:pr-[48px] justify-center',
