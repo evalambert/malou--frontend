@@ -144,18 +144,18 @@ export default function AccordionReadProject({
                         {credit !== 'none' && (
                             <p className=''>
                                 {lang === 'fr'
-                                    ? ' crédit photo '
-                                    : ' photo credit '}
+                                    ? ' crédit\u00a0photo '
+                                    : ' photo\u00a0credit '}
                                 ©{credit}
                             </p>
                         )}
                         <div className='py-[11px]'>
                                 <p className='lowercase'>
                                     {technique !== 'none' && (
-                                        <span>{technique}</span>
+                                        <span>{technique}{materials !== 'none' && ('\u00a0, ')}</span>
                                     )}
                                     {materials !== 'none' && (
-                                        <span>, {materials}</span>
+                                        <span>{materials}</span>
                                     )}
                                 </p>
                                 
@@ -173,11 +173,13 @@ export default function AccordionReadProject({
                                 {variousFormats !== false && (
                                     <p>
                                         {lang === 'fr'
-                                    ? 'format divers'
-                                    : 'various formats'}
+                                    ? 'format\u00a0divers'
+                                    : 'various\u00a0formats'}
                                     </p>
                                 )}
+                                {year !== 'none' && (
                                 <p>{year}</p>
+                                )}
                         </div>
                     </div>
                 </div>
