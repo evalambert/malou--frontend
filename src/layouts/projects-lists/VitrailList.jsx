@@ -522,9 +522,18 @@ const VitrailList = ({
                         >
                             {/* Liste Hidden */}
                             <ul className='vitrail-list-compact overflow-visible'>
-                                {sortedHiddenVitraux.map((vitrail) => {
+                                {sortedHiddenVitraux.map((vitrail, index) => {
                                     const isActive =
                                         vitrail.slug === activeVitrailSlug;
+                                    const onMount = () => {
+                                        renderedCount.current += 1;
+                                        if (
+                                            renderedCount.current ===
+                                            sortedHiddenVitraux.length
+                                        ) {
+                                            setAllRendered(true);
+                                        }
+                                    };
 
                                     return (
                                         <li
@@ -535,20 +544,20 @@ const VitrailList = ({
                                             }`}
                                             key={vitrail.id}
                                         >
-                                            <VitrailHiddenTitle
-                                                vitrail={vitrail}
-                                                lang={lang}
-                                                isActive={isActive}
-                                                onMount={() => {
-                                                    renderedCount.current += 1;
-                                                    if (
-                                                        renderedCount.current ===
-                                                        sortedHiddenVitraux.length
-                                                    ) {
-                                                        setAllRendered(true);
-                                                    }
-                                                }}
-                                            />
+                                            {index === 0 ? (
+                                                <VitrailHomepageTitle
+                                                    vitrail={vitrail}
+                                                    lang={lang}
+                                                    onMount={onMount}
+                                                />
+                                            ) : (
+                                                <VitrailHiddenTitle
+                                                    vitrail={vitrail}
+                                                    lang={lang}
+                                                    isActive={isActive}
+                                                    onMount={onMount}
+                                                />
+                                            )}
                                         </li>
                                     );
                                 })}
