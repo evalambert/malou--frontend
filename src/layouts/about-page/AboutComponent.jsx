@@ -108,7 +108,7 @@ export default function AboutComponent({ about, lang }) {
                     <p>
                         {lang === 'fr' ? (
                             <>
-                                Conception et <br />
+                                dessin et <br />
                                 développement <br />
                                 <a href='https://greta-oto.xyz'>Greta oto</a>
                             </>
