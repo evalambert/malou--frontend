@@ -146,13 +146,13 @@ export default function AccordionReadProject({
                                 {lang === 'fr'
                                     ? ' crédit\u00a0photo '
                                     : ' photo\u00a0credit '}
-                                ©{credit}
+                                ©{credit.replace(/ /g, '\u00a0')}
                             </p>
                         )}
                         <div className='py-[11px]'>
                                 <p className='lowercase'>
                                     {technique !== 'none' && (
-                                        <span>{technique}{materials !== 'none' && ('\u00a0, ')}</span>
+                                        <span>{technique}{materials !== 'none' && ('\u2060, ')}</span>
                                     )}
                                     {materials !== 'none' && (
                                         <span>{materials}</span>
