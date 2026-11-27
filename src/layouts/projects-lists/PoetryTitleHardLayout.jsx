@@ -377,11 +377,11 @@ const PoetryTitleHardLayout = ({ lang, targetHref, state, isOnSlugPage }) => {
                         />
                     </a>
                     <a
-                        xlinkHref={
-                            isOnSlugPage
-                                ? `/${lang}/poetry/`
-                                : `/${lang}/poetry/des-coquilles-et-des-pepins/`
-                        }
+                        // xlinkHref={
+                        //     isOnSlugPage
+                        //         ? `/${lang}/poetry/`
+                        //         : `/${lang}/poetry/des-coquilles-et-des-pepins/`
+                        // }
                         className={`project translate-y-[150px] ${
                             activePoetrySlug &&
                             activePoetrySlug !== 'des-coquilles-et-des-pepins'
